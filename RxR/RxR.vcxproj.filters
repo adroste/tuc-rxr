@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source\Framework">
+      <UniqueIdentifier>{68351922-ae0f-4a82-9082-ec8680a00949}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\OpenGL">
+      <UniqueIdentifier>{fb8a95e6-4f64-46bb-868c-da0e6a47a878}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\OpenGL\Shader">
+      <UniqueIdentifier>{6b2137c0-a733-4579-818b-7e1677c00405}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\States">
+      <UniqueIdentifier>{d28df353-9800-4f00-8f79-e066da66b630}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Utility">
+      <UniqueIdentifier>{bb9dec47-4492-4b8f-84f9-9820493bc5a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\System">
+      <UniqueIdentifier>{2da7375d-f7d6-4351-8a22-bb0525bb5c6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources / Dependencies">
+      <UniqueIdentifier>{7a17b06a-854c-4477-b379-9aaff8c182d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources / Dependencies\data">
+      <UniqueIdentifier>{9a41c254-6c23-4d67-8b61-f3f56772254d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources / Dependencies\data\Shader">
+      <UniqueIdentifier>{9485aa82-a830-4b41-9f91-e05b9a3d18dc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Source\Framework\OpenGL\Shader\Shader.cpp">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderDisk.cpp">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Framework\OpenGL\Draw.cpp">
+      <Filter>Source\Framework\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Framework\OpenGL\Graphics.cpp">
+      <Filter>Source\Framework\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Framework\Framework.cpp">
+      <Filter>Source\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Framework\Window.cpp">
+      <Filter>Source\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\System\Input.cpp">
+      <Filter>Source\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\System\Log.cpp">
+      <Filter>Source\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\System\TextFileAppender.cpp">
+      <Filter>Source\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\Shader.h">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderDisk.h">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\OpenGL\Draw.h">
+      <Filter>Source\Framework\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\OpenGL\GLObject.h">
+      <Filter>Source\Framework\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\OpenGL\Graphics.h">
+      <Filter>Source\Framework\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\OpenGL\ShaderDisk.h">
+      <Filter>Source\Framework\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\States\GameState.h">
+      <Filter>Source\Framework\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\States\StateMenu.h">
+      <Filter>Source\Framework\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\Color.h">
+      <Filter>Source\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\Framework.h">
+      <Filter>Source\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\Window.h">
+      <Filter>Source\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\System\Input.h">
+      <Filter>Source\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\System\Log.h">
+      <Filter>Source\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\System\System.h">
+      <Filter>Source\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\System\TextFileAppender.h">
+      <Filter>Source\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Utility\Date.h">
+      <Filter>Source\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Utility\Exception.h">
+      <Filter>Source\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Utility\GL_Exception.h">
+      <Filter>Source\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Utility\GLEW_Exception.h">
+      <Filter>Source\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Utility\Mutex.h">
+      <Filter>Source\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Utility\Point.h">
+      <Filter>Source\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Utility\Rect.h">
+      <Filter>Source\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Utility\SDL_Exception.h">
+      <Filter>Source\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Utility\Thread.h">
+      <Filter>Source\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Utility\Synchronization.h">
+      <Filter>Source\Utility</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="glew32.dll">
+      <Filter>Resources / Dependencies</Filter>
+    </None>
+    <None Include="SDL2.dll">
+      <Filter>Resources / Dependencies</Filter>
+    </None>
+    <None Include="SDL2_mixer.dll">
+      <Filter>Resources / Dependencies</Filter>
+    </None>
+    <None Include="SDL2_net.dll">
+      <Filter>Resources / Dependencies</Filter>
+    </None>
+    <None Include="data\Shader\disk.frag">
+      <Filter>Resources / Dependencies\data\Shader</Filter>
+    </None>
+    <None Include="data\Shader\disk.vert">
+      <Filter>Resources / Dependencies\data\Shader</Filter>
+    </None>
+  </ItemGroup>
+</Project>

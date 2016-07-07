@@ -1,0 +1,9 @@
+2016-07-05_18-48-59: INFO: init system
+2016-07-05_18-48-59: INFO: init net
+2016-07-05_18-49-01: WARNING: Syncer::wait timeout (2000ms) waiting for condition
+2016-07-05_18-49-01: INFO: init window
+2016-07-05_18-49-01: INFO: initializing openGL
+2016-07-05_18-49-01: INFO: init glew
+2016-07-05_18-49-01: INFO: setting swap intervall
+2016-07-05_18-49-01: INFO: loading shader data/shader/disk
+2016-07-05_18-49-02: INFO: deleting openGL context
