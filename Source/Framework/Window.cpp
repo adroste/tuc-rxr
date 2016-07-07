@@ -7,30 +7,18 @@
 #include "../glm/common.hpp"
 #include "../glm/gtx/transform.hpp"
 #include "OpenGL/Shader/ShaderDisk.h"
-#include "OpenGL/Draw.h"
+#include "OpenGL/Drawing.h"
 #include "../System/Input.h"
+#include "States/StateMenu.h"
+#include "../Utility/Timer.h"
+#include "../System/System.h"
+#include <stack>
 
-void Window::updateState()
-{
-}
+static const int MAX_UPDATE_DELAY = 15;
 
 ShaderDisk sDisk;
 
-void Window::composeFrame()
-{
-	static float a = 0.0f;
-	
-	//glRotatef(a * 20.0f, 0.0f, 0.0f, 1.0f);
-	//glTranslatef(sin(a), cos(a), 0.0f);
-	/*glm::mat4 mat = glm::mat4(1.0f);
-	mat = glm::translate(glm::vec3(sin(a), cos(a), 0.0f));
-	glLoadMatrixf(&mat[0][0]);*/
 
-	Draw malen;
-	malen.rect(RectF::constructFromPoint(Input::getMouse(), 10.0f), Color::Gray());
-	
-	a += 0.1f;
-}
 
 Window::Window()
 {
@@ -85,14 +73,24 @@ void Window::run()
 	sDisk.load();
 	sDisk.create();
 
+	m_states.push_front(std::unique_ptr<GameState>(new StateMenu()));
+
+	Timer t;
+	t.startWatch();
+
 	while (m_isRunning)
 	{
 		handleEvents();
 
-		updateState();
+		float dt = t.lapSecond();
+		updateState(dt);
+
+		int timeToSleep = MAX_UPDATE_DELAY - int(t.getTimeMilli());
+		if (timeToSleep > 0)
+			System::sleep(timeToSleep);
 
 		m_pGfx->beginFrame();
-		composeFrame();
+		composeFrame(dt);
 		m_pGfx->endFrame();
 		SDL_GL_SwapWindow(m_pWnd);
 	}
@@ -124,7 +122,7 @@ void Window::handleEvents()
 			Input::mouseUp(msg.button.button);
 			break;
 		case SDL_EventType::SDL_MOUSEWHEEL:
-			Input::wheel((float)msg.wheel.y);
+			Input::wheel(float(msg.wheel.y));
 			break;
 
 			/////////////////////////////////////
@@ -189,3 +187,32 @@ void Window::close()
 	}
 }
 
+void Window::updateState(float dt)
+{
+	for (auto& s : m_states)
+		if (!s->update(dt))
+			break;
+}
+
+void Window::composeFrame(float dt)
+{
+	// TODO thread safe
+
+	if(m_states.size())
+	{
+		std::stack<GameState*> s;
+
+		for(auto& state : m_states)
+		{
+			s.push(state.get());
+			if (!state->drawPreviousState())
+				break;
+		}
+
+		while(!s.empty())
+		{
+			s.top()->composeFrame(dt);
+			s.pop();
+		}
+	}
+}

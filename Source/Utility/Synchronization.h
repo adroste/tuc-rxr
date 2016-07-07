@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 #include "../SDL/SDL.h"
 #include "../SDL/SDL_mutex.h"
 #include "SDL_Exception.h"
@@ -8,13 +9,19 @@ class SyncContext final
 {
 	friend class Syncer;
 public:
-	bool condition = false;
-
-public:
-	SyncContext() {}
-	~SyncContext() {}
+	SyncContext()
+	{
+		m_pMutex = SDL_CreateMutex();
+	}
+	~SyncContext()
+	{
+		if (!m_pMutex)
+			SDL_DestroyMutex(m_pMutex);
+	}
 	SyncContext(const SyncContext&) = delete;
 	SyncContext& operator=(const SyncContext&) = delete;
+
+	
 
 private:
 	SDL_mutex* m_pMutex = nullptr;
@@ -51,7 +58,7 @@ public:
 		m_syncContext.m_locked = true;
 	}
 
-	void unlock()
+	void unlock() 
 	{
 		if (!m_syncContext.m_pMutex) return;
 
@@ -63,12 +70,12 @@ public:
 		}
 	}
 
-	void wait(int timeoutms = -1)
+	void wait(std::function<bool(void)> pred, int timeoutms = -1)
 	{
 		createMutex();
 		createCond();
 
-		while (!m_syncContext.condition)
+		while (!pred())
 		{
 			++m_syncContext.m_waiting;
 			if (timeoutms <= 0)
@@ -86,7 +93,6 @@ public:
 				
 			}
 			--m_syncContext.m_waiting;
-			m_syncContext.condition = true;
 		}
 	}
 

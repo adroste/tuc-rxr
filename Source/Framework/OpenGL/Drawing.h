@@ -3,11 +3,11 @@
 #include "../../Utility/Rect.h"
 #include "../Color.h"
 
-class Draw : GLObject
+class Drawing : GLObject
 {
 public:
-	Draw() {}
-	~Draw() {}
+	Drawing() {}
+	~Drawing() {}
 
 	virtual void create() override;
 	virtual void dispose() override;

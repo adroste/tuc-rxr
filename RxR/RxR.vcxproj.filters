@@ -32,6 +32,9 @@
     <Filter Include="Resources / Dependencies\data\Shader">
       <UniqueIdentifier>{9485aa82-a830-4b41-9f91-e05b9a3d18dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\UI">
+      <UniqueIdentifier>{05cb3fea-bf68-4226-adc5-6129fc0ae4bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\Shader.cpp">
@@ -39,9 +42,6 @@
     </ClCompile>
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderDisk.cpp">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\Framework\OpenGL\Draw.cpp">
-      <Filter>Source\Framework\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\Framework\OpenGL\Graphics.cpp">
       <Filter>Source\Framework\OpenGL</Filter>
@@ -64,6 +64,9 @@
     <ClCompile Include="..\Source\main.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Framework\OpenGL\Drawing.cpp">
+      <Filter>Source\Framework\OpenGL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\Shader.h">
@@ -71,9 +74,6 @@
     </ClInclude>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderDisk.h">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Framework\OpenGL\Draw.h">
-      <Filter>Source\Framework\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Framework\OpenGL\GLObject.h">
       <Filter>Source\Framework\OpenGL</Filter>
@@ -140,6 +140,21 @@
     </ClInclude>
     <ClInclude Include="..\Source\Utility\Synchronization.h">
       <Filter>Source\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Utility\Timer.h">
+      <Filter>Source\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\OpenGL\IDrawable.h">
+      <Filter>Source\Framework\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\IMetrics.h">
+      <Filter>Source\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\OpenGL\Drawing.h">
+      <Filter>Source\Framework\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\UIButton.h">
+      <Filter>Source\Framework\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

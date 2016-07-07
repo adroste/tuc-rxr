@@ -1,7 +1,10 @@
 #include "Input.h"
 #include "../Framework/Framework.h"
+#include "../Framework/States/GameState.h"
+#include <list>
 
 static PointF m_mousePos;
+static std::list<GameState*> m_listener;
 
 void Input::init()
 {
@@ -13,59 +16,68 @@ PointF Input::getMouse()
 	return m_mousePos;
 }
 
-void Input::registerListener(Receiver * listener)
+void Input::registerState(GameState* pState)
 {
+	m_listener.push_front(pState);
 }
 
-void Input::unregisterListener(Receiver * listener)
+void Input::unregisterState(GameState* pState)
 {
+	m_listener.remove_if([pState](GameState* src)
+	{
+		return pState == src;
+	});
 }
 
 void Input::keyDown(SDL_Scancode s)
 {
+	for (auto l : m_listener)
+		if (!l->keyDown(s))
+			break;
 }
 
 void Input::keyUp(SDL_Scancode s)
 {
+	for (auto l : m_listener)
+		if (!l->keyUp(s))
+			break;
 }
 
 void Input::charDown(char c)
 {
+	for (auto l : m_listener)
+		if (!l->charDown(c))
+			break;
 }
 
 void Input::setMouse(PointI pos)
 {
 	m_mousePos = Framework::convertClientPoint(pos);
+
+	int handled = 0;
+	for (auto l : m_listener)
+	{
+		handled += int(l->mouseMove(m_mousePos, handled != 0));
+	}
 }
 
 void Input::mouseDown(Uint8 button)
 {
+	for (auto l : m_listener)
+		if (!l->mouseDown(button,m_mousePos))
+			break;
 }
 
 void Input::mouseUp(Uint8 button)
 {
+	for (auto l : m_listener)
+		if (!l->mouseUp(button, m_mousePos))
+			break;
 }
 
 void Input::wheel(float amount)
 {
-}
-
-Input::Receiver::Receiver()
-{
-	startListening();
-}
-
-Input::Receiver::~Receiver()
-{
-	stopListening();
-}
-
-void Input::Receiver::startListening()
-{
-	Input::registerListener(this);
-}
-
-void Input::Receiver::stopListening()
-{
-	Input::unregisterListener(this);
+	for (auto l : m_listener)
+		if (!l->wheel(amount))
+			break;
 }

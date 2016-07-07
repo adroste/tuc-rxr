@@ -145,7 +145,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Framework\Framework.cpp" />
-    <ClCompile Include="..\Source\Framework\OpenGL\Draw.cpp" />
+    <ClCompile Include="..\Source\Framework\OpenGL\Drawing.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Graphics.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\Shader.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderDisk.cpp" />
@@ -158,14 +158,17 @@
   <ItemGroup>
     <ClInclude Include="..\Source\Framework\Color.h" />
     <ClInclude Include="..\Source\Framework\Framework.h" />
-    <ClInclude Include="..\Source\Framework\OpenGL\Draw.h" />
+    <ClInclude Include="..\Source\Framework\IMetrics.h" />
+    <ClInclude Include="..\Source\Framework\OpenGL\Drawing.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\GLObject.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Graphics.h" />
+    <ClInclude Include="..\Source\Framework\OpenGL\IDrawable.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\ShaderDisk.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\Shader.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderDisk.h" />
     <ClInclude Include="..\Source\Framework\States\GameState.h" />
     <ClInclude Include="..\Source\Framework\States\StateMenu.h" />
+    <ClInclude Include="..\Source\Framework\UI\UIButton.h" />
     <ClInclude Include="..\Source\Framework\Window.h" />
     <ClInclude Include="..\Source\System\Input.h" />
     <ClInclude Include="..\Source\System\Log.h" />
@@ -181,6 +184,7 @@
     <ClInclude Include="..\Source\Utility\SDL_Exception.h" />
     <ClInclude Include="..\Source\Utility\Synchronization.h" />
     <ClInclude Include="..\Source\Utility\Thread.h" />
+    <ClInclude Include="..\Source\Utility\Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="data\Shader\disk.frag" />

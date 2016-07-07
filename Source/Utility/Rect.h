@@ -1,3 +1,4 @@
+#pragma once
 #include "Point.h"
 #include <algorithm>
 #include <vector>
@@ -170,6 +171,15 @@ public:
 	static Rect<T> constructFromPoint(const Point<T>& p, T radius)
 	{
 		return Rect<T>(p.x - radius, p.y - radius, p.x + radius, p.y + radius);
+	}
+	inline Rect<T> shrink(T fac) const
+	{
+		Rect<T> res = *this;
+		res.x1 += fac;
+		res.y1 += fac;
+		res.x2 -= fac;
+		res.y2 -= fac;
+		return res;
 	}
 };
 

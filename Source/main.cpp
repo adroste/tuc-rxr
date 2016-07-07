@@ -8,15 +8,6 @@
 #include "System/Input.h"
 #include "Utility/Synchronization.h"
 
-void test()
-{
-	SyncContext sc;
-	Syncer s(sc);
-	s.lock();
-	s.unlock();
-	s.signal();
-	s.wait(2000);
-}
 
 int main(int argc, char** argv)
 {
@@ -25,8 +16,6 @@ int main(int argc, char** argv)
 	{
 		System::init();
 		Input::init();
-		
-		test();
 
 		Window wnd;
 		wnd.init("MainWindow", { 1280, 720 });
