@@ -95,7 +95,7 @@ public:
 		return handled;
 	}
 
-	virtual bool mouseDown(Uint8 button, const PointF& mpos) override // TODO enum
+	virtual bool mouseDown(Input::Mouse button, const PointF& mpos) override // TODO enum
 	{
 		int curZ = -1;
 		bool quit = false;
@@ -109,7 +109,7 @@ public:
 		}
 		return quit;
 	}
-	virtual bool mouseUp(Uint8 button, const PointF& mpos) override
+	virtual bool mouseUp(Input::Mouse button, const PointF& mpos) override
 	{
 		int curZ = -1;
 		bool quit = false;

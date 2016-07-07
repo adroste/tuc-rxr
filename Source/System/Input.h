@@ -7,6 +7,15 @@ class Input
 	friend class Window;
 
 public:
+	enum class Mouse
+	{
+		Left = SDL_BUTTON_LEFT,
+		Middle = SDL_BUTTON_MIDDLE,
+		Right = SDL_BUTTON_RIGHT,
+		X1 = SDL_BUTTON_X1,
+		X2 = SDL_BUTTON_X2
+	};
+
 	class IReceiver
 	{
 		friend class Input;
@@ -34,11 +43,11 @@ public:
 			return false;
 		}
 
-		virtual bool mouseDown(Uint8 button, const PointF& mpos) // TODO enum
+		virtual bool mouseDown(Mouse button, const PointF& mpos) // TODO enum
 		{
 			return false;
 		} 
-		virtual bool mouseUp(Uint8 button, const PointF& mpos)
+		virtual bool mouseUp(Mouse button, const PointF& mpos)
 		{
 			return false;
 		}

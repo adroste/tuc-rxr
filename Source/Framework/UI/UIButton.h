@@ -20,14 +20,14 @@ public:
 		// TODO ??? handled
 		return handled;
 	}
-	virtual bool mouseDown(Uint8 button, const PointF& mpos) override
+	virtual bool mouseDown(Input::Mouse button, const PointF& mpos) override
 	{
 		// TODO enum
 		if (m_isHover)
 			m_isDown = true;
 		return m_isDown;
 	}
-	virtual bool mouseUp(Uint8 button, const PointF& mpos) override
+	virtual bool mouseUp(Input::Mouse button, const PointF& mpos) override
 	{
 		// TODO ''
 		if (m_isHover && m_isDown)

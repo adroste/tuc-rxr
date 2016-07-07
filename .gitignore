@@ -2,4 +2,5 @@
 .vs/
 Debug/
 obj/
-RxR.VC.db
+*.db
+*.opendb

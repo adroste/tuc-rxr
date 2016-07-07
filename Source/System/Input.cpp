@@ -64,14 +64,14 @@ void Input::setMouse(PointI pos)
 void Input::mouseDown(Uint8 button)
 {
 	for (auto l : m_listener)
-		if (!l->mouseDown(button,m_mousePos))
+		if (!l->mouseDown(Mouse(button), m_mousePos))
 			break;
 }
 
 void Input::mouseUp(Uint8 button)
 {
 	for (auto l : m_listener)
-		if (!l->mouseUp(button, m_mousePos))
+		if (!l->mouseUp(Mouse(button), m_mousePos))
 			break;
 }
 
