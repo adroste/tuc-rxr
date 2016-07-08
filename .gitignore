@@ -1,6 +1,10 @@
+#Files
+*.txt
+
 # Folders
 .vs/
 Debug/
+Release/
 obj/
 *.db
 *.opendb
