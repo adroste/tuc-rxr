@@ -1,5 +1,5 @@
 #Files
-*.txt
+log.txt
 
 # Folders
 .vs/

@@ -9,10 +9,6 @@ class Timer
 public:
 	using Timestamp = Uint64;
 
-	Timer()
-	{
-		init();
-	}
 	void startWatch()
 	{
 		m_running = true;
@@ -68,18 +64,6 @@ public:
 		return convertMilli(start, getTimestamp());
 	}
 private:
-	static void init()
-	{
-		// TODO to system
-		static bool init = false;
-		if (!init)
-		{
-			if (SDL_Init(SDL_INIT_TIMER) != 0)
-				throw SDL_Exception("SDL_INIT_TIMER failed");
-
-			init = true;
-		}
-	}
 	static double getInvFreqDouble()
 	{
 		static double invFreq = 1.0 / double(SDL_GetPerformanceFrequency());
@@ -96,7 +80,7 @@ private:
 		return freq;
 	}
 private:
-	Timestamp m_start;
-	Timestamp m_current;
+	Timestamp m_start = 0;
+	Timestamp m_current = 0;
 	bool m_running = false;
 };

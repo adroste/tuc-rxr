@@ -1,8 +1,0 @@
-2016-07-07_01-39-49: INFO: init system
-2016-07-07_01-39-49: INFO: init net
-2016-07-07_01-39-49: INFO: init window
-2016-07-07_01-39-49: INFO: initializing openGL
-2016-07-07_01-39-49: INFO: init glew
-2016-07-07_01-39-49: INFO: setting swap intervall
-2016-07-07_01-39-49: INFO: loading shader data/shader/disk
-2016-07-07_01-39-59: INFO: deleting openGL context
