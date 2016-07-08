@@ -60,7 +60,7 @@ private:
 
 private:
 	SDL_mutex* m_pMutex = nullptr;
-	bool m_locked = false;
+	int m_locked = 0;
 	SDL_cond* m_pCond = nullptr;
 	int m_waiting = 0;
 };
@@ -89,18 +89,18 @@ public:
 
 		if (SDL_LockMutex(m_syncContext.m_pMutex) != 0)
 			throw SDL_Exception("Syncer::lock mutex lock failed");
-		m_syncContext.m_locked = true;
+		++m_syncContext.m_locked;
 	}
 
 	void unlock() const
 	{
 		if (!m_syncContext.m_pMutex) return;
 
-		if (m_syncContext.m_locked)
+		if (m_syncContext.m_locked > 0)
 		{
 			if (SDL_UnlockMutex(m_syncContext.m_pMutex) != 0)
 				throw SDL_Exception("Syncer::unlock mutex unlock failed");
-			m_syncContext.m_locked = false;
+			--m_syncContext.m_locked;
 		}
 	}
 
