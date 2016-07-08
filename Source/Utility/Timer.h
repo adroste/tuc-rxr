@@ -1,7 +1,6 @@
 #pragma once
 #include "../SDL/SDL.h"
 #include "../SDL/SDL_timer.h"
-#include "SDL_Exception.h"
 #include <assert.h>
 
 class Timer

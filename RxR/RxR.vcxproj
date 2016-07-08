@@ -165,7 +165,6 @@
     <ClInclude Include="..\Source\Framework\OpenGL\GLObject.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Graphics.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\IDrawable.h" />
-    <ClInclude Include="..\Source\Framework\OpenGL\ShaderDisk.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\Shader.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderDisk.h" />
     <ClInclude Include="..\Source\Framework\States\GameState.h" />

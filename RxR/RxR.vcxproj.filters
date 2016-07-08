@@ -81,9 +81,6 @@
     <ClInclude Include="..\Source\Framework\OpenGL\Graphics.h">
       <Filter>Source\Framework\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Framework\OpenGL\ShaderDisk.h">
-      <Filter>Source\Framework\OpenGL</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Framework\States\GameState.h">
       <Filter>Source\Framework\States</Filter>
     </ClInclude>

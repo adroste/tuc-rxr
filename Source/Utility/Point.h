@@ -1,7 +1,7 @@
 #pragma once
 #include <math.h>
-#include <algorithm>
 #include <assert.h>
+#include <algorithm>
 
 template <class T>
 class Point
@@ -13,19 +13,19 @@ public:
 	{}
 	Point()
 	{
-		Point((T)0.0, (T) 0.0);
+		Point(T(0.0), T(0.0));
 	}
 	template <class T2, class T3>
 	Point(T2 x, T3 y)
 		:
-		x((T)x),
-		y((T)y)
+		x(T(x)),
+		y(T(y))
 	{}
 	template <class T2>
 	Point(const Point<T2>& copy)
 	{
-		x = (T)copy.x;
-		y = (T)copy.y;
+		x = T(copy.x);
+		y = T(copy.y);
 	}
 	//operators
 	inline bool operator==(const Point<T>& rhs) const
@@ -51,8 +51,8 @@ public:
 	template <class T2>
 	inline Point<T>& operator=(const Point<T2>& rhs)
 	{
-		x = (T)rhs.x;
-		y = (T)rhs.y;
+		x = T(rhs.x);
+		y = T(rhs.y);
 		return *this;
 	}
 	inline Point<T>& operator=(const Point<T>& rhs)
@@ -162,11 +162,11 @@ public:
 	}
 	inline Point<T> zeroX() const
 	{
-		return Point < T > {(T)0.0, y};
+		return Point < T > {T(0.0), y};
 	}
 	inline Point<T> zeroY() const
 	{
-		return Point < T > {x, (T)0.0};
+		return Point < T > {x, T(0.0)};
 	}
 	inline bool isParallel(const Point<T>& other) const
 	{
@@ -182,7 +182,7 @@ public:
 		}
 		else
 		{
-			n = (T)1.0;
+			n = T(1.0);
 		}
 		return ((*this) * n == other);
 	}
@@ -193,7 +193,7 @@ public:
 	};
 	inline Side whichSideVec(const Point<T>& vec)
 	{
-		if (normalize().det(vec.normalize()) > (T)0.0)
+		if (normalize().det(vec.normalize()) > T(0.0))
 		{
 			return Side::Left;
 		}

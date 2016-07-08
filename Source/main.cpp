@@ -1,12 +1,8 @@
 #include "System\System.h"
-#include "Utility\Thread.h"
-#include "Utility\Mutex.h"
-#include <list>
 #include <functional>
 #include "System/Log.h"
 #include "Framework/Window.h"
 #include "System/Input.h"
-#include "Utility/Synchronization.h"
 
 
 int main(int argc, char** argv)

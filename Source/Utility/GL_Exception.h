@@ -2,7 +2,6 @@
 #include "Exception.h"
 #include <string>
 #include "../glew/glew.h"
-#include "../System/Log.h"
 
 class GL_Exception : public Exception
 {

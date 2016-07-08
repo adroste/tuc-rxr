@@ -1,13 +1,9 @@
 #include "Window.h"
 
-#include "../glew/glew.h"
 #include "../System/Log.h"
 #include "../Utility/SDL_Exception.h"
-#include "../Utility/GL_Exception.h"
-#include "../glm/common.hpp"
 #include "../glm/gtx/transform.hpp"
 #include "OpenGL/Shader/ShaderDisk.h"
-#include "OpenGL/Drawing.h"
 #include "../System/Input.h"
 #include "States/StateMenu.h"
 #include "../Utility/Timer.h"

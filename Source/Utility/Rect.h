@@ -1,7 +1,6 @@
 #pragma once
 #include "Point.h"
 #include <algorithm>
-#include <vector>
 
 template <class T>
 class Rect
@@ -34,7 +33,7 @@ public:
 	};
 	Rect()
 	{
-		Rect((T)0.0, (T)0.0, (T)0.0, (T)0.0);
+		Rect(T(0.0), T(0.0), T(0.0), T(0.0));
 	}
 	Rect(T left, T top, T right, T bottom)
 		:
@@ -48,9 +47,9 @@ public:
 		y2(std::max(po1.y, po2.y))
 	{}
 	template <class T2>
-	Rect<T>(const Rect<T2>& copy)
+	Rect(const Rect<T2>& copy)
 		:
-		Rect((T)copy.x1, (T)copy.y1, (T)copy.x2, (T)copy.y2)
+		Rect(T(copy.x1), T(copy.y1), T(copy.x2), T(copy.y2))
 	{
 
 	}
@@ -110,17 +109,17 @@ public:
 	}
 	inline bool isRectInside(const Rect<T>& re) const
 	{
-		if (PointInside(re.TopLeft()))
-			if (PointInside(re.BottomRight()))
-				if (PointInside(re.TopRight()))
-					if (PointInside(re.BottomLeft()))
+		if (PointInside(re.getTopLeft()))
+			if (PointInside(re.getBottomRight()))
+				if (PointInside(re.getTopRight()))
+					if (PointInside(re.getBottomLeft()))
 						return true;
 		return false;
 	}
 	inline bool isRectCutting(const  Rect<T>& re) const
 	{
-		if (PointInside(re.TopLeft()) || PointInside(re.BottomRight()) ||
-			PointInside(re.TopRight()) || PointInside(re.BottomLeft()))
+		if (PointInside(re.getTopLeft()) || PointInside(re.getTopRight()) ||
+			PointInside(re.getTopRight()) || PointInside(re.getBottomLeft()))
 			return true;
 		return false;
 	}
@@ -166,7 +165,7 @@ public:
 	}
 	inline Point<T> getMidpoint() const
 	{
-		return (p1 + p2) / (T)2.0;
+		return (p1 + p2) / T(2.0);
 	}
 	static Rect<T> constructFromPoint(const Point<T>& p, T radius)
 	{
