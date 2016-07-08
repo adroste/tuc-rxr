@@ -1,5 +1,5 @@
-#include "System\System.h"
 #include <functional>
+#include "System\System.h"
 #include "System/Log.h"
 #include "Framework/Window.h"
 #include "System/Input.h"

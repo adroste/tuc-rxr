@@ -10,18 +10,53 @@ class SyncContext final
 	friend class Syncer;
 public:
 	SyncContext()
-	{
-		m_pMutex = SDL_CreateMutex();
-	}
+	{}
 	~SyncContext()
 	{
-		if (!m_pMutex)
-			SDL_DestroyMutex(m_pMutex);
+		destroyCond();
+		destroyMutex();
 	}
 	SyncContext(const SyncContext&) = delete;
 	SyncContext& operator=(const SyncContext&) = delete;
 
-	
+private:
+	void createMutex()
+	{
+		if (!m_pMutex)
+		{
+			m_pMutex = SDL_CreateMutex();
+			if (!m_pMutex)
+				throw SDL_Exception("SyncContext::createMutex mutex creation failed");
+		}
+	}
+
+	void destroyMutex()
+	{
+		if (m_pMutex)
+		{
+			SDL_DestroyMutex(m_pMutex);
+			m_pMutex = nullptr;
+		}
+	}
+
+	void createCond()
+	{
+		if (!m_pCond)
+		{
+			m_pCond = SDL_CreateCond();
+			if (!m_pCond)
+				throw SDL_Exception("SyncContext::createCond condition creation failed");
+		}
+	}
+
+	void destroyCond()
+	{
+		if (m_pCond)
+		{
+			SDL_DestroyCond(m_pCond);
+			m_pCond = nullptr;
+		}
+	}
 
 private:
 	SDL_mutex* m_pMutex = nullptr;
@@ -35,30 +70,29 @@ class Syncer final
 public:
 	Syncer(SyncContext& syncContext, bool autolock = true)
 		:
-		m_syncContext(syncContext)
+		m_syncContext(syncContext),
+		m_autolock(autolock)
 	{
-		if (autolock)
+		if (m_autolock)
 			lock();
 	}
 	~Syncer()
 	{
 		unlock();
-		destroyCond();
-		destroyMutex();
 	}
 	Syncer(const Syncer&) = delete;
 	Syncer& operator=(const Syncer&) = delete;
 
-	void lock()
+	void lock() const
 	{
-		createMutex();
+		m_syncContext.createMutex();
 
 		if (SDL_LockMutex(m_syncContext.m_pMutex) != 0)
 			throw SDL_Exception("Syncer::lock mutex lock failed");
 		m_syncContext.m_locked = true;
 	}
 
-	void unlock() 
+	void unlock() const
 	{
 		if (!m_syncContext.m_pMutex) return;
 
@@ -70,10 +104,10 @@ public:
 		}
 	}
 
-	void wait(std::function<bool(void)> pred, int timeoutms = -1)
+	void wait(std::function<bool(void)> pred, int timeoutms = -1) const
 	{
-		createMutex();
-		createCond();
+		m_syncContext.createMutex();
+		m_syncContext.createCond();
 
 		while (!pred())
 		{
@@ -96,7 +130,7 @@ public:
 		}
 	}
 
-	void signal(bool autounlock = true)
+	void signal(bool unlockImmediately = false) const
 	{
 		// if no one is waiting, no one has to be signaled
 		if (m_syncContext.m_pCond && m_syncContext.m_waiting > 0)
@@ -104,43 +138,11 @@ public:
 			if (SDL_CondSignal(m_syncContext.m_pCond) != 0)
 				throw SDL_Exception("Syncer::signal condition signal failed");
 		}
-		if (autounlock)
+		if (unlockImmediately)
 			unlock();
 	}
 
 private:
-	void createMutex()
-	{
-		if (!m_syncContext.m_pMutex)
-		{
-			m_syncContext.m_pMutex = SDL_CreateMutex();
-			if (!m_syncContext.m_pMutex)
-				throw SDL_Exception("Syncer::createMutex mutex creation failed");
-		}
-	}
-
-	void destroyMutex()
-	{
-		if (m_syncContext.m_pMutex)
-			SDL_DestroyMutex(m_syncContext.m_pMutex);
-	}
-
-	void createCond()
-	{
-		if (!m_syncContext.m_pCond)
-		{
-			m_syncContext.m_pCond = SDL_CreateCond();
-			if (!m_syncContext.m_pCond)
-				throw SDL_Exception("Syncer::createCond condition creation failed");
-		}
-	}
-
-	void destroyCond()
-	{
-		if (m_syncContext.m_pCond)
-			SDL_DestroyCond(m_syncContext.m_pCond);
-	}
-
-private:
 	SyncContext& m_syncContext;
+	bool m_autolock;
 };
