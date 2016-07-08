@@ -4,8 +4,6 @@
 #include "Framework/Window.h"
 #include "System/Input.h"
 
-#include "SDL/SDL_mutex.h"
-
 int main(int argc, char** argv)
 {
 	Log::init();
