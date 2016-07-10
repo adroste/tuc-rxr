@@ -12,9 +12,9 @@ protected:
 public:
 	SDL_Exception(const std::string& info)
 		:
-		mess(info)
+		m_msg(info)
 	{
-		mess += std::string(": ") + std::string(SDL_GetError());
+		m_msg += std::string(": ") + std::string(SDL_GetError());
 		SDL_ClearError();
 	}
 #ifdef _WIN32
@@ -23,10 +23,10 @@ public:
 	virtual const char* what() const noexcept(true) override
 #endif
 	{
-		return mess.c_str();
+		return m_msg.c_str();
 	}
 protected:
-	std::string mess;
+	std::string m_msg;
 };
 
 class SDLNet_Exception : public SDL_Exception
@@ -34,6 +34,6 @@ class SDLNet_Exception : public SDL_Exception
 public:
 	SDLNet_Exception(const std::string& info)
 	{
-		mess = info + std::string(": ") + std::string(SDLNet_GetError());
+		m_msg = info + std::string(": ") + std::string(SDLNet_GetError());
 	}
 };

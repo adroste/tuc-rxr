@@ -19,14 +19,14 @@ public:
 	// initialized net an sdl library
 	static void init()
 	{
-		Log::info("init system");
+		Log::info("System::init SDL");
 		Uint32 flags = SDL_INIT_TIMER | SDL_INIT_AUDIO | SDL_INIT_EVENTS;
 		if (SDL_Init(flags) != 0)
-			throw SDL_Exception("sdl init failed");
+			throw SDL_Exception("System::init SDL init failed");
 
-		Log::info("init net");
+		Log::info("System::init SDLNet");
 		if (SDLNet_Init() != 0)
-			throw SDLNet_Exception("sdl net init failed");
+			throw SDLNet_Exception("System::init SDLNet init failed");
 
 		// seed random
 		srand((unsigned int)time(nullptr));
@@ -95,8 +95,8 @@ public:
 	{
 		if (!SDL_SetClipboardText(t.c_str()))
 		{
-			Log::warning("could not set clipboard text");
-			Log::warning(SDL_Exception("SetClipboardText").what());
+			Log::warning("System::setClipboardText could not set clipboard text");
+			Log::warning(SDL_Exception("System::setClipboardText").what());
 		}
 	}
 

@@ -11,7 +11,7 @@ public:
 		Exception(""),
 		code(code)
 	{
-		emes = func + std::string(" failed. code: ") + std::to_string(code);
+		m_msg = "OpenGL: " + func + ": " + std::to_string(code);
 		AppendInfo();
 	}
 	GLenum GetCode() const
@@ -24,32 +24,32 @@ private:
 		switch (code)
 		{
 		case GL_INVALID_ENUM:
-			emes += ": GL_INVALID_ENUM";
+			m_msg += ": GL_INVALID_ENUM";
 			break;
 		case GLU_INVALID_VALUE:
-			emes += ": GLU_INVALID_VALUE";
+			m_msg += ": GLU_INVALID_VALUE";
 			break;
 		case GL_INVALID_OPERATION:
-			emes += ": GL_INVALID_OPERATION";
+			m_msg += ": GL_INVALID_OPERATION";
 			break;
 		case GL_STACK_OVERFLOW:
-			emes += ": GL_STACK_OVERFLOW";
+			m_msg += ": GL_STACK_OVERFLOW";
 			break;
 		case GL_STACK_UNDERFLOW:
-			emes += ": GL_STACK_UNDERFLOW";
+			m_msg += ": GL_STACK_UNDERFLOW";
 			break;
 		case GL_OUT_OF_MEMORY:
-			emes += ": GL_OUT_OF_MEMORY";
+			m_msg += ": GL_OUT_OF_MEMORY";
 			break;
 		case GL_INVALID_FRAMEBUFFER_OPERATION:
-			emes += ": GL_INVALID_FRAMEBUFFER_OPERATION";
+			m_msg += ": GL_INVALID_FRAMEBUFFER_OPERATION";
 			break;
 		case GL_TABLE_TOO_LARGE:
-			emes += ": GL_TABLE_TOO_LARGE";
+			m_msg += ": GL_TABLE_TOO_LARGE";
 			break;
 		}
-		emes += " -> ";
-		emes += (char*)glewGetErrorString(code);
+		m_msg += " -> ";
+		m_msg += (char*)glewGetErrorString(code);
 	}
 private:
 	GLenum code;
@@ -60,7 +60,7 @@ class GL_Recreate : public GL_Exception
 public:
 	GL_Recreate()
 		:
-		GL_Exception("glEnd",GL_INVALID_OPERATION)
+		GL_Exception("glEnd", GL_INVALID_OPERATION)
 	{}
 };
 

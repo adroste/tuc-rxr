@@ -24,16 +24,16 @@ void Graphics::init(SDL_Window* wnd, PointI dim)
 	
 	m_glContext = SDL_GL_CreateContext(wnd);
 	if (!m_glContext)
-		throw SDL_Exception("open gl context could not be created");
+		throw SDL_Exception("Graphics::init open gl context could not be created");
 
 	static bool isGlewInit = false;
 	if (!isGlewInit)
 	{
-		Log::info("init glew");
+		Log::info("Graphics::init glew");
 
 		auto status = glewInit();
 		if (status != GLEW_OK)
-			throw GLEW_Exception("glew init", status);
+			throw GLEW_Exception("Graphics::init glew init", status);
 		isGlewInit = true;
 	}
 
@@ -46,7 +46,7 @@ void Graphics::close()
 {
 	if (m_glContext)
 	{
-		Log::info("deleting openGL context");
+		Log::info("Graphics::close deleting openGL context");
 		SDL_GL_DeleteContext(m_glContext);
 		m_glContext = nullptr;
 	}

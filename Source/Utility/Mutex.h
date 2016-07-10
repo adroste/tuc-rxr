@@ -23,12 +23,12 @@ private:
 	void lock() const
 	{
 		if (SDL_LockMutex(m_pMutex) != 0)
-			throw SDL_Exception("mutex lock failed");
+			throw SDL_Exception("Mutex::lock failed");
 	}
 	void unlock() const
 	{
 		if (SDL_UnlockMutex(m_pMutex) != 0)
-			throw SDL_Exception("mutex unlock failed");
+			throw SDL_Exception("Mutex::unlock failed");
 	}
 private:
 	SDL_mutex* m_pMutex;

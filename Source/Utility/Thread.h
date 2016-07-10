@@ -35,10 +35,10 @@ public:
 		{
 			m_pThread = SDL_CreateThread(callback, "x", static_cast<void*>(this));
 			if (m_pThread == nullptr)
-				throw SDL_Exception("Thread::Begin thread creation failed");
+				throw SDL_Exception("Thread::begin thread creation failed");
 			m_isRunning = true;
 		}
-		else throw Exception("Thread::Begin Thread already running");
+		else throw Exception("Thread::begin thread already running");
 	}
 	void detach()
 	{

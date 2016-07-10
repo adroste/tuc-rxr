@@ -27,7 +27,7 @@ Window::~Window()
 
 void Window::init(const std::string & title, const PointI & dim)
 {
-	Log::info("init window");
+	Log::info("Window::init");
 
 	m_dim = dim;
 
@@ -47,7 +47,7 @@ void Window::init(const std::string & title, const PointI & dim)
 	);
 
 	if (!m_pWnd)
-		throw SDL_Exception("window creation failed");
+		throw SDL_Exception("Window::init window creation failed");
 
 	// TODO: load icon
 
@@ -61,9 +61,9 @@ void Window::init(const std::string & title, const PointI & dim)
 void Window::run()
 {
 	m_pGfx = std::unique_ptr<Graphics>(new Graphics());
-	Log::info("initializing openGL");
+	Log::info("Window::run initializing openGL");
 	m_pGfx->init(m_pWnd, m_dim);
-	Log::info("setting swap intervall");
+	Log::info("Window::run setting swap intervall");
 	SDL_GL_SetSwapInterval(1); // vsync
 
 	sDisk.load();

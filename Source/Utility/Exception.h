@@ -7,11 +7,11 @@ class Exception : public std::exception
 public:
     Exception(const char* txt)
     {
-        emes = txt;
+        m_msg = txt;
     }
     Exception(const std::string& s)
     {
-        emes = s;
+        m_msg = s;
     }
 #ifdef _WIN32
 	virtual const char* what() const override
@@ -19,8 +19,8 @@ public:
 	virtual const char* what() const noexcept(true) override
 #endif
 	{
-		return emes.c_str();
+		return m_msg.c_str();
 	}
 protected:
-    std::string emes;
+    std::string m_msg;
 };

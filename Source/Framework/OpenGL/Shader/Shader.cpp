@@ -73,7 +73,7 @@ void Shader::load(const std::string& file)
 	assert(!m_isLoaded);
 	m_filename = file;
 
-	Log::info("loading shader " + file);
+	Log::info("Shader::load " + file);
 	loadShaderSource(file);
 
 	m_isLoaded = true;
