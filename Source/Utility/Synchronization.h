@@ -20,7 +20,7 @@ public:
 	SyncContext& operator=(const SyncContext&) = delete;
 
 private:
-	void createMutex()
+	void createMutex() const
 	{
 		if (!m_pMutex)
 		{
@@ -30,7 +30,7 @@ private:
 		}
 	}
 
-	void destroyMutex()
+	void destroyMutex() const
 	{
 		if (m_pMutex)
 		{
@@ -39,7 +39,7 @@ private:
 		}
 	}
 
-	void createCond()
+	void createCond() const
 	{
 		if (!m_pCond)
 		{
@@ -49,7 +49,7 @@ private:
 		}
 	}
 
-	void destroyCond()
+	void destroyCond() const
 	{
 		if (m_pCond)
 		{
@@ -59,9 +59,9 @@ private:
 	}
 
 private:
-	SDL_mutex* m_pMutex = nullptr;
+	mutable SDL_mutex* m_pMutex = nullptr;
 	int m_locked = 0;
-	SDL_cond* m_pCond = nullptr;
+	mutable SDL_cond* m_pCond = nullptr;
 	int m_waiting = 0;
 };
 
@@ -90,17 +90,19 @@ public:
 		if (SDL_LockMutex(m_syncContext.m_pMutex) != 0)
 			throw SDL_Exception("Syncer::lock mutex lock failed");
 		++m_syncContext.m_locked;
+		m_isLocked = true;
 	}
 
 	void unlock() const
 	{
 		if (!m_syncContext.m_pMutex) return;
 
-		if (m_syncContext.m_locked > 0)
+		if (m_syncContext.m_locked > 0 && !m_isLocked)
 		{
 			if (SDL_UnlockMutex(m_syncContext.m_pMutex) != 0)
 				throw SDL_Exception("Syncer::unlock mutex unlock failed");
 			--m_syncContext.m_locked;
+			m_isLocked = false;
 		}
 	}
 
@@ -145,4 +147,5 @@ public:
 private:
 	SyncContext& m_syncContext;
 	bool m_autolock;
+	mutable bool m_isLocked = false;
 };
