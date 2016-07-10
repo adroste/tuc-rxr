@@ -9,8 +9,8 @@ public:
 	{
 		m_myButt.setDim({ 300, 100 });
 		m_myButt.center();
-		// TODO register somewhere else!!!
-		regReceiver(&m_myButt);
+
+		m_myButt.registerMe(this);
 	}
 	virtual ~StateMenu()
 	{}

@@ -74,6 +74,7 @@ public:
 			return m_zIndex;
 		}
 
+		virtual void registerMe(class GameState* parent);
 	private:
 		bool m_enabled = true;
 		int m_zIndex;
