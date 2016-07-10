@@ -168,13 +168,7 @@
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IClickable.h">
       <Filter>Source\Framework\UI\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Framework\UI\Interfaces\IPropValue.h">
-      <Filter>Source\Framework\UI\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Framework\UI\Interfaces\ILableable.h">
-      <Filter>Source\Framework\UI\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Framework\UI\Interfaces\IPropValueSafe.h">
       <Filter>Source\Framework\UI\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Framework\OpenGL\Texture.h">
@@ -185,6 +179,12 @@
     </ClInclude>
     <ClInclude Include="..\Source\Utility\Tools.h">
       <Filter>Source\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\Interfaces\IValueHolder.h">
+      <Filter>Source\Framework\UI\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\Interfaces\IValueHolderSafe.h">
+      <Filter>Source\Framework\UI\Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

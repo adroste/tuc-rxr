@@ -175,8 +175,8 @@
     <ClInclude Include="..\Source\Framework\States\StateMenu.h" />
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IClickable.h" />
     <ClInclude Include="..\Source\Framework\UI\Interfaces\ILableable.h" />
-    <ClInclude Include="..\Source\Framework\UI\Interfaces\IPropValue.h" />
-    <ClInclude Include="..\Source\Framework\UI\Interfaces\IPropValueSafe.h" />
+    <ClInclude Include="..\Source\Framework\UI\Interfaces\IValueHolder.h" />
+    <ClInclude Include="..\Source\Framework\UI\Interfaces\IValueHolderSafe.h" />
     <ClInclude Include="..\Source\Framework\UI\UIButton.h" />
     <ClInclude Include="..\Source\Framework\Window.h" />
     <ClInclude Include="..\Source\System\Input.h" />
