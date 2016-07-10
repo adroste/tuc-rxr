@@ -153,6 +153,8 @@
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderDisk.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\stb_image\stb_image.c" />
     <ClCompile Include="..\Source\Framework\OpenGL\Texture.cpp" />
+    <ClCompile Include="..\Source\Framework\Sound\MusicFile.cpp" />
+    <ClCompile Include="..\Source\Framework\Sound\Sound.cpp" />
     <ClCompile Include="..\Source\Framework\Window.cpp" />
     <ClCompile Include="..\Source\main.cpp" />
     <ClCompile Include="..\Source\System\Input.cpp" />
@@ -171,6 +173,8 @@
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderDisk.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\stb_image\stb_image.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Texture.h" />
+    <ClInclude Include="..\Source\Framework\Sound\MusicFile.h" />
+    <ClInclude Include="..\Source\Framework\Sound\Sound.h" />
     <ClInclude Include="..\Source\Framework\States\GameState.h" />
     <ClInclude Include="..\Source\Framework\States\StateMenu.h" />
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IClickable.h" />
@@ -187,6 +191,7 @@
     <ClInclude Include="..\Source\Utility\Exception.h" />
     <ClInclude Include="..\Source\Utility\GLEW_Exception.h" />
     <ClInclude Include="..\Source\Utility\GL_Exception.h" />
+    <ClInclude Include="..\Source\Utility\MIX_Exception.h" />
     <ClInclude Include="..\Source\Utility\Mutex.h" />
     <ClInclude Include="..\Source\Utility\Point.h" />
     <ClInclude Include="..\Source\Utility\Rect.h" />

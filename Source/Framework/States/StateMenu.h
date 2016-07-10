@@ -1,6 +1,7 @@
 #pragma once
 #include "GameState.h"
 #include "../UI/UIButton.h"
+#include "../Sound/Sound.h"
 
 class StateMenu : public GameState
 {
@@ -17,6 +18,9 @@ public:
 
 	virtual bool update(float dt) override
 	{
+		if (m_myButt.isClicked(true))
+			Sound::playMusic(Sound::Music::Theme);
+
 
 		return false;
 	}

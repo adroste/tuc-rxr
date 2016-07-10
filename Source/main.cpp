@@ -3,6 +3,7 @@
 #include "System/Log.h"
 #include "Framework/Window.h"
 #include "System/Input.h"
+#include "Framework/Sound/Sound.h"
 
 int main(int argc, char** argv)
 {
@@ -11,6 +12,9 @@ int main(int argc, char** argv)
 	{
 		System::init();
 		Input::init();
+		Sound::init();
+
+		Sound::loadFiles();
 
 		Window wnd;
 		wnd.init("MainWindow", { 1280, 720 });
@@ -20,6 +24,7 @@ int main(int argc, char** argv)
 	{
 		Log::error(e);
 	}
+	Sound::quit();
 	System::quit();
 	Log::quit();
 
