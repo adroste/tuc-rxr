@@ -2,10 +2,10 @@
 
 // only thread safe for thread safe type (int, float...)
 template <class T>
-class IPropValue
+class IValueHolder
 {
 public:
-	virtual ~IPropValue()
+	virtual ~IValueHolder()
 	{}
 	virtual T getValue() const
 	{

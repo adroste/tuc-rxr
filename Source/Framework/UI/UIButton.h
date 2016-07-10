@@ -30,9 +30,9 @@ public:
 	virtual bool mouseUp(Input::Mouse button, const PointF& mpos) override
 	{
 		if (m_isHover && m_isDown)
-			m_isClicked = true;			
+			setClicked(true);
 		m_isDown = false;
-		return m_isClicked;
+		return isClicked(false);
 	}
 
 protected:
