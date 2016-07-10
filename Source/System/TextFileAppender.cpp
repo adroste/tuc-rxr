@@ -53,7 +53,7 @@ void TextFileAppender::writeLine(const std::string& text)
 	write("\n");
 }
 
-void TextFileAppender::swap(TextFileAppender & o)
+void TextFileAppender::swap(TextFileAppender& o)
 {
 	std::swap(m_pFile, o.m_pFile);
 }
