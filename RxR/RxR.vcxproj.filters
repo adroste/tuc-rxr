@@ -38,6 +38,9 @@
     <Filter Include="Source\Framework\UI\Interfaces">
       <UniqueIdentifier>{52c0b071-3022-4086-a970-aefa45563909}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\OpenGL\std_image">
+      <UniqueIdentifier>{64bb320b-58ca-4e55-bbaf-fbf41e21ee90}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\Shader.cpp">
@@ -68,6 +71,12 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\Framework\OpenGL\Drawing.cpp">
+      <Filter>Source\Framework\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Framework\OpenGL\stb_image\stb_image.c">
+      <Filter>Source\Framework\OpenGL\std_image</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Framework\OpenGL\Texture.cpp">
       <Filter>Source\Framework\OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
@@ -167,6 +176,12 @@
     </ClInclude>
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IPropValueSafe.h">
       <Filter>Source\Framework\UI\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\OpenGL\Texture.h">
+      <Filter>Source\Framework\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\OpenGL\stb_image\stb_image.h">
+      <Filter>Source\Framework\OpenGL\std_image</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
