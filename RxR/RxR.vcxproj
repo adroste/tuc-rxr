@@ -204,7 +204,13 @@
   <ItemGroup>
     <None Include="data\Shader\disk.frag" />
     <None Include="data\Shader\disk.vert" />
+    <None Include="data\Sound\theme.ogg" />
     <None Include="glew32.dll" />
+    <None Include="libFLAC-8.dll" />
+    <None Include="libmodplug-1.dll" />
+    <None Include="libogg-0.dll" />
+    <None Include="libvorbis-0.dll" />
+    <None Include="libvorbisfile-3.dll" />
     <None Include="SDL2.dll" />
     <None Include="SDL2_mixer.dll" />
     <None Include="SDL2_net.dll" />

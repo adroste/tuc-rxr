@@ -44,6 +44,9 @@
     <Filter Include="Source\Framework\Sound">
       <UniqueIdentifier>{8b0601ca-29e5-46aa-9ac3-1be10f7c2c7b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources / Dependencies\data\Sound">
+      <UniqueIdentifier>{8250d1a2-8b4c-4371-8459-7bef94908104}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\Shader.cpp">
@@ -223,6 +226,24 @@
     </None>
     <None Include="data\Shader\disk.vert">
       <Filter>Resources / Dependencies\data\Shader</Filter>
+    </None>
+    <None Include="data\Sound\theme.ogg">
+      <Filter>Resources / Dependencies\data\Sound</Filter>
+    </None>
+    <None Include="libFLAC-8.dll">
+      <Filter>Resources / Dependencies</Filter>
+    </None>
+    <None Include="libmodplug-1.dll">
+      <Filter>Resources / Dependencies</Filter>
+    </None>
+    <None Include="libogg-0.dll">
+      <Filter>Resources / Dependencies</Filter>
+    </None>
+    <None Include="libvorbis-0.dll">
+      <Filter>Resources / Dependencies</Filter>
+    </None>
+    <None Include="libvorbisfile-3.dll">
+      <Filter>Resources / Dependencies</Filter>
     </None>
   </ItemGroup>
 </Project>
