@@ -1,5 +1,5 @@
 #pragma once
-#include "IPropValue.h"
+#include "IValueHolder.h"
 #include "../../../Utility/Mutex.h"
 
 // thread safe for all containers
