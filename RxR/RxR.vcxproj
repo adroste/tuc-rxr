@@ -194,6 +194,7 @@
     <ClInclude Include="..\Source\Utility\Synchronization.h" />
     <ClInclude Include="..\Source\Utility\Thread.h" />
     <ClInclude Include="..\Source\Utility\Timer.h" />
+    <ClInclude Include="..\Source\Utility\Tools.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="data\Shader\disk.frag" />
