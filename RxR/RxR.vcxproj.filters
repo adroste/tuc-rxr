@@ -35,6 +35,9 @@
     <Filter Include="Source\Framework\UI">
       <UniqueIdentifier>{05cb3fea-bf68-4226-adc5-6129fc0ae4bc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\UI\Interfaces">
+      <UniqueIdentifier>{52c0b071-3022-4086-a970-aefa45563909}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\Shader.cpp">
@@ -152,6 +155,18 @@
     </ClInclude>
     <ClInclude Include="..\Source\Framework\UI\UIButton.h">
       <Filter>Source\Framework\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\Interfaces\IClickable.h">
+      <Filter>Source\Framework\UI\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\Interfaces\IPropValue.h">
+      <Filter>Source\Framework\UI\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\Interfaces\ILableable.h">
+      <Filter>Source\Framework\UI\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\Interfaces\IPropValueSafe.h">
+      <Filter>Source\Framework\UI\Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

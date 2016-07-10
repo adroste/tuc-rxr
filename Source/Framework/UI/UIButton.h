@@ -1,8 +1,9 @@
 #pragma once
 #include "../OpenGL/IDrawable.h"
 #include "../../System/Input.h"
+#include "Interfaces/IClickable.h"
 
-class UIButton : public IDrawable, public Input::IReceiver
+class UIButton : public IDrawable, public Input::IReceiver, public IClickable
 {
 public:
 	virtual ~UIButton() {}
@@ -22,14 +23,12 @@ public:
 	}
 	virtual bool mouseDown(Input::Mouse button, const PointF& mpos) override
 	{
-		// TODO enum
 		if (m_isHover)
 			m_isDown = true;
 		return m_isDown;
 	}
 	virtual bool mouseUp(Input::Mouse button, const PointF& mpos) override
 	{
-		// TODO ''
 		if (m_isHover && m_isDown)
 			m_isClicked = true;			
 		m_isDown = false;
@@ -39,5 +38,4 @@ public:
 protected:
 	bool m_isHover = false;
 	bool m_isDown = false;
-	bool m_isClicked = false;
 };
