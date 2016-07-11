@@ -13,6 +13,7 @@ public:
 	TextFileAppender& operator=(const TextFileAppender&) = delete;
 	TextFileAppender& operator=(TextFileAppender&& m);
 	
+	void flush();
 	void close();
 	bool isOpen() const;
 	void write(const std::string& text);

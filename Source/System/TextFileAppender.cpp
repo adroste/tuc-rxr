@@ -29,6 +29,12 @@ TextFileAppender& TextFileAppender::operator=(TextFileAppender&& m)
 	return *this;
 }
 
+void TextFileAppender::flush()
+{
+	if(m_pFile)
+		fflush(m_pFile);
+}
+
 void TextFileAppender::close()
 {
 	if (m_pFile)

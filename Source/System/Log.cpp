@@ -15,7 +15,10 @@ static TextFileAppender logWriter;
 void Log::write(const std::string & str)
 {
 	if (logWriter.isOpen())
+	{
 		logWriter.writeLine(Date::getTimestring(TIME_FORMAT) + str);
+		logWriter.flush();
+	}
 }
 
 void Log::init()
