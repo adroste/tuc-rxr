@@ -24,6 +24,7 @@ public:
 	Cond(const Cond&) = delete;
 	Cond& operator=(const Cond&) = delete;
 
+	// sleep until cond gets signalled / broadcasted
 	void wait(const Mutex& mutex, int timeoutms = -1) const
 	{
 		++m_waiting;
@@ -44,6 +45,7 @@ public:
 		--m_waiting;
 	}
 
+	// sleep until cond gets signalled / broadcasted and pred is true
 	void wait(const Mutex& mutex, std::function<bool(void)> pred, int timeoutms = -1) const
 	{
 		while (!pred())
@@ -52,6 +54,7 @@ public:
 		}
 	}
 
+	// wake the next thread in queue that is waiting
 	void signal() const
 	{
 		assert(m_pCond);
@@ -59,6 +62,7 @@ public:
 			throw SDL_Exception("Cond::signal condition signal failed");
 	}
 
+	// wake all waiting threads
 	void broadcast() const
 	{
 		assert(m_pCond);
@@ -66,6 +70,7 @@ public:
 			throw SDL_Exception("Cond::broadcast condition broadcast failed");
 	}
 
+	// get count of waiting (threads)
 	int getWaiting() const
 	{
 		return m_waiting;
