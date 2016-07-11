@@ -59,7 +59,7 @@ public:
 	}
 
 	// wake the next thread in queue that is waiting
-	void signal() const
+	void notifyNext() const
 	{
 		assert(m_pCond);
 		if (SDL_CondSignal(m_pCond) != 0)
@@ -67,7 +67,7 @@ public:
 	}
 
 	// wake all waiting threads
-	void broadcast() const
+	void notifyAll() const
 	{
 		assert(m_pCond);
 		if (SDL_CondBroadcast(m_pCond) != 0)
