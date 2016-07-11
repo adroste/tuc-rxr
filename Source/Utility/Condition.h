@@ -7,22 +7,26 @@
 #include "../System/Log.h"
 #include "Mutex.h"
 
-class Cond final
+class Condition final
 {
 public:
-	Cond()
+	Condition()
+		:
+		m_pCond(SDL_CreateCond())
 	{
-		m_pCond = SDL_CreateCond();
 		if (!m_pCond)
-			throw new SDL_Exception("Cond::Cond condition creation failed");
+			throw SDL_Exception("Cond::Cond condition creation failed");
 	}
-	~Cond()
+	~Condition()
 	{
-		SDL_DestroyCond(m_pCond);
-		m_pCond = nullptr;
+		if(m_pCond)
+		{
+			SDL_DestroyCond(m_pCond);
+			m_pCond = nullptr;
+		}
 	}
-	Cond(const Cond&) = delete;
-	Cond& operator=(const Cond&) = delete;
+	Condition(const Condition&) = delete;
+	Condition& operator=(const Condition&) = delete;
 
 	// sleep until cond gets signalled / broadcasted
 	void wait(const Mutex& mutex, int timeoutms = -1) const

@@ -175,6 +175,7 @@
     <ClInclude Include="..\Source\Framework\OpenGL\Texture.h" />
     <ClInclude Include="..\Source\Framework\Sound\MusicFile.h" />
     <ClInclude Include="..\Source\Framework\Sound\Sound.h" />
+    <ClInclude Include="..\Source\Framework\Sound\SoundEffect.h" />
     <ClInclude Include="..\Source\Framework\States\GameState.h" />
     <ClInclude Include="..\Source\Framework\States\StateMenu.h" />
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IClickable.h" />

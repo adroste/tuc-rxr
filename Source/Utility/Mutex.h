@@ -5,7 +5,7 @@
 class Mutex final
 {
 	friend class LockGuard;
-	friend class Cond;
+	friend class Condition;
 public:
 	Mutex()
 	{
