@@ -159,9 +159,6 @@
     <ClInclude Include="..\Source\Utility\Thread.h">
       <Filter>Source\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Utility\Synchronization.h">
-      <Filter>Source\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Utility\Timer.h">
       <Filter>Source\Utility</Filter>
     </ClInclude>
@@ -205,6 +202,9 @@
       <Filter>Source\Framework\Sound</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Utility\MIX_Exception.h">
+      <Filter>Source\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Utility\Condition.h">
       <Filter>Source\Utility</Filter>
     </ClInclude>
   </ItemGroup>
