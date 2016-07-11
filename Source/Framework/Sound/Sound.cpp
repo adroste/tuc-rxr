@@ -2,7 +2,7 @@
 
 #include "../../SDL/SDL.h"
 #include "../../SDL/SDL_mixer.h"
-#include "../../Utility/SDL_Exception.h"
+#include "../../Utility/MIX_Exception.h"
 #include "../../System/Log.h"
 #include "MusicFile.h"
 #include <assert.h>
@@ -37,10 +37,10 @@ static int getNextFreeChannel()
 void Sound::init()
 {
 	if (Mix_Init(MIX_INIT_OGG) != MIX_INIT_OGG)
-		throw SDL_Exception("Sound::init ogg");
+		throw MIX_Exception("Sound::init ogg");
 
 	if (Mix_OpenAudio(SAMPLERATE, MIX_DEFAULT_FORMAT, CHANNELS, 4096) != 0)
-		throw SDL_Exception("Sound::init open audio");
+		throw MIX_Exception("Sound::init open audio");
 
 	auto num = Mix_AllocateChannels(32);
 	Log::info("Sound::init " + std::to_string(num) + " audio channels allocated");
