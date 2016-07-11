@@ -196,7 +196,7 @@
     <ClInclude Include="..\Source\Utility\Point.h" />
     <ClInclude Include="..\Source\Utility\Rect.h" />
     <ClInclude Include="..\Source\Utility\SDL_Exception.h" />
-    <ClInclude Include="..\Source\Utility\Synchronization.h" />
+    <ClInclude Include="..\Source\Utility\Condition.h" />
     <ClInclude Include="..\Source\Utility\Thread.h" />
     <ClInclude Include="..\Source\Utility\Timer.h" />
     <ClInclude Include="..\Source\Utility\Tools.h" />
