@@ -56,6 +56,9 @@ void Graphics::close()
 
 void Graphics::beginFrame()
 {
+	if (m_needsResize)
+		_resize();
+
 	glMatrixMode(GL_PROJECTION);
 	glLoadMatrixf(&m_projectMat[0][0]);
 
@@ -76,7 +79,7 @@ void Graphics::endFrame()
 
 void Graphics::resize(PointI dim)
 {
-	glViewport(0, 0, (GLsizei)dim.x, (GLsizei)dim.y);
+	m_wndSize = dim;
 
 	// set projection
 	float scaleX = float(dim.x) / float(Framework::STD_DRAW_X);
@@ -110,4 +113,15 @@ void Graphics::resize(PointI dim)
 		glm::vec3(midpoint.x, midpoint.y, -10.0f), // camera pos
 		glm::vec3(midpoint.x, midpoint.y, 0.0f), // point to look at (z)
 		glm::vec3(0.0f, -1.0f, 0.0f)); // up vector (-1.0f, because opengl is mirrored horizontally)
+
+	m_needsResize = true;
+	Log::info("Graphics::resize");
+}
+
+void Graphics::_resize()
+{
+	Log::info("Graphics::_resize");
+	glViewport(0, 0, GLsizei(m_wndSize.x), GLsizei(m_wndSize.y));
+	m_needsResize = false;
+	glCheck("Graphics::_resize");
 }

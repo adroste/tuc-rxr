@@ -5,6 +5,7 @@
 #include "System.h"
 #include "TextFileAppender.h"
 #include "../Utility/Date.h"
+#include "../Utility/Mutex.h"
 
 static const char* LOG_FILENAME = "log.txt";
 static const char* LOG_FILENAME_TIME_FORMAT = "Log_%Y-%m-%d_%H-%M-%S.txt";
@@ -16,8 +17,13 @@ void Log::write(const std::string & str)
 {
 	if (logWriter.isOpen())
 	{
+		static Mutex muTxt;
+		LockGuard g(muTxt);
+
 		logWriter.writeLine(Date::getTimestring(TIME_FORMAT) + str);
 		logWriter.flush();
+		
+		g.unlock();
 	}
 }
 

@@ -13,10 +13,20 @@ public:
 
 	void beginFrame();
 	void endFrame();
+
+	// calculations for resizing
 	void resize(PointI dim);
+
+private:
+	// actual resize
+	void _resize();
+
 private:
 	SDL_GLContext m_glContext = nullptr;
 	bool m_isInit = false;
 	glm::mat4 m_projectMat;
 	glm::mat4 m_camMat;
+
+	PointI m_wndSize;
+	bool m_needsResize = false;
 };
