@@ -9,6 +9,7 @@
 #include <vector>
 #include <memory>
 
+static const float MUSIC_FADE = 3.0f;
 static std::unique_ptr<MusicFile> m_musicFiles[size_t(Sound::Music::Size)];
 static std::unique_ptr<MusicFile> m_soundFiles[size_t(Sound::Sfx::Size)];
 static Sound::Music m_curTrack = Sound::Music::Size;
@@ -43,22 +44,33 @@ void Sound::loadFiles()
 	m_musicFiles[size_t(Sound::Music::Theme)] = std::unique_ptr<MusicFile>
 		(new MusicFile("data/Sound/theme.ogg", 1.0f));
 
+	m_musicFiles[size_t(Sound::Music::Hey)] = std::unique_ptr<MusicFile>
+		(new MusicFile("data/Sound/hey.ogg", 1.0f));
+
 	m_soundFiles[size_t(Sound::Sfx::Plop)] = std::unique_ptr<MusicFile>
 		(new MusicFile("data/Sound/plop.ogg", 1.0f));
 }
 
 void Sound::playMusic(Music track)
 {
-	if(m_curTrack != Sound::Music::Size)
+	if (track == m_curTrack) return;
+
+	if (m_curTrack != Sound::Music::Size)
 	{
 		// something is playing
-		m_musicFiles[size_t(m_curTrack)]->stop();
+		m_musicFiles[size_t(m_curTrack)]->fadeOut(MUSIC_FADE);
 	}
 	m_curTrack = track;
-	m_musicFiles[size_t(track)]->play(true);
+	m_musicFiles[size_t(track)]->fadeIn(MUSIC_FADE);
 }
 
 void Sound::playSound(Sfx sound)
 {
 	m_soundFiles[size_t(sound)]->play(true);
+}
+
+void Sound::update(float dt)
+{
+	for (auto& m : m_musicFiles)
+		m->update(dt);
 }

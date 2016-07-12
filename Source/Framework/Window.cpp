@@ -81,6 +81,8 @@ void Window::run()
 		float dt = t.lapSecond();
 		updateState(dt);
 
+		Sound::update(dt);
+
 		int timeToSleep = MAX_UPDATE_DELAY - int(t.getTimeMilli());
 		if (timeToSleep > 0)
 			System::sleep(timeToSleep);

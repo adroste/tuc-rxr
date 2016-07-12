@@ -6,6 +6,7 @@ public:
 	enum class Music
 	{
 		Theme,
+		Hey,
 		Size
 	};
 
@@ -22,6 +23,8 @@ public:
 	static void loadFiles();
 	static void playMusic(Music track);
 	static void playSound(Sfx sound);
+
+	static void update(float dt);
 
 public:
 	static const int SAMPLERATE = 44100;

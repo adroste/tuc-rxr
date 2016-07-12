@@ -69,6 +69,56 @@ int MusicFile::getChannel() const
 	return m_channel;
 }
 
+void MusicFile::fadeIn(float secs)
+{
+	m_fadeCur = 0.0f;
+	m_fadeMax = secs;
+	m_curState = State::FadeIn;
+	assert(!isPlaying());
+	play(true);
+	setVolumeNoSave(0.0f);
+}
+
+void MusicFile::fadeOut(float secs)
+{
+	m_fadeCur = 0.0f;
+	m_fadeMax = secs;
+	m_curState = State::FadeOut;
+}
+
+void MusicFile::update(float dt)
+{
+	switch (m_curState)
+	{
+	case State::FadeIn: 
+		m_fadeCur += dt;
+		if (m_fadeCur < m_fadeMax)
+		{
+			setVolumeNoSave(fadeInFunc(m_fadeCur / m_fadeMax));
+		}
+		else
+		{
+			setVolumeNoSave(m_curVol);
+			m_curState = State::None;
+		}
+		break;
+	case State::FadeOut:
+		m_fadeCur += dt;
+		if (m_fadeCur < m_fadeMax)
+		{
+			setVolumeNoSave(fadeInFunc(1.0f - m_fadeCur / m_fadeMax));
+		}
+		else
+		{
+			stop();
+			m_curState = State::None;
+		}
+		break;
+	default: 
+		break;
+	}
+}
+
 void MusicFile::setVolumeNoSave(int vol) const
 {
 	Mix_VolumeChunk(m_pMusic, vol);
@@ -77,4 +127,10 @@ void MusicFile::setVolumeNoSave(int vol) const
 	{
 		Mix_Volume(m_channel, vol);
 	}
+}
+
+float MusicFile::fadeInFunc(float x) const
+{
+	x = 1.0f - x;
+	return m_curVol * (1 - x * x);
 }
