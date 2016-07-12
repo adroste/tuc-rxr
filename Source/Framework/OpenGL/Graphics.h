@@ -19,7 +19,7 @@ public:
 
 private:
 	// actual resize
-	void _resize();
+	void doResize();
 
 private:
 	SDL_GLContext m_glContext = nullptr;
