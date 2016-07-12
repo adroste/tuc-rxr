@@ -8,7 +8,7 @@ public:
 	MusicFile(const std::string& filename, float vol);
 	~MusicFile();
 
-	void play(int channel, bool repeat);
+	void play(bool repeat);
 	void stop();
 	bool isPlaying() const;
 	void setVolume(float vol);

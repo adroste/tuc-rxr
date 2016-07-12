@@ -155,7 +155,6 @@
     <ClCompile Include="..\Source\Framework\OpenGL\Texture.cpp" />
     <ClCompile Include="..\Source\Framework\Sound\MusicFile.cpp" />
     <ClCompile Include="..\Source\Framework\Sound\Sound.cpp" />
-    <ClCompile Include="..\Source\Framework\Sound\SoundEffect.cpp" />
     <ClCompile Include="..\Source\Framework\Window.cpp" />
     <ClCompile Include="..\Source\main.cpp" />
     <ClCompile Include="..\Source\System\Input.cpp" />
@@ -176,7 +175,6 @@
     <ClInclude Include="..\Source\Framework\OpenGL\Texture.h" />
     <ClInclude Include="..\Source\Framework\Sound\MusicFile.h" />
     <ClInclude Include="..\Source\Framework\Sound\Sound.h" />
-    <ClInclude Include="..\Source\Framework\Sound\SoundEffect.h" />
     <ClInclude Include="..\Source\Framework\States\GameState.h" />
     <ClInclude Include="..\Source\Framework\States\StateMenu.h" />
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IClickable.h" />

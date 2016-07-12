@@ -9,30 +9,9 @@
 #include <vector>
 #include <memory>
 
-static std::vector<size_t> m_playingChannels;
 static std::unique_ptr<MusicFile> m_musicFiles[size_t(Sound::Music::Size)];
-
-static void soundCallback(int channel)
-{
-	
-}
-
-// returns -1 if no channel is free
-static int getNextFreeChannel()
-{
-	static auto curChannel = 0;
-	auto startChan = curChannel;
-	do
-	{
-		if (m_playingChannels[curChannel] == 0)
-		{
-			m_playingChannels[curChannel] = 1; // use this channel
-			return curChannel;
-		}
-		curChannel = (curChannel + 1) % m_playingChannels.size();
-	} while (startChan != curChannel);
-	return -1;
-}
+static std::unique_ptr<MusicFile> m_soundFiles[size_t(Sound::Sfx::Size)];
+static Sound::Music m_curTrack = Sound::Music::Size;
 
 void Sound::init()
 {
@@ -44,16 +23,15 @@ void Sound::init()
 
 	auto num = Mix_AllocateChannels(32);
 	Log::info("Sound::init " + std::to_string(num) + " audio channels allocated");
-
-	m_playingChannels.assign(num, 0);
-
-	Mix_ChannelFinished(soundCallback);
 }
 
 void Sound::quit()
 {
 	Log::info("Sound::quit");
 	for (auto& m : m_musicFiles)
+		m.reset();
+
+	for (auto& m : m_soundFiles)
 		m.reset();
 
 	Mix_CloseAudio();
@@ -64,9 +42,23 @@ void Sound::loadFiles()
 {
 	m_musicFiles[size_t(Sound::Music::Theme)] = std::unique_ptr<MusicFile>
 		(new MusicFile("data/Sound/theme.ogg", 1.0f));
+
+	m_soundFiles[size_t(Sound::Sfx::Plop)] = std::unique_ptr<MusicFile>
+		(new MusicFile("data/Sound/plop.ogg", 1.0f));
 }
 
 void Sound::playMusic(Music track)
 {
-	m_musicFiles[size_t(track)]->play(getNextFreeChannel(), true);
+	if(m_curTrack != Sound::Music::Size)
+	{
+		// something is playing
+		m_musicFiles[size_t(m_curTrack)]->stop();
+	}
+	m_curTrack = track;
+	m_musicFiles[size_t(track)]->play(true);
+}
+
+void Sound::playSound(Sfx sound)
+{
+	m_soundFiles[size_t(sound)]->play(true);
 }

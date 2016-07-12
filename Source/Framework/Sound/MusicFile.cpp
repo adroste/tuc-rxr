@@ -22,11 +22,10 @@ MusicFile::~MusicFile()
 	}
 }
 
-void MusicFile::play(int channel, bool repeat)
+void MusicFile::play(bool repeat)
 {
-	m_channel = Mix_PlayChannel(channel, m_pMusic, repeat? -1 : 0);
-
-	assert(channel == m_channel);
+	// play on next free channel
+	m_channel = Mix_PlayChannel(-1, m_pMusic, repeat? -1 : 0);
 }
 
 void MusicFile::stop()

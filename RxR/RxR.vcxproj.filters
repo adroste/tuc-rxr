@@ -91,9 +91,6 @@
     <ClCompile Include="..\Source\Framework\Sound\Sound.cpp">
       <Filter>Source\Framework\Sound</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Framework\Sound\SoundEffect.cpp">
-      <Filter>Source\Framework\Sound</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\Shader.h">
@@ -209,9 +206,6 @@
     </ClInclude>
     <ClInclude Include="..\Source\Utility\Condition.h">
       <Filter>Source\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Framework\Sound\SoundEffect.h">
-      <Filter>Source\Framework\Sound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
