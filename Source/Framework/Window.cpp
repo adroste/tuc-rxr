@@ -64,6 +64,7 @@ void Window::init(const std::string & title, const PointI & dim)
 
 void Window::run()
 {
+	Log::info("Window::run starting game");
 	{
 		LockGuard g(m_muGfx);
 		m_states.push_front(std::unique_ptr<GameState>(new StateMenu()));
@@ -152,9 +153,15 @@ void Window::handleEvents()
 			case SDL_WINDOWEVENT_RESIZED:
 				if (m_pGfx)
 				{
+					PointI prevDim = m_dim;
 					m_dim = PointI(msg.window.data1, msg.window.data2);
-					// TODO lockguard
-					m_pGfx->resize(m_dim);
+
+					if(m_dim != prevDim)
+					{
+						LockGuard g(m_muGfx);
+						m_pGfx->resize(m_dim);
+						g.unlock();
+					}
 				}
 				break;
 			default:
@@ -196,8 +203,6 @@ void Window::updateState(float dt)
 
 void Window::composeFrame(float dt)
 {
-	// TODO thread safe
-
 	if(m_states.size())
 	{
 		std::stack<GameState*> s;
@@ -223,9 +228,9 @@ int Window::threadProc()
 	try
 	{
 		m_pGfx = std::unique_ptr<Graphics>(new Graphics());
-		Log::info("Window::run initializing openGL");
+		Log::info("Window::threadProc initializing openGL");
 		m_pGfx->init(m_pWnd, m_dim);
-		Log::info("Window::run setting swap intervall");
+		Log::info("Window::threadProc setting swap intervall");
 		SDL_GL_SetSwapInterval(1); // vsync
 	}
 	catch(const std::exception& e)
@@ -254,11 +259,18 @@ int Window::threadProc()
 			{
 				// states are available to draw
 				m_pGfx->beginFrame();
-				composeFrame(t.lapSecond());
+				float dt = t.lapSecond();
+				composeFrame(dt);
+				// unlock because we are finished with drawing state relevant objects
+				g.unlock();
 				m_pGfx->endFrame();
 				SDL_GL_SwapWindow(m_pWnd);
 			}
-			g.unlock();
+			else
+			{
+				g.unlock();
+				System::sleep(1);
+			}
 		}
 	}
 	catch(const std::exception& e)
