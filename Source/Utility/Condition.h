@@ -29,17 +29,18 @@ public:
 	Condition& operator=(const Condition&) = delete;
 
 	// sleep until cond gets signalled / broadcasted
-	void wait(const Mutex& mutex, int timeoutms = -1) const
+	void wait(const LockGuard& guard, int timeoutms = -1) const
 	{
+		assert(guard.m_locked);
 		++m_waiting;
 		if (timeoutms <= 0)
 		{
-			if (SDL_CondWait(m_pCond, mutex.m_pMutex) != 0)
+			if (SDL_CondWait(m_pCond, guard.m_mutex.m_pMutex) != 0)
 				throw SDL_Exception("Cond::wait condition wait failed");
 		}
 		else
 		{
-			auto r = SDL_CondWaitTimeout(m_pCond, mutex.m_pMutex, Uint32(timeoutms));
+			auto r = SDL_CondWaitTimeout(m_pCond, guard.m_mutex.m_pMutex, Uint32(timeoutms));
 			if (r == SDL_MUTEX_TIMEDOUT)
 				Log::warning("Cond::wait timeout (" + std::to_string(timeoutms) + "ms) waiting for condition");
 			else if (r < 0)
@@ -50,11 +51,12 @@ public:
 	}
 
 	// sleep until cond gets signalled / broadcasted and pred is true
-	void wait(const Mutex& mutex, std::function<bool(void)> pred, int timeoutms = -1) const
+	void wait(const LockGuard& guard, std::function<bool(void)> pred, int timeoutms = -1) const
 	{
+		assert(guard.m_locked);
 		while (!pred())
 		{
-			wait(mutex, timeoutms);
+			wait(guard, timeoutms);
 		}
 	}
 

@@ -12,10 +12,6 @@
 
 static const int MAX_UPDATE_DELAY = 15;
 
-ShaderDisk sDisk;
-
-
-
 Window::Window()
 {
 }
@@ -55,21 +51,24 @@ void Window::init(const std::string & title, const PointI & dim)
 
 	// TODO: fullscreen
 
-	// TODO: semaphore
+	Thread::begin();
+	LockGuard guard(m_muGfx);
+	m_condGfx.wait(guard, [this]() {return m_gfxInitThreadDone;});
+	guard.unlock();
+
+	if(hasThreadError()) // gfx init failed?
+		throw Exception("Window::init " + getThreadError());
+	
+	assert(m_gfxIsInit);
 }
 
 void Window::run()
 {
-	m_pGfx = std::unique_ptr<Graphics>(new Graphics());
-	Log::info("Window::run initializing openGL");
-	m_pGfx->init(m_pWnd, m_dim);
-	Log::info("Window::run setting swap intervall");
-	SDL_GL_SetSwapInterval(1); // vsync
-
-	sDisk.load();
-	sDisk.create();
-
-	m_states.push_front(std::unique_ptr<GameState>(new StateMenu()));
+	{
+		LockGuard g(m_muGfx);
+		m_states.push_front(std::unique_ptr<GameState>(new StateMenu()));
+		g.unlock();
+	}
 
 	Timer t;
 	t.startWatch();
@@ -85,10 +84,12 @@ void Window::run()
 		if (timeToSleep > 0)
 			System::sleep(timeToSleep);
 
-		m_pGfx->beginFrame();
-		composeFrame(dt);
-		m_pGfx->endFrame();
-		SDL_GL_SwapWindow(m_pWnd);
+		// check for thread error
+		if(hasThreadError())
+		{
+			// TODO delete states
+			throw Exception("Window::threadProc " + getThreadError());
+		}
 	}
 	m_isRunning = false;
 }
@@ -170,6 +171,9 @@ void Window::handleEvents()
 
 void Window::close()
 {
+	m_isRunning = false;
+	Thread::join();
+
 	if (m_pGfx)
 	{
 		m_pGfx->close();
@@ -211,4 +215,56 @@ void Window::composeFrame(float dt)
 			s.pop();
 		}
 	}
+}
+
+int Window::threadProc()
+{
+	// init gfx
+	try
+	{
+		m_pGfx = std::unique_ptr<Graphics>(new Graphics());
+		Log::info("Window::run initializing openGL");
+		m_pGfx->init(m_pWnd, m_dim);
+		Log::info("Window::run setting swap intervall");
+		SDL_GL_SetSwapInterval(1); // vsync
+	}
+	catch(const std::exception& e)
+	{
+		// init failed
+		m_gfxInitThreadDone = true;
+		setThreadError(e.what());
+		// wake up main thread
+		m_condGfx.notifyAll();
+		return -1;
+	}
+	m_gfxIsInit = true;
+	m_gfxInitThreadDone = true;
+	// wake up main thread
+	m_condGfx.notifyAll();
+
+	try
+	{
+		Timer t;
+		t.startWatch();
+		// start main loop
+		while (m_isRunning)
+		{
+			LockGuard g(m_muGfx);
+			if (m_states.size())
+			{
+				// states are available to draw
+				m_pGfx->beginFrame();
+				composeFrame(t.lapSecond());
+				m_pGfx->endFrame();
+				SDL_GL_SwapWindow(m_pWnd);
+			}
+			g.unlock();
+		}
+	}
+	catch(const std::exception& e)
+	{
+		setThreadError(e.what());
+	}
+
+	return 0;
 }

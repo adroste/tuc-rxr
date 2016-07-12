@@ -39,6 +39,7 @@ private:
 
 class LockGuard final
 {
+	friend class Condition;
 public:
 	LockGuard(const Mutex& mu)
 		:
