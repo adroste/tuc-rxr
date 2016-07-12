@@ -57,7 +57,7 @@ void Graphics::close()
 void Graphics::beginFrame()
 {
 	if (m_needsResize)
-		_resize();
+		doResize();
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadMatrixf(&m_projectMat[0][0]);
@@ -118,10 +118,10 @@ void Graphics::resize(PointI dim)
 	Log::info("Graphics::resize");
 }
 
-void Graphics::_resize()
+void Graphics::doResize()
 {
-	Log::info("Graphics::_resize");
+	Log::info("Graphics::doResize");
 	glViewport(0, 0, GLsizei(m_wndSize.x), GLsizei(m_wndSize.y));
 	m_needsResize = false;
-	glCheck("Graphics::_resize");
+	glCheck("Graphics::doResize");
 }
