@@ -43,7 +43,7 @@ public:
 
 	virtual bool keyDown(SDL_Scancode s) override
 	{
-		int curZ = -1;
+	/*	int curZ = -1;
 		bool quit = false;
 		for (auto r : m_receiver)
 		{
@@ -53,12 +53,13 @@ public:
 			if (r->keyDown(s))
 				quit = true;
 		}
-		return quit;
+		return quit;*/
+		return handleKey(&Input::IReceiver::keyDown, s);
 	}
 
 	virtual bool keyUp(SDL_Scancode s) override
 	{
-		int curZ = -1;
+		/*int curZ = -1;
 		bool quit = false;
 		for (auto r : m_receiver)
 		{
@@ -68,11 +69,12 @@ public:
 			if (r->keyUp(s))
 				quit = true;
 		}
-		return quit;
+		return quit;*/
+		return handleKey(&Input::IReceiver::keyUp, s);
 	}
 	virtual bool charDown(char c) override
 	{
-		int curZ = -1;
+		/*int curZ = -1;
 		bool quit = false;
 		for (auto r : m_receiver)
 		{
@@ -82,7 +84,8 @@ public:
 			if (r->charDown(c))
 				quit = true;
 		}
-		return quit;
+		return quit;*/
+		return handleKey(&Input::IReceiver::charDown, c);
 	}
 	virtual bool mouseMove(const PointF& mpos, bool handled) override
 	{
@@ -97,7 +100,7 @@ public:
 
 	virtual bool mouseDown(Input::Mouse button, const PointF& mpos) override
 	{
-		int curZ = -1;
+		/*int curZ = -1;
 		bool quit = false;
 		for (auto r : m_receiver)
 		{
@@ -107,11 +110,12 @@ public:
 			if (r->mouseDown(button, mpos))
 				quit = true;
 		}
-		return quit;
+		return quit;*/
+		return handleKey(&Input::IReceiver::mouseDown, button, mpos);
 	}
 	virtual bool mouseUp(Input::Mouse button, const PointF& mpos) override
 	{
-		int curZ = -1;
+		/*int curZ = -1;
 		bool quit = false;
 		for (auto r : m_receiver)
 		{
@@ -121,9 +125,28 @@ public:
 			if (r->mouseUp(button, mpos))
 				quit = true;
 		}
-		return quit;
+		return quit;*/
+		return handleKey(&Input::IReceiver::mouseUp, button, mpos);
 	}
 	virtual bool wheel(float amount) override
+	{
+		/*int curZ = -1;
+		bool quit = false;
+		for (auto r : m_receiver)
+		{
+			if (quit && curZ != r->getZIndex())
+				break;
+			curZ = r->getZIndex();
+			if (r->wheel(amount))
+				quit = true;
+		}
+		return quit;*/
+		return handleKey(&Input::IReceiver::wheel, amount);
+	}
+
+private:
+	template <typename memFunc, typename... ArgT>
+	bool handleKey(memFunc pFunc, ArgT... args)
 	{
 		int curZ = -1;
 		bool quit = false;
@@ -132,7 +155,7 @@ public:
 			if (quit && curZ != r->getZIndex())
 				break;
 			curZ = r->getZIndex();
-			if (r->wheel(amount))
+			if (((*r).*pFunc)(args...))
 				quit = true;
 		}
 		return quit;
