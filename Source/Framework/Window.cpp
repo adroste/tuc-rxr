@@ -83,6 +83,16 @@ void Window::run()
 
 		Sound::update(dt);
 
+		// TODO state transition
+		if (m_states.front()->isFinished())
+		{
+			auto pNext = m_states.front()->getNextState();
+			LockGuard g(m_muGfx);
+			//if (pNext)
+
+			g.unlock();
+		}
+
 		int timeToSleep = MAX_UPDATE_DELAY - int(t.getTimeMilli());
 		if (timeToSleep > 0)
 			System::sleep(timeToSleep);

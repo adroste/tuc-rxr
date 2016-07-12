@@ -1,6 +1,7 @@
 #pragma once
 #include "../../System/Input.h"
 #include <list>
+#include <memory>
 
 class GameState : public Input::IReceiver
 {
@@ -144,6 +145,17 @@ public:
 		return handleKey(&Input::IReceiver::wheel, amount);
 	}
 
+	bool isFinished() const
+	{
+		return m_pNextState.get() != nullptr;
+	}
+
+	// nullptr if next state is previous state
+	std::unique_ptr<GameState> getNextState()
+	{
+		return std::move(m_pNextState);
+	}
+
 private:
 	template <typename memFunc, typename... ArgT>
 	bool handleKey(memFunc pFunc, ArgT... args)
@@ -161,7 +173,15 @@ private:
 		return quit;
 	}
 
+protected:
+	void setNextState(std::unique_ptr<GameState> nextState)
+	{
+		assert(!m_pNextState);
+		m_pNextState = std::move(nextState);
+	}
+
 private:
 	const bool m_drawPrev;
 	std::list<Input::IReceiver*> m_receiver;
+	std::unique_ptr<GameState> m_pNextState;
 };
