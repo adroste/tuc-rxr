@@ -83,13 +83,31 @@ void Window::run()
 
 		Sound::update(dt);
 
-		// TODO state transition
+		// state transition
 		if (m_states.front()->isFinished())
 		{
-			auto pNext = m_states.front()->getNextState();
+			auto pNext = m_states.front()->popNextState();
 			LockGuard g(m_muGfx);
-			//if (pNext)
 
+			auto tranState = m_states.front()->getTransitionState();
+			if (tranState == GameState::TransitionState::Discard 
+				|| tranState == GameState::TransitionState::DiscardWithPrevious)
+			{
+				do
+				{
+					tranState = m_states.front()->getTransitionState();
+					if (tranState != GameState::TransitionState::ForcePreserve)
+					{
+						// delete object
+						m_states.front().reset();
+						// remove object from m_states
+						m_states.pop_front();
+					}
+				} while (tranState == GameState::TransitionState::DiscardWithPrevious);
+			}
+
+			if (pNext)
+				m_states.push_front(std::move(pNext));
 			g.unlock();
 		}
 

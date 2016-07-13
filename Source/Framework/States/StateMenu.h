@@ -7,6 +7,8 @@ class StateMenu : public GameState
 {
 public:
 	StateMenu()
+		:
+		GameState(GameState::TransitionState::ForcePreserve)
 	{
 		m_myButt.setDim({ 300, 100 });
 		m_myButt.center();
