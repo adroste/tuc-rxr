@@ -5,7 +5,6 @@
 #include "../../Utility/MIX_Exception.h"
 #include "../../System/Log.h"
 #include "MusicFile.h"
-#include <assert.h>
 #include <vector>
 #include <memory>
 #include "../../Utility/Tools.h"

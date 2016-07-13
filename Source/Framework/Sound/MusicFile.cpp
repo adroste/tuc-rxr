@@ -53,14 +53,14 @@ bool MusicFile::isPlaying() const
 
 void MusicFile::setVolume(float vol)
 {
-	m_curVol = int(vol * float(MIX_MAX_VOLUME));
+	m_curVol = vol;
 	setVolumeNoSave(m_curVol);
 }
 
 void MusicFile::setMute(bool mute)
 {
 	m_isMuted = mute;
-	setVolumeNoSave(m_isMuted ? 0 : m_curVol);
+	setVolumeNoSave(m_isMuted ? 0.0f : m_curVol);
 }
 
 int MusicFile::getChannel() const
@@ -119,15 +119,15 @@ void MusicFile::update(float dt)
 	}
 }
 
-void MusicFile::setVolumeNoSave(int vol)
+void MusicFile::setVolumeNoSave(float vol)
 {
-	Mix_VolumeChunk(m_pMusic, vol);
+	Mix_VolumeChunk(m_pMusic, int(vol * float(MIX_MAX_VOLUME)));
 
 	if (m_channel != -1)
 	{
 		// assure that the channel is still playing
 		if (isPlaying())
-			Mix_Volume(m_channel, vol);
+			Mix_Volume(m_channel, int(vol * float(MIX_MAX_VOLUME)));
 		else
 			m_channel = -1;
 	}

@@ -27,13 +27,13 @@ public:
 	void update(float dt);
 
 private:
-	void setVolumeNoSave(int vol);
+	void setVolumeNoSave(float vol);
 	float fadeInFunc(float x) const;
 
 private:
 	bool m_isMuted = false;
 	Mix_Chunk* m_pMusic = nullptr;
-	int m_curVol;
+	float m_curVol;
 	int m_channel = -1;
 	bool m_isPaused = false;
 	State m_curState = State::None;
