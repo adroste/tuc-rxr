@@ -8,6 +8,7 @@
 #include <assert.h>
 #include <vector>
 #include <memory>
+#include "../../Utility/Tools.h"
 
 static const float MUSIC_FADE = 3.0f;
 static std::unique_ptr<MusicFile> m_musicFiles[size_t(Sound::Music::Size)];
@@ -73,4 +74,18 @@ void Sound::update(float dt)
 {
 	for (auto& m : m_musicFiles)
 		m->update(dt);
+}
+
+void Sound::setMusicVolume(float vol)
+{
+	vol = tool::clamp(vol, 0.0f, 1.0f);
+	for (auto& m : m_musicFiles)
+		m->setVolume(vol);
+}
+
+void Sound::setSoundVolume(float vol)
+{
+	vol = tool::clamp(vol, 0.0f, 1.0f);
+	for (auto& m : m_soundFiles)
+		m->setVolume(vol);
 }

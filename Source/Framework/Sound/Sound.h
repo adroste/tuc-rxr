@@ -25,7 +25,9 @@ public:
 	static void playSound(Sfx sound);
 
 	static void update(float dt);
-
+	
+	static void setMusicVolume(float vol);
+	static void setSoundVolume(float vol);
 public:
 	static const int SAMPLERATE = 44100;
 	static const int BITRATE = 16;

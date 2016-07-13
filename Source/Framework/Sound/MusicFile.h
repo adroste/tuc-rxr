@@ -27,7 +27,7 @@ public:
 	void update(float dt);
 
 private:
-	void setVolumeNoSave(int vol) const;
+	void setVolumeNoSave(int vol);
 	float fadeInFunc(float x) const;
 
 private:

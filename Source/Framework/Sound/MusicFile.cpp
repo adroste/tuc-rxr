@@ -119,13 +119,17 @@ void MusicFile::update(float dt)
 	}
 }
 
-void MusicFile::setVolumeNoSave(int vol) const
+void MusicFile::setVolumeNoSave(int vol)
 {
 	Mix_VolumeChunk(m_pMusic, vol);
 
 	if (m_channel != -1)
 	{
-		Mix_Volume(m_channel, vol);
+		// assure that the channel is still playing
+		if (isPlaying())
+			Mix_Volume(m_channel, vol);
+		else
+			m_channel = -1;
 	}
 }
 
