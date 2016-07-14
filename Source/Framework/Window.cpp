@@ -95,11 +95,10 @@ void Window::run()
 			{
 				do
 				{
+					assert(m_states.size());
 					tranState = m_states.front()->getTransitionState();
 					if (tranState != GameState::TransitionState::ForcePreserve)
 					{
-						// delete object
-						m_states.front().reset();
 						// remove object from m_states
 						m_states.pop_front();
 					}
