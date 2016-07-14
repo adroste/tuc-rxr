@@ -6,8 +6,19 @@
 class GameState : public Input::IReceiver
 {
 public:
-	GameState(bool drawPrevState = false)
+	enum class TransitionState
+	{
+		Preserve,
+		ForcePreserve,
+		Discard,
+		// DiscardWithPrevious is stronger than Preserve but weaker than ForcePreserve
+		DiscardWithPrevious
+	};
+
+public:
+	GameState(TransitionState transitionState, bool drawPrevState = false)
 		:
+		m_transitionState(transitionState),
 		m_drawPrev(drawPrevState)
 	{
 		Input::registerState(this);
@@ -57,7 +68,6 @@ public:
 		return quit;*/
 		return handleKey(&Input::IReceiver::keyDown, s);
 	}
-
 	virtual bool keyUp(SDL_Scancode s) override
 	{
 		/*int curZ = -1;
@@ -98,7 +108,6 @@ public:
 		}
 		return handled;
 	}
-
 	virtual bool mouseDown(Input::Mouse button, const PointF& mpos) override
 	{
 		/*int curZ = -1;
@@ -151,9 +160,14 @@ public:
 	}
 
 	// nullptr if next state is previous state
-	std::unique_ptr<GameState> getNextState()
+	std::unique_ptr<GameState> popNextState()
 	{
 		return std::move(m_pNextState);
+	}
+
+	TransitionState getTransitionState() const
+	{
+		return m_transitionState;
 	}
 
 private:
@@ -181,6 +195,7 @@ protected:
 	}
 
 private:
+	TransitionState m_transitionState;
 	const bool m_drawPrev;
 	std::list<Input::IReceiver*> m_receiver;
 	std::unique_ptr<GameState> m_pNextState;
