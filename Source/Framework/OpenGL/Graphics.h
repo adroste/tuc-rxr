@@ -29,4 +29,6 @@ private:
 
 	PointI m_wndSize;
 	bool m_needsResize = false;
+
+	struct FT_LibraryRec_* m_ft = nullptr;
 };

@@ -72,6 +72,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <LibraryPath>..\Source\libs;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\Source\freetype;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -79,6 +80,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <LibraryPath>..\Source\libs;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\Source\freetype;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -166,6 +168,7 @@
     <ClInclude Include="..\Source\Framework\Framework.h" />
     <ClInclude Include="..\Source\Framework\IMetrics.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Drawing.h" />
+    <ClInclude Include="..\Source\Framework\OpenGL\Font.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\GLObject.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Graphics.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\IDrawable.h" />

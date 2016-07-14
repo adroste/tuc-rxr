@@ -5,6 +5,8 @@
 #include "../../Utility/GLEW_Exception.h"
 #include "../../Utility/GL_Exception.h"
 #include "../../Utility/SDL_Exception.h"
+#include <ft2build.h>
+#include FT_FREETYPE_H
 
 Graphics::Graphics()
 {
@@ -34,6 +36,11 @@ void Graphics::init(SDL_Window* wnd, PointI dim)
 		auto status = glewInit();
 		if (status != GLEW_OK)
 			throw GLEW_Exception("Graphics::init glew init", status);
+
+		Log::info("Graphics::init freetype");
+		if (FT_Init_FreeType(&m_ft))
+			throw Exception("Graphics::init freetype init failed");
+
 		isGlewInit = true;
 	}
 

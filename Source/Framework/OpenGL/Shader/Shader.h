@@ -18,8 +18,8 @@ class Shader : public GLObject
 public:
 	Shader();
 	virtual void load() = 0;
-	virtual void create() override final;
-	virtual void dispose() override final;
+	virtual void create() override;
+	virtual void dispose() override;
 	void bind() const;
 	void unbind() const;
 
