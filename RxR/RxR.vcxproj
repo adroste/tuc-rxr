@@ -150,6 +150,7 @@
   <ItemGroup>
     <ClCompile Include="..\Source\Framework\Framework.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Drawing.cpp" />
+    <ClCompile Include="..\Source\Framework\OpenGL\Font.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Graphics.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\Shader.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderDisk.cpp" />
