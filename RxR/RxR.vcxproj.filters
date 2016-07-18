@@ -251,5 +251,8 @@
     <None Include="libvorbisfile-3.dll">
       <Filter>Resources / Dependencies</Filter>
     </None>
+    <None Include="zlib1.dll">
+      <Filter>Resources / Dependencies</Filter>
+    </None>
   </ItemGroup>
 </Project>

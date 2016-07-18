@@ -218,6 +218,7 @@
     <None Include="SDL2.dll" />
     <None Include="SDL2_mixer.dll" />
     <None Include="SDL2_net.dll" />
+    <None Include="zlib1.dll" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
