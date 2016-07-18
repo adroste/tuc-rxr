@@ -47,6 +47,9 @@
     <Filter Include="Resources / Dependencies\data\Sound">
       <UniqueIdentifier>{8250d1a2-8b4c-4371-8459-7bef94908104}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\OpenGL\Geometry">
+      <UniqueIdentifier>{ec5f0c76-30bd-44f3-87fe-53f110ae3f32}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\Shader.cpp">
@@ -93,6 +96,12 @@
     </ClCompile>
     <ClCompile Include="..\Source\Framework\OpenGL\Font.cpp">
       <Filter>Source\Framework\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Framework\OpenGL\Geometry\Mesh.cpp">
+      <Filter>Source\Framework\OpenGL\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Framework\OpenGL\Geometry\MeshCube.cpp">
+      <Filter>Source\Framework\OpenGL\Geometry</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -212,6 +221,12 @@
     </ClInclude>
     <ClInclude Include="..\Source\Framework\OpenGL\Font.h">
       <Filter>Source\Framework\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\OpenGL\Geometry\Mesh.h">
+      <Filter>Source\Framework\OpenGL\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\OpenGL\Geometry\MeshCube.h">
+      <Filter>Source\Framework\OpenGL\Geometry</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

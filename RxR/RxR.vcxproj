@@ -151,6 +151,8 @@
     <ClCompile Include="..\Source\Framework\Framework.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Drawing.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Font.cpp" />
+    <ClCompile Include="..\Source\Framework\OpenGL\Geometry\Mesh.cpp" />
+    <ClCompile Include="..\Source\Framework\OpenGL\Geometry\MeshCube.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Graphics.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\Shader.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderDisk.cpp" />
@@ -170,6 +172,8 @@
     <ClInclude Include="..\Source\Framework\IMetrics.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Drawing.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Font.h" />
+    <ClInclude Include="..\Source\Framework\OpenGL\Geometry\Mesh.h" />
+    <ClInclude Include="..\Source\Framework\OpenGL\Geometry\MeshCube.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\GLObject.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Graphics.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\IDrawable.h" />
