@@ -2,6 +2,7 @@
 #include "../../SDL/SDL.h"
 #include "../../Utility/Point.h"
 #include "../../glm/gtx/transform.hpp"
+#include "Drawing.h"
 
 class Graphics
 {
@@ -16,7 +17,7 @@ public:
 
 	// calculations for resizing
 	void resize(PointI dim);
-
+	Drawing& getDraw();
 private:
 	// actual resize
 	void doResize();
@@ -31,4 +32,6 @@ private:
 	bool m_needsResize = false;
 
 	struct FT_LibraryRec_* m_ft = nullptr;
+
+	Drawing m_draw;
 };

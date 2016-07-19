@@ -28,13 +28,14 @@ public:
 		return false;
 	}
 
-	virtual void composeFrame(float dt) override
+	virtual void composeFrame(Drawing& draw, float dt) override
 	{
-		Drawing d;
+		m_myButt.draw(draw);
 
-		m_myButt.draw(d);
+		//draw.rect(RectF::constructFromPoint(m_mpos, 10.0f), Color::Red());
 
-		d.rect(RectF::constructFromPoint(m_mpos, 10.0f), Color::Red());
+		draw.coloredCube(m_mpos, 15.0f, Color::Cyan());
+		draw.coloredCube(m_mpos + PointF(30.0f,0.0f), 15.0f, Color::Cyan());
 	}
 	virtual bool mouseMove(const PointF& mpos, bool handled) override
 	{

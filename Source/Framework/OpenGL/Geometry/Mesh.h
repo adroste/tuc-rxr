@@ -35,7 +35,7 @@ public:
 	void dispose() override;
 
 private:
-	static const unsigned int NUM_BUFFERS = unsigned int(AttributeName::Size);
+	static const unsigned int NUM_BUFFERS = static_cast<unsigned int>(AttributeName::Size);
 
 	std::vector<decltype(Vertex::pos)> m_positions;
 	std::vector<decltype(Vertex::normal)> m_normal;

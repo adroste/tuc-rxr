@@ -46,11 +46,24 @@ void Graphics::init(SDL_Window* wnd, PointI dim)
 
 	resize(dim);
 
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
+	glEnable(GL_CULL_FACE);
+	
+	glFrontFace(GL_CW);
+	glCullFace(GL_FRONT);
+	
+
+	m_draw.create();
+
 	m_isInit = true;
 }
 
 void Graphics::close()
 {
+	m_draw.dispose();
+
 	if (m_glContext)
 	{
 		Log::info("Graphics::close deleting openGL context");
@@ -73,7 +86,7 @@ void Graphics::beginFrame()
 	glLoadMatrixf(&m_camMat[0][0]);
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);//| GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glCheck("Graphics::beginFrame");
 }
@@ -108,21 +121,27 @@ void Graphics::resize(PointI dim)
 	float newWidth = float(Framework::STD_DRAW_X) * scaleX;
 	float newHeight = float(Framework::STD_DRAW_Y) * scaleY;
 
+	static const float DIST_TO_CAMERA = 1000.0f;
 	float aspect = newWidth / newHeight;
-	float fovY = 2 * atanf(float(newHeight / 2) / 10.0f);
+	float fovY = 2 * atanf(float(newHeight / 2) / DIST_TO_CAMERA);
 
 	Framework::setWindowSize(dim, { newWidth, newHeight }, scale);
 
-	m_projectMat = glm::perspective(fovY, aspect, 0.1f, 100.0f);
+	m_projectMat = glm::perspective(fovY, aspect, 0.1f, DIST_TO_CAMERA * 2.0f);
 
 	static const PointF midpoint(Framework::STD_DRAW_X / 2, Framework::STD_DRAW_Y / 2);
 	m_camMat = glm::lookAt(
-		glm::vec3(midpoint.x, midpoint.y, -10.0f), // camera pos
+		glm::vec3(midpoint.x, midpoint.y, -DIST_TO_CAMERA), // camera pos
 		glm::vec3(midpoint.x, midpoint.y, 0.0f), // point to look at (z)
 		glm::vec3(0.0f, -1.0f, 0.0f)); // up vector (-1.0f, because opengl is mirrored horizontally)
 
 	m_needsResize = true;
 	Log::info("Graphics::resize");
+}
+
+Drawing& Graphics::getDraw()
+{
+	return m_draw;
 }
 
 void Graphics::doResize()

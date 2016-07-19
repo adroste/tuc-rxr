@@ -1,5 +1,6 @@
 #pragma once
 #include "../../System/Input.h"
+#include "../OpenGL/Drawing.h"
 #include <list>
 #include <memory>
 
@@ -47,7 +48,7 @@ public:
 	}
 
 	virtual bool update(float dt) = 0;
-	virtual void composeFrame(float dt) = 0;
+	virtual void composeFrame(Drawing& draw, float dt) = 0;
 	bool drawPreviousState() const
 	{
 		return m_drawPrev;

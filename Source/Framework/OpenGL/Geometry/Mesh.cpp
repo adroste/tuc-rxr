@@ -36,18 +36,18 @@ void Mesh::create()
 	glGenBuffers(NUM_BUFFERS, m_vertexArrayBuffers);
 
 	// init buffers (positions, normals etc)
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[unsigned int(AttributeName::Position)]);
+	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[static_cast<unsigned int>(AttributeName::Position)]);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex::pos) * m_positions.size(), &m_positions[0], GL_STATIC_DRAW);
 	glEnableVertexAttribArray(unsigned int(AttributeName::Position));
 	glVertexAttribPointer(unsigned int(AttributeName::Position), 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[unsigned int(AttributeName::Normal)]);
+	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[static_cast<unsigned int>(AttributeName::Normal)]);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex::normal) * m_normal.size(), &m_normal[0], GL_STATIC_DRAW);
 	glEnableVertexAttribArray(unsigned int(AttributeName::Normal));
 	glVertexAttribPointer(unsigned int(AttributeName::Normal), 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
 	// index buffer
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_vertexArrayBuffers[unsigned int(AttributeName::Index)]);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_vertexArrayBuffers[static_cast<unsigned int>(AttributeName::Index)]);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(m_indices[0]) * m_indices.size(), &m_indices[0], GL_STATIC_DRAW);
 
 	glBindVertexArray(0);
