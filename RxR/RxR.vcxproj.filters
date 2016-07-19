@@ -281,5 +281,23 @@
     <None Include="zlib1.dll">
       <Filter>Resources / Dependencies</Filter>
     </None>
+    <None Include="data\Shader\button.frag">
+      <Filter>Resources / Dependencies\data\Shader</Filter>
+    </None>
+    <None Include="data\Shader\button.vert">
+      <Filter>Resources / Dependencies\data\Shader</Filter>
+    </None>
+    <None Include="data\Shader\cube.frag">
+      <Filter>Resources / Dependencies\data\Shader</Filter>
+    </None>
+    <None Include="data\Shader\cube.vert">
+      <Filter>Resources / Dependencies\data\Shader</Filter>
+    </None>
+    <None Include="data\Shader\text.fs">
+      <Filter>Resources / Dependencies\data\Shader</Filter>
+    </None>
+    <None Include="data\Shader\text.vs">
+      <Filter>Resources / Dependencies\data\Shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

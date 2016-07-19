@@ -214,8 +214,14 @@
     <ClInclude Include="..\Source\Utility\Tools.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="data\Shader\button.frag" />
+    <None Include="data\Shader\button.vert" />
+    <None Include="data\Shader\cube.frag" />
+    <None Include="data\Shader\cube.vert" />
     <None Include="data\Shader\disk.frag" />
     <None Include="data\Shader\disk.vert" />
+    <None Include="data\Shader\text.fs" />
+    <None Include="data\Shader\text.vs" />
     <None Include="data\Sound\theme.ogg" />
     <None Include="glew32.dll" />
     <None Include="libFLAC-8.dll" />

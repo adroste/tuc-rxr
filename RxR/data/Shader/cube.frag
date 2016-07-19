@@ -1,7 +1,7 @@
-#version 330 core
+#version 330 
 
 uniform vec4 color;
-varying vec4 normal;
+in vec4 normal;
 
 void main()
 {

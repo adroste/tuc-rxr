@@ -14,7 +14,7 @@ public:
 		m_myButt.center();
 
 		m_myButt.registerMe(this);
-		Sound::playMusic(Sound::Music::Hey);
+		//Sound::playMusic(Sound::Music::Hey);
 	}
 	virtual ~StateMenu()
 	{}
