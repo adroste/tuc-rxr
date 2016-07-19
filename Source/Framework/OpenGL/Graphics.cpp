@@ -48,7 +48,7 @@ void Graphics::init(SDL_Window* wnd, PointI dim)
 
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LESS);
+	glDepthFunc(GL_LEQUAL);
 	glEnable(GL_CULL_FACE);
 	
 	glFrontFace(GL_CW);
@@ -127,7 +127,7 @@ void Graphics::resize(PointI dim)
 
 	Framework::setWindowSize(dim, { newWidth, newHeight }, scale);
 
-	m_projectMat = glm::perspective(fovY, aspect, 0.1f, DIST_TO_CAMERA * 2.0f);
+	m_projectMat = glm::perspective(fovY, aspect, DIST_TO_CAMERA / 2.0f, DIST_TO_CAMERA * 2.0f);
 
 	static const PointF midpoint(Framework::STD_DRAW_X / 2, Framework::STD_DRAW_Y / 2);
 	m_camMat = glm::lookAt(
