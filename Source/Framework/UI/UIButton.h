@@ -11,8 +11,9 @@ public:
 	void draw(Drawing& draw) override
 	{
 		static float border = 5.0f;
-		draw.rect(getRect(), Color::White());
-		draw.rect(getRect().shrink(border), m_isHover ? Color::Cyan() : Color::Black());
+		//draw.rect(getRect(), Color::White());
+		//draw.rect(getRect().shrink(border), m_isHover ? Color::Cyan() : Color::Black());
+		draw.button(getRect(), border);
 	}
 
 	virtual bool mouseMove(const PointF& mpos, bool handled) override

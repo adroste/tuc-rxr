@@ -155,6 +155,7 @@
     <ClCompile Include="..\Source\Framework\OpenGL\Geometry\MeshCube.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Graphics.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\Shader.cpp" />
+    <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderButton.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderCube.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderDisk.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\stb_image\stb_image.c" />
@@ -179,6 +180,7 @@
     <ClInclude Include="..\Source\Framework\OpenGL\Graphics.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\IDrawable.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\Shader.h" />
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderButton.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderCube.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderDisk.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\stb_image\stb_image.h" />
