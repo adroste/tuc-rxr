@@ -109,6 +109,12 @@
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderButton.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Framework\OpenGL\Shader\UniformBlock.cpp">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Framework\OpenGL\Shader\UniformBlockTransforms.cpp">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\Shader.h">
@@ -240,6 +246,12 @@
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderButton.h">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlock.h">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlockTransforms.h">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glew32.dll">
@@ -293,10 +305,10 @@
     <None Include="data\Shader\cube.vert">
       <Filter>Resources / Dependencies\data\Shader</Filter>
     </None>
-    <None Include="data\Shader\text.fs">
+    <None Include="data\Shader\text.frag">
       <Filter>Resources / Dependencies\data\Shader</Filter>
     </None>
-    <None Include="data\Shader\text.vs">
+    <None Include="data\Shader\text.vert">
       <Filter>Resources / Dependencies\data\Shader</Filter>
     </None>
   </ItemGroup>

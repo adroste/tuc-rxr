@@ -158,6 +158,8 @@
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderButton.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderCube.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderDisk.cpp" />
+    <ClCompile Include="..\Source\Framework\OpenGL\Shader\UniformBlock.cpp" />
+    <ClCompile Include="..\Source\Framework\OpenGL\Shader\UniformBlockTransforms.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\stb_image\stb_image.c" />
     <ClCompile Include="..\Source\Framework\OpenGL\Texture.cpp" />
     <ClCompile Include="..\Source\Framework\Sound\MusicFile.cpp" />
@@ -183,6 +185,8 @@
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderButton.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderCube.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderDisk.h" />
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlock.h" />
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlockTransforms.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\stb_image\stb_image.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Texture.h" />
     <ClInclude Include="..\Source\Framework\Sound\MusicFile.h" />
@@ -220,8 +224,8 @@
     <None Include="data\Shader\cube.vert" />
     <None Include="data\Shader\disk.frag" />
     <None Include="data\Shader\disk.vert" />
-    <None Include="data\Shader\text.fs" />
-    <None Include="data\Shader\text.vs" />
+    <None Include="data\Shader\text.frag" />
+    <None Include="data\Shader\text.vert" />
     <None Include="data\Sound\theme.ogg" />
     <None Include="glew32.dll" />
     <None Include="libFLAC-8.dll" />

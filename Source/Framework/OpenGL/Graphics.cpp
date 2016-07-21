@@ -83,9 +83,13 @@ void Graphics::beginFrame()
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadMatrixf(&m_projectMat[0][0]);
+	m_draw.setProjection(m_projectMat);
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixf(&m_camMat[0][0]);
+	m_draw.setCamera(m_camMat);
+
+	m_draw.setModel(glm::mat4(1.0f));
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

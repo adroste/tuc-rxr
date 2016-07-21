@@ -7,6 +7,8 @@
 
 class Shader : public GLObject
 {
+	friend class UniformBlock;
+
 	enum class Type
 	{
 		Vertex,

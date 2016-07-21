@@ -6,6 +6,7 @@
 #include "Shader/ShaderCube.h"
 #include "Shader/ShaderButton.h"
 #include "Font.h"
+#include "Shader/UniformBlockTransforms.h"
 
 class Drawing : public GLObject
 {
@@ -24,6 +25,11 @@ public:
 	// cubes
 	void coloredCube(const PointF& pos, float scalar, const Color& c);
 
+	// camera
+	void setCamera(const glm::mat4& mat);
+	void setProjection(const glm::mat4& mat);
+	void setModel(const glm::mat4& mat);
+
 	Font& getFont();
 private:
 	MeshCube m_meshCube;
@@ -31,4 +37,5 @@ private:
 	ShaderButton m_shButton;
 
 	Font m_fontText; // font for normal texts
+	UniformBlockTransforms m_trans;
 };

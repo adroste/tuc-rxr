@@ -2,6 +2,11 @@
 #include "../../glew/glew.h"
 #include "../../glm/gtc/matrix_transform.inl"
 
+Drawing::Drawing()
+	:
+	m_trans(m_shCube,"Transforms")
+{}
+
 void Drawing::rect(const RectF & r, const Color & c)
 {
 	glColor4f(c.r, c.g, c.b, c.a);
@@ -38,27 +43,36 @@ void Drawing::button(const RectF& r, float border)
 
 void Drawing::coloredCube(const PointF& pos, float scalar, const Color& c)
 {
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-
-	glTranslatef(pos.x, pos.y, 0.0f);
-	glScalef(scalar, scalar, scalar);
+	setModel( glm::translate(glm::vec3(pos.x, pos.y, 0.0f)) * glm::scale(glm::vec3(scalar, scalar, scalar)));
 
 	m_shCube.setColor(c);
 	m_shCube.bind();
 	m_meshCube.draw();
 	m_shCube.unbind();
+}
 
-	glPopMatrix();
+void Drawing::setCamera(const glm::mat4& mat)
+{
+	m_trans.setCamera(mat);
+	m_trans.flush();
+}
+
+void Drawing::setProjection(const glm::mat4& mat)
+{
+	m_trans.setProjection(mat);
+	m_trans.flush();
+}
+
+void Drawing::setModel(const glm::mat4& mat)
+{
+	m_trans.setModel(mat);
+	m_trans.flush();
 }
 
 Font& Drawing::getFont()
 {
 	return m_fontText;
 }
-
-Drawing::Drawing()
-{}
 
 void Drawing::create()
 {
@@ -67,6 +81,8 @@ void Drawing::create()
 	m_shButton.create();
 
 	m_fontText.create();
+
+	m_trans.create();
 }
 
 void Drawing::dispose()
@@ -76,6 +92,8 @@ void Drawing::dispose()
 	m_shButton.dispose();
 
 	m_fontText.dispose();
+
+	m_trans.dispose();
 }
 
 void Drawing::init(FT_Library ftlib)
