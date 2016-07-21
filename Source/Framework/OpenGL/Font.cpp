@@ -1,11 +1,8 @@
 #include "Font.h"
-#include <ft2build.h>
-#include FT_FREETYPE_H
 
 Font::Font()
 {
-	m_pMetrics = std::unique_ptr<FT_Glyph_Metrics[]>(new FT_Glyph_Metrics[m_nChars]);
-	memset(m_pMetrics.get(), 0, sizeof(FT_Glyph_Metrics) * m_nChars);
+	memset(m_metrics, 0, sizeof(FT_Glyph_Metrics) * m_nChars);
 }
 
 void Font::load(FT_LibraryRec_ * ft, const std::string & filename, float scalar)
@@ -47,7 +44,7 @@ void Font::load(FT_LibraryRec_ * ft, const std::string & filename, float scalar)
 	findMaxBearing(scalar);
 
 	// Shader
-	loadShader("data/Shader/text");
+	Shader::load("data/Shader/text");
 }
 
 void Font::create()
@@ -80,9 +77,6 @@ void Font::write(const std::string& txt, PointF pos) const
 	// bind shader
 	bind();
 
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -94,7 +88,7 @@ void Font::write(const std::string& txt, PointF pos) const
 		if (c < CHAR_START || c > CHAR_END)
 			continue;
 
-		const FT_Glyph_Metrics& m = m_pMetrics[c];
+		const FT_Glyph_Metrics& m = m_metrics[c];
 
 		// calculate position things
 		float bmpHeight = m.height * m_scaleFactor;
@@ -112,8 +106,8 @@ void Font::write(const std::string& txt, PointF pos) const
 		glBegin(GL_TRIANGLE_STRIP);
 		{
 			glVertex4f(pos.x + bearX, pos.y + offHeight, 0, 0);
-			glVertex4f(pos.x + bearX + bmpWidth, pos.y + offHeight, 1, 0);
 			glVertex4f(pos.x + bearX, pos.y + offHeight + bmpHeight, 0, 1);
+			glVertex4f(pos.x + bearX + bmpWidth, pos.y + offHeight, 1, 0);
 			glVertex4f(pos.x + bearX + bmpWidth, pos.y + offHeight + bmpHeight, 1, 1);
 		}
 		glEndSafe();
@@ -137,7 +131,7 @@ PointF Font::getDim(const char* txt) const
 	{
 		assert(*txt < m_nChars);
 		if(*txt < m_nChars)
-			width += m_pMetrics[*txt].horiAdvance;
+			width += m_metrics[*txt].horiAdvance;
 		txt++;
 	}
 	// return actual width + max font height (is better for positioning etc.)
@@ -188,10 +182,10 @@ void Font::findMaxBearing(float scalar)
 			continue;
 
 		// get Metrics
-		m_pMetrics[i] = m_face->glyph->metrics;
-		m_pMetrics[i].horiAdvance = m_face->glyph->advance.x;
-		m_maxBearing = std::max(m_maxBearing, int(m_pMetrics[i].horiBearingY));
-		maxDown = std::max(maxDown, int(m_pMetrics[i].height - m_pMetrics[i].horiBearingY));
+		m_metrics[i] = m_face->glyph->metrics;
+		m_metrics[i].horiAdvance = m_face->glyph->advance.x;
+		m_maxBearing = std::max(m_maxBearing, int(m_metrics[i].horiBearingY));
+		maxDown = std::max(maxDown, int(m_metrics[i].height - m_metrics[i].horiBearingY));
 	}
 
 	m_maxHeight = m_maxBearing + maxDown;

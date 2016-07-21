@@ -36,6 +36,9 @@ public:
 
 		draw.coloredCube(m_mpos, 15.0f, Color::Cyan());
 		draw.coloredCube(m_mpos + PointF(30.0f,0.0f), 15.0f, Color::Cyan());
+		
+		draw.getFont().setColor(Color::White());
+		draw.getFont().write("Sample", { 100,100 });
 	}
 	virtual bool mouseMove(const PointF& mpos, bool handled) override
 	{

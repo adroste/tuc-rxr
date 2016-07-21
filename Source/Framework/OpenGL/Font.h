@@ -3,6 +3,8 @@
 #include "../../Utility/Point.h"
 #include "../Color.h"
 #include <memory>
+#include <ft2build.h>
+#include FT_FREETYPE_H
 
 class Font : public Shader
 {
@@ -28,8 +30,8 @@ private:
 	static const int CHAR_START = 32;
 	static const int CHAR_END = 126;
 
-	struct FT_LibraryRec_*	m_ft = nullptr;
-	struct FT_FaceRec_*		m_face = nullptr;
+	FT_LibraryRec_*	m_ft = nullptr;
+	FT_FaceRec_*	m_face = nullptr;
 
 	GLint	m_uniLocColor = -1;
 	GLint	m_uniLocTexture = -1;
@@ -38,8 +40,8 @@ private:
 	GLuint	m_textureArray[CHAR_END - CHAR_START];
 
 	static const int m_nChars = 128;
-	std::unique_ptr<struct FT_Glyph_Metrics_[]> m_pMetrics;
-
+	FT_Glyph_Metrics m_metrics[m_nChars];
+			
 	float m_scaleFactor = 0.0f;
 	int m_maxBearing = 0;
 	int m_maxHeight = 0;

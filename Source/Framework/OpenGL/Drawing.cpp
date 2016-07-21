@@ -52,17 +52,21 @@ void Drawing::coloredCube(const PointF& pos, float scalar, const Color& c)
 	glPopMatrix();
 }
 
-Drawing::Drawing()
+Font& Drawing::getFont()
 {
-	m_shCube.load();
-	m_shButton.load();
+	return m_fontText;
 }
+
+Drawing::Drawing()
+{}
 
 void Drawing::create()
 {
 	m_meshCube.create();
 	m_shCube.create();
 	m_shButton.create();
+
+	m_fontText.create();
 }
 
 void Drawing::dispose()
@@ -70,4 +74,15 @@ void Drawing::dispose()
 	m_meshCube.dispose();
 	m_shCube.dispose();
 	m_shButton.dispose();
+
+	m_fontText.dispose();
+}
+
+void Drawing::init(FT_Library ftlib)
+{
+	m_shCube.load();
+	m_shButton.load();
+
+	// TODO set appropriate scalar
+	m_fontText.load(ftlib, "data/Font/Iron_Latch.ttf", 50.0f);
 }

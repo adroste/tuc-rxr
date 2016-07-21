@@ -41,6 +41,8 @@ void Graphics::init(SDL_Window* wnd, PointI dim)
 		if (FT_Init_FreeType(&m_ft))
 			throw Exception("Graphics::init freetype init failed");
 
+		m_draw.init(m_ft);
+
 		isGlewInit = true;
 	}
 
