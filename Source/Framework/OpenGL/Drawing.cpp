@@ -10,7 +10,7 @@ Drawing::Drawing()
 void Drawing::rect(const RectF & r, const Color & c)
 {
 	glColor4f(c.r, c.g, c.b, c.a);
-	//glRectf(r.x1, r.y1, r.x2, r.y2);
+
 	glBegin(GL_TRIANGLE_STRIP);
 	{
 		glVertex3f(r.x2, r.y1, 0.0f);
