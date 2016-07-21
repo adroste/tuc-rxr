@@ -105,6 +105,7 @@ void Font::write(const std::string& txt, PointF pos) const
 		glCheck("font::write before glBegin");
 		glBegin(GL_TRIANGLE_STRIP);
 		{
+			
 			glVertex4f(pos.x + bearX, pos.y + offHeight, 0, 0);
 			glVertex4f(pos.x + bearX, pos.y + offHeight + bmpHeight, 0, 1);
 			glVertex4f(pos.x + bearX + bmpWidth, pos.y + offHeight, 1, 0);

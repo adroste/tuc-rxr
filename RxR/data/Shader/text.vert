@@ -1,9 +1,18 @@
-#version 120
+#version 330 core
 
-varying vec2 texpos;
+uniform Transforms
+{
+	mat4 matProjection;
+	mat4 matCamera;
+	mat4 matModel;
+};
+
+in vec4 textInfo;
+
+out vec2 texpos;
 
 void main(void) 
 {
-	gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * vec4(gl_Vertex.xy, 0, 1);
-	texpos = gl_Vertex.zw;
+	gl_Position = matProjection * matCamera * vec4(textInfo.xy, 0, 1);
+	texpos = textInfo.zw;
 }
