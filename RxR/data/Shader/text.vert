@@ -1,11 +1,6 @@
 #version 330 core
 
-uniform Transforms
-{
-	mat4 matProjection;
-	mat4 matCamera;
-	mat4 matModel;
-};
+#include "unions/Transforms.glsl"
 
 in vec4 textInfo;
 

@@ -1,6 +1,7 @@
 #pragma once
 #include <algorithm>
 #include <assert.h>
+#include <string>
 
 namespace tool
 {
@@ -16,5 +17,23 @@ namespace tool
 		assert(scale >= TScalar(0.0));
 		assert(scale <= TScalar(1.0));
 		return val1 * scale + val2 * (TScalar(1.0) - scale);
+	}
+
+	inline void splitFilenameToPathFile(std::string* dstPath, std::string* dstFile, const std::string& full)
+	{
+		size_t split = full.find_last_of('/');
+		if (split == std::string::npos)
+			split = full.find_last_of('\\');
+
+		if (split != std::string::npos)
+		{
+			*dstPath = full.substr(0, split + 1);
+			*dstFile = full.substr(split + 1);
+		}
+		else
+		{
+			*dstPath = "";
+			*dstFile = full;
+		}
 	}
 }

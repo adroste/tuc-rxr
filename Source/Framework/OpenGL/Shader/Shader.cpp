@@ -3,6 +3,7 @@
 #include <assert.h>
 
 #include "../../../System/Log.h"
+#include "../../../Utility/Tools.h"
 
 static const char* EXTENSION_VERTEX = ".vert";
 static const char* EXTENSION_FRAGMENT = ".frag";
@@ -79,7 +80,7 @@ void Shader::load(const std::string& file)
 	m_isLoaded = true;
 }
 
-std::string Shader::loadShader(const std::string & fileName)
+std::string Shader::loadShader(const std::string& fileName)
 {
 	std::ifstream file;
 	file.open((fileName).c_str());
@@ -87,12 +88,48 @@ std::string Shader::loadShader(const std::string & fileName)
 	std::string output;
 	std::string line;
 
+	std::string path; // (data/Shader/) filepath only (for include directives)
+	std::string cleanName; // (myShader.vert) filename only 
+	tool::splitFilenameToPathFile(&path, &cleanName, fileName);
+
 	if (file.is_open())
 	{
+		size_t lineNumber = 0;
 		while (file.good())
 		{
 			getline(file, line);
-			output.append(line + "\n");
+			lineNumber++;
+
+			// check line for #include
+			size_t includeStart = line.find("#include");
+			size_t commentStart = std::string::npos;
+			if (includeStart != std::string::npos) // commented out?
+				commentStart = line.find("//");
+
+			if(includeStart != std::string::npos && includeStart < commentStart)
+			{
+				// we have an include
+				size_t parStart = line.find("\"", includeStart + strlen("#include"));
+				if (parStart == std::string::npos)
+					throw Exception("missing 1. \" for include in file " + fileName);
+
+				size_t parEnd = line.find('\"', parStart + 1);
+				if (parEnd == std::string::npos)
+					throw Exception("missing 2. \" for include in file " + fileName);
+
+				std::string includeFile = line.substr(parStart + 1, parEnd - parStart - 1);
+				includeFile = path + includeFile;
+
+				// parse this file
+				output += "#line 1";
+				output += loadShader(includeFile);
+				output += "#line " + std::to_string(lineNumber + 1);
+			}
+			else
+			{
+				// no include -> parse normal
+				output.append(line + "\n");
+			}
 		}
 	}
 	else
