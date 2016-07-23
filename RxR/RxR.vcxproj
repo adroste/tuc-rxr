@@ -151,6 +151,8 @@
     <ClCompile Include="..\Source\Framework\Framework.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Drawing.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Font.cpp" />
+    <ClCompile Include="..\Source\Framework\OpenGL\FramebufferObject.cpp" />
+    <ClCompile Include="..\Source\Framework\OpenGL\FramebufferObject.h" />
     <ClCompile Include="..\Source\Framework\OpenGL\Geometry\Mesh.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Geometry\MeshCube.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Graphics.cpp" />
@@ -224,8 +226,10 @@
     <None Include="data\Shader\cube.vert" />
     <None Include="data\Shader\disk.frag" />
     <None Include="data\Shader\disk.vert" />
+    <None Include="data\Shader\light\bump.glsl" />
     <None Include="data\Shader\text.frag" />
     <None Include="data\Shader\text.vert" />
+    <None Include="data\Shader\uniforms\Transforms.glsl" />
     <None Include="data\Sound\theme.ogg" />
     <None Include="glew32.dll" />
     <None Include="libFLAC-8.dll" />

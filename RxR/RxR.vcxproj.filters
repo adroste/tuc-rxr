@@ -50,6 +50,12 @@
     <Filter Include="Source\Framework\OpenGL\Geometry">
       <UniqueIdentifier>{ec5f0c76-30bd-44f3-87fe-53f110ae3f32}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources / Dependencies\data\Shader\light">
+      <UniqueIdentifier>{004643df-53cb-4520-b04c-13e60c1aa7af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources / Dependencies\data\Shader\uniforms">
+      <UniqueIdentifier>{6d8b6ac9-e3e1-421d-ad9c-5cebc8913978}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\Shader.cpp">
@@ -106,13 +112,19 @@
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderCube.cpp">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderButton.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\UniformBlock.cpp">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\UniformBlockTransforms.cpp">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Framework\OpenGL\FramebufferObject.cpp">
+      <Filter>Source\Framework\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Framework\OpenGL\FramebufferObject.h">
+      <Filter>Source\Framework\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderButton.cpp">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClCompile>
   </ItemGroup>
@@ -310,6 +322,12 @@
     </None>
     <None Include="data\Shader\text.vert">
       <Filter>Resources / Dependencies\data\Shader</Filter>
+    </None>
+    <None Include="data\Shader\light\bump.glsl">
+      <Filter>Resources / Dependencies\data\Shader\light</Filter>
+    </None>
+    <None Include="data\Shader\uniforms\Transforms.glsl">
+      <Filter>Resources / Dependencies\data\Shader\uniforms</Filter>
     </None>
   </ItemGroup>
 </Project>
