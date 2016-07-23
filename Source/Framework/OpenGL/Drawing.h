@@ -23,7 +23,7 @@ public:
 	void button(const RectF& r, float border);
 
 	// cubes
-	void coloredCube(const PointF& pos, float scalar, const Color& c);
+	void coloredCube(const PointF& pos, float scalar, const Color& c, float z = 0.0f);
 
 	// camera
 	void setCamera(const glm::mat4& mat);

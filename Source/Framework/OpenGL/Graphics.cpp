@@ -133,7 +133,7 @@ void Graphics::resize(PointI dim)
 
 	Framework::setWindowSize(dim, { newWidth, newHeight }, scale);
 
-	m_projectMat = glm::perspective(fovY, aspect, DIST_TO_CAMERA / 2.0f, DIST_TO_CAMERA * 2.0f);
+	m_projectMat = glm::perspective(fovY, aspect, DIST_TO_CAMERA / 1.5f, DIST_TO_CAMERA * 1.5f);
 
 	static const PointF midpoint(Framework::STD_DRAW_X / 2, Framework::STD_DRAW_Y / 2);
 	m_camMat = glm::lookAt(
