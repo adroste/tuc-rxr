@@ -30,12 +30,20 @@ public:
 	void setProjection(const glm::mat4& mat);
 	void setModel(const glm::mat4& mat);
 
-	Font& getFont();
+	Font& getFont(Font::Style style, Font::Size size);
+
 private:
 	MeshCube m_meshCube;
 	ShaderCube m_shCube;
 	ShaderButton m_shButton;
 
-	Font m_fontText; // font for normal texts
 	UniformBlockTransforms m_trans;
+
+	// fonts
+	Font m_fontHeadS;
+	Font m_fontHeadM;
+	Font m_fontHeadL;
+	Font m_fontTextS;
+	Font m_fontTextM;
+	Font m_fontTextL;
 };

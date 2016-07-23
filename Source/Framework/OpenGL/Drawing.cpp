@@ -69,9 +69,20 @@ void Drawing::setModel(const glm::mat4& mat)
 	m_trans.flush();
 }
 
-Font& Drawing::getFont()
+Font& Drawing::getFont(Font::Style style, Font::Size size)
 {
-	return m_fontText;
+	switch (size)
+	{
+	case Font::Size::S: 
+		return style == Font::Style::Headline ? m_fontHeadS : m_fontTextS;
+	case Font::Size::M:
+		return style == Font::Style::Headline ? m_fontHeadM : m_fontTextM;
+	case Font::Size::L:
+		return style == Font::Style::Headline ? m_fontHeadL : m_fontTextL;
+	default:
+		assert("Drawing::getFont invalid usage" == nullptr);
+		throw Exception("Drawing::getFont");
+	}
 }
 
 void Drawing::create()
@@ -80,7 +91,14 @@ void Drawing::create()
 	m_shCube.create();
 	m_shButton.create();
 
-	m_fontText.create();
+	// fonts
+	m_fontHeadS.create();
+	m_fontHeadM.create();
+	m_fontHeadL.create();
+	m_fontTextS.create();
+	m_fontTextM.create();
+	m_fontTextL.create();
+
 
 	m_trans.create();
 }
@@ -91,7 +109,13 @@ void Drawing::dispose()
 	m_shCube.dispose();
 	m_shButton.dispose();
 
-	m_fontText.dispose();
+	// fonts
+	m_fontHeadS.dispose();
+	m_fontHeadM.dispose();
+	m_fontHeadL.dispose();
+	m_fontTextS.dispose();
+	m_fontTextM.dispose();
+	m_fontTextL.dispose();
 
 	m_trans.dispose();
 }
@@ -101,6 +125,11 @@ void Drawing::init(FT_Library ftlib)
 	m_shCube.load();
 	m_shButton.load();
 
-	// TODO set appropriate scalar
-	m_fontText.load(ftlib, "data/Font/Iron_Latch.ttf", 50.0f);
+	// fonts
+	m_fontHeadS.load(ftlib, "data/Font/DevinneSwash.ttf", float(Font::Size::S));
+	m_fontHeadM.load(ftlib, "data/Font/DevinneSwash.ttf", float(Font::Size::M));
+	m_fontHeadL.load(ftlib, "data/Font/DevinneSwash.ttf", float(Font::Size::L));
+	m_fontTextS.load(ftlib, "data/Font/Domestic_Manners.ttf", float(Font::Size::S));
+	m_fontTextM.load(ftlib, "data/Font/Domestic_Manners.ttf", float(Font::Size::M));
+	m_fontTextL.load(ftlib, "data/Font/Domestic_Manners.ttf", float(Font::Size::L));
 }

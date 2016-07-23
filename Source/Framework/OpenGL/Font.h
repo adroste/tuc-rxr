@@ -9,6 +9,20 @@
 class Font : public Shader
 {
 public:
+	enum class Style
+	{
+		Headline,
+		Text
+	};
+
+	enum class Size
+	{
+		S = 30,
+		M = 50,
+		L = 70
+	};
+
+public:
 	Font();
 	virtual ~Font() {}
 
