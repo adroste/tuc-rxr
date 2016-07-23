@@ -1,6 +1,6 @@
 #include "Input.h"
 #include "../Framework/Framework.h"
-#include "../Framework/States/GameState.h"
+#include "../Framework/GameState.h"
 #include <list>
 
 static PointF m_mousePos;

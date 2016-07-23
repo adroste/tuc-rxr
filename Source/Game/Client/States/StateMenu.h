@@ -1,7 +1,7 @@
 #pragma once
-#include "GameState.h"
-#include "../UI/UIButton.h"
-#include "../Sound/Sound.h"
+#include "../../../Framework/GameState.h"
+#include "../../../Framework/Sound/Sound.h"
+#include "../../../Framework/UI/UIButton.h"
 
 class StateMenu : public GameState
 {

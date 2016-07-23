@@ -6,7 +6,7 @@
 #include "../SDL/SDL.h"
 #include "../Utility/Point.h"
 #include "OpenGL/Graphics.h"
-#include "States/GameState.h"
+#include "GameState.h"
 #include "../Utility/Thread.h"
 #include "../Utility/Condition.h"
 

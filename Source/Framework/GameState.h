@@ -1,6 +1,6 @@
 #pragma once
-#include "../../System/Input.h"
-#include "../OpenGL/Drawing.h"
+#include "../System/Input.h"
+#include "OpenGL/Drawing.h"
 #include <list>
 #include <memory>
 

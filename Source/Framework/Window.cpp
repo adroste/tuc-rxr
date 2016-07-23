@@ -5,7 +5,7 @@
 #include "../glm/gtx/transform.hpp"
 #include "OpenGL/Shader/ShaderDisk.h"
 #include "../System/Input.h"
-#include "States/StateMenu.h"
+#include "../Game/Client/States/StateMenu.h"
 #include "../Utility/Timer.h"
 #include "../System/System.h"
 #include <stack>

@@ -175,6 +175,7 @@
   <ItemGroup>
     <ClInclude Include="..\Source\Framework\Color.h" />
     <ClInclude Include="..\Source\Framework\Framework.h" />
+    <ClInclude Include="..\Source\Framework\GameState.h" />
     <ClInclude Include="..\Source\Framework\IMetrics.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Drawing.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Font.h" />
@@ -193,14 +194,13 @@
     <ClInclude Include="..\Source\Framework\OpenGL\Texture.h" />
     <ClInclude Include="..\Source\Framework\Sound\MusicFile.h" />
     <ClInclude Include="..\Source\Framework\Sound\Sound.h" />
-    <ClInclude Include="..\Source\Framework\States\GameState.h" />
-    <ClInclude Include="..\Source\Framework\States\StateMenu.h" />
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IClickable.h" />
     <ClInclude Include="..\Source\Framework\UI\Interfaces\ILableable.h" />
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IValueHolder.h" />
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IValueHolderSafe.h" />
     <ClInclude Include="..\Source\Framework\UI\UIButton.h" />
     <ClInclude Include="..\Source\Framework\Window.h" />
+    <ClInclude Include="..\Source\Game\Client\States\StateMenu.h" />
     <ClInclude Include="..\Source\System\Input.h" />
     <ClInclude Include="..\Source\System\Log.h" />
     <ClInclude Include="..\Source\System\System.h" />

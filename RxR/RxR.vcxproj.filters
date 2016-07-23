@@ -14,9 +14,6 @@
     <Filter Include="Source\Framework\OpenGL\Shader">
       <UniqueIdentifier>{6b2137c0-a733-4579-818b-7e1677c00405}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\States">
-      <UniqueIdentifier>{d28df353-9800-4f00-8f79-e066da66b630}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Utility">
       <UniqueIdentifier>{bb9dec47-4492-4b8f-84f9-9820493bc5a3}</UniqueIdentifier>
     </Filter>
@@ -55,6 +52,21 @@
     </Filter>
     <Filter Include="Resources / Dependencies\data\Shader\uniforms">
       <UniqueIdentifier>{6d8b6ac9-e3e1-421d-ad9c-5cebc8913978}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game">
+      <UniqueIdentifier>{4c9c9e10-17ab-4029-b35b-8fadc28a5b8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game\Client">
+      <UniqueIdentifier>{28b15ee5-9f0f-45d2-a60e-8791f9d06c21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game\Shared">
+      <UniqueIdentifier>{6eddfa8b-e204-4dce-b600-e97d07dad649}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game\Server">
+      <UniqueIdentifier>{19432183-b333-4407-aad7-efb7503c38c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game\Client\States">
+      <UniqueIdentifier>{878ca0de-7aca-4f2a-b6e3-f50076121510}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -140,12 +152,6 @@
     </ClInclude>
     <ClInclude Include="..\Source\Framework\OpenGL\Graphics.h">
       <Filter>Source\Framework\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Framework\States\GameState.h">
-      <Filter>Source\Framework\States</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Framework\States\StateMenu.h">
-      <Filter>Source\Framework\States</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Framework\Color.h">
       <Filter>Source\Framework</Filter>
@@ -263,6 +269,12 @@
     </ClInclude>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlockTransforms.h">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\GameState.h">
+      <Filter>Source\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Game\Client\States\StateMenu.h">
+      <Filter>Source\Game\Client\States</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
