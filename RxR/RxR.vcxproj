@@ -200,6 +200,7 @@
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IValueHolderSafe.h" />
     <ClInclude Include="..\Source\Framework\UI\UIButton.h" />
     <ClInclude Include="..\Source\Framework\Window.h" />
+    <ClInclude Include="..\Source\Game\Client\CubeDesc.h" />
     <ClInclude Include="..\Source\Game\Client\States\StateMenu.h" />
     <ClInclude Include="..\Source\System\Input.h" />
     <ClInclude Include="..\Source\System\Log.h" />

@@ -276,6 +276,9 @@
     <ClInclude Include="..\Source\Game\Client\States\StateMenu.h">
       <Filter>Source\Game\Client\States</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Game\Client\CubeDesc.h">
+      <Filter>Source\Game\Client</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glew32.dll">
