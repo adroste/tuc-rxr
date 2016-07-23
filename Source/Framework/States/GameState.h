@@ -101,11 +101,18 @@ public:
 	}
 	virtual bool mouseMove(const PointF& mpos, bool handled) override
 	{
-		// TODO ? handled ???
+		int curZ = -1;
+		bool prevHandled = handled;
+
 		for (auto r : m_receiver)
 		{
-			if (r->mouseMove(mpos, handled))
-				handled = true;
+			if(curZ != r->getZIndex())
+			{
+				prevHandled = handled;
+			}
+
+			bool nowHandled = r->mouseMove(mpos, prevHandled);
+			handled = nowHandled || handled;
 		}
 		return handled;
 	}
