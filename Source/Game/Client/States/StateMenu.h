@@ -9,7 +9,7 @@ public:
 	StateMenu()
 		:
 		GameState(GameState::TransitionState::ForcePreserve),
-		m_cube(CubeDesc(),{500.0f,500.0f,0.0f},15.0f)
+		m_cube(CubeDesc(Color::Red().toDWORD()),{500.0f,500.0f,0.0f},15.0f)
 	{
 		m_myButt.setDim({ 300, 100 });
 		m_myButt.center();
@@ -53,7 +53,7 @@ public:
 	{
 		handled = GameState::mouseMove(mpos, handled);
 
-		m_cube.setRot(m_cube.getRot() + glm::vec3(0.1f, 0.2f, 0.0f));
+		m_cube.setRot(m_cube.getRot() + glm::vec3(0.01f, 0.02f, 0.03f));
 
 		//m_mpos = mpos;
 		return handled;

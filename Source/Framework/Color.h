@@ -11,6 +11,24 @@ public:
 	Color(float r, float g, float b)
 		: Color(r, g, b, 1.0f)
 	{}
+
+	explicit Color(uint32_t dword)
+	{
+		b = (dword & 0xFF) / 255.0f;
+		g = ((dword & 0xFF00) >> 8) / 255.0f;
+		r = ((dword & 0xFF0000) >> 16) / 255.0f;
+		a = ((dword) >> 24) / 255.0f;
+	}
+	uint32_t toDWORD()
+	{
+		normalize();
+		uint32_t r = uint8_t(this->b * 255.0f);
+		r |= uint8_t(this->g * 255.0f) << 8;
+		r |= uint8_t(this->r * 255.0f) << 16;
+		r |= uint8_t(this->a * 255.0f) << 24;
+		return r;
+	}
+
 	Color()
 		: Color(0.0f, 0.0f, 0.0f, 1.0f)
 	{}

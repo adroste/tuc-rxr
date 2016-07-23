@@ -47,7 +47,7 @@ void Cube::draw(Drawing& draw)
 	Shader& shader = draw.getCubeShader(CubeShader::Default);
 	ShaderCube* shCube = dynamic_cast<ShaderCube*>(&shader);
 	assert(shCube);
-	shCube->setColor(Color::Cyan());
+	shCube->setColor(Color(m_desc.diffuse));
 	draw.shaderedCube(m_matTrans, shader);
 }
 #endif // _CLIENT
