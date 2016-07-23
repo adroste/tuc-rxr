@@ -41,6 +41,7 @@ void Window::init(const std::string & title, const PointI & dim)
 		dim.x, dim.y,
 		SDL_WindowFlags::SDL_WINDOW_OPENGL
 		| SDL_WindowFlags::SDL_WINDOW_RESIZABLE
+		| SDL_WindowFlags::SDL_WINDOW_ALLOW_HIGHDPI
 	);
 
 	if (!m_pWnd)
