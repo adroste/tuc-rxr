@@ -6,8 +6,12 @@
 class Texture : public GLObject
 {
 public:
-	virtual ~Texture()
-	{}
+	Texture();
+	Texture(GLuint texture, GLsizei width, GLsizei height);
+	Texture(Texture&& move);
+	Texture& operator=(Texture&& move);
+	
+	virtual ~Texture();
 	
 	virtual void load(const std::string& filename);
 	virtual void create() override;
@@ -17,6 +21,8 @@ public:
 
 	void bind(unsigned int id) const;
 	static void unbind();
+
+	void swap(Texture& o);
 private:
 	GLuint m_texIndex = 0;
 	int m_width = 0;

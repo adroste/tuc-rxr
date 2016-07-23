@@ -6,6 +6,34 @@
 #include "../../Utility/Exception.h"
 #include "../../Utility/GL_Exception.h"
 
+Texture::Texture()
+{
+}
+
+Texture::Texture(GLuint texture, GLsizei width, GLsizei height)
+	:
+	m_texIndex(texture),
+	m_width(width),
+	m_height(height)
+{
+}
+
+Texture::Texture(Texture&& move)
+{
+	swap(move);
+}
+
+Texture& Texture::operator=(Texture&& move)
+{
+	swap(move);
+	return *this;
+}
+
+Texture::~Texture()
+{
+	dispose();
+}
+
 void Texture::load(const std::string & filename)
 {
 	int numComponents;
@@ -76,4 +104,12 @@ void Texture::bind(unsigned int id) const
 void Texture::unbind()
 {
 	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void Texture::swap(Texture& o)
+{
+	std::swap(m_width, o.m_width);
+	std::swap(m_height, o.m_height);
+	std::swap(m_texIndex, o.m_texIndex);
+	std::swap(m_pRawData, o.m_pRawData);
 }
