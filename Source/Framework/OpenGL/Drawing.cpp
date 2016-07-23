@@ -52,6 +52,15 @@ void Drawing::coloredCube(const PointF& pos, float scalar, const Color& c, float
 	m_shCube.unbind();
 }
 
+void Drawing::shaderedCube(const glm::mat4& mat, Shader& shader)
+{
+	setModel(mat);
+
+	shader.bind();
+	m_meshCube.draw();
+	shader.unbind();
+}
+
 void Drawing::setCamera(const glm::mat4& mat)
 {
 	m_trans.setCamera(mat);
@@ -84,6 +93,19 @@ Font& Drawing::getFont(Font::Style style, Font::Size size)
 		assert("Drawing::getFont invalid usage" == nullptr);
 		throw Exception("Drawing::getFont");
 	}
+}
+
+Shader& Drawing::getCubeShader(CubeShader s)
+{
+	switch (s)
+	{
+	case CubeShader::Default:
+		return m_shCube;
+	default:
+		assert("Drawing::getCubeShader invalid usage" == nullptr);
+		throw Exception("Drawing::getCubeShader");
+	}
+
 }
 
 void Drawing::create()

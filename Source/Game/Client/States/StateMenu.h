@@ -8,7 +8,8 @@ class StateMenu : public GameState
 public:
 	StateMenu()
 		:
-		GameState(GameState::TransitionState::ForcePreserve)
+		GameState(GameState::TransitionState::ForcePreserve),
+		m_cube(CubeDesc(),{500.0f,500.0f,0.0f},15.0f)
 	{
 		m_myButt.setDim({ 300, 100 });
 		m_myButt.center();
@@ -36,19 +37,23 @@ public:
 
 		//draw.rect(RectF::constructFromPoint(m_mpos, 10.0f), Color::Red());
 
-		draw.coloredCube(m_mpos, 15.0f, Color::Cyan());
+		/*draw.coloredCube(m_mpos, 15.0f, Color::Cyan());
 		draw.coloredCube(m_mpos, 15.0f, Color::Cyan(), 30.0f);
 		draw.coloredCube(m_mpos, 15.0f, Color::Cyan(), -30.0f);
 		draw.coloredCube(m_mpos, 15.0f, Color::Cyan(), 60.0f);
 
-		draw.coloredCube(m_mpos + PointF(30.0f,0.0f), 15.0f, Color::Cyan());
+		draw.coloredCube(m_mpos + PointF(30.0f,0.0f), 15.0f, Color::Cyan());*/
 		
+		m_cube.draw(draw);
+
 		draw.getFont(Font::Style::Text, Font::Size::L).setColor(Color::White());
 		draw.getFont(Font::Style::Text, Font::Size::L).write("Sample", { 100,100 });
 	}
 	virtual bool mouseMove(const PointF& mpos, bool handled) override
 	{
 		handled = GameState::mouseMove(mpos, handled);
+
+		m_cube.setRot(m_cube.getRot() + glm::vec3(0.1f, 0.2f, 0.0f));
 
 		//m_mpos = mpos;
 		return handled;
@@ -73,9 +78,13 @@ public:
 				break;
 		}
 
+		m_cube.setPos({ m_mpos.x,m_mpos.y, 0.0f });
+
 		return h;
 	}
 private:
 	PointI m_mpos;
 	UIButton m_myButt;
+
+	Cube m_cube;
 };

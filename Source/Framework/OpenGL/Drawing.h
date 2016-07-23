@@ -7,6 +7,7 @@
 #include "Shader/ShaderButton.h"
 #include "Font.h"
 #include "Shader/UniformBlockTransforms.h"
+#include "../../Game/Shared/Cube.h"
 
 class Drawing : public GLObject
 {
@@ -24,6 +25,7 @@ public:
 
 	// cubes
 	void coloredCube(const PointF& pos, float scalar, const Color& c, float z = 0.0f);
+	void shaderedCube(const glm::mat4& mat, Shader& shader);
 
 	// camera
 	void setCamera(const glm::mat4& mat);
@@ -31,7 +33,7 @@ public:
 	void setModel(const glm::mat4& mat);
 
 	Font& getFont(Font::Style style, Font::Size size);
-
+	Shader& getCubeShader(CubeShader s);
 private:
 	MeshCube m_meshCube;
 	ShaderCube m_shCube;

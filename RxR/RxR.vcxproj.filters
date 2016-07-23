@@ -139,6 +139,9 @@
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderButton.cpp">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Game\Shared\Cube.cpp">
+      <Filter>Source\Game\Shared</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\Shader.h">
@@ -276,8 +279,11 @@
     <ClInclude Include="..\Source\Game\Client\States\StateMenu.h">
       <Filter>Source\Game\Client\States</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Game\Client\CubeDesc.h">
-      <Filter>Source\Game\Client</Filter>
+    <ClInclude Include="..\Source\Game\Shared\Cube.h">
+      <Filter>Source\Game\Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Game\Shared\CubeDesc.h">
+      <Filter>Source\Game\Shared</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
