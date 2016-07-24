@@ -2,14 +2,14 @@
 #include <memory>
 #include "Map.h"
 
-class Game
+class Game : public IDrawable
 {
 public:
 	Game();
 	virtual ~Game();
 
 #ifdef _CLIENT
-	void draw(Drawing& draw);
+	virtual void draw(Drawing& draw) override;
 #endif // _CLIENT
 
 private:

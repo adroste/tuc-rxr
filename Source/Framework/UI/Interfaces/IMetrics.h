@@ -1,6 +1,6 @@
 #pragma once
 #include "../Utility/Rect.h"
-#include "Framework.h"
+#include "../../Framework.h"
 
 class IMetrics
 {

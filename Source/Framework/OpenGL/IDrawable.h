@@ -1,11 +1,14 @@
 #pragma once
-#include "../IMetrics.h"
+#ifdef _CLIENT
 #include "Drawing.h"
+#endif // _CLIENT
 
-class IDrawable : public IMetrics
+class IDrawable
 {
+#ifdef _CLIENT
 public:
 	virtual ~IDrawable() {}
 
 	virtual void draw(Drawing& draw) = 0;
+#endif // _CLIENT
 };

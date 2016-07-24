@@ -1,9 +1,11 @@
 #pragma once
 #include "../OpenGL/IDrawable.h"
+#include "Interfaces/IMetrics.h"
 #include "../../System/Input.h"
 #include "Interfaces/IClickable.h"
 
-class UIButton : public IDrawable, public Input::IReceiver, public IClickable
+
+class UIButton : public IDrawable, public IMetrics, public Input::IReceiver, public IClickable
 {
 public:
 	virtual ~UIButton() {}

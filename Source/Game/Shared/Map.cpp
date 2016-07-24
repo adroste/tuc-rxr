@@ -1,5 +1,6 @@
 #include "Map.h"
 #include <assert.h>
+#include "../../System/Exceptions/Exception.h"
 
 
 Map::Map(size_t width, size_t height, size_t depth)

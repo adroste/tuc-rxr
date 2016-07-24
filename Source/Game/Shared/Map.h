@@ -2,7 +2,7 @@
 #include "Cube.h"
 #include "../../Utility/Point3.h"
 
-class Map
+class Map : public IDrawable
 {
 public:
 	Map(size_t width, size_t height, size_t depth = 4);
@@ -12,7 +12,7 @@ public:
 	void setCube(Cube* cube, bool overwrite = false);
 
 #ifdef _CLIENT
-	void draw(Drawing& draw);
+	virtual void draw(Drawing& draw) override;
 #endif // _CLIENT
 
 	Point3S getDim() const;

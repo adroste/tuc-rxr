@@ -210,9 +210,6 @@
     <ClInclude Include="..\Source\Framework\OpenGL\IDrawable.h">
       <Filter>Source\Framework\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Framework\IMetrics.h">
-      <Filter>Source\Framework</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Framework\OpenGL\Drawing.h">
       <Filter>Source\Framework\OpenGL</Filter>
     </ClInclude>
@@ -317,6 +314,9 @@
     </ClInclude>
     <ClInclude Include="..\Source\Utility\Point3.h">
       <Filter>Source\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\Interfaces\IMetrics.h">
+      <Filter>Source\Framework\UI\Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

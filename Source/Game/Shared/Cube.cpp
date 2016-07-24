@@ -1,4 +1,6 @@
 #include "Cube.h"
+#include "../../Framework/OpenGL/Shader/Shader.h"
+#include "../../Framework/OpenGL/Shader/ShaderCube.h"
 
 Cube::Cube(const CubeDesc & desc, const glm::vec3 & pos, float scalar)
 	:

@@ -7,7 +7,7 @@
 #include "Shader/ShaderButton.h"
 #include "Font.h"
 #include "Shader/UniformBlockTransforms.h"
-#include "../../Game/Shared/Cube.h"
+#include "../../Game/Shared/CubeDesc.h"
 
 class Drawing : public GLObject
 {

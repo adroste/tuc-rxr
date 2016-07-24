@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "../../Framework/Color.h"
 
 Game::Game()
 {
