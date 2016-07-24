@@ -1,20 +1,22 @@
 #include "Font.h"
+#include "../../System/Exceptions/ExceptionMissingFile.h"
+#include "../../System/Exceptions/ExceptionInvalidFile.h"
 
 Font::Font()
 {
 	memset(m_metrics, 0, sizeof(FT_Glyph_Metrics) * m_nChars);
 }
 
-void Font::load(FT_LibraryRec_ * ft, const std::string & filename, float scalar)
+void Font::load(FT_LibraryRec_ * ft, const std::string & fileName, float scalar)
 {
 	m_ft = ft;
 	long filesize = 0;
 
 	// read data from file
 	{
-		FILE* pFile = fopen(filename.c_str(), "rb");
+		FILE* pFile = fopen(fileName.c_str(), "rb");
 		if (!pFile)
-			throw Exception("Font::load missing file: " + filename);
+			throw ExceptionMissingFile("Font::load", fileName);
 
 		// obtain file size:
 		fseek(pFile, 0, SEEK_END);
@@ -27,7 +29,7 @@ void Font::load(FT_LibraryRec_ * ft, const std::string & filename, float scalar)
 		fclose(pFile);
 		
 		if (count != filesize)
-			throw Exception("Font::load could not read all bytes from: " + filename);
+			throw ExceptionInvalidFile("Font::load could not read all bytes", fileName);
 	}
 
 	// create new memory face
@@ -35,7 +37,7 @@ void Font::load(FT_LibraryRec_ * ft, const std::string & filename, float scalar)
 		reinterpret_cast<FT_Byte*>(m_rawData.get()), filesize,
 		0, &m_face);
 	if (fterr)
-		throw Exception("Font::load invalid font file: " + filename);
+		throw ExceptionInvalidFile("Font::load", fileName);
 
 	// TODO think about it
 	// setting texture size int pixel

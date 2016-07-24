@@ -5,6 +5,7 @@
 #include "stb_image/stb_image.h"
 #include "../../System/Exceptions/Exception.h"
 #include "../../System/Exceptions/GL_Exception.h"
+#include "../../System/Exceptions/ExceptionMissingFile.h"
 
 Texture::Texture()
 {
@@ -34,16 +35,15 @@ Texture::~Texture()
 	Texture::dispose();
 }
 
-void Texture::load(const std::string & filename)
+void Texture::load(const std::string & fileName)
 {
 	int numComponents;
 	char* data = reinterpret_cast<char*>(
-		stbi_load(filename.c_str(),
+		stbi_load(fileName.c_str(),
 	    &m_width, &m_height, &numComponents, 4));
 
-	// TODO replace with proper exception
 	if (!data)
-		throw Exception("Texture::load missing: " + filename);
+		throw ExceptionMissingFile("Texture::load", fileName);
 
 	// copy data
 	m_pRawData = std::unique_ptr<char[]>(new char[m_width * m_height * 4]);

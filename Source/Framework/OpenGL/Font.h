@@ -26,7 +26,7 @@ public:
 	Font();
 	virtual ~Font() {}
 
-	void load(struct FT_LibraryRec_* ft, const std::string& filename, float scalar);
+	void load(struct FT_LibraryRec_* ft, const std::string& fileName, float scalar);
 	virtual void create() override;
 	virtual void dispose() override;
 

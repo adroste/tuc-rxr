@@ -216,6 +216,7 @@
     <ClInclude Include="..\Source\Game\Shared\Game.h" />
     <ClInclude Include="..\Source\Game\Shared\Map.h" />
     <ClInclude Include="..\Source\System\Exceptions\Exception.h" />
+    <ClInclude Include="..\Source\System\Exceptions\ExceptionMissingFile.h" />
     <ClInclude Include="..\Source\System\Exceptions\GLEW_Exception.h" />
     <ClInclude Include="..\Source\System\Exceptions\GL_Exception.h" />
     <ClInclude Include="..\Source\System\Exceptions\MIX_Exception.h" />

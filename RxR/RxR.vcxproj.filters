@@ -309,6 +309,9 @@
     <ClInclude Include="..\Source\System\Exceptions\SDL_Exception.h">
       <Filter>Source\System\Exceptions</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\System\Exceptions\ExceptionMissingFile.h">
+      <Filter>Source\System\Exceptions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glew32.dll">

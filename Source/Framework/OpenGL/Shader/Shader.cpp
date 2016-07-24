@@ -4,6 +4,7 @@
 
 #include "../../../System/Log.h"
 #include "../../../Utility/Tools.h"
+#include "../../../System/Exceptions/ExceptionMissingFile.h"
 
 static const char* EXTENSION_VERTEX = ".vert";
 static const char* EXTENSION_FRAGMENT = ".frag";
@@ -134,9 +135,7 @@ std::string Shader::loadShader(const std::string& fileName)
 	}
 	else
 	{
-		// TODO replace
-		//throw ExMissingFile(fileName);
-		throw Exception("Shader::loadShader missing file: " + fileName);
+		throw ExceptionMissingFile("Shader::loadShader", fileName);
 	}
 
 	return output;

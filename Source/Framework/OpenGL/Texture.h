@@ -13,7 +13,7 @@ public:
 	
 	virtual ~Texture();
 	
-	virtual void load(const std::string& filename);
+	virtual void load(const std::string& fileName);
 	virtual void create() override;
 	virtual void dispose() override;
 	int getWidth() const;
