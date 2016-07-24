@@ -312,6 +312,12 @@
     <ClInclude Include="..\Source\System\Exceptions\ExceptionMissingFile.h">
       <Filter>Source\System\Exceptions</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\System\Exceptions\ExceptionInvalidFile.h">
+      <Filter>Source\System\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Utility\Point3.h">
+      <Filter>Source\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glew32.dll">
