@@ -81,13 +81,7 @@ void Graphics::beginFrame()
 	if (m_needsResize)
 		doResize();
 
-	glMatrixMode(GL_PROJECTION);
-	glLoadMatrixf(&m_projectMat[0][0]);
-	m_draw.setProjection(m_projectMat);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(&m_camMat[0][0]);
-	m_draw.setCamera(m_camMat);
+	m_draw.getUiCam().apply(m_draw);
 
 	m_draw.setModel(glm::mat4(1.0f));
 
@@ -107,7 +101,6 @@ void Graphics::resize(PointI dim)
 {
 	m_wndSize = dim;
 
-	// set projection
 	float scaleX = float(dim.x) / float(Framework::STD_DRAW_X);
 	float scaleY = float(dim.y) / float(Framework::STD_DRAW_Y);
 
@@ -127,19 +120,7 @@ void Graphics::resize(PointI dim)
 	float newWidth = float(Framework::STD_DRAW_X) * scaleX;
 	float newHeight = float(Framework::STD_DRAW_Y) * scaleY;
 
-	static const float DIST_TO_CAMERA = 1000.0f;
-	float aspect = newWidth / newHeight;
-	float fovY = 2 * atanf(float(newHeight / 2) / DIST_TO_CAMERA);
-
 	Framework::setWindowSize(dim, { newWidth, newHeight }, scale);
-
-	m_projectMat = glm::perspective(fovY, aspect, DIST_TO_CAMERA / 1.5f, DIST_TO_CAMERA * 1.5f);
-
-	static const PointF midpoint(Framework::STD_DRAW_X / 2, Framework::STD_DRAW_Y / 2);
-	m_camMat = glm::lookAt(
-		glm::vec3(midpoint.x, midpoint.y, -DIST_TO_CAMERA), // camera pos
-		glm::vec3(midpoint.x, midpoint.y, 0.0f), // point to look at (z)
-		glm::vec3(0.0f, -1.0f, 0.0f)); // up vector (-1.0f, because opengl is mirrored horizontally)
 
 	m_needsResize = true;
 	Log::info("Graphics::resize");
@@ -154,6 +135,7 @@ void Graphics::doResize()
 {
 	Log::info("Graphics::doResize");
 	glViewport(0, 0, GLsizei(m_wndSize.x), GLsizei(m_wndSize.y));
+	m_draw.getUiCam().setHeight(Framework::getCamDim().y);
 	m_needsResize = false;
 	glCheck("Graphics::doResize");
 }

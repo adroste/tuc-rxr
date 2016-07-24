@@ -1,6 +1,6 @@
 #include "Framework.h"
 
-static PointI m_clientDim;
+static PointI m_clientDim = PointI(Framework::STD_DRAW_X, Framework::STD_DRAW_Y);
 static PointF m_camDim; // size + borders
 static float m_scale;
 
@@ -25,4 +25,9 @@ void Framework::setWindowSize(const PointI& clientDim, const PointI& camDim, flo
 float Framework::getAspect()
 {
 	return float(m_clientDim.x) / float(m_clientDim.y);
+}
+
+PointF Framework::getCamDim()
+{
+	return m_camDim;
 }

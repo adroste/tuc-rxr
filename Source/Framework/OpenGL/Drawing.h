@@ -8,6 +8,7 @@
 #include "Font.h"
 #include "Shader/UniformBlockTransforms.h"
 #include "../../Game/Shared/CubeDesc.h"
+#include "Camera.h"
 
 class Drawing : public GLObject
 {
@@ -34,7 +35,12 @@ public:
 
 	Font& getFont(Font::Style style, Font::Size size);
 	Shader& getCubeShader(CubeShader s);
+
+	Camera& getUiCam();
+
 private:
+	Camera m_uiCam;
+
 	MeshCube m_meshCube;
 	ShaderCube m_shCube;
 	ShaderButton m_shButton;

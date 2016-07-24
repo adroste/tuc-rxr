@@ -18,10 +18,10 @@ Game::Game()
 			}
 		}
 
-		//for (size_t z = 1; z < dim.depth; ++z)
-		//{
-		//	m_pMap->setCube(new Cube(CubeDesc(Color::Green().toDWORD()), glm::vec3(x, 9, z)));
-		//}
+		for (size_t z = 1; z < dim.depth; ++z)
+		{
+			m_pMap->setCube(new Cube(CubeDesc(Color::Green().toDWORD()), glm::vec3(x, 9, z)));
+		}
 	}
 
 #ifdef _CLIENT

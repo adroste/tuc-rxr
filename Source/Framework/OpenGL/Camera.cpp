@@ -2,6 +2,7 @@
 
 #include <math.h>
 #include "../Framework.h"
+#include "Drawing.h"
 
 Camera::Camera(const PointF & lookAt, float height, float dist)
 	:
@@ -22,6 +23,12 @@ void Camera::apply(Drawing& draw) const
 {
 	draw.setProjection(m_matProject);
 	draw.setCamera(m_matCam);
+
+	// TODO compatibilty reasons
+	glMatrixMode(GL_PROJECTION);
+	glLoadMatrixf(&m_matProject[0][0]);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadMatrixf(&m_matCam[0][0]);
 }
 
 void Camera::recalcProject()
@@ -46,5 +53,28 @@ const PointF& Camera::getLookAt() const
 void Camera::setLookAt(const PointF& lookAt)
 {
 	m_lookAt = lookAt;
+	recalcCam();
+}
+
+float Camera::getHeight() const
+{
+	return m_height;
+}
+
+void Camera::setHeight(const float height)
+{
+	m_height = height;
+	recalcProject();
+}
+
+float Camera::getDist() const
+{
+	return m_dist;
+}
+
+void Camera::setDist(const float dist)
+{
+	m_dist = dist;
+	recalcProject();
 	recalcCam();
 }

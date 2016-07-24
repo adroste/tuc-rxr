@@ -1,9 +1,11 @@
 #include "Drawing.h"
 #include "../../glew/glew.h"
 #include "../../glm/gtc/matrix_transform.inl"
+#include "../Framework.h"
 
 Drawing::Drawing()
 	:
+	m_uiCam({ Framework::STD_DRAW_X / 2, Framework::STD_DRAW_Y / 2 }, 1.0f, 1000.0f),
 	m_trans(m_shCube,"Transforms")
 {}
 
@@ -106,6 +108,11 @@ Shader& Drawing::getCubeShader(CubeShader s)
 		throw Exception("Drawing::getCubeShader");
 	}
 
+}
+
+Camera& Drawing::getUiCam()
+{
+	return m_uiCam;
 }
 
 void Drawing::create()

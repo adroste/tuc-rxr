@@ -1,7 +1,6 @@
 #pragma once
 #include "../../glm/gtx/transform.hpp"
 #include "../../Utility/Point.h"
-#include "Drawing.h"
 
 class Camera
 {
@@ -9,10 +8,16 @@ public:
 	Camera(const PointF& lookAt, float height, float dist);
 	virtual ~Camera();
 
-	void apply(Drawing& draw) const;
+	void apply(class Drawing& draw) const;
 
 	const PointF& getLookAt() const;
 	void setLookAt(const PointF& lookAt);
+
+
+	float getHeight() const;
+	void setHeight(const float height);
+	float getDist() const;
+	void setDist(const float dist);
 
 private:
 	void recalcProject();
