@@ -2,7 +2,7 @@
 
 #include "../../SDL/SDL.h"
 #include "../../SDL/SDL_mixer.h"
-#include "../../Utility/MIX_Exception.h"
+#include "../../System/Exceptions/MIX_Exception.h"
 #include "../../System/Log.h"
 #include "MusicFile.h"
 #include <vector>

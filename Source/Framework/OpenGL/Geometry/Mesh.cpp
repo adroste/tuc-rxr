@@ -1,5 +1,5 @@
 #include "Mesh.h"
-#include "../../../Utility/GL_Exception.h"
+#include "../../../System/Exceptions/GL_Exception.h"
 
 Mesh::Mesh(const Vertex * pVertex, size_t nVertices, const unsigned int * pIndices, size_t nIndices)
 {

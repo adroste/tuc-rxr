@@ -2,9 +2,9 @@
 #include "../Framework.h"
 #include "../../System/Log.h"
 #include "../../glew/glew.h"
-#include "../../Utility/GLEW_Exception.h"
-#include "../../Utility/GL_Exception.h"
-#include "../../Utility/SDL_Exception.h"
+#include "../../System/Exceptions/GLEW_Exception.h"
+#include "../../System/Exceptions/GL_Exception.h"
+#include "../../System/Exceptions/SDL_Exception.h"
 #include <ft2build.h>
 #include FT_FREETYPE_H
 

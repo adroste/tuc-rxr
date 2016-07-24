@@ -2,10 +2,10 @@
 #include "../SDL/SDL.h"
 #include "../SDL/SDL_thread.h"
 #include <exception>
-#include "SDL_Exception.h"
+#include "../System/Exceptions/SDL_Exception.h"
 #include <assert.h>
 #include "../System/System.h"
-#include "Exception.h"
+#include "../System/Exceptions/Exception.h"
 
 class Thread
 {

@@ -3,8 +3,8 @@
 #include <assert.h>
 
 #include "stb_image/stb_image.h"
-#include "../../Utility/Exception.h"
-#include "../../Utility/GL_Exception.h"
+#include "../../System/Exceptions/Exception.h"
+#include "../../System/Exceptions/GL_Exception.h"
 
 Texture::Texture()
 {

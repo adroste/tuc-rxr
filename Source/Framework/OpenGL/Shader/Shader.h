@@ -3,7 +3,7 @@
 
 #include "../GLObject.h"
 #include "../../../glew/glew.h"
-#include "../../../Utility/GL_Exception.h"
+#include "../../../System/Exceptions/GL_Exception.h"
 
 class Shader : public GLObject
 {

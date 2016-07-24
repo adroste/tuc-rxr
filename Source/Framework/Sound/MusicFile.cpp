@@ -1,5 +1,5 @@
 #include "MusicFile.h"
-#include "../../Utility/MIX_Exception.h"
+#include "../../System/Exceptions/MIX_Exception.h"
 #include <assert.h>
 
 MusicFile::MusicFile(const std::string & filename, float vol)

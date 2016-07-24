@@ -1,6 +1,6 @@
 #pragma once
 #include "../SDL/SDL_mutex.h"
-#include "SDL_Exception.h"
+#include "../System/Exceptions/SDL_Exception.h"
 
 class Mutex final
 {

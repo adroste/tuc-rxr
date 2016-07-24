@@ -1,6 +1,6 @@
 #include "FramebufferObject.h"
 #include <assert.h>
-#include "../../Utility/GL_Exception.h"
+#include "../../System/Exceptions/GL_Exception.h"
 
 FramebufferObject::FramebufferObject(GLsizei width, GLsizei height, bool hasDepth)
 	:

@@ -3,7 +3,7 @@
 #include <assert.h>
 #include "../SDL/SDL.h"
 #include "../SDL/SDL_mutex.h"
-#include "SDL_Exception.h"
+#include "../System/Exceptions/SDL_Exception.h"
 #include "../System/Log.h"
 #include "Mutex.h"
 

@@ -2,7 +2,7 @@
 #include <string>
 #include <time.h>
 
-#include "../Utility/SDL_Exception.h"
+#include "../System/Exceptions/SDL_Exception.h"
 #include "Log.h"
 #include "../SDL/SDL.h"
 

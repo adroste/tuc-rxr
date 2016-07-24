@@ -71,6 +71,9 @@
     <Filter Include="Resources / Dependencies\data\Font">
       <UniqueIdentifier>{ae35859c-f929-40d7-b536-91413fac755c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\System\Exceptions">
+      <UniqueIdentifier>{ac887b3f-a08e-4c4b-b747-8bceb16a48cd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\Shader.cpp">
@@ -189,15 +192,6 @@
     <ClInclude Include="..\Source\Utility\Date.h">
       <Filter>Source\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Utility\Exception.h">
-      <Filter>Source\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Utility\GL_Exception.h">
-      <Filter>Source\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Utility\GLEW_Exception.h">
-      <Filter>Source\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Utility\Mutex.h">
       <Filter>Source\Utility</Filter>
     </ClInclude>
@@ -205,9 +199,6 @@
       <Filter>Source\Utility</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Utility\Rect.h">
-      <Filter>Source\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Utility\SDL_Exception.h">
       <Filter>Source\Utility</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Utility\Thread.h">
@@ -254,9 +245,6 @@
     </ClInclude>
     <ClInclude Include="..\Source\Framework\Sound\MusicFile.h">
       <Filter>Source\Framework\Sound</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Utility\MIX_Exception.h">
-      <Filter>Source\Utility</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Utility\Condition.h">
       <Filter>Source\Utility</Filter>
@@ -305,6 +293,21 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Resources / Dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\System\Exceptions\Exception.h">
+      <Filter>Source\System\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\System\Exceptions\GL_Exception.h">
+      <Filter>Source\System\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\System\Exceptions\GLEW_Exception.h">
+      <Filter>Source\System\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\System\Exceptions\MIX_Exception.h">
+      <Filter>Source\System\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\System\Exceptions\SDL_Exception.h">
+      <Filter>Source\System\Exceptions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

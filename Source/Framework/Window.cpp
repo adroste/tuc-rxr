@@ -1,7 +1,7 @@
 #include "Window.h"
 
 #include "../System/Log.h"
-#include "../Utility/SDL_Exception.h"
+#include "../System/Exceptions/SDL_Exception.h"
 #include "../glm/gtx/transform.hpp"
 #include "OpenGL/Shader/ShaderDisk.h"
 #include "../System/Input.h"
