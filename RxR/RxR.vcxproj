@@ -155,6 +155,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Framework\Framework.cpp" />
+    <ClCompile Include="..\Source\Framework\OpenGL\Camera.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Drawing.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Font.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\FramebufferObject.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="..\Source\Framework\Color.h" />
     <ClInclude Include="..\Source\Framework\Framework.h" />
     <ClInclude Include="..\Source\Framework\GameState.h" />
+    <ClInclude Include="..\Source\Framework\OpenGL\Camera.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Drawing.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Font.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Geometry\Mesh.h" />

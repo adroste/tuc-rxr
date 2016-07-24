@@ -5,7 +5,7 @@ in vec4 normal;
 
 void main()
 {
-	vec3 lightvec = normalize( vec3(0.0,-1.0,-0.3) );
+	vec3 lightvec = normalize( vec3(0.0,-1.0,-0.7) );
 	vec3 n = normalize(normal.xyz);
 	float theta = dot( reflect( lightvec, n) , n);
 

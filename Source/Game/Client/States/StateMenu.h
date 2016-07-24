@@ -10,7 +10,7 @@ public:
 	StateMenu()
 		:
 		GameState(GameState::TransitionState::ForcePreserve),
-		m_cube(CubeDesc(Color::Red().toDWORD()),{500.0f,500.0f,0.0f},15.0f)
+		m_cube(CubeDesc(Color::Red().toDWORD()),{500.0f,500.0f,0.0f},70.0f)
 	{
 		m_myButt.setDim({ 300, 100 });
 		m_myButt.center();

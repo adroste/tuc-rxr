@@ -21,3 +21,8 @@ void Framework::setWindowSize(const PointI& clientDim, const PointI& camDim, flo
 	m_camDim = camDim;
 	m_scale = scale;
 }
+
+float Framework::getAspect()
+{
+	return float(m_clientDim.x) / float(m_clientDim.y);
+}

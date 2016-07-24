@@ -10,4 +10,5 @@ public:
 public:
 	static PointF convertClientPoint(const PointI& p);
 	static void setWindowSize(const PointI& clientDim, const PointI& camDim, float scale);
+	static float getAspect();
 };
