@@ -159,6 +159,13 @@ public:
 	{
 		return Color(0.2f, 0.2f, 0.2f);
 	}
+	static Color Random()
+	{
+		float rx = (rand() % 256) / 256.0f;
+		float ry = (rand() % 256) / 256.0f;
+		float rz = (rand() % 256) / 256.0f;
+		return Color(rx, ry, rz);
+	}
 
 	static Color getLuminanceConst()
 	{

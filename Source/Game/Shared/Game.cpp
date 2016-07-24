@@ -1,6 +1,12 @@
 #include "Game.h"
 #include "../../Framework/Color.h"
 
+static float s = 0.5f;
+std::unique_ptr<Cube> getCube(float y)
+{
+	return std::unique_ptr<Cube>(new Cube(CubeDesc(Color::Random().toDWORD()), glm::vec3(0.0f, y, 0.0f), s));
+}
+
 Game::Game()
 	:
 	m_testNode(glm::vec3(5.0f, 5.0f, 0.0f))
@@ -43,6 +49,29 @@ Game::Game()
 
 	auto nodeArmLeft = std::unique_ptr <CharNode>(new CharNode(glm::vec3(1.0f, -2.0f, 0.0f)));
 	auto nodeArmRight = std::unique_ptr <CharNode>(new CharNode(glm::vec3(-1.0f, -2.0f, 0.0f)));
+
+	std::vector<std::unique_ptr<Cube>> c;
+	for (float y = 0; y < 5 * s; y += s)
+	{
+		c.push_back(getCube(y));
+	}
+	std::vector<std::unique_ptr<Cube>> la;
+	for (float y = 0; y < 4 * s; y += s)
+	{
+		la.push_back(getCube(y));
+	}
+	std::vector<std::unique_ptr<Cube>> ra;
+	for (float y = 0; y < 4 * s; y += s)
+	{
+		ra.push_back(getCube(y));
+	}
+
+	m_testNode.setCubes(std::move(c));
+	nodeArmLeft->setCubes(std::move(la));
+	nodeArmRight->setCubes(std::move(ra));
+
+	nodeArmLeft->rotate(glm::rotate(-1.6f, glm::vec3(0.0f, 0.0f, 1.0f)));
+	nodeArmRight->rotate(glm::rotate(0.8f, glm::vec3(0.0f, 0.0f, 1.0f)));
 
 	m_testNode.addNode(std::move(nodeArmLeft));
 	m_testNode.addNode(std::move(nodeArmRight));

@@ -52,6 +52,15 @@ void Cube::draw(Drawing& draw)
 	shCube->setColor(Color(m_desc.diffuse));
 	draw.shaderedCube(m_matTrans, shader);
 }
+
+void Cube::draw(Drawing& draw, glm::mat4 t)
+{
+	Shader& shader = draw.getCubeShader(CubeShader::Default);
+	ShaderCube* shCube = dynamic_cast<ShaderCube*>(&shader);
+	assert(shCube);
+	shCube->setColor(Color(m_desc.diffuse));
+	draw.shaderedCube(t * m_matTrans, shader);
+}
 #endif // _CLIENT
 
 void Cube::recalcMatrix()

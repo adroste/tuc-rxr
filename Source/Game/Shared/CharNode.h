@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include "../../Framework/OpenGL/IDrawable.h"
+#include "Cube.h"
 
 class CharNode : public IDrawable
 {
@@ -12,10 +13,13 @@ public:
 	virtual ~CharNode();
 
 	void addNode(std::unique_ptr<CharNode> pNode);
+	void setCubes(std::vector<std::unique_ptr<Cube>> cubes);
 
 #ifdef _CLIENT
 	void draw(Drawing& draw) override;
 #endif // _CLIENT
+
+	void rotate(const glm::mat4& rotation);
 
 private:
 #ifdef _CLIENT
@@ -27,5 +31,5 @@ private:
 	glm::mat4 m_rot;
 
 	std::vector<std::unique_ptr<CharNode>> m_nodes;
-	// TODO cubes[]
+	std::vector<std::unique_ptr<Cube>> m_cubes;
 };
