@@ -4,11 +4,12 @@
 #include "../Framework.h"
 #include "Drawing.h"
 
-Camera::Camera(const PointF & lookAt, float height, float dist)
+Camera::Camera(const PointF & lookAt, float height, float dist, float heightOffset)
 	:
 	m_lookAt(lookAt),
 	m_height(height),
-	m_dist(dist)
+	m_dist(dist),
+	m_heightOffset(heightOffset)
 {
 	recalcProject();
 	recalcCam();
@@ -40,7 +41,7 @@ void Camera::recalcProject()
 void Camera::recalcCam()
 {
 	m_matCam = glm::lookAt(
-		glm::vec3(m_lookAt.x, m_lookAt.y, -m_dist), // camera pos
+		glm::vec3(m_lookAt.x, m_lookAt.y - m_heightOffset, -m_dist), // camera pos
 		glm::vec3(m_lookAt.x, m_lookAt.y, 0.0f), // lookAt
 		glm::vec3(0.0f, -1.0f, 0.0f)); // up vec
 }

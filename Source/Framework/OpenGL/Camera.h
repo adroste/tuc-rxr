@@ -5,7 +5,7 @@
 class Camera
 {
 public:
-	Camera(const PointF& lookAt, float height, float dist);
+	Camera(const PointF& lookAt, float height, float dist, float heightOffset = 0.0f);
 	virtual ~Camera();
 
 	void apply(class Drawing& draw) const;
@@ -30,4 +30,5 @@ private:
 	PointF m_lookAt;
 	float m_height;
 	float m_dist;
+	float m_heightOffset;
 };
