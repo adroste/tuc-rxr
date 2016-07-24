@@ -168,6 +168,8 @@
     <ClCompile Include="..\Source\Framework\Sound\Sound.cpp" />
     <ClCompile Include="..\Source\Framework\Window.cpp" />
     <ClCompile Include="..\Source\Game\Shared\Cube.cpp" />
+    <ClCompile Include="..\Source\Game\Shared\Game.cpp" />
+    <ClCompile Include="..\Source\Game\Shared\Map.cpp" />
     <ClCompile Include="..\Source\main.cpp" />
     <ClCompile Include="..\Source\System\Input.cpp" />
     <ClCompile Include="..\Source\System\Log.cpp" />
@@ -201,9 +203,12 @@
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IValueHolderSafe.h" />
     <ClInclude Include="..\Source\Framework\UI\UIButton.h" />
     <ClInclude Include="..\Source\Framework\Window.h" />
+    <ClInclude Include="..\Source\Game\Client\States\StateGame.h" />
     <ClInclude Include="..\Source\Game\Client\States\StateMenu.h" />
     <ClInclude Include="..\Source\Game\Shared\Cube.h" />
     <ClInclude Include="..\Source\Game\Shared\CubeDesc.h" />
+    <ClInclude Include="..\Source\Game\Shared\Game.h" />
+    <ClInclude Include="..\Source\Game\Shared\Map.h" />
     <ClInclude Include="..\Source\System\Input.h" />
     <ClInclude Include="..\Source\System\Log.h" />
     <ClInclude Include="..\Source\System\System.h" />

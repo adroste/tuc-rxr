@@ -142,6 +142,12 @@
     <ClCompile Include="..\Source\Game\Shared\Cube.cpp">
       <Filter>Source\Game\Shared</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Game\Shared\Map.cpp">
+      <Filter>Source\Game\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Game\Shared\Game.cpp">
+      <Filter>Source\Game\Shared</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\Shader.h">
@@ -284,6 +290,15 @@
     </ClInclude>
     <ClInclude Include="..\Source\Game\Shared\CubeDesc.h">
       <Filter>Source\Game\Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Game\Shared\Game.h">
+      <Filter>Source\Game\Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Game\Shared\Map.h">
+      <Filter>Source\Game\Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Game\Client\States\StateGame.h">
+      <Filter>Source\Game\Client\States</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

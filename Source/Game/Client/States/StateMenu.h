@@ -2,6 +2,7 @@
 #include "../../../Framework/GameState.h"
 #include "../../../Framework/Sound/Sound.h"
 #include "../../../Framework/UI/UIButton.h"
+#include "StateGame.h"
 
 class StateMenu : public GameState
 {
@@ -25,8 +26,10 @@ public:
 	virtual bool update(float dt) override
 	{
 		if (m_myButt.isClicked(true))
-			Sound::playMusic(Sound::Music::Theme);
+		{	//Sound::playMusic(Sound::Music::Theme);
 			//Sound::playSound(Sound::Sfx::Plop);
+			setNextState(std::unique_ptr<GameState>(new StateGame()));
+		}
 
 		return false;
 	}
