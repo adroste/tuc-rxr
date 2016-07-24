@@ -9,7 +9,7 @@ public:
 	Map(Point3S dim);
 	virtual ~Map();
 
-	void setCube(Cube* cube);
+	void setCube(Cube* cube, bool overwrite = false);
 
 #ifdef _CLIENT
 	void draw(Drawing& draw);

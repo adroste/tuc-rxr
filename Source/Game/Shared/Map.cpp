@@ -31,10 +31,17 @@ Map::~Map()
 	m_ppCubes = nullptr;
 }
 
-void Map::setCube(Cube* cube)
+void Map::setCube(Cube* cube, bool overwrite)
 {
 	size_t idx = getIndex(Point3S(cube->getPos()));
+	if(overwrite && m_ppCubes[idx])
+	{
+		delete m_ppCubes[idx];
+		m_ppCubes[idx] = nullptr;
+	}
 	assert(m_ppCubes[idx] == nullptr);
+	if (m_ppCubes[idx])
+		throw Exception("Map::setCube array position not empty");
 	m_ppCubes[idx] = cube;
 }
 
