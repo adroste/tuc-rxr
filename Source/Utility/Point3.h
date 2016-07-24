@@ -2,12 +2,24 @@
 #include <math.h>
 #include <assert.h>
 #include <algorithm>
+#include "../glm/detail/type_vec3.hpp"
 
 template <class T>
 class Point3
 {
 public:
-	T x, y, z;
+	union
+	{
+		struct
+		{
+			T x, y, z;
+		};
+		struct
+		{
+			T width, height, depth;
+		};
+	};
+	
 	Point3(T x, T y, T z)
 		: x(x), y(y), z(z)
 	{}
@@ -29,6 +41,12 @@ public:
 		y = T(copy.y);
 		z = T(copy.z);
 	}
+	Point3(glm::vec3 v)
+		:
+		x(T(v.x)),
+		y(T(v.y)),
+		z(T(v.z))
+	{}
 	//operators
 	inline bool operator==(const Point3<T>& rhs) const
 	{
@@ -164,7 +182,16 @@ public:
 		else
 			return res;
 	}
+	inline T size() const
+	{
+		return x * y * z;
+	}
+	inline glm::vec3 toGlmVec3() const
+	{
+		return glm::vec3(float(x), float(y), float(z));
+	}
 };
 
 using Point3F = Point3<float>;
 using Point3I = Point3<int>;
+using Point3S = Point3<size_t>;

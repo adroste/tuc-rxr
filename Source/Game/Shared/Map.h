@@ -1,28 +1,26 @@
 #pragma once
 #include "Cube.h"
+#include "../../Utility/Point3.h"
 
 class Map
 {
 public:
 	Map(size_t width, size_t height, size_t depth = 4);
+	Map(Point3S dim);
 	virtual ~Map();
 
-	void setCube(size_t x, size_t y, size_t z, Cube* cube);
+	void setCube(Cube* cube);
 
 #ifdef _CLIENT
 	void draw(Drawing& draw);
 #endif // _CLIENT
 
-	size_t getWidth() const;
-	size_t getHeight() const;
-	size_t getDepth() const;
+	Point3S getDim() const;
 
 private:
-	size_t getIndex(size_t x, size_t y, size_t z) const;
+	size_t getIndex(Point3S pos) const;
 
 private:
 	Cube** m_ppCubes = nullptr;
-	size_t m_width;
-	size_t m_height;
-	size_t m_depth;
+	Point3S m_dim;
 };

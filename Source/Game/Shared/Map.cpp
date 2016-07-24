@@ -4,19 +4,22 @@
 
 Map::Map(size_t width, size_t height, size_t depth)
 	:
-	m_width(width),
-	m_height(height),
-	m_depth(depth)
+	Map(Point3S(width, height, depth))
+{}
+
+Map::Map(Point3S dim)
+	:
+	m_dim(dim)
 {
-	m_ppCubes = new Cube*[m_width * m_height * m_depth];
-	memset(m_ppCubes, 0, sizeof(Cube*) * m_width * m_height * m_depth);
+	m_ppCubes = new Cube * [m_dim.size()];
+	memset(m_ppCubes, 0, sizeof(Cube*) * m_dim.size());
 }
 
 Map::~Map()
 {
 	if (!m_ppCubes) return;
 
-	for (size_t i = 0; i < m_width * m_height * m_depth; ++i)
+	for (size_t i = 0; i < m_dim.size(); ++i)
 	{
 		if(m_ppCubes[i])
 		{
@@ -28,9 +31,9 @@ Map::~Map()
 	m_ppCubes = nullptr;
 }
 
-void Map::setCube(size_t x, size_t y, size_t z, Cube* cube)
+void Map::setCube(Cube* cube)
 {
-	size_t idx = getIndex(x, y, z);
+	size_t idx = getIndex(Point3S(cube->getPos()));
 	assert(m_ppCubes[idx] == nullptr);
 	m_ppCubes[idx] = cube;
 }
@@ -38,7 +41,7 @@ void Map::setCube(size_t x, size_t y, size_t z, Cube* cube)
 #ifdef _CLIENT
 void Map::draw(Drawing& draw)
 {
-	for (Cube** i = m_ppCubes, **end = m_ppCubes + m_width * m_height * m_depth; i != end; ++i)
+	for (Cube** i = m_ppCubes, **end = m_ppCubes + m_dim.size(); i != end; ++i)
 	{
 		if (*i)
 		{
@@ -48,25 +51,15 @@ void Map::draw(Drawing& draw)
 }
 #endif // _CLIENT
 
-size_t Map::getWidth() const
+Point3S Map::getDim() const
 {
-	return m_width;
+	return m_dim;
 }
 
-size_t Map::getHeight() const
+size_t Map::getIndex(Point3S pos) const
 {
-	return m_height;
-}
-
-size_t Map::getDepth() const
-{
-	return m_depth;
-}
-
-size_t Map::getIndex(size_t x, size_t y, size_t z) const
-{
-	assert(x < m_width);
-	assert(y < m_height);
-	assert(z < m_depth);
-	return m_width * (y + z * m_height) + x;
+	assert(pos.x < m_dim.x);
+	assert(pos.y < m_dim.y);
+	assert(pos.z < m_dim.z);
+	return m_dim.width * (pos.y + pos.z * m_dim.height) + pos.x;
 }
