@@ -68,6 +68,9 @@
     <Filter Include="Source\Game\Client\States">
       <UniqueIdentifier>{878ca0de-7aca-4f2a-b6e3-f50076121510}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources / Dependencies\data\Font">
+      <UniqueIdentifier>{ae35859c-f929-40d7-b536-91413fac755c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\Shader.cpp">
@@ -378,5 +381,16 @@
     <ResourceCompile Include="app.rc">
       <Filter>Resources / Dependencies</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="data\Font\DevinneSwash.ttf">
+      <Filter>Resources / Dependencies\data\Font</Filter>
+    </Font>
+    <Font Include="data\Font\Domestic_Manners.ttf">
+      <Filter>Resources / Dependencies\data\Font</Filter>
+    </Font>
+    <Font Include="data\Font\Iron_Latch.ttf">
+      <Filter>Resources / Dependencies\data\Font</Filter>
+    </Font>
   </ItemGroup>
 </Project>

@@ -31,7 +31,7 @@ Texture& Texture::operator=(Texture&& move)
 
 Texture::~Texture()
 {
-	dispose();
+	Texture::dispose();
 }
 
 void Texture::load(const std::string & filename)
@@ -43,7 +43,7 @@ void Texture::load(const std::string & filename)
 
 	// TODO replace with proper exception
 	if (!data)
-		throw Exception("missing: " + filename);
+		throw Exception("Texture::load missing: " + filename);
 
 	// copy data
 	m_pRawData = std::unique_ptr<char[]>(new char[m_width * m_height * 4]);

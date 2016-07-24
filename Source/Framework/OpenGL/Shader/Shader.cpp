@@ -111,11 +111,11 @@ std::string Shader::loadShader(const std::string& fileName)
 				// we have an include
 				size_t parStart = line.find("\"", includeStart + strlen("#include"));
 				if (parStart == std::string::npos)
-					throw Exception("missing 1. \" for include in file " + fileName);
+					throw Exception("Shader::loadShader missing 1. \" for include in file " + fileName);
 
 				size_t parEnd = line.find('\"', parStart + 1);
 				if (parEnd == std::string::npos)
-					throw Exception("missing 2. \" for include in file " + fileName);
+					throw Exception("Shader::loadShader missing 2. \" for include in file " + fileName);
 
 				std::string includeFile = line.substr(parStart + 1, parEnd - parStart - 1);
 				includeFile = path + includeFile;
@@ -136,7 +136,7 @@ std::string Shader::loadShader(const std::string& fileName)
 	{
 		// TODO replace
 		//throw ExMissingFile(fileName);
-		throw Exception("missing file: " + fileName);
+		throw Exception("Shader::loadShader missing file: " + fileName);
 	}
 
 	return output;
@@ -159,7 +159,7 @@ void Shader::checkShaderError(GLuint shader, GLuint flag, bool isProgram, const 
 		else
 			glGetShaderInfoLog(shader, sizeof(error), NULL, error);
 
-		throw Exception((errorMessage + std::string(":\n") + error).c_str());
+		throw Exception(std::string("Shader::checkShaderError") + (errorMessage + std::string(":\n") + error).c_str());
 	}
 }
 
@@ -170,7 +170,7 @@ GLuint Shader::createShader(Type ty, GLenum shadertype)
 	auto shader = glCreateShader(shadertype);
 
 	if (shader == 0)
-		throw Exception("shader creation failed");
+		throw Exception("Shader::createShader creation failed");
 
 	const GLchar* shaderSourceStrings[1];
 	GLint shaderSourceStringsLength[1];

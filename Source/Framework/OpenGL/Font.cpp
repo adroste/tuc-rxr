@@ -14,7 +14,7 @@ void Font::load(FT_LibraryRec_ * ft, const std::string & filename, float scalar)
 	{
 		FILE* pFile = fopen(filename.c_str(), "rb");
 		if (!pFile)
-			throw Exception("missing file: " + filename);
+			throw Exception("Font::load missing file: " + filename);
 
 		// obtain file size:
 		fseek(pFile, 0, SEEK_END);
@@ -27,7 +27,7 @@ void Font::load(FT_LibraryRec_ * ft, const std::string & filename, float scalar)
 		fclose(pFile);
 		
 		if (count != filesize)
-			throw Exception("could not read all bytes from: " + filename);
+			throw Exception("Font::load could not read all bytes from: " + filename);
 	}
 
 	// create new memory face
@@ -35,7 +35,7 @@ void Font::load(FT_LibraryRec_ * ft, const std::string & filename, float scalar)
 		reinterpret_cast<FT_Byte*>(m_rawData.get()), filesize,
 		0, &m_face);
 	if (fterr)
-		throw Exception("invalid font file: " + filename);
+		throw Exception("Font::load invalid font file: " + filename);
 
 	// TODO think about it
 	// setting texture size int pixel
@@ -156,17 +156,17 @@ void Font::loadUniforms()
 	// locate unitforms
 	m_uniLocTexture = glGetUniformLocation(m_program, "tex");
 	if (m_uniLocTexture == -1)
-		throw Exception("font shader: tex uniform not found");
+		throw Exception("Font::loadUniforms tex uniform not found");
 
 	m_uniLocColor = glGetUniformLocation(m_program, "color");
 	if (m_uniLocColor == -1)
-		throw Exception("font shader: tex uniform not found");
+		throw Exception("Font::loadUniforms tex uniform not found");
 }
 
 void Font::load()
 {
 	// dummy function dont call
-	throw Exception("stupid, don't call this on font...");
+	throw Exception("Font::load stupid, don't call this on font...");
 }
 
 void Font::findMaxBearing(float scalar)

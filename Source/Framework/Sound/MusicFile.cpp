@@ -6,7 +6,7 @@ MusicFile::MusicFile(const std::string & filename, float vol)
 {
 	m_pMusic = Mix_LoadWAV(filename.c_str());
 	if (!m_pMusic)
-		throw MIX_Exception("music file error - " + filename);
+		throw MIX_Exception("MusicFile::MusicFile music file error - " + filename);
 
 	setVolume(vol);
 }
