@@ -2,6 +2,8 @@
 #include "../../Framework/Color.h"
 
 Game::Game()
+	:
+	m_testNode(glm::vec3(5.0f, 5.0f, 0.0f))
 {
 	m_pMap = std::unique_ptr<Map>(new Map(50, 30, 4));
 	Point3S dim = m_pMap->getDim();
@@ -38,6 +40,12 @@ Game::Game()
 #ifdef _CLIENT
 	m_pCam = std::unique_ptr<Camera>(new Camera({ 24.5f, 15.0f }, 30.0f, 30.0f, 5.0f));
 #endif // _CLIENT
+
+	auto nodeArmLeft = std::unique_ptr <CharNode>(new CharNode(glm::vec3(1.0f, -2.0f, 0.0f)));
+	auto nodeArmRight = std::unique_ptr <CharNode>(new CharNode(glm::vec3(-1.0f, -2.0f, 0.0f)));
+
+	m_testNode.addNode(std::move(nodeArmLeft));
+	m_testNode.addNode(std::move(nodeArmRight));
 }
 
 Game::~Game()
@@ -50,6 +58,7 @@ void Game::draw(Drawing& draw)
 {
 	m_pCam->apply(draw);
 	m_pMap->draw(draw);
+	m_testNode.draw(draw);
 	draw.getUiCam().apply(draw);
 }
 

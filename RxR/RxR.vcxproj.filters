@@ -154,8 +154,11 @@
     <ClCompile Include="..\Source\Game\Shared\Game.cpp">
       <Filter>Source\Game\Shared</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Game\Shared\CharNode.cpp">
+      <Filter>Source\Game\Shared</Filter>
+    </ClCompile>
     <ClCompile Include="..\Source\Framework\OpenGL\Camera.cpp">
-      <Filter>Source</Filter>
+      <Filter>Source\Framework\OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -323,6 +326,9 @@
     </ClInclude>
     <ClInclude Include="..\Source\Framework\OpenGL\Camera.h">
       <Filter>Source\Framework\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Game\Shared\CharNode.h">
+      <Filter>Source\Game\Shared</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

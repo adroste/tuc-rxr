@@ -2,6 +2,7 @@
 #include <memory>
 #include "Map.h"
 #include "../../System/Input.h"
+#include "CharNode.h"
 
 #ifdef _CLIENT
 #include "../../Framework/OpenGL/Camera.h"
@@ -24,4 +25,6 @@ private:
 #ifdef _CLIENT
 	std::unique_ptr<Camera> m_pCam;
 #endif // _CLIENT
+
+	CharNode m_testNode;
 };

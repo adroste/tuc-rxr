@@ -46,7 +46,7 @@ void Drawing::button(const RectF& r, float border)
 void Drawing::coloredCube(const PointF& pos, float scalar, const Color& c, float z)
 {
 	//scalar += 0.1f;
-	setModel( glm::translate(glm::vec3(pos.x, pos.y, z)) * glm::scale(glm::vec3(scalar, scalar, scalar)));
+	//setModel( glm::translate(glm::vec3(pos.x, pos.y, z)) * glm::scale(glm::vec3(scalar, scalar, scalar)));
 
 	m_shCube.setColor(c);
 	m_shCube.bind();
