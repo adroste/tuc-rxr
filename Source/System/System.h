@@ -2,11 +2,11 @@
 #include <string>
 #include <time.h>
 
-#if _WIN32
-#define _WINSOCKAPI_
-//#include <Windows.h>
-#include <ShellScalingApi.h>
-#endif
+//#if _WIN32
+//#define _WINSOCKAPI_
+////#include <Windows.h>
+//#include <ShellScalingApi.h>
+//#endif
 
 #include "../Utility/SDL_Exception.h"
 #include "Log.h"
@@ -25,9 +25,9 @@ public:
 	// initialized net an sdl library
 	static void init()
 	{
-#if _WIN32
-		SetProcessDpiAwareness(PROCESS_PER_MONITOR_DPI_AWARE);
-#endif
+//#if _WIN32
+//		SetProcessDpiAwareness(PROCESS_PER_MONITOR_DPI_AWARE);
+//#endif
 
 		Log::info("System::init SDL");
 		Uint32 flags = SDL_INIT_TIMER | SDL_INIT_AUDIO | SDL_INIT_EVENTS;

@@ -1,10 +1,18 @@
 #Files
 *.txt
+*.db
+*.opendb
+*.aps
+*.exe
+*.idb
+*.ipch
+*.lastbuildstate
+*.obj
+*.pdb
+*.tlog
 
 # Folders
 .vs/
 Debug/
 Release/
 obj/
-*.db
-*.opendb

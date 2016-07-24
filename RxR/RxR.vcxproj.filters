@@ -300,6 +300,9 @@
     <ClInclude Include="..\Source\Game\Client\States\StateGame.h">
       <Filter>Source\Game\Client\States</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Resources / Dependencies</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glew32.dll">
@@ -365,5 +368,15 @@
     <None Include="data\Shader\uniforms\Transforms.glsl">
       <Filter>Resources / Dependencies\data\Shader\uniforms</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="app.manifest">
+      <Filter>Resources / Dependencies</Filter>
+    </Manifest>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="app.rc">
+      <Filter>Resources / Dependencies</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
