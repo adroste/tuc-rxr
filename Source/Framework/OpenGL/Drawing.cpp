@@ -6,7 +6,8 @@
 Drawing::Drawing()
 	:
 	m_uiCam({ Framework::STD_DRAW_X / 2, Framework::STD_DRAW_Y / 2 }, 1.0f, 1000.0f),
-	m_trans(m_shCube,"Transforms")
+	m_trans(m_shCube,"Transforms"),
+	m_material(m_shCube, "Material")
 {}
 
 void Drawing::rect(const RectF & r, const Color & c)
@@ -61,6 +62,11 @@ void Drawing::shaderedCube(const glm::mat4& mat, Shader& shader)
 	shader.bind();
 	m_meshCube.draw();
 	shader.unbind();
+}
+
+void Drawing::setCubeMaterial(const glm::vec3& diffuse, const glm::vec3& specular, float gloss)
+{
+	m_material.updateMaterial(diffuse, specular, gloss);
 }
 
 void Drawing::setCamera(const glm::mat4& mat)
@@ -131,6 +137,7 @@ void Drawing::create()
 
 
 	m_trans.create();
+	m_material.create();
 }
 
 void Drawing::dispose()
@@ -148,6 +155,7 @@ void Drawing::dispose()
 	m_fontTextL.dispose();
 
 	m_trans.dispose();
+	m_material.dispose();
 }
 
 void Drawing::init(FT_Library ftlib)

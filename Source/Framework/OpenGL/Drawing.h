@@ -7,6 +7,7 @@
 #include "Shader/ShaderButton.h"
 #include "Font.h"
 #include "Shader/UniformBlockTransforms.h"
+#include "Shader/UniformBlockMaterial.h"
 #include "../../Game/Shared/CubeDesc.h"
 #include "Camera.h"
 
@@ -27,6 +28,7 @@ public:
 	// cubes
 	void coloredCube(const PointF& pos, float scalar, const Color& c, float z = 0.0f);
 	void shaderedCube(const glm::mat4& mat, Shader& shader);
+	void setCubeMaterial(const glm::vec3& diffuse, const glm::vec3& specular, float gloss);
 
 	// camera
 	void setCamera(const glm::mat4& mat);
@@ -46,6 +48,7 @@ private:
 	ShaderButton m_shButton;
 
 	UniformBlockTransforms m_trans;
+	UniformBlockMaterial m_material;
 
 	// fonts
 	Font m_fontHeadS;
