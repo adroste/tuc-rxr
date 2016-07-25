@@ -168,6 +168,7 @@
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderCube.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderDisk.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\UniformBlock.cpp" />
+    <ClCompile Include="..\Source\Framework\OpenGL\Shader\UniformBlockLight.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\UniformBlockMaterial.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\UniformBlockTransforms.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\stb_image\stb_image.c" />
@@ -202,6 +203,7 @@
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderCube.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderDisk.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlock.h" />
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlockLight.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlockMaterial.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlockTransforms.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\stb_image\stb_image.h" />

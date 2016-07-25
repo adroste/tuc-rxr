@@ -7,7 +7,8 @@ Drawing::Drawing()
 	:
 	m_uiCam({ Framework::STD_DRAW_X / 2, Framework::STD_DRAW_Y / 2 }, 1.0f, 1000.0f),
 	m_trans(m_shCube,"Transforms"),
-	m_material(m_shCube, "Material")
+	m_material(m_shCube, "Material"),
+	m_lights(m_shCube, "Lights")
 {}
 
 void Drawing::rect(const RectF & r, const Color & c)
@@ -116,6 +117,11 @@ Shader& Drawing::getCubeShader(CubeShader s)
 
 }
 
+UniformBlockLight& Drawing::getLightUniform()
+{
+	return m_lights;
+}
+
 Camera& Drawing::getUiCam()
 {
 	return m_uiCam;
@@ -138,6 +144,7 @@ void Drawing::create()
 
 	m_trans.create();
 	m_material.create();
+	m_lights.create();
 }
 
 void Drawing::dispose()
@@ -156,6 +163,7 @@ void Drawing::dispose()
 
 	m_trans.dispose();
 	m_material.dispose();
+	m_lights.dispose();
 }
 
 void Drawing::init(FT_Library ftlib)

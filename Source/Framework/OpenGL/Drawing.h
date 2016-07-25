@@ -8,6 +8,7 @@
 #include "Font.h"
 #include "Shader/UniformBlockTransforms.h"
 #include "Shader/UniformBlockMaterial.h"
+#include "Shader/UniformBlockLight.h"
 #include "../../Game/Shared/CubeDesc.h"
 #include "Camera.h"
 
@@ -37,6 +38,7 @@ public:
 
 	Font& getFont(Font::Style style, Font::Size size);
 	Shader& getCubeShader(CubeShader s);
+	UniformBlockLight& getLightUniform();
 
 	Camera& getUiCam();
 
@@ -49,6 +51,7 @@ private:
 
 	UniformBlockTransforms m_trans;
 	UniformBlockMaterial m_material;
+	UniformBlockLight m_lights;
 
 	// fonts
 	Font m_fontHeadS;

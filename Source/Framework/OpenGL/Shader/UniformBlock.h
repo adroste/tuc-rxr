@@ -1,6 +1,7 @@
 #pragma once
 #include "Shader.h"
 #include <memory>
+#include <cassert>
 
 class UniformBlock : public GLObject
 {
@@ -17,6 +18,17 @@ public:
 protected:
 	GLuint getShaderProgramm() const;
 
+	template <class T>
+	void updateVar(const T& var, size_t offset)
+	{
+		assert(offset + sizeof(T) < m_blockSize);
+		memcpy(m_pBuffer.get() + offset, &var, sizeof(T));
+	}
+	void updateArray(const void* src, size_t len, size_t offset)
+	{
+		assert(offset + len < m_blockSize);
+		memcpy(m_pBuffer.get() + offset, src, len);
+	}
 protected:
 	Shader& m_shader;
 	const std::string m_blockName;
