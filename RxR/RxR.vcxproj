@@ -171,6 +171,7 @@
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\UniformBlockTransforms.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\stb_image\stb_image.c" />
     <ClCompile Include="..\Source\Framework\OpenGL\Texture.cpp" />
+    <ClCompile Include="..\Source\Framework\OpenGL\VolumeTextureMap.cpp" />
     <ClCompile Include="..\Source\Framework\Sound\MusicFile.cpp" />
     <ClCompile Include="..\Source\Framework\Sound\Sound.cpp" />
     <ClCompile Include="..\Source\Framework\Window.cpp" />
@@ -203,6 +204,7 @@
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlockTransforms.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\stb_image\stb_image.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Texture.h" />
+    <ClInclude Include="..\Source\Framework\OpenGL\VolumeTextureMap.h" />
     <ClInclude Include="..\Source\Framework\Sound\MusicFile.h" />
     <ClInclude Include="..\Source\Framework\Sound\Sound.h" />
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IClickable.h" />

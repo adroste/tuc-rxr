@@ -160,6 +160,9 @@
     <ClCompile Include="..\Source\Framework\OpenGL\Camera.cpp">
       <Filter>Source\Framework\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Framework\OpenGL\VolumeTextureMap.cpp">
+      <Filter>Source\Framework\OpenGL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\Shader.h">
@@ -329,6 +332,9 @@
     </ClInclude>
     <ClInclude Include="..\Source\Game\Shared\CharNode.h">
       <Filter>Source\Game\Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\OpenGL\VolumeTextureMap.h">
+      <Filter>Source\Framework\OpenGL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
