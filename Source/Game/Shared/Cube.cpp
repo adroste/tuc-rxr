@@ -5,6 +5,8 @@
 Cube::Cube(const CubeDesc & desc, const glm::vec3 & pos, float scalar)
 	:
 	m_desc(desc),
+	m_diffuse(desc.diffuse),
+	m_specular(desc.spec),
 	m_pos(pos),
 	m_rot(0.0f,0.0f,0.0f),
 	m_scalar(scalar * 0.5f + 0.01f)
@@ -49,7 +51,9 @@ void Cube::draw(Drawing& draw)
 	Shader& shader = draw.getCubeShader(CubeShader::Default);
 	ShaderCube* shCube = dynamic_cast<ShaderCube*>(&shader);
 	assert(shCube);
-	shCube->setColor(Color(m_desc.diffuse));
+	//shCube->setColor(Color(m_desc.diffuse));
+	draw.setCubeMaterial(m_diffuse, m_specular, m_desc.gloss);
+
 	draw.shaderedCube(m_matTrans, shader);
 }
 
@@ -58,7 +62,8 @@ void Cube::draw(Drawing& draw, glm::mat4 t)
 	Shader& shader = draw.getCubeShader(CubeShader::Default);
 	ShaderCube* shCube = dynamic_cast<ShaderCube*>(&shader);
 	assert(shCube);
-	shCube->setColor(Color(m_desc.diffuse));
+	draw.setCubeMaterial(m_diffuse, m_specular, m_desc.gloss);
+
 	draw.shaderedCube(t * m_matTrans, shader);
 }
 #endif // _CLIENT

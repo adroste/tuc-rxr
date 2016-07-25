@@ -49,7 +49,7 @@ void Drawing::coloredCube(const PointF& pos, float scalar, const Color& c, float
 	//scalar += 0.1f;
 	//setModel( glm::translate(glm::vec3(pos.x, pos.y, z)) * glm::scale(glm::vec3(scalar, scalar, scalar)));
 
-	m_shCube.setColor(c);
+	setCubeMaterial(c, Color::Black(), 1.0f);
 	m_shCube.bind();
 	m_meshCube.draw();
 	m_shCube.unbind();
@@ -64,9 +64,9 @@ void Drawing::shaderedCube(const glm::mat4& mat, Shader& shader)
 	shader.unbind();
 }
 
-void Drawing::setCubeMaterial(const glm::vec3& diffuse, const glm::vec3& specular, float gloss)
+void Drawing::setCubeMaterial(const Color& diffuse, const Color& specular, float gloss)
 {
-	m_material.updateMaterial(diffuse, specular, gloss);
+	m_material.updateMaterial(glm::vec3(diffuse.r, diffuse.g, diffuse.b), glm::vec3(specular.r, specular.g, specular.b), gloss);
 }
 
 void Drawing::setCamera(const glm::mat4& mat)

@@ -28,7 +28,7 @@ public:
 	// cubes
 	void coloredCube(const PointF& pos, float scalar, const Color& c, float z = 0.0f);
 	void shaderedCube(const glm::mat4& mat, Shader& shader);
-	void setCubeMaterial(const glm::vec3& diffuse, const glm::vec3& specular, float gloss);
+	void setCubeMaterial(const Color& diffuse, const Color& specular, float gloss);
 
 	// camera
 	void setCamera(const glm::mat4& mat);

@@ -29,6 +29,8 @@ private:
 
 private:
 	CubeDesc m_desc;
+	Color m_diffuse;
+	Color m_specular;
 
 	glm::vec3 m_pos;
 	glm::vec3 m_rot;
