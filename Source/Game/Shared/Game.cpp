@@ -44,7 +44,7 @@ Game::Game()
 	}
 
 #ifdef _CLIENT
-	m_pCam = std::unique_ptr<Camera>(new Camera({ 24.5f, 15.0f }, 30.0f, 30.0f, 5.0f));
+	m_pCam = std::unique_ptr<Camera>(new Camera({ 24.5f, 15.0f }, 30.0f, 30.0f, 5.0f, false));
 #endif // _CLIENT
 
 	auto nodeArmLeft = std::unique_ptr <CharNode>(new CharNode(glm::vec3(1.0f, -2.0f, 0.0f)));

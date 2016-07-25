@@ -4,12 +4,13 @@
 #include "../Framework.h"
 #include "Drawing.h"
 
-Camera::Camera(const PointF & lookAt, float height, float dist, float heightOffset)
+Camera::Camera(const PointF& lookAt, float height, float dist, float heightOffset, bool overrideEqualDepth)
 	:
 	m_lookAt(lookAt),
 	m_height(height),
 	m_dist(dist),
-	m_heightOffset(heightOffset)
+	m_heightOffset(heightOffset),
+	m_overrideEqualDepth(overrideEqualDepth)
 {
 	recalcProject();
 	recalcCam();
@@ -22,6 +23,11 @@ Camera::~Camera()
 
 void Camera::apply(Drawing& draw) const
 {
+	if (m_overrideEqualDepth)
+		glDepthFunc(GL_LEQUAL);
+	else
+		glDepthFunc(GL_LESS);
+
 	draw.setProjection(m_matProject);
 	draw.setCamera(m_matCam);
 

@@ -5,7 +5,7 @@
 class Camera
 {
 public:
-	Camera(const PointF& lookAt, float height, float dist, float heightOffset = 0.0f);
+	Camera(const PointF& lookAt, float height, float dist, float heightOffset = 0.0f, bool overrideEqualDepth = true);
 	virtual ~Camera();
 
 	void apply(class Drawing& draw) const;
@@ -31,4 +31,5 @@ private:
 	float m_height;
 	float m_dist;
 	float m_heightOffset;
+	bool m_overrideEqualDepth;
 };
