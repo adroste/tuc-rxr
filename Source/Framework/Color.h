@@ -72,11 +72,11 @@ public:
 		r *= scalar;
 		g *= scalar;
 		b *= scalar;
-		a *= scalar;
+		//a *= scalar;
 		normalize();
 		return *this;
 	}
-	Color& operator*(float scalar) const
+	Color operator*(float scalar) const
 	{
 		Color c(*this);
 		return c *= scalar;
