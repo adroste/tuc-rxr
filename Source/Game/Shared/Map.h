@@ -1,11 +1,13 @@
 #pragma once
 #include "Cube.h"
 #include "../../Utility/Point3.h"
+#ifdef _CLIENT
+#include "../../Framework/OpenGL/VolumeTextureMap.h"
+#endif
 
 class Map : public IDrawable
 {
 public:
-	Map(size_t width, size_t height, size_t depth = 4);
 	Map(Point3S dim);
 	virtual ~Map();
 
@@ -23,4 +25,9 @@ private:
 private:
 	Cube** m_ppCubes = nullptr;
 	Point3S m_dim;
+
+#ifdef _CLIENT
+	std::unique_ptr<VolumeTextureMap> m_pTextureMap;
+	bool m_texCreated = false;
+#endif // _CLIENT
 };

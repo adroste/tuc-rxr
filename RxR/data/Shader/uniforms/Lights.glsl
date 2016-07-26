@@ -1,5 +1,5 @@
 // union with light sources
-#define MAX_LIGHTS 5
+#define MAX_LIGHTS 20
 
 struct LightSource
 {

@@ -20,7 +20,7 @@ public:
 	virtual void setValue(const T& value) override
 	{
 		LockGuard g(m_muValue);
-		IValueHolder<T>::template setValue<T>(value);
+		IValueHolder<T>::template setValue<T>(value,);
 		g.unlock();
 	}
 private:

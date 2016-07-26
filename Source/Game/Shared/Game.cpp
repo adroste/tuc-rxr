@@ -25,7 +25,7 @@ CubeDesc getGrassDesc()
 void loadCaveScene(std::unique_ptr<Map>& m)
 {
 	// floor
-	m = std::unique_ptr<Map>(new Map(50, 35, 4));
+	m = std::unique_ptr<Map>(new Map(Point3S(50, 35, 4)));
 	Point3S d = m->getDim();
 	for(size_t x = 0; x < d.width; x++)
 	{
@@ -114,11 +114,11 @@ Game::Game()
 	l.type = UniformBlockLight::LightSource::Directional;
 	l.color = (Color::White() * 0.4f).toVec3();
 	l.origin = glm::normalize(glm::vec3(0.1f, 1.0f, 0.7f));
-	lights.push_back(l);
+	//lights.push_back(l);
 
 	l.type = UniformBlockLight::LightSource::PointLight;
 	l.color = Color(1.0f, 0.8f, 0.4f).toVec3();
-	l.origin = glm::vec3(9, 15, dim.depth / 2);
+	l.origin = glm::vec3(9, 20, dim.depth / 2);
 	l.attenuation = 0.01f;
 	lights.push_back(l);
 	m_pMap->setCube(new Cube(CubeDesc(Color::White().toDWORD()), l.origin, 0.5f), true);
@@ -129,6 +129,16 @@ Game::Game()
 	l.attenuation = 0.04f;
 	lights.push_back(l);
 	m_pMap->setCube(new Cube(CubeDesc(Color::Red().toDWORD()), l.origin, 0.5f), true);
+
+	l.color = Color(0.0f, 1.0f, 0.0f).toVec3();
+	l.origin = glm::vec3(25, 31, dim.depth - 2);
+	lights.push_back(l);
+	m_pMap->setCube(new Cube(CubeDesc(Color::Green().toDWORD()), l.origin, 0.5f), true);
+
+	l.color = Color(0.0f, 0.0f, 1.0f).toVec3();
+	l.origin = glm::vec3(20, 31, dim.depth - 2);
+	lights.push_back(l);
+	m_pMap->setCube(new Cube(CubeDesc(Color::Blue().toDWORD()), l.origin, 0.5f), true);
 
 	m_pLight->init(Color(0.05f, 0.05f, 0.05f), std::move(lights));
 #endif // _CLIENT

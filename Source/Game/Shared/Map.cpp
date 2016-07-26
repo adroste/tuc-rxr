@@ -3,17 +3,17 @@
 #include "../../System/Exceptions/Exception.h"
 
 
-Map::Map(size_t width, size_t height, size_t depth)
-	:
-	Map(Point3S(width, height, depth))
-{}
-
 Map::Map(Point3S dim)
 	:
 	m_dim(dim)
 {
 	m_ppCubes = new Cube * [m_dim.size()];
 	memset(m_ppCubes, 0, sizeof(Cube*) * m_dim.size());
+
+#ifdef _CLIENT
+	m_pTextureMap = std::unique_ptr<VolumeTextureMap>(new VolumeTextureMap());
+	m_pTextureMap->init(dim);
+#endif
 }
 
 Map::~Map()
@@ -44,11 +44,22 @@ void Map::setCube(Cube* cube, bool overwrite)
 	if (m_ppCubes[idx])
 		throw Exception("Map::setCube array position not empty");
 	m_ppCubes[idx] = cube;
+
+#ifdef _CLIENT
+	m_pTextureMap->setValue(Point3S(cube->getPos()), 1.0f);
+#endif
 }
 
 #ifdef _CLIENT
 void Map::draw(Drawing& draw)
 {
+	if(!m_texCreated)
+	{
+		m_pTextureMap->create();
+		m_texCreated = true;
+	}
+	m_pTextureMap->bind(0);
+
 	for (Cube** i = m_ppCubes, **end = m_ppCubes + m_dim.size(); i != end; ++i)
 	{
 		if (*i)

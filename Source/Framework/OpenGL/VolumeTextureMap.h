@@ -15,8 +15,10 @@ public:
 
 	void bind(unsigned int id) const;
 	static void unbind();
+	void setValue(const Point3S& idx, float val);
 private:
 	Point3S m_dim;
 	GLuint m_texture = 0;
-	std::unique_ptr<unsigned char> m_pData;
+	std::unique_ptr<unsigned char[]> m_pData;
+	bool m_changed = true;
 };
