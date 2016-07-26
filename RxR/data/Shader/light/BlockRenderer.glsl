@@ -50,7 +50,7 @@ vec3 renderMapBlock(vec3 pos, vec3 normal, vec3 mdiff, vec3 mspec, float ngloss)
 			if(factor < 0.015)
 				continue;
 				//return vec3(0.0,0.0,1.0);
-			
+			factor = min(factor,1.0);
 			
 				
 			float phi = dot(reflectedLight, eyeDir);

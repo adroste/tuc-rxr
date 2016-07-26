@@ -164,6 +164,10 @@ public:
 	{
 		return Color(0.2f, 0.2f, 0.2f);
 	}
+	static Color Brown()
+	{
+		return Color(0.72, 0.47, 0.34);
+	}
 	static Color Random()
 	{
 		float rx = (rand() % 256) / 256.0f;
