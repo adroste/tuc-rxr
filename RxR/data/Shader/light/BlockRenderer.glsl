@@ -32,22 +32,32 @@ vec3 renderMapBlock(vec3 pos, vec3 normal, vec3 mdiff, vec3 mspec, float ngloss)
 		}
 		else // pointLight
 		{
-			// TODO continue if to faar away
-			vec3 lightVec = LightsLight[i].origin - pos;
-			float invDistance = length(lightVec);
-			if(invDistance > 0.0) // only invert if distance != 0
-				invDistance = 1.0 / invDistance;
+			vec3 lightVec = pos - LightsLight[i].origin;//LightsLight[i].origin - pos;
 			
+			// check normal
 			vec3 reflectedLight = reflect(normalize(lightVec) , normal);
 			float theta = dot(reflectedLight, normal);
 			if(theta < 0.0)
 				continue;
+			
+			// check distance
+			float invDistance = length(lightVec);
+			invDistance *= invDistance;
+			if(invDistance > 0.0) // only invert if distance != 0
+				invDistance = 1.0 / invDistance;
+			
+			float factor = 1.0 / LightsLight[i].attenuation * invDistance;
+			// if factor to small discard
+			if(factor < 0.015)
+				continue;
+				//return vec3(0.0,0.0,1.0);
+			
+			
 				
 			float phi = dot(reflectedLight, eyeDir);
 			phi = max(0.0, phi);
 			
 			phi = pow(phi,ngloss);
-			float factor = 1.0 / LightsLight[i].attenuation * invDistance;
 			
 			color += mdiff * LightsLight[i].color * theta * factor;
 			color += mspec * LightsLight[i].color * phi * factor;
