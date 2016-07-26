@@ -177,6 +177,7 @@
     <ClCompile Include="..\Source\Framework\Sound\MusicFile.cpp" />
     <ClCompile Include="..\Source\Framework\Sound\Sound.cpp" />
     <ClCompile Include="..\Source\Framework\Window.cpp" />
+    <ClCompile Include="..\Source\Game\Client\LightManager.cpp" />
     <ClCompile Include="..\Source\Game\Shared\CharNode.cpp" />
     <ClCompile Include="..\Source\Game\Shared\Cube.cpp" />
     <ClCompile Include="..\Source\Game\Shared\Game.cpp" />
@@ -218,6 +219,7 @@
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IValueHolderSafe.h" />
     <ClInclude Include="..\Source\Framework\UI\UIButton.h" />
     <ClInclude Include="..\Source\Framework\Window.h" />
+    <ClInclude Include="..\Source\Game\Client\LightManager.h" />
     <ClInclude Include="..\Source\Game\Client\States\StateGame.h" />
     <ClInclude Include="..\Source\Game\Client\States\StateMenu.h" />
     <ClInclude Include="..\Source\Game\Shared\CharNode.h" />

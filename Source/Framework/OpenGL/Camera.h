@@ -18,7 +18,7 @@ public:
 	void setHeight(const float height);
 	float getDist() const;
 	void setDist(const float dist);
-
+	glm::vec3 getEye() const;
 private:
 	void recalcProject();
 	void recalcCam();

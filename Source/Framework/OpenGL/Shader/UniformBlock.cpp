@@ -6,6 +6,8 @@ UniformBlock::UniformBlock(Shader & refShader, const std::string& blockName)
 	m_shader(refShader),
 	m_blockName(blockName)
 {
+	static GLuint bindPoint = 1;
+	m_bindingPoint = bindPoint++; // these numbers must be uniquely given by the application
 }
 
 UniformBlock::~UniformBlock()
@@ -42,9 +44,11 @@ void UniformBlock::dispose()
 
 void UniformBlock::flush()
 {
+	glUniformBlockBinding(getShaderProgramm(), m_blockLocation, m_bindingPoint);
+
 	glBindBuffer(GL_UNIFORM_BUFFER, m_vbo);
 	glBufferData(GL_UNIFORM_BUFFER, m_blockSize, m_pBuffer.get(), GL_DYNAMIC_DRAW);
-	glBindBufferBase(GL_UNIFORM_BUFFER, m_blockLocation, m_vbo);
+	glBindBufferBase(GL_UNIFORM_BUFFER, m_bindingPoint, m_vbo);
 	glCheck("UniformBlock::flush");
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include "../Utility/Tools.h"
+#include "../glm/detail/type_vec3.hpp"
 
 class Color
 {
@@ -27,6 +28,10 @@ public:
 		r |= uint8_t(this->r * 255.0f) << 16;
 		r |= uint8_t(this->a * 255.0f) << 24;
 		return r;
+	}
+	glm::vec3 toVec3() const
+	{
+		return glm::vec3(r, g, b);
 	}
 
 	Color()

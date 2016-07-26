@@ -6,6 +6,7 @@
 
 #ifdef _CLIENT
 #include "../../Framework/OpenGL/Camera.h"
+#include "../Client/LightManager.h"
 #endif // _CLIENT
 
 class Game : public Input::IReceiver, public IDrawable
@@ -24,6 +25,7 @@ private:
 
 #ifdef _CLIENT
 	std::unique_ptr<Camera> m_pCam;
+	std::unique_ptr<LightManager> m_pLight;
 #endif // _CLIENT
 
 	CharNode m_testNode;

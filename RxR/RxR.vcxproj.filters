@@ -169,6 +169,9 @@
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\UniformBlockLight.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Game\Client\LightManager.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\Shader.h">
@@ -347,6 +350,9 @@
     </ClInclude>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlockLight.h">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Game\Client\LightManager.h">
+      <Filter>Source\Game\Client</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

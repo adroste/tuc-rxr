@@ -26,7 +26,7 @@ public:
 	void updateLights(const glm::vec3& ambient, const glm::vec3 eye, const std::vector< LightSource >& src);
 	                                                                             
 private:
-    static const size_t m_nUniforms = 4;
+    static const size_t m_nUniforms = 6;
 	GLuint m_indices[m_nUniforms];
 	GLint m_offset[m_nUniforms];
 };

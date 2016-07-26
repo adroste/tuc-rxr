@@ -42,6 +42,7 @@ public:
 
 	Camera& getUiCam();
 
+	static Drawing& getDraw();
 private:
 	Camera m_uiCam;
 

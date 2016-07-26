@@ -3,13 +3,17 @@
 #include "../../glm/gtc/matrix_transform.inl"
 #include "../Framework.h"
 
+static Drawing* m_curInstance = nullptr;
+
 Drawing::Drawing()
 	:
 	m_uiCam({ Framework::STD_DRAW_X / 2, Framework::STD_DRAW_Y / 2 }, 1.0f, 1000.0f),
 	m_trans(m_shCube,"Transforms"),
 	m_material(m_shCube, "Material"),
 	m_lights(m_shCube, "Lights")
-{}
+{
+	m_curInstance = this;
+}
 
 void Drawing::rect(const RectF & r, const Color & c)
 {
@@ -125,6 +129,11 @@ UniformBlockLight& Drawing::getLightUniform()
 Camera& Drawing::getUiCam()
 {
 	return m_uiCam;
+}
+
+Drawing& Drawing::getDraw()
+{
+	return *m_curInstance;
 }
 
 void Drawing::create()

@@ -45,6 +45,18 @@ Game::Game()
 
 #ifdef _CLIENT
 	m_pCam = std::unique_ptr<Camera>(new Camera({ 24.5f, 15.0f }, 30.0f, 30.0f, 5.0f, false));
+
+	m_pLight = std::unique_ptr<LightManager>(new LightManager(*m_pCam));
+
+	// add light sources
+	std::vector<UniformBlockLight::LightSource> lights;
+	UniformBlockLight::LightSource l;
+	l.type = UniformBlockLight::LightSource::Directional;
+	l.color = Color::White().toVec3();
+	l.origin = glm::normalize(glm::vec3(0.1f, -1.0f, -0.7f));
+	lights.push_back(l);
+
+	m_pLight->init(Color(0.1f, 0.1f, 0.1f), std::move(lights));
 #endif // _CLIENT
 
 	auto nodeArmLeft = std::unique_ptr <CharNode>(new CharNode(glm::vec3(1.0f, -2.0f, 0.0f)));
@@ -86,6 +98,7 @@ Game::~Game()
 void Game::draw(Drawing& draw)
 {
 	m_pCam->apply(draw);
+	m_pLight->apply();
 	m_pMap->draw(draw);
 	m_testNode.draw(draw);
 	draw.getUiCam().apply(draw);
