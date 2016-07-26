@@ -12,7 +12,6 @@ vec3 renderMapBlock(vec3 pos, vec3 normal, vec3 mdiff, vec3 mspec, float ngloss)
 	
 	for(uint i = 0; i < LightsNLights; i++)
 	{
-		
 		if(LightsLight[i].type == 0) // directional
 		{
 			// lambert term
