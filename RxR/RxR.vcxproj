@@ -256,9 +256,12 @@
     <None Include="data\Shader\cube.vert" />
     <None Include="data\Shader\disk.frag" />
     <None Include="data\Shader\disk.vert" />
+    <None Include="data\Shader\light\BlockRenderer.glsl" />
     <None Include="data\Shader\light\bump.glsl" />
     <None Include="data\Shader\text.frag" />
     <None Include="data\Shader\text.vert" />
+    <None Include="data\Shader\uniforms\Lights.glsl" />
+    <None Include="data\Shader\uniforms\Material.glsl" />
     <None Include="data\Shader\uniforms\Transforms.glsl" />
     <None Include="data\Sound\theme.ogg" />
     <None Include="glew32.dll" />
