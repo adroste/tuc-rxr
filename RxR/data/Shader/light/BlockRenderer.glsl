@@ -29,19 +29,37 @@ float getSoftShadowPointLight(vec3 start, vec3 dest)
 	vstep = normalize(vstep) * SHADOW_STEP;
 	vec3 pos = start + vstep;
 	
-	while(curDist < pathLen )//&& isInMap(pos))
+	while(curDist < pathLen && isInMap(pos))
 	{
 		float v = getMapVolumeValue(pos);
-		f *= (1.0 - v * v);
+		f *= (1.0 - v);
 		if(f < SHADOW_TRESHOLD)
 			return 0.0;
 		
 		pos += vstep;
 		curDist += SHADOW_STEP;
 	}
-	return f;
+	return f*f;
 }
 
+float getSoftShadowDirectional(vec3 start, vec3 destOut)
+{
+	float f = 1.0;
+
+	vec3 vstep = destOut * SHADOW_STEP;
+	vec3 pos = start + vstep;
+	
+	while(isInMap(pos))
+	{
+		float v = getMapVolumeValue(pos);
+		f *= (1.0 - v);
+		if(f < SHADOW_TRESHOLD)
+			return 0.0;
+		
+		pos += vstep;
+	}
+	return f * f;
+}
 
 // using sampler2D
 vec3 renderMapBlock(vec3 pos, vec3 normal, vec3 mdiff, vec3 mspec, float ngloss)
@@ -55,6 +73,10 @@ vec3 renderMapBlock(vec3 pos, vec3 normal, vec3 mdiff, vec3 mspec, float ngloss)
 	{
 		if(LightsLight[i].type == uint(0)) // directional
 		{
+			float shadowFac = getSoftShadowDirectional(pos, -LightsLight[i].origin);
+			if(shadowFac < 0.01)
+				continue;
+				
 			// lambert term
 			vec3 reflectedLight = reflect(LightsLight[i].origin, normal);
 			float theta = dot(reflectedLight , normal);
@@ -67,8 +89,8 @@ vec3 renderMapBlock(vec3 pos, vec3 normal, vec3 mdiff, vec3 mspec, float ngloss)
 			
 			phi = pow(phi,ngloss);
 			
-			color += mdiff * LightsLight[i].color * theta;
-			color += mspec * LightsLight[i].color * phi;
+			color += mdiff * LightsLight[i].color * theta * shadowFac;
+			color += mspec * LightsLight[i].color * phi * shadowFac;
 		}
 		else // pointLight
 		{

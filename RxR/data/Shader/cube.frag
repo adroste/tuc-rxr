@@ -2,6 +2,7 @@
 
 #include "light/BlockRenderer.glsl"
 #include "uniforms/Material.glsl"
+#include "light/gamma.glsl"
 
 in vec4 normal;
 in vec3 mapPos;
@@ -18,5 +19,5 @@ void main()
 	if(color.r < 0.45)
 		//color = vec3(0.0,0.0,1.0);
 		discard;*/
-	gl_FragColor = vec4(color,1.0);
+	gl_FragColor = vec4(correctGamma(color),1.0);
 }

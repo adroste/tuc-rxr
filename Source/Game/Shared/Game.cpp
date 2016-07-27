@@ -125,9 +125,9 @@ Game::Game()
 	std::vector<UniformBlockLight::LightSource> lights;
 	UniformBlockLight::LightSource l;
 	l.type = UniformBlockLight::LightSource::Directional;
-	l.color = (Color::White() * 0.4f).toVec3();
-	l.origin = glm::normalize(glm::vec3(0.1f, 1.0f, 0.7f));
-	//lights.push_back(l);
+	l.color = (Color::White() * 0.06f).toVec3();
+	l.origin = glm::normalize(glm::vec3(0.0f, 1.0f, 0.0f));
+	lights.push_back(l);
 
 	l.type = UniformBlockLight::LightSource::PointLight;
 	l.color = Color(1.0f, 0.8f, 0.4f).toVec3();
@@ -139,7 +139,7 @@ Game::Game()
 	// torch
 	l.color = Color(1.0f, 0.2f, 0.1f).toVec3();
 	l.origin = glm::vec3(30, 31, dim.depth - 2);
-	l.attenuation = 0.04f;
+	l.attenuation = 0.2f;
 	lights.push_back(l);
 	m_pMap->setCube(new Cube(CubeDesc(Color::Red().toDWORD()), l.origin, 0.5f), true, true);
 
