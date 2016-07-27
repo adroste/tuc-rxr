@@ -51,9 +51,9 @@ vec3 renderMapBlock(vec3 pos, vec3 normal, vec3 mdiff, vec3 mspec, float ngloss)
 	vec3 eyeDir = normalize(LightsEye - pos);
 	// go through each source
 	
-	for(uint i = 0; i < LightsNLights; i++)
+	for(uint i = uint(0); i < LightsNLights; i++)
 	{
-		if(LightsLight[i].type == 0) // directional
+		if(LightsLight[i].type == uint(0)) // directional
 		{
 			// lambert term
 			vec3 reflectedLight = reflect(LightsLight[i].origin, normal);
