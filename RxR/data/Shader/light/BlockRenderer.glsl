@@ -31,8 +31,8 @@ float getSoftShadowPointLight(vec3 start, vec3 dest)
 	
 	while(curDist < pathLen )//&& isInMap(pos))
 	{
-		float v = (1.0 - getMapVolumeValue(pos));
-		f *= v ;//* v;
+		float v = getMapVolumeValue(pos);
+		f *= (1.0 - v * v);
 		if(f < SHADOW_TRESHOLD)
 			return 0.0;
 		
