@@ -4,7 +4,7 @@
 
 uniform sampler3D mapTexVol;
 #define SHADOW_STEP 0.5
-#define SHADOW_TRESHOLD 0.0675
+#define SHADOW_TRESHOLD 0.0625
 
 float getMapVolumeValue(vec3 pos)
 {
@@ -25,9 +25,9 @@ float getSoftShadowPointLight(vec3 start, vec3 dest)
 		return f;
 	
 	float pathLen = length(vstep);
-	float curDist = 2.0 * SHADOW_STEP;
+	float curDist = SHADOW_STEP;
 	vstep = normalize(vstep) * SHADOW_STEP;
-	vec3 pos = start + 2.0 *  vstep;
+	vec3 pos = start + vstep;
 	
 	while(curDist < pathLen )//&& isInMap(pos))
 	{
