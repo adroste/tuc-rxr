@@ -47,6 +47,8 @@ void loadCaveScene(std::unique_ptr<Map>& m)
 	// dirt
 	for (size_t x = 0; x < d.width; x++)
 	{
+		if(x == 8 || x == 9)
+			continue;
 		for (size_t z = 0; z < d.depth; z++)
 		{
 			for(size_t y = d.height - 8; y < d.height - 6; y++)
@@ -57,10 +59,21 @@ void loadCaveScene(std::unique_ptr<Map>& m)
 	// grass
 	for (size_t x = 0; x < d.width; x++)
 	{
+		if (x == 8 || x == 9)
+			continue;
 		for (size_t z = 0; z < d.depth; z++)
 		{
 			m->setCube(new Cube(getGrassDesc(), glm::vec3(x, d.height - 9, z)));
 		}
+	}
+
+	for(size_t z = 0; z < d.depth; z++)
+	{
+		m->setCube(new Cube(getGrassDesc(), glm::vec3(10, d.height - 10, z)));
+	}
+	for (size_t z = 0; z < d.depth; z++)
+	{
+		m->setCube(new Cube(getGrassDesc(), glm::vec3(12, d.height - 10, z)));
 	}
 }
 
@@ -118,29 +131,29 @@ Game::Game()
 
 	l.type = UniformBlockLight::LightSource::PointLight;
 	l.color = Color(1.0f, 0.8f, 0.4f).toVec3();
-	l.origin = glm::vec3(9, 20, dim.depth / 2);
-	l.attenuation = 0.01f;
+	l.origin = glm::vec3(13, 24, dim.depth / 2);
+	l.attenuation = 0.00001f;
 	lights.push_back(l);
-	m_pMap->setCube(new Cube(CubeDesc(Color::White().toDWORD()), l.origin, 0.5f), true);
+	m_pMap->setCube(new Cube(CubeDesc(Color::White().toDWORD()), l.origin, 0.5f), true, true);
 
 	// torch
 	l.color = Color(1.0f, 0.2f, 0.1f).toVec3();
 	l.origin = glm::vec3(30, 31, dim.depth - 2);
 	l.attenuation = 0.04f;
 	lights.push_back(l);
-	m_pMap->setCube(new Cube(CubeDesc(Color::Red().toDWORD()), l.origin, 0.5f), true);
+	m_pMap->setCube(new Cube(CubeDesc(Color::Red().toDWORD()), l.origin, 0.5f), true, true);
 
 	l.color = Color(0.0f, 1.0f, 0.0f).toVec3();
 	l.origin = glm::vec3(25, 31, dim.depth - 2);
 	lights.push_back(l);
-	m_pMap->setCube(new Cube(CubeDesc(Color::Green().toDWORD()), l.origin, 0.5f), true);
+	m_pMap->setCube(new Cube(CubeDesc(Color::Green().toDWORD()), l.origin, 0.5f), true, true);
 
 	l.color = Color(0.0f, 0.0f, 1.0f).toVec3();
 	l.origin = glm::vec3(20, 31, dim.depth - 2);
 	lights.push_back(l);
-	m_pMap->setCube(new Cube(CubeDesc(Color::Blue().toDWORD()), l.origin, 0.5f), true);
+	m_pMap->setCube(new Cube(CubeDesc(Color::Blue().toDWORD()), l.origin, 0.5f), true, true);
 
-	m_pLight->init(Color(0.05f, 0.05f, 0.05f), std::move(lights));
+	m_pLight->init(Color(0.05f, 0.05f, 0.05f)/*Color::Black()*/, std::move(lights));
 #endif // _CLIENT
 
 	auto nodeArmLeft = std::unique_ptr <CharNode>(new CharNode(glm::vec3(1.0f, -2.0f, 0.0f)));

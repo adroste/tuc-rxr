@@ -34,7 +34,6 @@ void VolumeTextureMap::create()
 	// transfer bytes to gpu
 	glTexImage3D(GL_TEXTURE_3D, 0, GL_RED, m_dim.width, m_dim.height, m_dim.depth,
 		0, GL_RED, GL_UNSIGNED_BYTE, m_pData.get());
-	glCheck("glTexImage3D");
 
 	glCheck("VolumeTextureMap::create");
 }

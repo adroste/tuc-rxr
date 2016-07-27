@@ -32,7 +32,7 @@ Map::~Map()
 	m_ppCubes = nullptr;
 }
 
-void Map::setCube(Cube* cube, bool overwrite)
+void Map::setCube(Cube* cube, bool isLight, bool overwrite)
 {
 	size_t idx = getIndex(Point3S(cube->getPos()));
 	if(overwrite && m_ppCubes[idx])
@@ -46,7 +46,8 @@ void Map::setCube(Cube* cube, bool overwrite)
 	m_ppCubes[idx] = cube;
 
 #ifdef _CLIENT
-	m_pTextureMap->setValue(Point3S(cube->getPos()), 1.0f);
+
+	m_pTextureMap->setValue(Point3S(cube->getPos()),isLight? 0.0f : 1.0f);
 #endif
 }
 

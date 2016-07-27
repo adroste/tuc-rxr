@@ -11,7 +11,7 @@ public:
 	Map(Point3S dim);
 	virtual ~Map();
 
-	void setCube(Cube* cube, bool overwrite = false);
+	void setCube(Cube* cube, bool isLight = false, bool overwrite = false);
 
 #ifdef _CLIENT
 	virtual void draw(Drawing& draw) override;
