@@ -3,12 +3,12 @@
 #include "../uniforms/Lights.glsl"
 
 uniform sampler3D mapTexVol;
-#define SHADOW_STEP 0.25
-#define SHADOW_TRESHOLD 0.02
+#define SHADOW_STEP 0.5
+#define SHADOW_TRESHOLD 0.0675
 
 float getMapVolumeValue(vec3 pos)
 {
-	return texture3D(mapTexVol, vec3(pos.x / 50.0, pos.y / 35.0, pos.z / 4.0)).r;
+	return texture3D(mapTexVol, vec3((pos.x + 0.5) / 50.0, (pos.y + 0.5) / 35.0, (pos.z + 0.5) / 4.0)).r;
 }
 bool isInMap(vec3 pos)
 {
@@ -25,11 +25,11 @@ float getSoftShadowPointLight(vec3 start, vec3 dest)
 		return f;
 	
 	float pathLen = length(vstep);
-	float curDist = SHADOW_STEP;
+	float curDist = 2.0 * SHADOW_STEP;
 	vstep = normalize(vstep) * SHADOW_STEP;
-	vec3 pos = start + vstep;
+	vec3 pos = start + 2.0 *  vstep;
 	
-	while(curDist < pathLen && isInMap(pos))
+	while(curDist < pathLen )//&& isInMap(pos))
 	{
 		float v = (1.0 - getMapVolumeValue(pos));
 		f *= v ;//* v;
@@ -73,6 +73,10 @@ vec3 renderMapBlock(vec3 pos, vec3 normal, vec3 mdiff, vec3 mspec, float ngloss)
 		else // pointLight
 		{
 			float shadowFac = getSoftShadowPointLight(pos, LightsLight[i].origin);
+			//return vec3(getMapVolumeValue(pos));
+			//color += vec3(shadowFac);
+			//continue;
+			//shadowFac = 1.0;
 			if(shadowFac < 0.001)
 				continue;
 			

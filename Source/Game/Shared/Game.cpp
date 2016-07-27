@@ -131,7 +131,7 @@ Game::Game()
 
 	l.type = UniformBlockLight::LightSource::PointLight;
 	l.color = Color(1.0f, 0.8f, 0.4f).toVec3();
-	l.origin = glm::vec3(13, 24, dim.depth / 2);
+	l.origin = glm::vec3(8, 24, dim.depth / 2);
 	l.attenuation = 0.00001f;
 	lights.push_back(l);
 	m_pMap->setCube(new Cube(CubeDesc(Color::White().toDWORD()), l.origin, 0.5f), true, true);
@@ -153,7 +153,7 @@ Game::Game()
 	lights.push_back(l);
 	m_pMap->setCube(new Cube(CubeDesc(Color::Blue().toDWORD()), l.origin, 0.5f), true, true);
 
-	m_pLight->init(Color(0.05f, 0.05f, 0.05f)/*Color::Black()*/, std::move(lights));
+	m_pLight->init(/*Color(0.05f, 0.05f, 0.05f)*/Color::Black(), std::move(lights));
 #endif // _CLIENT
 
 	auto nodeArmLeft = std::unique_ptr <CharNode>(new CharNode(glm::vec3(1.0f, -2.0f, 0.0f)));
