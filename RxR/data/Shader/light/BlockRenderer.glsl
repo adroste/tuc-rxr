@@ -39,7 +39,7 @@ float getSoftShadowPointLight(vec3 start, vec3 dest)
 		pos += vstep;
 		curDist += SHADOW_STEP;
 	}
-	return f*f;
+	return f * f;
 }
 
 float getSoftShadowDirectional(vec3 start, vec3 destOut)
@@ -67,46 +67,39 @@ vec3 renderMapBlock(vec3 pos, vec3 normal, vec3 mdiff, vec3 mspec, float ngloss)
 	vec3 color = mdiff * LightsAmbient;
 	
 	vec3 eyeDir = normalize(LightsEye - pos);
+	bool isSpecular = dot(mspec,mspec) > 0.0;
 	// go through each source
+	
+	float theta = 0.0;
+	float phi = 0.0;
+	float factor = 0.0;
+	vec3 reflectedLight = vec3(0.0);
 	
 	for(uint i = uint(0); i < LightsNLights; i++)
 	{
 		if(LightsLight[i].type == uint(0)) // directional
 		{
-			float shadowFac = getSoftShadowDirectional(pos, -LightsLight[i].origin);
-			if(shadowFac < 0.01)
+			float factor = getSoftShadowDirectional(pos, -LightsLight[i].origin);
+			if(factor < 0.01)
 				continue;
 				
 			// lambert term
-			vec3 reflectedLight = reflect(LightsLight[i].origin, normal);
-			float theta = dot(reflectedLight , normal);
+			reflectedLight = reflect(LightsLight[i].origin, normal);
+			theta = dot(reflectedLight , normal);
 			if(theta < 0.0)
 				continue; // light comes from other direction
-			
-			float phi = dot(reflectedLight, eyeDir);
-			
-			phi = max(0.0, phi);
-			
-			phi = pow(phi,ngloss);
-			
-			color += mdiff * LightsLight[i].color * theta * shadowFac;
-			color += mspec * LightsLight[i].color * phi * shadowFac;
 		}
 		else // pointLight
 		{
 			float shadowFac = getSoftShadowPointLight(pos, LightsLight[i].origin);
-			//return vec3(getMapVolumeValue(pos));
-			//color += vec3(shadowFac);
-			//continue;
-			//shadowFac = 1.0;
-			if(shadowFac < 0.001)
+			if(shadowFac < 0.01)
 				continue;
 			
 			vec3 lightVec = pos - LightsLight[i].origin;//LightsLight[i].origin - pos;
 			
 			// check normal
-			vec3 reflectedLight = reflect(normalize(lightVec) , normal);
-			float theta = dot(reflectedLight, normal);
+			reflectedLight = reflect(normalize(lightVec) , normal);
+			theta = dot(reflectedLight, normal);
 			if(theta < 0.0)
 				continue;
 			
@@ -116,20 +109,20 @@ vec3 renderMapBlock(vec3 pos, vec3 normal, vec3 mdiff, vec3 mspec, float ngloss)
 			if(invDistance > 0.0) // only invert if distance != 0
 				invDistance = 1.0 / invDistance;
 			
-			float factor = 1.0 / LightsLight[i].attenuation * invDistance;
+			factor = 1.0 / LightsLight[i].attenuation * invDistance;
 			// if factor to small discard
 			if(factor < 0.015)
 				continue;
-				//return vec3(0.0,0.0,1.0);
-			factor = min(factor,1.0) * shadowFac;
-			
 				
-			float phi = dot(reflectedLight, eyeDir);
+			factor = min(factor,1.0) * shadowFac;
+		}
+		
+		color += mdiff * LightsLight[i].color * theta * factor;
+		if(isSpecular)
+		{
+			phi = dot(reflectedLight, eyeDir);
 			phi = max(0.0, phi);
-			
 			phi = pow(phi,ngloss);
-			
-			color += mdiff * LightsLight[i].color * theta * factor;
 			color += mspec * LightsLight[i].color * phi * factor;
 		}
 	}
