@@ -153,7 +153,7 @@ Game::Game()
 	lights.push_back(l);
 	m_pMap->setCube(new Cube(CubeDesc(Color::Blue().toDWORD()), l.origin, 0.5f), true, true);
 
-	m_pLight->init(/*Color(0.05f, 0.05f, 0.05f)*/Color::Black(), std::move(lights));
+	m_pLight->init(Color::Gray(0.1f), std::move(lights));
 #endif // _CLIENT
 
 	auto nodeArmLeft = std::unique_ptr <CharNode>(new CharNode(glm::vec3(1.0f, -2.0f, 0.0f)));

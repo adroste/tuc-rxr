@@ -13,7 +13,7 @@ float getMapVolumeValue(vec3 pos)
 bool isInMap(vec3 pos)
 {
 	return pos.x >= -0.5 && pos.y >= -0.5 && pos.z >= -0.5 	
-			&& pos.x <= 50.5 && pos.y <= 35.5 && pos.z <= 4.5;
+			&& pos.x <= 49.5 && pos.y <= 34.5 && pos.z <= 3.5;
 }
 
 float getSoftShadowPointLight(vec3 start, vec3 dest)
