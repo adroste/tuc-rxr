@@ -6,13 +6,14 @@
 
 in vec4 normal;
 in vec3 mapPos;
+flat in vec3 cubeMidpoint;
 
 void main()
 {
 	vec3 normNormal = normalize(normal.xyz);
-	vec3 neighbourBlock = mapPos + normNormal * 0.5;
+	vec3 neighbourBlock = cubeMidpoint + normNormal;
 	
-	if(isInMap(neighbourBlock) && getMapVolumeValue(neighbourBlock) > 0.5)
+	if(isInMap(neighbourBlock) && getMapVolumeValue(neighbourBlock) >= 0.5)
 		discard;
 	
 	vec3 color = renderMapBlock(mapPos, normNormal, MaterialDiffuse, MaterialSpecular, MaterialGlossy);
