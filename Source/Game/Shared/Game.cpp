@@ -125,7 +125,7 @@ Game::Game()
 	std::vector<UniformBlockLight::LightSource> lights;
 	UniformBlockLight::LightSource l;
 	l.type = UniformBlockLight::LightSource::Directional;
-	l.color = (Color::White() * 0.06f).toVec3();
+	l.color = (Color::White() * 0.1f).toVec3();
 	l.origin = glm::normalize(glm::vec3(0.0f, 1.0f, 0.0f));
 	lights.push_back(l);
 

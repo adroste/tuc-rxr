@@ -5,6 +5,7 @@
 uniform sampler3D mapTexVol;
 #define SHADOW_STEP 0.5
 #define SHADOW_TRESHOLD 0.0625
+#define FACTOR_DISCARD 0.0005
 const float SH_FUNC_M = 1.0 / (1.0 - SHADOW_TRESHOLD * SHADOW_TRESHOLD);
 const float SH_FUNC_B = 1.0 - SH_FUNC_M;
 
@@ -89,7 +90,7 @@ vec3 renderMapBlock(vec3 pos, vec3 normal, vec3 mdiff, vec3 mspec, float ngloss)
 		if(LightsLight[i].type == uint(0)) // directional
 		{
 			float factor = getSoftShadowDirectional(pos, -LightsLight[i].origin);
-			if(factor <= 0.0)
+			if(factor <= FACTOR_DISCARD)
 				continue;
 				
 			// lambert term
@@ -101,7 +102,7 @@ vec3 renderMapBlock(vec3 pos, vec3 normal, vec3 mdiff, vec3 mspec, float ngloss)
 		else // pointLight
 		{
 			float shadowFac = getSoftShadowPointLight(pos, LightsLight[i].origin);
-			if(shadowFac <= 0.0)
+			if(shadowFac <= FACTOR_DISCARD)
 				continue;
 			
 			vec3 lightVec = pos - LightsLight[i].origin;//LightsLight[i].origin - pos;
