@@ -5,6 +5,8 @@
 uniform sampler3D mapTexVol;
 #define SHADOW_STEP 0.5
 #define SHADOW_TRESHOLD 0.0625
+const float SH_FUNC_M = 1.0 / (1.0 - SHADOW_TRESHOLD * SHADOW_TRESHOLD);
+const float SH_FUNC_B = 1.0 - SH_FUNC_M;
 
 float getMapVolumeValue(vec3 pos)
 {
@@ -14,6 +16,13 @@ bool isInMap(vec3 pos)
 {
 	return pos.x >= -0.5 && pos.y >= -0.5 && pos.z >= -0.5 	
 			&& pos.x <= 49.5 && pos.y <= 34.5 && pos.z <= 3.5;
+}
+
+float smoothShadowValue(float x)
+{
+	// [SHADOW_TRESHOLD,1.0] -> [0.0,1.0] to smooth borders
+	float y = SH_FUNC_M * x * x + SH_FUNC_B;
+	return y;
 }
 
 float getSoftShadowPointLight(vec3 start, vec3 dest)
@@ -39,7 +48,7 @@ float getSoftShadowPointLight(vec3 start, vec3 dest)
 		pos += vstep;
 		curDist += SHADOW_STEP;
 	}
-	return f * f;
+	return smoothShadowValue(f);
 }
 
 float getSoftShadowDirectional(vec3 start, vec3 destOut)
@@ -58,7 +67,7 @@ float getSoftShadowDirectional(vec3 start, vec3 destOut)
 		
 		pos += vstep;
 	}
-	return f * f;
+	return smoothShadowValue(f);
 }
 
 // using sampler2D
@@ -80,7 +89,7 @@ vec3 renderMapBlock(vec3 pos, vec3 normal, vec3 mdiff, vec3 mspec, float ngloss)
 		if(LightsLight[i].type == uint(0)) // directional
 		{
 			float factor = getSoftShadowDirectional(pos, -LightsLight[i].origin);
-			if(factor < 0.01)
+			if(factor <= 0.0)
 				continue;
 				
 			// lambert term
@@ -92,7 +101,7 @@ vec3 renderMapBlock(vec3 pos, vec3 normal, vec3 mdiff, vec3 mspec, float ngloss)
 		else // pointLight
 		{
 			float shadowFac = getSoftShadowPointLight(pos, LightsLight[i].origin);
-			if(shadowFac < 0.01)
+			if(shadowFac <= 0.0)
 				continue;
 			
 			vec3 lightVec = pos - LightsLight[i].origin;//LightsLight[i].origin - pos;
