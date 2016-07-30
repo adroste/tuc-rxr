@@ -10,8 +10,4 @@ public:
 	void create() override;
 
 	void updateMaterial(const glm::vec3& diffuse, const glm::vec3& specular, float gloss);
-private:
-	static const size_t m_nUniforms = 3;
-	GLuint m_indices[m_nUniforms];
-	GLint m_offset[m_nUniforms];
 };

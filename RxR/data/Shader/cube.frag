@@ -16,7 +16,7 @@ void main()
 	if(isInMap(neighbourBlock) && getMapVolumeValue(neighbourBlock) >= 0.5)
 		discard;
 	
-	vec3 color = renderMapBlock(mapPos, normNormal, MaterialDiffuse, MaterialSpecular, MaterialGlossy);
+	vec3 color = renderMapBlock(mapPos, normNormal, MaterialDiffuse, MaterialSpecular.rgb, MaterialSpecular.w);
 	
 	gl_FragColor = vec4(correctGamma(color),1.0);
 }

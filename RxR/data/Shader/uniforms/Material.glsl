@@ -1,8 +1,7 @@
 // material desciption
 
-uniform Material
+layout( std140 ) uniform Material
 {
 	vec3 MaterialDiffuse;
-	vec3 MaterialSpecular;
-	float MaterialGlossy; // specular factor cos^n(phi)
+	vec4 MaterialSpecular; // rgb -> color | w -> glossy
 };
