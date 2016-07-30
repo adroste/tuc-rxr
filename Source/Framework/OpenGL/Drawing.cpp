@@ -10,7 +10,8 @@ Drawing::Drawing()
 	m_uiCam({ Framework::STD_DRAW_X / 2, Framework::STD_DRAW_Y / 2 }, 1.0f, 1000.0f),
 	m_trans(m_shCube,"Transforms"),
 	m_material(m_shCube, "Material"),
-	m_lights(m_shCube, "Lights")
+	m_lights(m_shCube, "Lights"),
+	m_mapInfo(m_shCube, "MapInfo")
 {
 	m_curInstance = this;
 }
@@ -72,6 +73,11 @@ void Drawing::shaderedCube(const glm::mat4& mat, Shader& shader)
 void Drawing::setCubeMaterial(const Color& diffuse, const Color& specular, float gloss)
 {
 	m_material.updateMaterial(glm::vec3(diffuse.r, diffuse.g, diffuse.b), glm::vec3(specular.r, specular.g, specular.b), gloss);
+}
+
+void Drawing::setMapInfo(const Point3S& dim)
+{
+	m_mapInfo.setInfo({ float(dim.x), float(dim.y), float(dim.z) });
 }
 
 void Drawing::setCamera(const glm::mat4& mat)
@@ -154,6 +160,7 @@ void Drawing::create()
 	m_trans.create();
 	m_material.create();
 	m_lights.create();
+	m_mapInfo.create();
 }
 
 void Drawing::dispose()
@@ -173,6 +180,7 @@ void Drawing::dispose()
 	m_trans.dispose();
 	m_material.dispose();
 	m_lights.dispose();
+	m_mapInfo.dispose();
 }
 
 void Drawing::init(FT_Library ftlib)

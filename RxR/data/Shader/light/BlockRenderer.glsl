@@ -1,6 +1,7 @@
 // helper class to render materials
 
 #include "../uniforms/Lights.glsl"
+#include "../uniforms/MapInfo.glsl"
 
 uniform sampler3D mapTexVol;
 #define SHADOW_STEP 0.5
@@ -11,12 +12,12 @@ const float SH_FUNC_B = 1.0 - SH_FUNC_M;
 
 float getMapVolumeValue(vec3 pos)
 {
-	return texture3D(mapTexVol, vec3((pos.x + 0.5) / 50.0, (pos.y + 0.5) / 35.0, (pos.z + 0.5) / 4.0)).r;
+	return texture3D(mapTexVol, vec3((pos.x + 0.5) / MapDim.x, (pos.y + 0.5) / MapDim.y, (pos.z + 0.5) / MapDim.z)).r;
 }
 bool isInMap(vec3 pos)
 {
 	return pos.x >= -0.5 && pos.y >= -0.5 && pos.z >= -0.5 	
-			&& pos.x <= 49.5 && pos.y <= 34.5 && pos.z <= 3.5;
+			&& pos.x <= MapDim.x - 0.5 && pos.y <= MapDim.y - 0.5 && pos.z <= MapDim.z - 0.5;
 }
 
 float smoothShadowValue(float x)

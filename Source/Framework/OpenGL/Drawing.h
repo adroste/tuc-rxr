@@ -11,6 +11,8 @@
 #include "Shader/UniformBlockLight.h"
 #include "../../Game/Shared/CubeDesc.h"
 #include "Camera.h"
+#include "Shader/UniformBlockMapInfo.h"
+#include "../../Utility/Point3.h"
 
 class Drawing : public GLObject
 {
@@ -30,6 +32,7 @@ public:
 	void coloredCube(const PointF& pos, float scalar, const Color& c, float z = 0.0f);
 	void shaderedCube(const glm::mat4& mat, Shader& shader);
 	void setCubeMaterial(const Color& diffuse, const Color& specular, float gloss);
+	void setMapInfo(const Point3S& dim);
 
 	// camera
 	void setCamera(const glm::mat4& mat);
@@ -53,6 +56,7 @@ private:
 	UniformBlockTransforms m_trans;
 	UniformBlockMaterial m_material;
 	UniformBlockLight m_lights;
+	UniformBlockMapInfo m_mapInfo;
 
 	// fonts
 	Font m_fontHeadS;

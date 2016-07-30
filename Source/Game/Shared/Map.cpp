@@ -57,6 +57,7 @@ void Map::draw(Drawing& draw)
 	if(!m_texCreated)
 	{
 		m_pTextureMap->create();
+		draw.setMapInfo(m_dim);
 		m_texCreated = true;
 	}
 	m_pTextureMap->bind(0);
