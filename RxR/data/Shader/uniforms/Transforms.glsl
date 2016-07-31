@@ -1,6 +1,6 @@
 // Transformation Matrices
 
-uniform Transforms
+layout( std140 ) uniform Transforms
 {
 	mat4 matProjection;
 	mat4 matCamera;

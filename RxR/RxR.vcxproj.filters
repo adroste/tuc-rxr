@@ -163,6 +163,18 @@
     <ClCompile Include="..\Source\Framework\OpenGL\VolumeTextureMap.cpp">
       <Filter>Source\Framework\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Framework\OpenGL\Shader\UniformBlockLight.cpp">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Framework\OpenGL\Shader\UniformBlockMapInfo.cpp">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Framework\OpenGL\Shader\UniformBlockMaterial.cpp">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Game\Client\LightManager.cpp">
+      <Filter>Source\Game\Client</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\Shader.h">
@@ -336,6 +348,18 @@
     <ClInclude Include="..\Source\Framework\OpenGL\VolumeTextureMap.h">
       <Filter>Source\Framework\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlockMaterial.h">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlockLight.h">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Game\Client\LightManager.h">
+      <Filter>Source\Game\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlockMapInfo.h">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glew32.dll">
@@ -400,6 +424,15 @@
     </None>
     <None Include="data\Shader\uniforms\Transforms.glsl">
       <Filter>Resources / Dependencies\data\Shader\uniforms</Filter>
+    </None>
+    <None Include="data\Shader\uniforms\Lights.glsl">
+      <Filter>Resources / Dependencies\data\Shader\uniforms</Filter>
+    </None>
+    <None Include="data\Shader\uniforms\Material.glsl">
+      <Filter>Resources / Dependencies\data\Shader\uniforms</Filter>
+    </None>
+    <None Include="data\Shader\light\BlockRenderer.glsl">
+      <Filter>Resources / Dependencies\data\Shader\light</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

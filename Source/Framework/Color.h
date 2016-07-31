@@ -1,5 +1,6 @@
 #pragma once
 #include "../Utility/Tools.h"
+#include "../glm/detail/type_vec3.hpp"
 
 class Color
 {
@@ -27,6 +28,10 @@ public:
 		r |= uint8_t(this->r * 255.0f) << 16;
 		r |= uint8_t(this->a * 255.0f) << 24;
 		return r;
+	}
+	glm::vec3 toVec3() const
+	{
+		return glm::vec3(r, g, b);
 	}
 
 	Color()
@@ -67,11 +72,11 @@ public:
 		r *= scalar;
 		g *= scalar;
 		b *= scalar;
-		a *= scalar;
+		//a *= scalar;
 		normalize();
 		return *this;
 	}
-	Color& operator*(float scalar) const
+	Color operator*(float scalar) const
 	{
 		Color c(*this);
 		return c *= scalar;
@@ -158,6 +163,10 @@ public:
 	static Color DarkGray()
 	{
 		return Color(0.2f, 0.2f, 0.2f);
+	}
+	static Color Brown()
+	{
+		return Color(0.72, 0.47, 0.34);
 	}
 	static Color Random()
 	{

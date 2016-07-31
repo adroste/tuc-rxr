@@ -233,3 +233,4 @@ public:
 
 using PointF = Point< float >;
 using PointI = Point< int >;
+using PointS = Point< size_t >;

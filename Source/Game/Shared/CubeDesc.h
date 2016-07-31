@@ -12,7 +12,9 @@ struct CubeDesc
 	{}
 	CubeDesc(uint32_t diff)
 		:
-		diffuse(diff)
+		diffuse(diff),
+		spec(0),
+		gloss(1.0f)
 	{}
 
 	uint32_t diffuse;

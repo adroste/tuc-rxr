@@ -7,13 +7,19 @@
 #include "Shader/ShaderButton.h"
 #include "Font.h"
 #include "Shader/UniformBlockTransforms.h"
+#include "Shader/UniformBlockMaterial.h"
+#include "Shader/UniformBlockLight.h"
 #include "../../Game/Shared/CubeDesc.h"
 #include "Camera.h"
+#include "Shader/UniformBlockMapInfo.h"
+#include "../../Utility/Point3.h"
+#include "VolumeTextureMap.h"
 
 class Drawing : public GLObject
 {
-public:
+	friend class Graphics;
 	Drawing();
+public:
 	~Drawing() {}
 
 	virtual void create() override;
@@ -27,25 +33,39 @@ public:
 	// cubes
 	void coloredCube(const PointF& pos, float scalar, const Color& c, float z = 0.0f);
 	void shaderedCube(const glm::mat4& mat, Shader& shader);
+	void setCubeMaterial(const Color& diffuse, const Color& specular, float gloss);
+	void setMapInfo(const Point3S& dim);
+	void setLights(const Color& ambient, const std::vector<UniformBlockLight::LightSource>& lights, const glm::vec3& eye);
 
 	// camera
 	void setCamera(const glm::mat4& mat);
 	void setProjection(const glm::mat4& mat);
 	void setModel(const glm::mat4& mat);
 
-	Font& getFont(Font::Style style, Font::Size size);
-	Shader& getCubeShader(CubeShader s);
-
 	Camera& getUiCam();
+
+	// shader
+	ShaderCube& getShaderCubeMap();
+
+	// static
+	static Font& getFont(Font::Style style, Font::Size size);
+private:
+	static Drawing& get();
 
 private:
 	Camera m_uiCam;
 
 	MeshCube m_meshCube;
-	ShaderCube m_shCube;
+
+	ShaderCube m_shCubeMap;
 	ShaderButton m_shButton;
 
 	UniformBlockTransforms m_trans;
+	UniformBlockMaterial m_material;
+	UniformBlockLight m_lights;
+	UniformBlockMapInfo m_mapInfo;
+
+	VolumeTextureMap m_volumeTextureMap;
 
 	// fonts
 	Font m_fontHeadS;

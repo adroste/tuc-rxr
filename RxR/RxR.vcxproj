@@ -168,6 +168,9 @@
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderCube.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderDisk.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\UniformBlock.cpp" />
+    <ClCompile Include="..\Source\Framework\OpenGL\Shader\UniformBlockLight.cpp" />
+    <ClCompile Include="..\Source\Framework\OpenGL\Shader\UniformBlockMapInfo.cpp" />
+    <ClCompile Include="..\Source\Framework\OpenGL\Shader\UniformBlockMaterial.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\UniformBlockTransforms.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\stb_image\stb_image.c" />
     <ClCompile Include="..\Source\Framework\OpenGL\Texture.cpp" />
@@ -175,6 +178,7 @@
     <ClCompile Include="..\Source\Framework\Sound\MusicFile.cpp" />
     <ClCompile Include="..\Source\Framework\Sound\Sound.cpp" />
     <ClCompile Include="..\Source\Framework\Window.cpp" />
+    <ClCompile Include="..\Source\Game\Client\LightManager.cpp" />
     <ClCompile Include="..\Source\Game\Shared\CharNode.cpp" />
     <ClCompile Include="..\Source\Game\Shared\Cube.cpp" />
     <ClCompile Include="..\Source\Game\Shared\Game.cpp" />
@@ -201,6 +205,9 @@
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderCube.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderDisk.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlock.h" />
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlockLight.h" />
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlockMapInfo.h" />
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlockMaterial.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlockTransforms.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\stb_image\stb_image.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Texture.h" />
@@ -214,6 +221,7 @@
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IValueHolderSafe.h" />
     <ClInclude Include="..\Source\Framework\UI\UIButton.h" />
     <ClInclude Include="..\Source\Framework\Window.h" />
+    <ClInclude Include="..\Source\Game\Client\LightManager.h" />
     <ClInclude Include="..\Source\Game\Client\States\StateGame.h" />
     <ClInclude Include="..\Source\Game\Client\States\StateMenu.h" />
     <ClInclude Include="..\Source\Game\Shared\CharNode.h" />
@@ -250,9 +258,12 @@
     <None Include="data\Shader\cube.vert" />
     <None Include="data\Shader\disk.frag" />
     <None Include="data\Shader\disk.vert" />
+    <None Include="data\Shader\light\BlockRenderer.glsl" />
     <None Include="data\Shader\light\bump.glsl" />
     <None Include="data\Shader\text.frag" />
     <None Include="data\Shader\text.vert" />
+    <None Include="data\Shader\uniforms\Lights.glsl" />
+    <None Include="data\Shader\uniforms\Material.glsl" />
     <None Include="data\Shader\uniforms\Transforms.glsl" />
     <None Include="data\Sound\theme.ogg" />
     <None Include="glew32.dll" />

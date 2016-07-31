@@ -47,7 +47,7 @@ void Camera::recalcProject()
 void Camera::recalcCam()
 {
 	m_matCam = glm::lookAt(
-		glm::vec3(m_lookAt.x, m_lookAt.y - m_heightOffset, -m_dist), // camera pos
+		getEye(), // camera pos
 		glm::vec3(m_lookAt.x, m_lookAt.y, 0.0f), // lookAt
 		glm::vec3(0.0f, -1.0f, 0.0f)); // up vec
 }
@@ -84,4 +84,9 @@ void Camera::setDist(const float dist)
 	m_dist = dist;
 	recalcProject();
 	recalcCam();
+}
+
+glm::vec3 Camera::getEye() const
+{
+	return glm::vec3(m_lookAt.x, m_lookAt.y - m_heightOffset, -m_dist);
 }

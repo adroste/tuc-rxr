@@ -29,7 +29,7 @@ public:
 			throw SDLNet_Exception("System::init SDLNet init failed");
 
 		// seed random
-		srand((unsigned int)time(nullptr));
+		srand(static_cast<unsigned int>(time(nullptr)));
 	}
 	static void quit()
 	{
@@ -51,7 +51,7 @@ public:
 	static void messageBox(const std::string& title, const std::string& message, BoxIcon icon)
 	{
 		SDL_MessageBoxData dat;
-		dat.flags = (Uint32)icon;
+		dat.flags = static_cast<Uint32>(icon);
 		dat.window = nullptr;
 		dat.title = title.c_str();
 		dat.message = message.c_str();
@@ -112,6 +112,12 @@ public:
 	static void stopTextInput()
 	{
 		SDL_StopTextInput();
+	}
+
+	static size_t getThreadID()
+	{
+		SDL_threadID id = SDL_GetThreadID(nullptr);
+		return size_t(id);
 	}
 private:
 	System(){}

@@ -122,9 +122,9 @@ std::string Shader::loadShader(const std::string& fileName)
 				includeFile = path + includeFile;
 
 				// parse this file
-				output += "#line 1";
+				output += "#line 1 \n";
 				output += loadShader(includeFile);
-				output += "#line " + std::to_string(lineNumber + 1);
+				output += "\n#line " + std::to_string(lineNumber + 1) + "\n";
 			}
 			else
 			{

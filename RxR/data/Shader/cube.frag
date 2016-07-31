@@ -1,15 +1,22 @@
 #version 330 core
 
-uniform vec4 color;
+#include "light/BlockRenderer.glsl"
+#include "uniforms/Material.glsl"
+#include "light/gamma.glsl"
+
 in vec4 normal;
+in vec3 mapPos;
+flat in vec3 cubeMidpoint;
 
 void main()
 {
-	vec3 lightvec = normalize( vec3(0.0,-1.0,-0.7) );
-	vec3 n = normalize(normal.xyz);
-	float theta = dot( reflect( lightvec, n) , n);
-
-	theta = max(theta,0.1);
-	gl_FragColor = color * theta;
-	//gl_FragColor = vec4(abs(normal.xyz),1.0);
+	vec3 normNormal = normalize(normal.xyz);
+	vec3 neighbourBlock = cubeMidpoint + normNormal;
+	
+	if(isInMap(neighbourBlock) && getMapVolumeValue(neighbourBlock) >= 0.5)
+		discard;
+	
+	vec3 color = renderMapBlock(mapPos, normNormal, MaterialDiffuse, MaterialSpecular.rgb, MaterialSpecular.w);
+	
+	gl_FragColor = vec4(correctGamma(color),1.0);
 }
