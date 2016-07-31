@@ -22,6 +22,12 @@ public:
 	virtual void composeFrame(Drawing& draw, float dt) override
 	{
 		m_game.draw(draw);
+
+		draw.getUiCam().apply(draw);
+		Font& f = draw.getFont(Font::Style::Text, Font::Size::M);
+
+		f.setColor(Color::White());
+		f.write("hello", { 10,10 });
 	}
 
 private:

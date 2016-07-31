@@ -2,7 +2,7 @@
 #include "../../../glm/detail/type_vec4.hpp"
 
 
-UniformBlockMaterial::UniformBlockMaterial(Shader& refShader, const std::string& blockName)
+UniformBlockMaterial::UniformBlockMaterial(std::initializer_list<Shader*> refShader, const std::string& blockName)
 	:
 	UniformBlock(refShader, blockName)
 {

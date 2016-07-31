@@ -1,6 +1,6 @@
 #include "UniformBlockMapInfo.h"
 
-UniformBlockMapInfo::UniformBlockMapInfo(Shader & refShader, const std::string & blockName)
+UniformBlockMapInfo::UniformBlockMapInfo(std::initializer_list<Shader*> refShader, const std::string & blockName)
 	: 
 	UniformBlock(refShader, blockName) {
 }

@@ -163,9 +163,6 @@
     <ClCompile Include="..\Source\Framework\OpenGL\VolumeTextureMap.cpp">
       <Filter>Source\Framework\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Game\Client\LightManager.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\UniformBlockLight.cpp">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClCompile>
@@ -174,6 +171,9 @@
     </ClCompile>
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\UniformBlockMaterial.cpp">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Game\Client\LightManager.cpp">
+      <Filter>Source\Game\Client</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -5,7 +5,7 @@
 class UniformBlockMaterial : public UniformBlock
 {
 public:
-	UniformBlockMaterial(Shader& refShader, const std::string& blockName);
+	UniformBlockMaterial(std::initializer_list<Shader*> refShader, const std::string& blockName);
 	virtual ~UniformBlockMaterial();
 	void create() override;
 

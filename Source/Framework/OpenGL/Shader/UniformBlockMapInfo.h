@@ -5,7 +5,7 @@
 class UniformBlockMapInfo : public UniformBlock
 {
 public:
-	UniformBlockMapInfo(Shader& refShader, const std::string& blockName);
+	UniformBlockMapInfo(std::initializer_list<Shader*> refShader, const std::string& blockName);
 	virtual ~UniformBlockMapInfo() override;
 
 	void create() override;

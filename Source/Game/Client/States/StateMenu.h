@@ -38,16 +38,8 @@ public:
 	{
 		m_myButt.draw(draw);
 
-		//draw.rect(RectF::constructFromPoint(m_mpos, 10.0f), Color::Red());
+		draw.rect(RectF::constructFromPoint(m_mpos, 10.0f), Color::Red());
 
-		/*draw.coloredCube(m_mpos, 15.0f, Color::Cyan());
-		draw.coloredCube(m_mpos, 15.0f, Color::Cyan(), 30.0f);
-		draw.coloredCube(m_mpos, 15.0f, Color::Cyan(), -30.0f);
-		draw.coloredCube(m_mpos, 15.0f, Color::Cyan(), 60.0f);
-
-		draw.coloredCube(m_mpos + PointF(30.0f,0.0f), 15.0f, Color::Cyan());*/
-		
-		//m_cube.draw(draw);
 
 		draw.getFont(Font::Style::Text, Font::Size::L).setColor(Color::White());
 		draw.getFont(Font::Style::Text, Font::Size::L).write("Sample", { 100,100 });

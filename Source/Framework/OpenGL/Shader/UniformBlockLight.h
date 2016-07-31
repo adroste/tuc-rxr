@@ -18,15 +18,9 @@ public:
 		float attenuation;
 	};
 public:
-	UniformBlockLight(Shader& refShader, const std::string& blockName);
-
+	UniformBlockLight(std::initializer_list<Shader*> refShader, const std::string& blockName);
 	virtual ~UniformBlockLight();
 	void create() override;
 
 	void updateLights(const glm::vec3& ambient, const glm::vec3 eye, const std::vector< LightSource >& src);
-	                                                                             
-private:
-    static const size_t m_nUniforms = 6;
-	GLuint m_indices[m_nUniforms];
-	GLint m_offset[m_nUniforms];
 };

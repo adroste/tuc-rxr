@@ -50,6 +50,7 @@ private:
 	Camera m_uiCam;
 
 	MeshCube m_meshCube;
+
 	ShaderCube m_shCube;
 	ShaderButton m_shButton;
 

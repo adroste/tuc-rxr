@@ -3,7 +3,7 @@
 
 static const size_t MAX_LIGHTS = 20;
 
-UniformBlockLight::UniformBlockLight(Shader& refShader, const std::string& blockName)
+UniformBlockLight::UniformBlockLight(std::initializer_list<Shader*> refShader, const std::string& blockName)
 	: UniformBlock(refShader, blockName)
 {
 }
@@ -16,21 +16,7 @@ void UniformBlockLight::create()
 {
 	UniformBlock::create();
 
-	static const char* names[] = {
-		"LightsNLights",
-		"LightsAmbient",
-		"LightsEye",
-		"LightsLight[0]",
-		"LightsLight[1]"
-	};
-
-	// determine where in the buffer we should write the values
-	glGetUniformIndices(getShaderProgramm(), 3, names, m_indices);
-	m_indices[3] = 3;
-	m_indices[4] = 4;
-	m_indices[5] = 5;
-
-	glGetActiveUniformsiv(getShaderProgramm(), 6, m_indices, GL_UNIFORM_OFFSET, m_offset);
+	// TODO add block size assertion here
 
 	glCheck("UniformBlockLight::create");
 }

@@ -8,10 +8,12 @@ static Drawing* m_curInstance = nullptr;
 Drawing::Drawing()
 	:
 	m_uiCam({ Framework::STD_DRAW_X / 2, Framework::STD_DRAW_Y / 2 }, 1.0f, 1000.0f),
-	m_trans(m_shCube,"Transforms"),
-	m_material(m_shCube, "Material"),
-	m_lights(m_shCube, "Lights"),
-	m_mapInfo(m_shCube, "MapInfo")
+	m_trans({ &m_shCube, /*&m_shButton,*/
+	&m_fontHeadS, &m_fontHeadM, &m_fontHeadL,
+	&m_fontTextS, &m_fontTextM, &m_fontTextL }, "Transforms"),
+	m_material({ &m_shCube }, "Material"),
+	m_lights({ &m_shCube }, "Lights"),
+	m_mapInfo({ &m_shCube }, "MapInfo")
 {
 	m_curInstance = this;
 }

@@ -1,6 +1,6 @@
 #include "UniformBlockTransforms.h"
 
-UniformBlockTransforms::UniformBlockTransforms(Shader & refShader, const std::string & blockName)
+UniformBlockTransforms::UniformBlockTransforms(std::initializer_list<Shader*> refShader, const std::string & blockName)
 	:
 	UniformBlock(refShader,blockName)
 {

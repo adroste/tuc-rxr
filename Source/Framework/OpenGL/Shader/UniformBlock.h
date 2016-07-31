@@ -2,6 +2,7 @@
 #include "Shader.h"
 #include <memory>
 #include <cassert>
+#include <vector>
 
 class UniformBlock : public GLObject
 {
@@ -17,7 +18,7 @@ public:
 		{}
 	};
 public:
-	UniformBlock(Shader& refShader, const std::string& blockName);
+	UniformBlock(std::initializer_list<Shader*> refShader, const std::string& blockName);
 	virtual ~UniformBlock();
 
 	// important: init shader first
@@ -27,8 +28,6 @@ public:
 	// send data to gpu
 	void flush();
 protected:
-	GLuint getShaderProgramm() const;
-
 	template <class T>
 	void updateVar(const T& var, size_t offset)
 	{
@@ -41,9 +40,8 @@ protected:
 		memcpy(m_pBuffer.get() + offset, src, len);
 	}
 protected:
-	Shader& m_shader;
+	std::vector<Shader*> m_shaders;
 	const std::string m_blockName;
-	GLuint m_blockLocation = 0;
 	GLint m_blockSize = 0;
 	GLuint m_vbo = 0;
 	GLuint m_bindingPoint;
