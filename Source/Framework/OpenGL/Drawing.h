@@ -14,6 +14,8 @@
 #include "Shader/UniformBlockMapInfo.h"
 #include "../../Utility/Point3.h"
 #include "VolumeTextureMap.h"
+#include "Texture.h"
+#include "Shader/ShaderButtonSide.h"
 
 class Drawing : public GLObject
 {
@@ -28,7 +30,7 @@ public:
 	void init(FT_Library ftlib);
 
 	void rect(const RectF& r, const Color& c);
-	void button(const RectF& r, float border);
+	void button(const RectF& r, bool down);
 
 	// cubes
 	void coloredCube(const PointF& pos, float scalar, const Color& c, float z = 0.0f);
@@ -59,6 +61,7 @@ private:
 
 	ShaderCube m_shCubeMap;
 	ShaderButton m_shButton;
+	ShaderButtonSide m_shButtonSide;
 
 	UniformBlockTransforms m_trans;
 	UniformBlockMaterial m_material;
@@ -74,4 +77,12 @@ private:
 	Font m_fontTextS;
 	Font m_fontTextM;
 	Font m_fontTextL;
+
+	// textures
+	Texture m_texBtnSide;
+	Texture m_texBtnMid;
+	Texture m_texBtnBumpSide;
+	Texture m_texBtnBumpMid;
+	Texture m_texBtnBumpSideDown;
+	Texture m_texBtnBumpMidDown;
 };

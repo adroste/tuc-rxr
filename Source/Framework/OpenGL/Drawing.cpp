@@ -35,24 +35,56 @@ void Drawing::rect(const RectF & r, const Color & c)
 	glEndSafe();
 }
 
-void Drawing::button(const RectF& r, float border)
+void Drawing::button(const RectF& r, bool down)
 {
-	m_shButton.bind();
+	Texture& bumpMid = down ? m_texBtnBumpMidDown : m_texBtnBumpMid;
+	Texture& bumpSide = down ? m_texBtnBumpSideDown : m_texBtnBumpSide;
+
+	float sideWidth = float(m_texBtnSide.getWidth()) / float(m_texBtnSide.getHeight()) * r.getHeight();
+	m_shButtonSide.setStep({ 1.0f / bumpSide.getWidth(), 1.0f / bumpSide.getHeight() });
+
+	auto mid = r.getMidpoint();
+	m_shButtonSide.setLightPos({ mid.x,mid.y,r.getHeight() / 4.0f });
+
+	m_shButtonSide.bind();
+	m_texBtnSide.bind(0);
+	bumpSide.bind(1);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glBegin(GL_TRIANGLE_STRIP);
 	{
-		glTexCoord2f(1.0f, 0.0f);
-		glVertex3f(r.x2, r.y1, 0.0f);
-		glTexCoord2f(0.0f, 0.0f);
-		glVertex3f(r.x1, r.y1, 0.0f);
-		glTexCoord2f(1.0f, 1.0f);
-		glVertex3f(r.x2, r.y2, 0.0f);
-		glTexCoord2f(0.0f, 1.0f);
-		glVertex3f(r.x1, r.y2, 0.0f);
+		// left side
+		glVertex4f(r.x1 + sideWidth, r.y1, 1.0f, 0.0f);
+		glVertex4f(r.x1, r.y1, 0.0f, 0.0f);
+		glVertex4f(r.x1 + sideWidth, r.y2, 1.0f, 1.0f);
+		glVertex4f(r.x1, r.y2, 0.0f, 1.0f);
+
+		// right side
+		glVertex4f(r.x2, r.y1, 0.0f, 0.0f);
+		glVertex4f(r.x2 - sideWidth, r.y1, 1.0f, 0.0f);
+		glVertex4f(r.x2, r.y2, 0.0f, 1.0f);
+		glVertex4f(r.x2 - sideWidth, r.y2, 1.0f, 1.0f);
 	}
 	glEndSafe();
 
-	m_shButton.unbind();
+	m_texBtnMid.bind(0);
+	bumpMid.bind(1);
+
+	sideWidth -= 1.0f;
+	glBegin(GL_TRIANGLE_STRIP);
+	{
+		glVertex4f(r.x2 - sideWidth, r.y1, 0.5f, 0.0f);
+		glVertex4f(r.x1 + sideWidth, r.y1, 0.5f, 0.0f);
+		glVertex4f(r.x2 - sideWidth, r.y2, 0.5f, 1.0f);
+		glVertex4f(r.x1 + sideWidth, r.y2, 0.5f, 1.0f);
+	}
+	glEndSafe();
+
+	m_shButtonSide.unbind();
+
+	glDisable(GL_BLEND);
 }
 
 void Drawing::coloredCube(const PointF& pos, float scalar, const Color& c, float z)
@@ -145,6 +177,7 @@ void Drawing::create()
 	m_meshCube.create();
 	m_shCubeMap.create();
 	m_shButton.create();
+	m_shButtonSide.create();
 
 	// fonts
 	m_fontHeadS.create();
@@ -159,6 +192,13 @@ void Drawing::create()
 	m_material.create();
 	m_lights.create();
 	m_mapInfo.create();
+
+	m_texBtnMid.create();
+	m_texBtnSide.create();
+	m_texBtnBumpSide.create();
+	m_texBtnBumpMid.create();
+	m_texBtnBumpSideDown.create();
+	m_texBtnBumpMidDown.create();
 }
 
 void Drawing::dispose()
@@ -166,6 +206,7 @@ void Drawing::dispose()
 	m_meshCube.dispose();
 	m_shCubeMap.dispose();
 	m_shButton.dispose();
+	m_shButtonSide.dispose();
 
 	// fonts
 	m_fontHeadS.dispose();
@@ -179,12 +220,20 @@ void Drawing::dispose()
 	m_material.dispose();
 	m_lights.dispose();
 	m_mapInfo.dispose();
+
+	m_texBtnMid.dispose();
+	m_texBtnSide.dispose();
+	m_texBtnBumpSide.dispose();
+	m_texBtnBumpMid.dispose();
+	m_texBtnBumpSideDown.dispose();
+	m_texBtnBumpMidDown.dispose();
 }
 
 void Drawing::init(FT_Library ftlib)
 {
 	m_shCubeMap.load();
 	m_shButton.load();
+	m_shButtonSide.load();
 
 	// fonts
 	m_fontHeadS.load(ftlib, "data/Font/DevinneSwash.ttf", float(Font::Size::S));
@@ -193,4 +242,11 @@ void Drawing::init(FT_Library ftlib)
 	m_fontTextS.load(ftlib, "data/Font/Domestic_Manners.ttf", float(Font::Size::S));
 	m_fontTextM.load(ftlib, "data/Font/Domestic_Manners.ttf", float(Font::Size::M));
 	m_fontTextL.load(ftlib, "data/Font/Domestic_Manners.ttf", float(Font::Size::L));
+
+	m_texBtnMid.load("data/Pic/btn_mid.png");
+	m_texBtnSide.load("data/Pic/btn_side.png");
+	m_texBtnBumpSide.load("data/Pic/btn_bump_side.bmp");
+	m_texBtnBumpMid.load("data/Pic/btn_bump_mid.bmp");
+	m_texBtnBumpSideDown.load("data/Pic/btn_bump_side_down.bmp");
+	m_texBtnBumpMidDown.load("data/Pic/btn_bump_mid_down.bmp");
 }
