@@ -9,7 +9,7 @@ Cube::Cube(const CubeDesc & desc, const glm::vec3 & pos, float scalar)
 	m_specular(desc.spec),
 	m_pos(pos),
 	m_rot(0.0f,0.0f,0.0f),
-	m_scalar(scalar * 0.5f + 0.01f)
+	m_scalar(scalar * 0.5f + 0.001f)
 {
 	recalcMatrix();
 }
