@@ -48,10 +48,7 @@ const glm::mat4& Cube::getTransform() const
 #ifdef _CLIENT
 void Cube::draw(Drawing& draw)
 {
-	Shader& shader = draw.getCubeShader(CubeShader::Default);
-	ShaderCube* shCube = dynamic_cast<ShaderCube*>(&shader);
-	assert(shCube);
-	//shCube->setColor(Color(m_desc.diffuse));
+	ShaderCube& shader = draw.getShaderCubeMap();
 	draw.setCubeMaterial(m_diffuse, m_specular, m_desc.gloss);
 
 	draw.shaderedCube(m_matTrans, shader);
@@ -59,9 +56,7 @@ void Cube::draw(Drawing& draw)
 
 void Cube::draw(Drawing& draw, glm::mat4 t)
 {
-	Shader& shader = draw.getCubeShader(CubeShader::Default);
-	ShaderCube* shCube = dynamic_cast<ShaderCube*>(&shader);
-	assert(shCube);
+	ShaderCube& shader = draw.getShaderCubeMap();
 	draw.setCubeMaterial(m_diffuse, m_specular, m_desc.gloss);
 
 	draw.shaderedCube(t * m_matTrans, shader);

@@ -2,20 +2,23 @@
 #include "../../glew/glew.h"
 #include "../../glm/gtc/matrix_transform.inl"
 #include "../Framework.h"
+#include "../../System/System.h"
 
 static Drawing* m_curInstance = nullptr;
+static size_t m_drawThreadID = 0;
 
 Drawing::Drawing()
 	:
 	m_uiCam({ Framework::STD_DRAW_X / 2, Framework::STD_DRAW_Y / 2 }, 1.0f, 1000.0f),
-	m_trans({ &m_shCube, /*&m_shButton,*/
+	m_trans({ &m_shCubeMap, /*&m_shButton,*/
 	&m_fontHeadS, &m_fontHeadM, &m_fontHeadL,
 	&m_fontTextS, &m_fontTextM, &m_fontTextL }, "Transforms"),
-	m_material({ &m_shCube }, "Material"),
-	m_lights({ &m_shCube }, "Lights"),
-	m_mapInfo({ &m_shCube }, "MapInfo")
+	m_material({ &m_shCubeMap }, "Material"),
+	m_lights({ &m_shCubeMap }, "Lights"),
+	m_mapInfo({ &m_shCubeMap }, "MapInfo")
 {
 	m_curInstance = this;
+	m_drawThreadID = System::getThreadID();
 }
 
 void Drawing::rect(const RectF & r, const Color & c)
@@ -58,9 +61,9 @@ void Drawing::coloredCube(const PointF& pos, float scalar, const Color& c, float
 	//setModel( glm::translate(glm::vec3(pos.x, pos.y, z)) * glm::scale(glm::vec3(scalar, scalar, scalar)));
 
 	setCubeMaterial(c, Color::Black(), 1.0f);
-	m_shCube.bind();
+	m_shCubeMap.bind();
 	m_meshCube.draw();
-	m_shCube.unbind();
+	m_shCubeMap.unbind();
 }
 
 void Drawing::shaderedCube(const glm::mat4& mat, Shader& shader)
@@ -80,6 +83,11 @@ void Drawing::setCubeMaterial(const Color& diffuse, const Color& specular, float
 void Drawing::setMapInfo(const Point3S& dim)
 {
 	m_mapInfo.setInfo({ float(dim.x), float(dim.y), float(dim.z) });
+}
+
+void Drawing::setLights(const Color& ambient, const std::vector<UniformBlockLight::LightSource>& lights, const glm::vec3& eye)
+{
+	m_lights.updateLights(ambient.toVec3(), eye, lights);
 }
 
 void Drawing::setCamera(const glm::mat4& mat)
@@ -105,33 +113,15 @@ Font& Drawing::getFont(Font::Style style, Font::Size size)
 	switch (size)
 	{
 	case Font::Size::S: 
-		return style == Font::Style::Headline ? m_fontHeadS : m_fontTextS;
+		return style == Font::Style::Headline ? get().m_fontHeadS : get().m_fontTextS;
 	case Font::Size::M:
-		return style == Font::Style::Headline ? m_fontHeadM : m_fontTextM;
+		return style == Font::Style::Headline ? get().m_fontHeadM : get().m_fontTextM;
 	case Font::Size::L:
-		return style == Font::Style::Headline ? m_fontHeadL : m_fontTextL;
+		return style == Font::Style::Headline ? get().m_fontHeadL : get().m_fontTextL;
 	default:
 		assert("Drawing::getFont invalid usage" == nullptr);
 		throw Exception("Drawing::getFont");
 	}
-}
-
-Shader& Drawing::getCubeShader(CubeShader s)
-{
-	switch (s)
-	{
-	case CubeShader::Default:
-		return m_shCube;
-	default:
-		assert("Drawing::getCubeShader invalid usage" == nullptr);
-		throw Exception("Drawing::getCubeShader");
-	}
-
-}
-
-UniformBlockLight& Drawing::getLightUniform()
-{
-	return m_lights;
 }
 
 Camera& Drawing::getUiCam()
@@ -139,15 +129,21 @@ Camera& Drawing::getUiCam()
 	return m_uiCam;
 }
 
-Drawing& Drawing::getDraw()
+ShaderCube& Drawing::getShaderCubeMap()
 {
+	return m_shCubeMap;
+}
+
+Drawing& Drawing::get()
+{
+	assert(m_curInstance);
 	return *m_curInstance;
 }
 
 void Drawing::create()
 {
 	m_meshCube.create();
-	m_shCube.create();
+	m_shCubeMap.create();
 	m_shButton.create();
 
 	// fonts
@@ -168,7 +164,7 @@ void Drawing::create()
 void Drawing::dispose()
 {
 	m_meshCube.dispose();
-	m_shCube.dispose();
+	m_shCubeMap.dispose();
 	m_shButton.dispose();
 
 	// fonts
@@ -187,7 +183,7 @@ void Drawing::dispose()
 
 void Drawing::init(FT_Library ftlib)
 {
-	m_shCube.load();
+	m_shCubeMap.load();
 	m_shButton.load();
 
 	// fonts

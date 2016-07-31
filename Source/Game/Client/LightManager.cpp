@@ -2,8 +2,7 @@
 
 LightManager::LightManager(const Camera& cam)
 	:
-	m_cam(cam),
-	m_uniformLight(Drawing::getDraw().getLightUniform())
+	m_cam(cam)
 {
 }
 
@@ -14,12 +13,11 @@ void LightManager::init(const Color & ambient, std::vector<UniformBlockLight::Li
 
 }
 
-void LightManager::apply()
+void LightManager::apply(Drawing& draw)
 {
 	if(!m_isApplied)
 	{
-		m_uniformLight.updateLights(m_ambient.toVec3(),
-			m_cam.getEye(), m_lights);
+		draw.setLights(m_ambient, m_lights, m_cam.getEye());
 		m_isApplied = true;
 	}
 	// TODO else check for changes => apply only on changes
