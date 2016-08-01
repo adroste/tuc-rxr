@@ -6,7 +6,6 @@
 uniform sampler2D tex;
 uniform sampler2D heightMap;
 
-uniform vec2 d; // dx, dy
 uniform vec3 lightPos;
 
 in vec2 texCoord;
@@ -30,23 +29,7 @@ void main()
 {
 	vec4 raw = texture(heightMap, texCoord);
 	
-	/*
-		00	10	20
-		01	11	21
-		02	21	22
-	*/
-	float s11 = raw.x;
-	float s01 = texture(heightMap, texCoord + vec2(-d.x,0.0)).x;
-	float s21 = texture(heightMap, texCoord + vec2(d.x,0.0)).x;
-	float s10 = texture(heightMap, texCoord + vec2(0.0,-d.y)).x;
-	float s12 = texture(heightMap, texCoord + vec2(0.0,d.y)).x;
-	
-	vec3 va = normalize(vec3(size.xy,s21-s01));
-    vec3 vb = normalize(vec3(size.yx,s12-s10));
-    vec4 bump = vec4( cross(va,vb), s11 );
-	
-	vec3 normal = normalize( bump.xyz );
-	float height = bump.w;
+	vec3 normal = normalize( ((255.0 / 128.0 * raw.xyz) - 1.0) );
 	
 	vec4 sampleColor = texture(tex, texCoord);
 	vec3 diffuse = revertGamma( sampleColor.rgb );

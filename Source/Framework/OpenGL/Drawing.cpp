@@ -10,12 +10,13 @@ static size_t m_drawThreadID = 0;
 Drawing::Drawing()
 	:
 	m_uiCam({ Framework::STD_DRAW_X / 2, Framework::STD_DRAW_Y / 2 }, 1.0f, 1000.0f),
-	m_trans({ &m_shCubeMap, /*&m_shButton,*/
+	m_trans({ &m_shCubeMap, /*&m_shButton,*/&m_shButtonSide,
 	&m_fontHeadS, &m_fontHeadM, &m_fontHeadL,
 	&m_fontTextS, &m_fontTextM, &m_fontTextL }, "Transforms"),
 	m_material({ &m_shCubeMap }, "Material"),
 	m_lights({ &m_shCubeMap }, "Lights"),
-	m_mapInfo({ &m_shCubeMap }, "MapInfo")
+	m_mapInfo({ &m_shCubeMap }, "MapInfo"),
+	m_blockFramework({&m_shButtonSide },"Framework")
 {
 	m_curInstance = this;
 	m_drawThreadID = System::getThreadID();
@@ -38,17 +39,17 @@ void Drawing::rect(const RectF & r, const Color & c)
 void Drawing::button(const RectF& r, bool down)
 {
 	Texture& bumpMid = down ? m_texBtnBumpMidDown : m_texBtnBumpMid;
-	Texture& bumpSide = down ? m_texBtnBumpSideDown : m_texBtnBumpSide;
+	Texture& bumpLeft = down ? m_texBtnBumpLeftDown : m_texBtnBumpLeft;
+	Texture& bumpRight = down ? m_texBtnBumpRightDown : m_texBtnBumpRight;
 
 	float sideWidth = float(m_texBtnSide.getWidth()) / float(m_texBtnSide.getHeight()) * r.getHeight();
-	m_shButtonSide.setStep({ 1.0f / bumpSide.getWidth(), 1.0f / bumpSide.getHeight() });
 
 	auto mid = r.getMidpoint();
-	m_shButtonSide.setLightPos({ mid.x,mid.y,r.getHeight() / 4.0f });
+	m_shButtonSide.setLightPos({ mid.x,/*mid.y*/r.y1 - 30.0f,r.getHeight() / 4.0f });
 
 	m_shButtonSide.bind();
 	m_texBtnSide.bind(0);
-	bumpSide.bind(1);
+	bumpLeft.bind(1);
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -60,7 +61,12 @@ void Drawing::button(const RectF& r, bool down)
 		glVertex4f(r.x1, r.y1, 0.0f, 0.0f);
 		glVertex4f(r.x1 + sideWidth, r.y2, 1.0f, 1.0f);
 		glVertex4f(r.x1, r.y2, 0.0f, 1.0f);
+	}
+	glEndSafe();
 
+	bumpRight.bind(1);
+	glBegin(GL_TRIANGLE_STRIP);
+	{
 		// right side
 		glVertex4f(r.x2, r.y1, 0.0f, 0.0f);
 		glVertex4f(r.x2 - sideWidth, r.y1, 1.0f, 0.0f);
@@ -192,12 +198,15 @@ void Drawing::create()
 	m_material.create();
 	m_lights.create();
 	m_mapInfo.create();
+	m_blockFramework.create();
 
 	m_texBtnMid.create();
 	m_texBtnSide.create();
-	m_texBtnBumpSide.create();
+	m_texBtnBumpLeftDown.create();
+	m_texBtnBumpRightDown.create();
 	m_texBtnBumpMid.create();
-	m_texBtnBumpSideDown.create();
+	m_texBtnBumpLeft.create();
+	m_texBtnBumpRight.create();
 	m_texBtnBumpMidDown.create();
 }
 
@@ -220,12 +229,15 @@ void Drawing::dispose()
 	m_material.dispose();
 	m_lights.dispose();
 	m_mapInfo.dispose();
+	m_blockFramework.dispose();
 
 	m_texBtnMid.dispose();
 	m_texBtnSide.dispose();
-	m_texBtnBumpSide.dispose();
+	m_texBtnBumpLeftDown.dispose();
+	m_texBtnBumpRightDown.dispose();
 	m_texBtnBumpMid.dispose();
-	m_texBtnBumpSideDown.dispose();
+	m_texBtnBumpLeft.dispose();
+	m_texBtnBumpRight.dispose();
 	m_texBtnBumpMidDown.dispose();
 }
 
@@ -245,8 +257,10 @@ void Drawing::init(FT_Library ftlib)
 
 	m_texBtnMid.load("data/Pic/btn_mid.png");
 	m_texBtnSide.load("data/Pic/btn_side.png");
-	m_texBtnBumpSide.load("data/Pic/btn_bump_side.bmp");
+	m_texBtnBumpLeft.load("data/Pic/btn_bump_left.bmp");
+	m_texBtnBumpRight.load("data/Pic/btn_bump_right.bmp");
 	m_texBtnBumpMid.load("data/Pic/btn_bump_mid.bmp");
-	m_texBtnBumpSideDown.load("data/Pic/btn_bump_side_down.bmp");
+	m_texBtnBumpLeftDown.load("data/Pic/btn_bump_left_down.bmp");
+	m_texBtnBumpRightDown.load("data/Pic/btn_bump_right_down.bmp");
 	m_texBtnBumpMidDown.load("data/Pic/btn_bump_mid_down.bmp");
 }

@@ -18,7 +18,7 @@ public:
 		m_myButt.registerMe(this);
 
 		m_mpos = { 500,500 };
-		//Sound::playMusic(Sound::Music::Hey);
+		Sound::playMusic(Sound::Music::Hey);
 	}
 	virtual ~StateMenu()
 	{}
@@ -26,9 +26,10 @@ public:
 	virtual bool update(float dt) override
 	{
 		if (m_myButt.isClicked(true))
-		{	//Sound::playMusic(Sound::Music::Theme);
+		{	
+			Sound::playMusic(Sound::Music::Theme);
 			//Sound::playSound(Sound::Sfx::Plop);
-			setNextState(std::unique_ptr<GameState>(new StateGame()));
+			//setNextState(std::unique_ptr<GameState>(new StateGame()));
 		}
 
 		return false;

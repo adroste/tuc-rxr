@@ -16,6 +16,7 @@
 #include "VolumeTextureMap.h"
 #include "Texture.h"
 #include "Shader/ShaderButtonSide.h"
+#include "Shader/UniformBlockFramework.h"
 
 class Drawing : public GLObject
 {
@@ -67,6 +68,7 @@ private:
 	UniformBlockMaterial m_material;
 	UniformBlockLight m_lights;
 	UniformBlockMapInfo m_mapInfo;
+	UniformBlockFramework m_blockFramework;
 
 	VolumeTextureMap m_volumeTextureMap;
 
@@ -81,8 +83,10 @@ private:
 	// textures
 	Texture m_texBtnSide;
 	Texture m_texBtnMid;
-	Texture m_texBtnBumpSide;
+	Texture m_texBtnBumpLeft;
+	Texture m_texBtnBumpRight;
 	Texture m_texBtnBumpMid;
-	Texture m_texBtnBumpSideDown;
+	Texture m_texBtnBumpLeftDown;
+	Texture m_texBtnBumpRightDown;
 	Texture m_texBtnBumpMidDown;
 };

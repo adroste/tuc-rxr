@@ -7,6 +7,7 @@
 #include "../../System/Exceptions/SDL_Exception.h"
 #include <ft2build.h>
 #include FT_FREETYPE_H
+#include "../../System/Input.h"
 
 Graphics::Graphics()
 {
@@ -87,6 +88,8 @@ void Graphics::beginFrame()
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	m_draw.m_blockFramework.update(Input::getMouse());
 
 	glCheck("Graphics::beginFrame");
 }

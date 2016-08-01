@@ -178,6 +178,9 @@
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderButtonSide.cpp">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Framework\OpenGL\Shader\UniformBlockFramework.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\Shader.h">
@@ -364,6 +367,9 @@
       <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderButtonSide.h">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlockFramework.h">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClInclude>
   </ItemGroup>

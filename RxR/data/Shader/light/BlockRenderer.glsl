@@ -12,7 +12,7 @@ const float SH_FUNC_B = 1.0 - SH_FUNC_M;
 
 float getMapVolumeValue(vec3 pos)
 {
-	return texture3D(mapTexVol, vec3((pos.x + 0.5) / MapDim.x, (pos.y + 0.5) / MapDim.y, (pos.z + 0.5) / MapDim.z)).r;
+	return texture(mapTexVol, vec3((pos.x + 0.5) / MapDim.x, (pos.y + 0.5) / MapDim.y, (pos.z + 0.5) / MapDim.z)).r;
 }
 bool isInMap(vec3 pos)
 {
