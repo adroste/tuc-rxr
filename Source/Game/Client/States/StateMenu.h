@@ -6,6 +6,7 @@
 #include "../../../Framework/UI/UIButtonText.h"
 #include "../../../Framework/OpenGL/Shader/UIColorPicker.h"
 #include "../../../Framework/UI/UIInputField.h"
+#include "../../../Framework/UI/UILabel.h"
 
 class StateMenu : public GameState
 {
@@ -13,18 +14,26 @@ public:
 	StateMenu()
 		:
 		GameState(GameState::TransitionState::ForcePreserve),
-		m_myButt(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::L), "Can't Touch This"),
+		m_title(Drawing::getFont(Font::Style::Headline,Font::Size::L),"MainWindow"),
+		m_btnSingle(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Can't Touch This"),
+		m_btnEdit(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Editor"),
 		m_colorPicker(300, { 640, 360 }),
 		m_inp(Drawing::getFont(Font::Style::Text,Font::Size::M),20)
 	{
-		//m_myButt.setDim({ 350, 80 });
-		m_myButt.adjustToFontHeadline();
-		m_myButt.center();
+		//m_btnSingle.setDim({ 350, 80 });
+		m_btnSingle.adjustToFontHeadline();
+		m_btnSingle.centerX(200.0f);
+		m_btnEdit.adjustToFontHeadline();
+		m_btnEdit.setWidth(m_btnSingle.getDim().x);
+		m_btnEdit.centerX(300.0f);
 
 		m_inp.setDim({ 300,60 });
 		m_inp.setOrigin({ 10,10 });
 
-		m_myButt.registerMe(this);
+		m_title.centerX(50.0f);
+
+		m_btnSingle.registerMe(this);
+		m_btnEdit.registerMe(this);
 		m_inp.registerMe(this);
 
 		m_mpos = { 500,500 };
@@ -35,7 +44,7 @@ public:
 
 	virtual bool update(float dt) override
 	{
-		if (m_myButt.isClicked(true))
+		if (m_btnSingle.isClicked(true))
 		{	
 			Sound::playMusic(Sound::Music::Theme);
 			//Sound::playSound(Sound::Sfx::Plop);
@@ -47,17 +56,12 @@ public:
 
 	virtual void composeFrame(Drawing& draw, float dt) override
 	{
-		//m_myButt.draw(draw);
+	
 		//m_colorPicker.draw(draw);
+		m_title.draw(draw);
 
-		draw.line({ 640, 360 }, m_mpos, 100.0f, Color::Cyan());
-
-		draw.rect(RectF::constructFromPoint(m_mpos, 10.0f), Color::Red());
-
-
-		draw.getFont(Font::Style::Text, Font::Size::L).setColor(Color::White());
-		draw.getFont(Font::Style::Text, Font::Size::L).write("Sample", { 100,100 });
-		m_inp.draw(draw);
+		m_btnSingle.draw(draw);
+		m_btnEdit.draw(draw);
 	}
 	virtual bool mouseMove(const PointF& mpos, bool handled) override
 	{
@@ -68,10 +72,11 @@ public:
 		return handled;
 	}
 private:
-	PointI m_mpos;
-	UIButtonText m_myButt;
-	UIInputField m_inp;
+	UILabel	m_title;
 
+	PointI m_mpos;
+	UIButtonText m_btnSingle;
+	UIButtonText m_btnEdit;
 
 	UIColorPicker m_colorPicker;
 };

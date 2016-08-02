@@ -29,7 +29,7 @@ public:
 			throw Exception("UIButtonText::draw default case, missing style");
 		}
 	}
-
+	// TODO fix
 	virtual void adjustToFontHeadline()
 	{
 		PointF offset;
