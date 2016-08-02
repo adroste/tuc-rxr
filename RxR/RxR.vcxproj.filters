@@ -371,7 +371,8 @@
     </ClInclude>
     <ClInclude Include="..\Source\Framework\UI\UIInputField.h">
       <Filter>Source\Framework\UI</Filter>
-    </ClInclude>    <ClInclude Include="..\Source\Framework\UI\UIButtonText.h">
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\UIButtonText.h">
       <Filter>Source\Framework\UI</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Framework\UI\Interfaces\ISelectable.h">
@@ -385,7 +386,11 @@
     </ClInclude>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\UIColorPicker.h">
       <Filter>Source\Framework\UI</Filter>
-    </ClInclude>  </ItemGroup>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\UILabel.h">
+      <Filter>Source\Framework\UI</Filter>
+    </ClInclude>
+  </ItemGroup>
   <ItemGroup>
     <None Include="glew32.dll">
       <Filter>Resources / Dependencies</Filter>
