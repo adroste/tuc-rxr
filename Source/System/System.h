@@ -107,6 +107,7 @@ public:
 	}
 	static void startTextInput()
 	{
+		// TODO touch keyboard?
 		SDL_StartTextInput();
 	}
 	static void stopTextInput()
