@@ -142,9 +142,6 @@
     <ClCompile Include="..\Source\Framework\OpenGL\FramebufferObject.h">
       <Filter>Source\Framework\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderButton.cpp">
-      <Filter>Source\Framework\OpenGL\Shader</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Game\Shared\Cube.cpp">
       <Filter>Source\Game\Shared</Filter>
     </ClCompile>
@@ -175,11 +172,14 @@
     <ClCompile Include="..\Source\Game\Client\LightManager.cpp">
       <Filter>Source\Game\Client</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderButtonSide.cpp">
+    <ClCompile Include="..\Source\Framework\OpenGL\Shader\UniformBlockFramework.cpp">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Framework\OpenGL\Shader\UniformBlockFramework.cpp">
-      <Filter>Source</Filter>
+    <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderButton.cpp">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderHSVPicker.cpp">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -285,9 +285,6 @@
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderCube.h">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderButton.h">
-      <Filter>Source\Framework\OpenGL\Shader</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlock.h">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClInclude>
@@ -366,13 +363,25 @@
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlockMapInfo.h">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderButtonSide.h">
-      <Filter>Source\Framework\OpenGL\Shader</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlockFramework.h">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Framework\UI\UIObject.h">
+      <Filter>Source\Framework\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\UIButtonText.h">
+      <Filter>Source\Framework\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\Interfaces\ISelectable.h">
+      <Filter>Source\Framework\UI\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderButton.h">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderHSVPicker.h">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\UIColorPicker.h">
       <Filter>Source\Framework\UI</Filter>
     </ClInclude>
   </ItemGroup>

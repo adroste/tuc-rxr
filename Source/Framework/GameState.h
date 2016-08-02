@@ -125,7 +125,7 @@ public:
 			if (quit && curZ != r->getZIndex())
 				break;
 			curZ = r->getZIndex();
-			if (r->mouseDown(button, mpos))
+			if (r->mouseDown(buttonRoyal, mpos))
 				quit = true;
 		}
 		return quit;*/
@@ -140,7 +140,7 @@ public:
 			if (quit && curZ != r->getZIndex())
 				break;
 			curZ = r->getZIndex();
-			if (r->mouseUp(button, mpos))
+			if (r->mouseUp(buttonRoyal, mpos))
 				quit = true;
 		}
 		return quit;*/

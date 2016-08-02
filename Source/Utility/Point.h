@@ -229,6 +229,10 @@ public:
 		res.y = y * cost + x * sint;
 		return res;
 	}
+	static inline Point<T> mult(const Point<T>& a, const Point<T>& b)
+	{
+		return { a.x * b.x, a.y * b.y };
+	}
 };
 
 using PointF = Point< float >;

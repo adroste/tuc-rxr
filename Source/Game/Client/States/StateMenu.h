@@ -3,6 +3,8 @@
 #include "../../../Framework/Sound/Sound.h"
 #include "../../../Framework/UI/UIButton.h"
 #include "StateGame.h"
+#include "../../../Framework/UI/UIButtonText.h"
+#include "../../../Framework/OpenGL/Shader/UIColorPicker.h"
 
 class StateMenu : public GameState
 {
@@ -10,9 +12,12 @@ public:
 	StateMenu()
 		:
 		GameState(GameState::TransitionState::ForcePreserve),
-		m_cube(CubeDesc(Color::Red().toDWORD()),{500.0f,500.0f,0.0f},70.0f)
+		m_cube(CubeDesc(Color::Red().toDWORD()), { 500.0f,500.0f,0.0f }, 70.0f),
+		m_myButt(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::L), "Can't Touch This"),
+		m_colorPicker(300, { 640, 360 })
 	{
-		m_myButt.setDim({ 350, 80 });
+		//m_myButt.setDim({ 350, 80 });
+		m_myButt.adjustToFontHeadline();
 		m_myButt.center();
 
 		m_myButt.registerMe(this);
@@ -37,7 +42,10 @@ public:
 
 	virtual void composeFrame(Drawing& draw, float dt) override
 	{
-		m_myButt.draw(draw);
+		//m_myButt.draw(draw);
+		//m_colorPicker.draw(draw);
+
+		draw.line({ 640, 360 }, m_mpos, 100.0f, Color::Cyan());
 
 		draw.rect(RectF::constructFromPoint(m_mpos, 10.0f), Color::Red());
 
@@ -51,7 +59,7 @@ public:
 
 		m_cube.setRot(m_cube.getRot() + glm::vec3(0.01f, 0.02f, 0.03f));
 
-		//m_mpos = mpos;
+		m_mpos = mpos;
 		return handled;
 	}
 	virtual bool keyDown(SDL_Scancode s) override
@@ -80,7 +88,9 @@ public:
 	}
 private:
 	PointI m_mpos;
-	UIButton m_myButt;
+	UIButtonText m_myButt;
 
 	Cube m_cube;
+
+	UIColorPicker m_colorPicker;
 };

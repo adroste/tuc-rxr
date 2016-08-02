@@ -1,9 +1,16 @@
-#version 120
+#version 330 core
 
-varying vec2 curPos;
+#include "uniforms/Transforms.glsl"
 
-void main() 
+in vec4 btnInfo;
+
+out vec2 texCoord;
+out vec3 pos;
+
+void main()
 {
-	curPos =  gl_MultiTexCoord0.xy;
-	gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * vec4(gl_Vertex.xyz, 1.0);
+	texCoord = btnInfo.zw;
+	vec4 p = vec4(btnInfo.xy, 0.0, 1.0);
+	pos = p.xyz;
+	gl_Position = matProjection * matCamera *  p;
 }

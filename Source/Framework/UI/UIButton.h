@@ -2,19 +2,33 @@
 #include "../../System/Input.h"
 #include "Interfaces/IClickable.h"
 #include "UIObject.h"
+#include "Interfaces/ISelectable.h"
 
 
-class UIButton : public UIObject, public Input::IReceiver, public IClickable
+class UIButton : public UIObject, public Input::IReceiver, public IClickable, public ISelectable
 {
 public:
-	virtual ~UIButton() {}
-
-	void draw(Drawing& draw) override
+	enum class Style
 	{
-		static float border = 5.0f;
-		//draw.rect(getRect(), Color::White());
-		//draw.rect(getRect().shrink(border), m_isHover ? Color::Cyan() : Color::Black());
-		draw.button(getRect(), m_isDown);
+		Royal
+	};
+
+public:
+	UIButton(Style style) 
+		:
+		m_style(style)
+	{}
+
+	virtual ~UIButton()
+	{}
+
+	virtual void draw(Drawing& draw) override
+	{
+		switch(m_style)
+		{
+		case Style::Royal:
+			draw.buttonRoyal(getRect(), m_isDown);
+		}
 	}
 
 	virtual bool mouseMove(const PointF& mpos, bool handled) override
@@ -36,8 +50,23 @@ public:
 		m_isDown = false;
 		return isClicked(false);
 	}
+	virtual bool keyDown(SDL_Scancode s) override
+	{
+		if (s == SDL_SCANCODE_RETURN && isSelected())
+			m_isDown = true;
+		return m_isDown;
+	}
+	virtual bool keyUp(SDL_Scancode s) override
+	{
+		if (s == SDL_SCANCODE_RETURN && isSelected() && m_isDown)
+			setClicked(true);
+		m_isDown = false;
+		return isClicked(false);
+	}
 
 protected:
 	bool m_isHover = false;
 	bool m_isDown = false;
+
+	Style m_style;
 };

@@ -165,9 +165,9 @@
     <ClCompile Include="..\Source\Framework\OpenGL\Graphics.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\Shader.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderButton.cpp" />
-    <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderButtonSide.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderCube.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderDisk.cpp" />
+    <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderHSVPicker.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\UniformBlock.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\UniformBlockFramework.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\UniformBlockLight.cpp" />
@@ -204,9 +204,10 @@
     <ClInclude Include="..\Source\Framework\OpenGL\IDrawable.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\Shader.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderButton.h" />
-    <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderButtonSide.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderCube.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderDisk.h" />
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderHSVPicker.h" />
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\UIColorPicker.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlock.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlockFramework.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlockLight.h" />
@@ -221,9 +222,11 @@
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IClickable.h" />
     <ClInclude Include="..\Source\Framework\UI\Interfaces\ILableable.h" />
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IMetrics.h" />
+    <ClInclude Include="..\Source\Framework\UI\Interfaces\ISelectable.h" />
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IValueHolder.h" />
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IValueHolderSafe.h" />
     <ClInclude Include="..\Source\Framework\UI\UIButton.h" />
+    <ClInclude Include="..\Source\Framework\UI\UIButtonText.h" />
     <ClInclude Include="..\Source\Framework\UI\UIObject.h" />
     <ClInclude Include="..\Source\Framework\Window.h" />
     <ClInclude Include="..\Source\Game\Client\LightManager.h" />

@@ -15,8 +15,8 @@
 #include "../../Utility/Point3.h"
 #include "VolumeTextureMap.h"
 #include "Texture.h"
-#include "Shader/ShaderButtonSide.h"
 #include "Shader/UniformBlockFramework.h"
+#include "Shader/ShaderHSVPicker.h"
 
 class Drawing : public GLObject
 {
@@ -30,8 +30,14 @@ public:
 
 	void init(FT_Library ftlib);
 
+	// basic
 	void rect(const RectF& r, const Color& c);
-	void button(const RectF& r, bool down);
+	void line(PointF p1, PointF p2, float thickness, const Color& color);
+
+	// ui
+	void buttonRoyal(const RectF& r, bool down);
+
+	void hsvPicker(const PointF& pos, float r, const Color& color);
 
 	// cubes
 	void coloredCube(const PointF& pos, float scalar, const Color& c, float z = 0.0f);
@@ -58,11 +64,12 @@ private:
 private:
 	Camera m_uiCam;
 
+	ShaderHSVPicker m_shHSVPicker;
+
 	MeshCube m_meshCube;
 
 	ShaderCube m_shCubeMap;
 	ShaderButton m_shButton;
-	ShaderButtonSide m_shButtonSide;
 
 	UniformBlockTransforms m_trans;
 	UniformBlockMaterial m_material;

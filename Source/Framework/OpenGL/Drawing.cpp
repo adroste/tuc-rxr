@@ -10,13 +10,13 @@ static size_t m_drawThreadID = 0;
 Drawing::Drawing()
 	:
 	m_uiCam({ Framework::STD_DRAW_X / 2, Framework::STD_DRAW_Y / 2 }, 1.0f, 1000.0f),
-	m_trans({ &m_shCubeMap, /*&m_shButton,*/&m_shButtonSide,
+	m_trans({ &m_shHSVPicker, &m_shCubeMap, &m_shButton,
 	&m_fontHeadS, &m_fontHeadM, &m_fontHeadL,
 	&m_fontTextS, &m_fontTextM, &m_fontTextL }, "Transforms"),
 	m_material({ &m_shCubeMap }, "Material"),
 	m_lights({ &m_shCubeMap }, "Lights"),
 	m_mapInfo({ &m_shCubeMap }, "MapInfo"),
-	m_blockFramework({&m_shButtonSide },"Framework")
+	m_blockFramework({&m_shButton },"Framework")
 {
 	m_curInstance = this;
 	m_drawThreadID = System::getThreadID();
@@ -36,7 +36,33 @@ void Drawing::rect(const RectF & r, const Color & c)
 	glEndSafe();
 }
 
-void Drawing::button(const RectF& r, bool down)
+void Drawing::line(PointF p1, PointF p2, float thickness, const Color& color)
+{
+	if (p2.x < p1.x)
+		std::swap(p1, p2);
+
+	glm::mat4 translate = glm::translate(glm::mat4(), glm::vec3(p1.x, p1.y, 0.0f));
+	translate = glm::rotate(translate, atanf((p2.y - p1.y) / (p2.x - p1.x)), glm::vec3(0.0f, 0.0f, 1.0f));
+	translate = glm::translate(translate, glm::vec3(-thickness / 2.0f, -thickness / 2.0f, 0.0f));
+	translate = glm::scale(translate, glm::vec3((p1 - p2).length() + thickness, thickness, 1.0f));
+
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glMultMatrixf(&translate[0][0]);
+
+	glColor4f(color.r, color.g, color.b, color.a);
+	glBegin(GL_TRIANGLE_STRIP);
+	{
+		glVertex2f(0.0f, 1.0f);
+		glVertex2f(0.0f, 0.0f);
+		glVertex2f(1.0f, 1.0f);		
+		glVertex2f(1.0f, 0.0f);
+	}
+	glEndSafe();
+	glPopMatrix();
+}
+
+void Drawing::buttonRoyal(const RectF& r, bool down)
 {
 	Texture& bumpMid = down ? m_texBtnBumpMidDown : m_texBtnBumpMid;
 	Texture& bumpLeft = down ? m_texBtnBumpLeftDown : m_texBtnBumpLeft;
@@ -45,9 +71,9 @@ void Drawing::button(const RectF& r, bool down)
 	float sideWidth = float(m_texBtnSide.getWidth()) / float(m_texBtnSide.getHeight()) * r.getHeight();
 
 	auto mid = r.getMidpoint();
-	m_shButtonSide.setLightPos({ mid.x,/*mid.y*/r.y1 - 30.0f,r.getHeight() / 4.0f });
+	m_shButton.setLightPos({ mid.x,/*mid.y*/r.y1 - 30.0f,r.getHeight() / 4.0f });
 
-	m_shButtonSide.bind();
+	m_shButton.bind();
 	m_texBtnSide.bind(0);
 	bumpLeft.bind(1);
 
@@ -88,9 +114,35 @@ void Drawing::button(const RectF& r, bool down)
 	}
 	glEndSafe();
 
-	m_shButtonSide.unbind();
+	m_shButton.unbind();
 
 	glDisable(GL_BLEND);
+}
+
+void Drawing::hsvPicker(const PointF& pos, float r, const Color& color)
+{
+	m_shHSVPicker.bind();
+	glBegin(GL_TRIANGLE_STRIP);
+	{
+		glVertex4f(pos.x - r, pos.y - r, -1.0f, -1.0f);
+		glVertex4f(pos.x - r, pos.y + r, -1.0f, 1.0f);
+		glVertex4f(pos.x + r, pos.y - r, 1.0f, -1.0f);
+		glVertex4f(pos.x + r, pos.y + r, 1.0f, 1.0f);	
+	}
+	glEndSafe();
+	m_shHSVPicker.unbind();
+
+	glBegin(GL_TRIANGLES);
+	{
+		glColor3f(color.r, color.g, color.b);
+		glVertex2f(pos.x, pos.y - r * 0.8);
+		glColor3f(0.0f, 0.0f, 0.0f);
+		glVertex2f(pos.x - r * 0.8 * 0.866025, pos.y + r * 0.8 * 0.5);
+		glColor3f(1.0f, 1.0f, 1.0f);
+		glVertex2f(pos.x + r * 0.8 * 0.866025, pos.y + r * 0.8 * 0.5);
+	}
+	glEndSafe();
+	
 }
 
 void Drawing::coloredCube(const PointF& pos, float scalar, const Color& c, float z)
@@ -180,10 +232,10 @@ Drawing& Drawing::get()
 
 void Drawing::create()
 {
+	m_shHSVPicker.create();
 	m_meshCube.create();
 	m_shCubeMap.create();
 	m_shButton.create();
-	m_shButtonSide.create();
 
 	// fonts
 	m_fontHeadS.create();
@@ -212,10 +264,10 @@ void Drawing::create()
 
 void Drawing::dispose()
 {
+	m_shHSVPicker.dispose();
 	m_meshCube.dispose();
 	m_shCubeMap.dispose();
 	m_shButton.dispose();
-	m_shButtonSide.dispose();
 
 	// fonts
 	m_fontHeadS.dispose();
@@ -243,9 +295,9 @@ void Drawing::dispose()
 
 void Drawing::init(FT_Library ftlib)
 {
+	m_shHSVPicker.load();
 	m_shCubeMap.load();
 	m_shButton.load();
-	m_shButtonSide.load();
 
 	// fonts
 	m_fontHeadS.load(ftlib, "data/Font/DevinneSwash.ttf", float(Font::Size::S));
