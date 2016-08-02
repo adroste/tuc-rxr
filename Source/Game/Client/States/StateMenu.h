@@ -7,6 +7,7 @@
 #include "../../../Framework/OpenGL/Shader/UIColorPicker.h"
 #include "../../../Framework/UI/UIInputField.h"
 #include "../../../Framework/UI/UILabel.h"
+#include "StateEditor.h"
 
 class StateMenu : public GameState
 {
@@ -17,8 +18,7 @@ public:
 		m_title(Drawing::getFont(Font::Style::Headline,Font::Size::L),"MainWindow"),
 		m_btnSingle(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Can't Touch This"),
 		m_btnEdit(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Editor"),
-		m_colorPicker(300, { 640, 360 }),
-		m_inp(Drawing::getFont(Font::Style::Text,Font::Size::M),20)
+		m_colorPicker(300, { 640, 360 })
 	{
 		//m_btnSingle.setDim({ 350, 80 });
 		m_btnSingle.adjustToFontHeadline();
@@ -27,14 +27,10 @@ public:
 		m_btnEdit.setWidth(m_btnSingle.getDim().x);
 		m_btnEdit.centerX(300.0f);
 
-		m_inp.setDim({ 300,60 });
-		m_inp.setOrigin({ 10,10 });
-
 		m_title.centerX(50.0f);
 
 		m_btnSingle.registerMe(this);
 		m_btnEdit.registerMe(this);
-		m_inp.registerMe(this);
 
 		m_mpos = { 500,500 };
 		Sound::playMusic(Sound::Music::Hey);
@@ -49,6 +45,11 @@ public:
 			Sound::playMusic(Sound::Music::Theme);
 			//Sound::playSound(Sound::Sfx::Plop);
 			setNextState(std::unique_ptr<GameState>(new StateGame()));
+		}
+
+		if (m_btnEdit.isClicked(true))
+		{
+			setNextState(std::unique_ptr<GameState>(new StateEditor()));
 		}
 
 		return false;

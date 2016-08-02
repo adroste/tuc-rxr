@@ -164,12 +164,13 @@ public:
 
 	bool isFinished() const
 	{
-		return m_pNextState.get() != nullptr;
+		return m_isFinished;
 	}
 
 	// nullptr if next state is previous state
 	std::unique_ptr<GameState> popNextState()
 	{
+		m_isFinished = false;
 		return std::move(m_pNextState);
 	}
 
@@ -200,6 +201,7 @@ protected:
 	{
 		assert(!m_pNextState);
 		m_pNextState = std::move(nextState);
+		m_isFinished = true;
 	}
 
 private:
@@ -207,4 +209,5 @@ private:
 	const bool m_drawPrev;
 	std::list<Input::IReceiver*> m_receiver;
 	std::unique_ptr<GameState> m_pNextState;
+	bool m_isFinished = false;
 };

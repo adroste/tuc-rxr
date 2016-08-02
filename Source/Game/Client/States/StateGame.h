@@ -15,7 +15,6 @@ public:
 
 	virtual bool update(float dt) override 
 	{
-		// TODO find out why return value is boolean
 		return false;
 	}
 
