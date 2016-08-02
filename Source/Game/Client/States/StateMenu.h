@@ -12,7 +12,7 @@ public:
 		GameState(GameState::TransitionState::ForcePreserve),
 		m_cube(CubeDesc(Color::Red().toDWORD()),{500.0f,500.0f,0.0f},70.0f)
 	{
-		m_myButt.setDim({ 600, 200 });
+		m_myButt.setDim({ 350, 80 });
 		m_myButt.center();
 
 		m_myButt.registerMe(this);
@@ -29,7 +29,7 @@ public:
 		{	
 			Sound::playMusic(Sound::Music::Theme);
 			//Sound::playSound(Sound::Sfx::Plop);
-			//setNextState(std::unique_ptr<GameState>(new StateGame()));
+			setNextState(std::unique_ptr<GameState>(new StateGame()));
 		}
 
 		return false;

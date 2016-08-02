@@ -20,7 +20,7 @@ vec3 calcDirectionalLight(vec3 normal, vec3 direction, vec3 mdiff, vec3 lightCol
 	float theta = dot(normal, reflected);
 	
 	float phi = dot(reflected, eye ); // eye
-	phi = pow(max(phi,0.0),120.0);
+	phi = pow(max(phi,0.0),250.0);
 	
 	return mdiff * lightColor * theta + mspec * phi;
 }
@@ -37,11 +37,11 @@ void main()
 	
 	vec3 col = vec3(0.0);
 	
-	col += calcDirectionalLight(normal, normalize(vec3(0.2,0.5,-0.5)), diffuse, vec3(1.2,0.8,0.8),
+	col += calcDirectionalLight(normal, normalize(vec3(0.2,0.5,-0.7)), diffuse, vec3(1.2,0.8,0.8),
 		vec3(0.4), normalize(vec3(0.0,1.0,1.0)));
 	
 	col += calcDirectionalLight(normal, normalize(pos - vec3(framework.mouse.xy,100.0)),diffuse,
-		vec3(0.01),vec3(0.1), vec3(0.0,0.0,1.0));
+		vec3(1.0)/*vec3(1.2,0.8,0.8)*/,vec3(0.001), vec3(0.0,0.0,1.0));
 	
 	if(sampleColor.a == 0)
 	{
