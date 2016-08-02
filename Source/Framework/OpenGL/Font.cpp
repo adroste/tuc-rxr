@@ -100,20 +100,24 @@ void Font::write(const std::string& txt, PointF pos) const
 		float advance = m.horiAdvance * m_scaleFactor;
 		float bearX = m.horiBearingX * m_scaleFactor;
 
-		// bind and draw texture
-		assert(m_textureArray[c - CHAR_START]);
-		glBindTexture(GL_TEXTURE_2D, m_textureArray[c - CHAR_START]);
-
-		glCheck("font::write before glBegin");
-		glBegin(GL_TRIANGLE_STRIP);
+		if(c != 0x1f) // unit seperator
 		{
-			
-			glVertex4f(pos.x + bearX, pos.y + offHeight, 0, 0);
-			glVertex4f(pos.x + bearX, pos.y + offHeight + bmpHeight, 0, 1);
-			glVertex4f(pos.x + bearX + bmpWidth, pos.y + offHeight, 1, 0);
-			glVertex4f(pos.x + bearX + bmpWidth, pos.y + offHeight + bmpHeight, 1, 1);
+			// bind and draw texture
+			assert(m_textureArray[c - CHAR_START]);
+			glBindTexture(GL_TEXTURE_2D, m_textureArray[c - CHAR_START]);
+
+			glCheck("font::write before glBegin");
+			glBegin(GL_TRIANGLE_STRIP);
+			{
+
+				glVertex4f(pos.x + bearX, pos.y + offHeight, 0, 0);
+				glVertex4f(pos.x + bearX, pos.y + offHeight + bmpHeight, 0, 1);
+				glVertex4f(pos.x + bearX + bmpWidth, pos.y + offHeight, 1, 0);
+				glVertex4f(pos.x + bearX + bmpWidth, pos.y + offHeight + bmpHeight, 1, 1);
+			}
+			glEndSafe();
 		}
-		glEndSafe();
+		
 
 		// Advance the cursor to the start of the next character
 		pos.x += advance;
@@ -190,6 +194,8 @@ void Font::findMaxBearing(float scalar)
 		m_maxBearing = std::max(m_maxBearing, int(m_metrics[i].horiBearingY));
 		maxDown = std::max(maxDown, int(m_metrics[i].height - m_metrics[i].horiBearingY));
 	}
+
+	m_metrics[0x1f] = m_metrics['|'];
 
 	m_maxHeight = m_maxBearing + maxDown;
 	m_scaleFactor = scalar / m_maxHeight;

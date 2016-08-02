@@ -1,0 +1,220 @@
+#pragma once
+#include <regex>
+#include "UIObject.h"
+#include "../../System/Input.h"
+#include "Interfaces/ILableable.h"
+#include "../../System/System.h"
+#include "Interfaces/ISelectable.h"
+
+
+class UIInputField : public UIObject, public Input::IReceiver, public ILableable, public ISelectable
+{
+public:
+	UIInputField(Font& font, size_t maxLen)
+		:
+		m_font(font),
+		m_maxLen(maxLen)
+	{
+		m_regex = "[ -~]";
+		// TODO set metrics?
+	}
+	virtual ~UIInputField() override
+	{}
+	virtual void draw(Drawing& draw) override
+	{
+		m_font.setColor(Color::White());
+		draw.rect(getRect(), Color::DarkGray());
+		m_font.write(getDisplayText(), m_pos);
+	}
+	void setRegex(const std::string& r)
+	{
+		m_regex = r;
+	}
+
+	virtual bool keyDown(SDL_Scancode s) override
+	{
+		if(isSelected())
+		{
+			switch (s)
+			{
+			case SDL_SCANCODE_RETURN:
+				deselect();
+				System::stopTextInput();
+				break;
+			case SDL_SCANCODE_LEFT:
+				if (m_cursorPos > 0)
+					m_cursorPos--;
+				break;
+			case SDL_SCANCODE_RIGHT:
+				if (m_cursorPos < getText().length())
+					m_cursorPos++;
+				break;
+			case SDL_SCANCODE_DELETE:
+				if (m_cursorPos < getText().length())
+				{
+					auto str = getText();
+					LockGuard g(m_muCursor);
+					str.erase(m_cursorPos,1);
+					ILableable::setText(str);
+				}
+				break;
+			case SDL_SCANCODE_BACKSPACE:
+				if(m_cursorPos > 0)
+				{
+					auto str = getText();
+					LockGuard g(m_muCursor);
+					str.erase(m_cursorPos - 1,1);
+					m_cursorPos--;
+					ILableable::setText(str);
+				}
+				break;
+			case SDL_SCANCODE_C:
+				// copy?
+				if(m_ctrlDown)
+				{
+					System::setClipboardText(getText());
+				}
+				break;
+			case SDL_SCANCODE_V:
+				// pasta?
+				if(m_ctrlDown)
+				{
+					if(System::hasClipboardText())
+					{
+						for (const auto& c : System::getClipboardText())
+							addChar(c);
+					}
+				}
+				break;
+			case SDL_SCANCODE_LCTRL:
+				m_ctrlDown = true;
+				break;
+			}
+			return true;
+		}
+		return false;
+	}
+	virtual bool keyUp(SDL_Scancode s) override
+	{
+		if (s == SDL_SCANCODE_LCTRL)
+			m_ctrlDown = false;
+
+		return false;
+	}
+	virtual bool charDown(char c) override
+	{
+		if (isSelected())
+		{
+			addChar(c);
+			return true;
+		}
+		return false;
+	}
+	virtual bool mouseMove(const PointF& mpos, bool handled) override
+	{
+		if(getRect().isPointInside(mpos))
+		{
+			m_isHover = true;
+		}
+		else
+		{
+			m_isHover = false;
+		}
+		return false;
+	}
+	virtual bool mouseDown(Input::Mouse button, const PointF& mpos) override
+	{
+		if(m_isHover && button == Input::Mouse::Left)
+		{
+			select();
+			System::startTextInput();
+			return true;
+		}
+		else
+		{
+			deselect();
+			return false;
+		}
+	}
+	void clear()
+	{
+		setText("");
+		m_cursorPos = 0;
+	}
+
+
+	virtual void setText(const std::string& text) override
+	{
+		ILableable::setText(text);
+		m_cursorPos = text.length();
+	}
+protected:
+	void addChar(char c)
+	{
+		if(getText().length() < m_maxLen)
+		{
+			std::string ins = std::string(1, c);
+			if(std::regex_match(ins, std::regex(m_regex)))
+			{
+				std::string s = getText();
+				// insert char at cursor pos
+				if (m_cursorPos == s.length())
+					s.push_back(c);
+				else
+					s.insert(m_cursorPos, ins);
+
+				LockGuard g(m_muCursor);
+				ILableable::setText(s);
+				m_cursorPos++;
+				g.unlock();
+			}
+		}
+	}
+	std::string getDisplayText()
+	{
+		static int timer = 0;
+
+		if(isSelected())
+		{
+			// draw with cool | animation
+			std::string toAdd = std::string(1, ++timer % 30 <= 15 ? '|' : 0x1f);
+
+			LockGuard g(m_muCursor);
+			std::string res = getText();
+			if (res.length() == m_cursorPos)
+				res += toAdd;
+			else
+				res.insert(m_cursorPos,toAdd);
+			g.unlock();
+
+			if(m_font.getDim(res).x > m_dim.x)
+			{
+				while (m_font.getDim(res).x > m_dim.x && m_cursorPos + 4 < res.length())
+					res.pop_back();
+			}
+
+			while (m_font.getDim(res).x > m_dim.x)
+				res = res.substr(1, res.length() - 1);
+			return res;
+		}
+		else
+		{
+			// draw plain text
+			std::string res = getText();
+			while (m_font.getDim(res).x > m_dim.x)
+				res.pop_back();
+			return res;
+		}
+	}
+private:
+	Font& m_font;
+	const size_t m_maxLen;
+
+	bool m_isHover = false;
+	bool m_ctrlDown = false; 
+	std::string m_regex;
+
+	// TODO add mutex
+	Mutex m_muCursor;
+	size_t m_cursorPos = 0;
+};

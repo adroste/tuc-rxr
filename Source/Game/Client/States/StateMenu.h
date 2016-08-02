@@ -3,8 +3,13 @@
 #include "../../../Framework/Sound/Sound.h"
 #include "../../../Framework/UI/UIButton.h"
 #include "StateGame.h"
+<<<<<<< .mine
 #include "../../../Framework/UI/UIButtonText.h"
 #include "../../../Framework/OpenGL/Shader/UIColorPicker.h"
+=======
+#include "../../../Framework/UI/UIInputField.h"
+
+>>>>>>> .theirs
 
 class StateMenu : public GameState
 {
@@ -12,15 +17,25 @@ public:
 	StateMenu()
 		:
 		GameState(GameState::TransitionState::ForcePreserve),
+<<<<<<< .mine
 		m_cube(CubeDesc(Color::Red().toDWORD()), { 500.0f,500.0f,0.0f }, 70.0f),
 		m_myButt(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::L), "Can't Touch This"),
 		m_colorPicker(300, { 640, 360 })
+=======
+		m_cube(CubeDesc(Color::Red().toDWORD()),{500.0f,500.0f,0.0f},70.0f),
+		m_inp(Drawing::getFont(Font::Style::Text,Font::Size::M),20)
+
+>>>>>>> .theirs
 	{
 		//m_myButt.setDim({ 350, 80 });
 		m_myButt.adjustToFontHeadline();
 		m_myButt.center();
 
+		m_inp.setDim({ 300,60 });
+		m_inp.setOrigin({ 10,10 });
+
 		m_myButt.registerMe(this);
+		m_inp.registerMe(this);
 
 		m_mpos = { 500,500 };
 		Sound::playMusic(Sound::Music::Hey);
@@ -44,6 +59,7 @@ public:
 	{
 		//m_myButt.draw(draw);
 		//m_colorPicker.draw(draw);
+<<<<<<< .mine
 
 		draw.line({ 640, 360 }, m_mpos, 100.0f, Color::Cyan());
 
@@ -52,6 +68,16 @@ public:
 
 		draw.getFont(Font::Style::Text, Font::Size::L).setColor(Color::White());
 		draw.getFont(Font::Style::Text, Font::Size::L).write("Sample", { 100,100 });
+=======
+		m_inp.draw(draw);
+
+
+
+
+
+
+
+>>>>>>> .theirs
 	}
 	virtual bool mouseMove(const PointF& mpos, bool handled) override
 	{
@@ -89,6 +115,7 @@ public:
 private:
 	PointI m_mpos;
 	UIButtonText m_myButt;
+	UIInputField m_inp;
 
 	Cube m_cube;
 

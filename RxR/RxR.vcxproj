@@ -226,8 +226,7 @@
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IValueHolder.h" />
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IValueHolderSafe.h" />
     <ClInclude Include="..\Source\Framework\UI\UIButton.h" />
-    <ClInclude Include="..\Source\Framework\UI\UIButtonText.h" />
-    <ClInclude Include="..\Source\Framework\UI\UIObject.h" />
+    <ClInclude Include="..\Source\Framework\UI\UIButtonText.h" />    <ClInclude Include="..\Source\Framework\UI\UIInputField.h" />    <ClInclude Include="..\Source\Framework\UI\UIObject.h" />
     <ClInclude Include="..\Source\Framework\Window.h" />
     <ClInclude Include="..\Source\Game\Client\LightManager.h" />
     <ClInclude Include="..\Source\Game\Client\States\StateGame.h" />
