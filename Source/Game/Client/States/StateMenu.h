@@ -3,6 +3,7 @@
 #include "../../../Framework/Sound/Sound.h"
 #include "../../../Framework/UI/UIButton.h"
 #include "StateGame.h"
+#include "../../../Framework/UI/UIInputField.h"
 
 class StateMenu : public GameState
 {
@@ -10,12 +11,17 @@ public:
 	StateMenu()
 		:
 		GameState(GameState::TransitionState::ForcePreserve),
-		m_cube(CubeDesc(Color::Red().toDWORD()),{500.0f,500.0f,0.0f},70.0f)
+		m_cube(CubeDesc(Color::Red().toDWORD()),{500.0f,500.0f,0.0f},70.0f),
+		m_inp(Drawing::getFont(Font::Style::Text,Font::Size::M),20)
 	{
 		m_myButt.setDim({ 350, 80 });
 		m_myButt.center();
 
+		m_inp.setDim({ 300,60 });
+		m_inp.setOrigin({ 10,10 });
+
 		m_myButt.registerMe(this);
+		m_inp.registerMe(this);
 
 		m_mpos = { 500,500 };
 		Sound::playMusic(Sound::Music::Hey);
@@ -38,12 +44,7 @@ public:
 	virtual void composeFrame(Drawing& draw, float dt) override
 	{
 		m_myButt.draw(draw);
-
-		draw.rect(RectF::constructFromPoint(m_mpos, 10.0f), Color::Red());
-
-
-		draw.getFont(Font::Style::Text, Font::Size::L).setColor(Color::White());
-		draw.getFont(Font::Style::Text, Font::Size::L).write("Sample", { 100,100 });
+		m_inp.draw(draw);
 	}
 	virtual bool mouseMove(const PointF& mpos, bool handled) override
 	{
@@ -81,6 +82,7 @@ public:
 private:
 	PointI m_mpos;
 	UIButton m_myButt;
+	UIInputField m_inp;
 
 	Cube m_cube;
 };

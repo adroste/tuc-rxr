@@ -41,7 +41,7 @@ private:
 	void findMaxBearing(float scalar);
 	void loadTextures();
 private:
-	static const int CHAR_START = 32;
+	static const int CHAR_START = 31;
 	static const int CHAR_END = 126;
 
 	FT_LibraryRec_*	m_ft = nullptr;

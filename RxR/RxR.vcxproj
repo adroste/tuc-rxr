@@ -221,9 +221,11 @@
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IClickable.h" />
     <ClInclude Include="..\Source\Framework\UI\Interfaces\ILableable.h" />
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IMetrics.h" />
+    <ClInclude Include="..\Source\Framework\UI\Interfaces\ISelectable.h" />
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IValueHolder.h" />
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IValueHolderSafe.h" />
     <ClInclude Include="..\Source\Framework\UI\UIButton.h" />
+    <ClInclude Include="..\Source\Framework\UI\UIInputField.h" />
     <ClInclude Include="..\Source\Framework\UI\UIObject.h" />
     <ClInclude Include="..\Source\Framework\Window.h" />
     <ClInclude Include="..\Source\Game\Client\LightManager.h" />

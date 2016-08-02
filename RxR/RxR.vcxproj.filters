@@ -375,6 +375,12 @@
     <ClInclude Include="..\Source\Framework\UI\UIObject.h">
       <Filter>Source\Framework\UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\UIInputField.h">
+      <Filter>Source\Framework\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\Interfaces\ISelectable.h">
+      <Filter>Source\Framework\UI\Interfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glew32.dll">
