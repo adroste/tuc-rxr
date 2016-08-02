@@ -3,10 +3,10 @@
 #include "../../../Utility/Mutex.h"
 
 // thread safe
-class ILableable
+class ILabelable
 {
 public:
-	virtual ~ILableable()
+	virtual ~ILabelable()
 	{}
 	std::string getText() const
 	{

@@ -1,17 +1,17 @@
 #pragma once
 #include "UIObject.h"
-#include "Interfaces/ILableable.h"
+#include "Interfaces/ILabelable.h"
 
-class UILable : public UIObject, public ILableable
+class UILabel : public UIObject, public ILabelable
 {
 public:
-	UILable(Font& font, const std::string& txt)
+	UILabel(Font& font, const std::string& txt)
 		:
 		m_font(font)
 	{
-		UILable::setText(txt);
+		UILabel::setText(txt);
 	}
-	virtual ~UILable() override
+	virtual ~UILabel() override
 	{
 
 	}
@@ -23,7 +23,7 @@ public:
 	virtual void setText(const std::string& text) override
 	{
 		m_dim = m_font.getDim(text);
-		ILableable::setText(text);
+		ILabelable::setText(text);
 	}
 private:
 	Font& m_font;

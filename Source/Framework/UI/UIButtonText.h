@@ -1,8 +1,8 @@
 #pragma once
 #include "UIButton.h"
-#include "Interfaces/ILableable.h"
+#include "Interfaces/ILabelable.h"
 
-class UIButtonText : public UIButton, public ILableable
+class UIButtonText : public UIButton, public ILabelable
 {
 public:
 	UIButtonText(Style style, Font& font, const std::string& text)
@@ -55,7 +55,7 @@ public:
 
 	virtual void setText(const std::string& text) override
 	{
-		ILableable::setText(text);
+		ILabelable::setText(text);
 		calcTextPosition();
 	}
 

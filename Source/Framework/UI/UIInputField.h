@@ -2,12 +2,12 @@
 #include <regex>
 #include "UIObject.h"
 #include "../../System/Input.h"
-#include "Interfaces/ILableable.h"
+#include "Interfaces/ILabelable.h"
 #include "../../System/System.h"
 #include "Interfaces/ISelectable.h"
 
 
-class UIInputField : public UIObject, public Input::IReceiver, public ILableable, public ISelectable
+class UIInputField : public UIObject, public Input::IReceiver, public ILabelable, public ISelectable
 {
 public:
 	UIInputField(Font& font, size_t maxLen)
@@ -55,7 +55,7 @@ public:
 					auto str = getText();
 					LockGuard g(m_muCursor);
 					str.erase(m_cursorPos,1);
-					ILableable::setText(str);
+					ILabelable::setText(str);
 				}
 				break;
 			case SDL_SCANCODE_BACKSPACE:
@@ -65,7 +65,7 @@ public:
 					LockGuard g(m_muCursor);
 					str.erase(m_cursorPos - 1,1);
 					m_cursorPos--;
-					ILableable::setText(str);
+					ILabelable::setText(str);
 				}
 				break;
 			case SDL_SCANCODE_C:
@@ -145,7 +145,7 @@ public:
 
 	virtual void setText(const std::string& text) override
 	{
-		ILableable::setText(text);
+		ILabelable::setText(text);
 		m_cursorPos = text.length();
 	}
 protected:
@@ -164,7 +164,7 @@ protected:
 					s.insert(m_cursorPos, ins);
 
 				LockGuard g(m_muCursor);
-				ILableable::setText(s);
+				ILabelable::setText(s);
 				m_cursorPos++;
 				g.unlock();
 			}
