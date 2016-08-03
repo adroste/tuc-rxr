@@ -9,17 +9,19 @@ class GameState : public Input::IReceiver
 public:
 	enum class TransitionState
 	{
+		Undefined,
 		Preserve,
 		ForcePreserve,
 		Discard,
 		// DiscardWithPrevious is stronger than Preserve but weaker than ForcePreserve
-		DiscardWithPrevious
+		DiscardWithPrevious,
+		// Preserve or DiscardWithPrevious on (external) discard (:= superior GameState calls DiscardWithPrevious)
+		PreserveOrDiscardWithPrevious
 	};
 
 public:
-	GameState(TransitionState transitionState, bool drawPrevState = false)
+	GameState(bool drawPrevState = false)
 		:
-		m_transitionState(transitionState),
 		m_drawPrev(drawPrevState)
 	{
 		Input::registerState(this);
@@ -104,6 +106,7 @@ public:
 
 	bool isFinished() const
 	{
+		assert(!m_isFinished || m_transitionState != TransitionState::Undefined);
 		return m_isFinished;
 	}
 
@@ -116,6 +119,7 @@ public:
 
 	TransitionState getTransitionState() const
 	{
+		assert(m_transitionState != TransitionState::Undefined);
 		return m_transitionState;
 	}
 
@@ -137,15 +141,16 @@ private:
 	}
 
 protected:
-	void setNextState(std::unique_ptr<GameState> nextState)
+	void setNextState(TransitionState transitionState, std::unique_ptr<GameState> nextState = nullptr)
 	{
 		assert(!m_pNextState);
 		m_pNextState = std::move(nextState);
+		m_transitionState = transitionState;
 		m_isFinished = true;
 	}
 
 private:
-	TransitionState m_transitionState;
+	TransitionState m_transitionState = TransitionState::Undefined;
 	const bool m_drawPrev;
 	std::list<Input::IReceiver*> m_receiver;
 	std::unique_ptr<GameState> m_pNextState;

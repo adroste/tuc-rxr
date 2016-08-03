@@ -14,7 +14,6 @@ class StateMenu : public GameState
 public:
 	StateMenu()
 		:
-		GameState(GameState::TransitionState::ForcePreserve),
 		m_title(Drawing::getFont(Font::Style::Headline,Font::Size::L),"MainWindow"),
 		m_btnSingle(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Can't Touch This"),
 		m_btnEdit(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Editor"),
@@ -44,12 +43,12 @@ public:
 		{	
 			Sound::playMusic(Sound::Music::Theme);
 			//Sound::playSound(Sound::Sfx::Plop);
-			setNextState(std::unique_ptr<GameState>(new StateGame()));
+			setNextState(TransitionState::ForcePreserve, std::unique_ptr<GameState>(new StateGame()));
 		}
 
 		if (m_btnEdit.isClicked(true))
 		{
-			setNextState(std::unique_ptr<GameState>(new StateEditor()));
+			setNextState(TransitionState::ForcePreserve, std::unique_ptr<GameState>(new StateEditor()));
 		}
 
 		return false;

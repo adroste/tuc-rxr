@@ -6,7 +6,6 @@ class StateGame : public GameState
 {
 public:
 	StateGame()
-		: GameState(TransitionState::Discard, false)
 	{
 		m_game.registerMe(this);
 	}

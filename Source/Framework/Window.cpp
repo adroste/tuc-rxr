@@ -79,6 +79,8 @@ void Window::run()
 
 	while (m_isRunning)
 	{
+		assert(m_states.size());
+
 		handleEvents();
 
 		float dt = t.lapSecond();
@@ -98,14 +100,15 @@ void Window::run()
 			{
 				do
 				{
-					assert(m_states.size());
 					tranState = m_states.front()->getTransitionState();
 					if (tranState != GameState::TransitionState::ForcePreserve)
 					{
-						// remove object from m_states
+						// remove object from m_states + delete it (unique_ptr)
 						m_states.pop_front();
 					}
-				} while (tranState == GameState::TransitionState::DiscardWithPrevious);
+					assert(m_states.size());
+				} while (tranState == GameState::TransitionState::DiscardWithPrevious
+					|| tranState == GameState::TransitionState::PreserveOrDiscardWithPrevious);
 			}
 
 			if (pNext)
