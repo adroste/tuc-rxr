@@ -29,14 +29,19 @@ public:
 		Input::unregisterState(this);
 	}
 
-	void regReceiver(Input::IReceiver* rec)
+	void sortReceivers()
 	{
-		m_receiver.push_back(rec);
-		// TODO performance? / right order?
+		// TODO performance? / right order? #jan
 		m_receiver.sort([](Input::IReceiver* lr, Input::IReceiver* rr)
 		{
 			return lr->getZIndex() > rr->getZIndex();
 		});
+	}
+
+	void regReceiver(Input::IReceiver* rec)
+	{
+		m_receiver.push_back(rec);
+		sortReceivers();
 	}
 
 	void unregReceiver(Input::IReceiver* rec)
@@ -56,47 +61,14 @@ public:
 
 	virtual bool keyDown(SDL_Scancode s) override
 	{
-	/*	int curZ = -1;
-		bool quit = false;
-		for (auto r : m_receiver)
-		{
-			if (quit && curZ != r->getZIndex())
-				break;
-			curZ = r->getZIndex();
-			if (r->keyDown(s))
-				quit = true;
-		}
-		return quit;*/
 		return handleKey(&Input::IReceiver::keyDown, s);
 	}
 	virtual bool keyUp(SDL_Scancode s) override
 	{
-		/*int curZ = -1;
-		bool quit = false;
-		for (auto r : m_receiver)
-		{
-			if (quit && curZ != r->getZIndex())
-				break;
-			curZ = r->getZIndex();
-			if (r->keyUp(s))
-				quit = true;
-		}
-		return quit;*/
 		return handleKey(&Input::IReceiver::keyUp, s);
 	}
 	virtual bool charDown(char c) override
 	{
-		/*int curZ = -1;
-		bool quit = false;
-		for (auto r : m_receiver)
-		{
-			if (quit && curZ != r->getZIndex())
-				break;
-			curZ = r->getZIndex();
-			if (r->charDown(c))
-				quit = true;
-		}
-		return quit;*/
 		return handleKey(&Input::IReceiver::charDown, c);
 	}
 	virtual bool mouseMove(const PointF& mpos, bool handled) override
@@ -118,47 +90,14 @@ public:
 	}
 	virtual bool mouseDown(Input::Mouse button, const PointF& mpos) override
 	{
-		/*int curZ = -1;
-		bool quit = false;
-		for (auto r : m_receiver)
-		{
-			if (quit && curZ != r->getZIndex())
-				break;
-			curZ = r->getZIndex();
-			if (r->mouseDown(buttonRoyal, mpos))
-				quit = true;
-		}
-		return quit;*/
 		return handleKey(&Input::IReceiver::mouseDown, button, mpos);
 	}
 	virtual bool mouseUp(Input::Mouse button, const PointF& mpos) override
 	{
-		/*int curZ = -1;
-		bool quit = false;
-		for (auto r : m_receiver)
-		{
-			if (quit && curZ != r->getZIndex())
-				break;
-			curZ = r->getZIndex();
-			if (r->mouseUp(buttonRoyal, mpos))
-				quit = true;
-		}
-		return quit;*/
 		return handleKey(&Input::IReceiver::mouseUp, button, mpos);
 	}
 	virtual bool wheel(float amount) override
 	{
-		/*int curZ = -1;
-		bool quit = false;
-		for (auto r : m_receiver)
-		{
-			if (quit && curZ != r->getZIndex())
-				break;
-			curZ = r->getZIndex();
-			if (r->wheel(amount))
-				quit = true;
-		}
-		return quit;*/
 		return handleKey(&Input::IReceiver::wheel, amount);
 	}
 

@@ -74,7 +74,13 @@ public:
 			return m_zIndex;
 		}
 
+		void setZIndex(int z)
+		{
+			m_zIndex = z;
+		}
+
 		virtual void registerMe(class GameState* parent);
+		virtual void unregisterMe(class GameState* parent);
 	private:
 		bool m_enabled = true;
 		int m_zIndex;
