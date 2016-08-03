@@ -15,6 +15,8 @@ public:
 
 	virtual void draw(Drawing& draw) override
 	{
+		if (!isVisible()) return;
+
 		draw.hsvPicker(getMidpoint(), getDim().x / 2.0f, Color::Red());
 	}
 

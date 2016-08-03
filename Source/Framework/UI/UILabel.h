@@ -17,6 +17,8 @@ public:
 	}
 	virtual void draw(Drawing& draw) override
 	{
+		if (!isVisible()) return;
+
 		m_font.write(getText(), m_pos);
 	}
 

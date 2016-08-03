@@ -22,6 +22,8 @@ public:
 	{}
 	virtual void draw(Drawing& draw) override
 	{
+		if (!isVisible()) return;
+
 		m_font.setColor(Color::White());
 		draw.rect(getRect(), Color::DarkGray());
 		m_font.write(getDisplayText(), m_pos);

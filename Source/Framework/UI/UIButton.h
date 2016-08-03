@@ -24,6 +24,8 @@ public:
 
 	virtual void draw(Drawing& draw) override
 	{
+		if (!isVisible()) return;
+
 		switch(m_style)
 		{
 		case Style::Royal:
