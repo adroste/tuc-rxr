@@ -20,7 +20,7 @@ public:
 	{
 		return true;
 	}
-	virtual bool wheel(float amount) override
+	virtual bool wheel(float amount, const PointF& mpos) override
 	{
 		return true;
 	}

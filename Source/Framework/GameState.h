@@ -99,9 +99,9 @@ public:
 	{
 		return handleKey(&Input::IReceiver::mouseUp, button, mpos);
 	}
-	virtual bool wheel(float amount) override
+	virtual bool wheel(float amount, const PointF& mpos) override
 	{
-		return handleKey(&Input::IReceiver::wheel, amount);
+		return handleKey(&Input::IReceiver::wheel, amount, mpos);
 	}
 
 	bool isFinished() const
@@ -128,16 +128,16 @@ private:
 	bool handleKey(memFunc pFunc, ArgT... args)
 	{
 		int curZ = -1;
-		bool quit = false;
+		bool handled = false;
 		for (auto r : m_receiver)
 		{
-			if (quit && curZ != r->getZIndex())
+			if (handled && curZ != r->getZIndex())
 				break;
 			curZ = r->getZIndex();
 			if (((*r).*pFunc)(args...))
-				quit = true;
+				handled = true;
 		}
-		return quit;
+		return handled;
 	}
 
 protected:

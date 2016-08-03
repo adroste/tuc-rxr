@@ -29,17 +29,22 @@ public:
 
 	virtual bool mouseDown(Input::Mouse button, const PointF& mpos) override
 	{
-		return true;
+		return getRect().isPointInside(mpos);;
 	}
 
 	virtual bool mouseUp(Input::Mouse button, const PointF& mpos) override
 	{
-		return true;
+		return getRect().isPointInside(mpos);;
 	}
 
 	virtual bool mouseMove(const PointF& mpos, bool handled) override
 	{
 		// TODO move window
+		return getRect().isPointInside(mpos);
+	}
+
+	virtual bool wheel(float amount, const PointF& mpos) override
+	{
 		return getRect().isPointInside(mpos);
 	}
 

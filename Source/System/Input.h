@@ -51,7 +51,7 @@ public:
 		{
 			return false;
 		}
-		virtual bool wheel(float amount)
+		virtual bool wheel(float amount, const PointF& mpos)
 		{
 			return false;
 		}
