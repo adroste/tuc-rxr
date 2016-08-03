@@ -227,9 +227,11 @@
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IValueHolderSafe.h" />
     <ClInclude Include="..\Source\Framework\UI\UIButton.h" />
     <ClInclude Include="..\Source\Framework\UI\UIButtonText.h" />
+    <ClInclude Include="..\Source\Framework\UI\UIDialog.h" />
     <ClInclude Include="..\Source\Framework\UI\UIInputField.h" />
     <ClInclude Include="..\Source\Framework\UI\UILabel.h" />
     <ClInclude Include="..\Source\Framework\UI\UIObject.h" />
+    <ClInclude Include="..\Source\Framework\UI\UIWindow.h" />
     <ClInclude Include="..\Source\Framework\Window.h" />
     <ClInclude Include="..\Source\Game\Client\LightManager.h" />
     <ClInclude Include="..\Source\Game\Client\States\StateEditor.h" />
@@ -263,17 +265,26 @@
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="data\Font\licence-1001fonts" />
+    <None Include="data\Font\licence-devinne-swash" />
+    <None Include="data\Font\licence-domesticManners" />
+    <None Include="data\Font\licence-ironLatch" />
     <None Include="data\Shader\button.frag" />
     <None Include="data\Shader\button.vert" />
     <None Include="data\Shader\cube.frag" />
     <None Include="data\Shader\cube.vert" />
     <None Include="data\Shader\disk.frag" />
     <None Include="data\Shader\disk.vert" />
+    <None Include="data\Shader\hsvPicker.frag" />
+    <None Include="data\Shader\hsvPicker.vert" />
     <None Include="data\Shader\light\BlockRenderer.glsl" />
     <None Include="data\Shader\light\bump.glsl" />
+    <None Include="data\Shader\light\gamma.glsl" />
     <None Include="data\Shader\text.frag" />
     <None Include="data\Shader\text.vert" />
+    <None Include="data\Shader\uniforms\Framework.glsl" />
     <None Include="data\Shader\uniforms\Lights.glsl" />
+    <None Include="data\Shader\uniforms\MapInfo.glsl" />
     <None Include="data\Shader\uniforms\Material.glsl" />
     <None Include="data\Shader\uniforms\Transforms.glsl" />
     <None Include="data\Sound\theme.ogg" />

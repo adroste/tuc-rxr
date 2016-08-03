@@ -6,9 +6,6 @@
 class UIWindow : public UIObject, public Input::IReceiver
 {
 public:
-	UIWindow()
-	{
-	}
 	virtual ~UIWindow()
 	{
 		if (m_parent)
@@ -21,6 +18,8 @@ public:
 	virtual void draw(Drawing& draw) override
 	{
 		if (!isVisible()) return;
+
+		// TODO draw border, background, window-buttons
 
 		for (auto obj : m_uiObjects)
 		{
@@ -44,13 +43,18 @@ public:
 		return getRect().isPointInside(mpos);
 	}
 
-	virtual void registerMe(GameState* parent) override
+	// register after all UIObjects has been added
+	virtual void registerMe(GameState* parent) override final
 	{
 		m_parent = parent;
 		Input::IReceiver::registerMe(parent);
+		for (auto r : m_receivers)
+		{
+			r->registerMe(parent);
+		}
 	}
 
-	virtual void unregisterMe(GameState* parent) override final
+	virtual void unregisterMe(GameState* parent) override final // do not remove this final!! 
 	{
 		for (auto r : m_receivers)
 		{
@@ -59,6 +63,7 @@ public:
 		Input::IReceiver::unregisterMe(parent);
 	}
 
+protected:
 	virtual void addUIObject(UIObject* obj)
 	{
 		m_uiObjects.push_back(obj);

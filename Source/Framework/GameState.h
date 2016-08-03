@@ -40,6 +40,7 @@ public:
 
 	void regReceiver(Input::IReceiver* rec)
 	{
+		// TODO check if receiver gets added multiple times
 		m_receiver.push_back(rec);
 		sortReceivers();
 	}

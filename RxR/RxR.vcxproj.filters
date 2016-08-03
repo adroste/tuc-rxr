@@ -393,6 +393,12 @@
     <ClInclude Include="..\Source\Game\Client\States\StateEditor.h">
       <Filter>Source\Game\Client\States</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\UIWindow.h">
+      <Filter>Source\Framework\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\UIDialog.h">
+      <Filter>Source\Framework\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glew32.dll">
@@ -466,6 +472,33 @@
     </None>
     <None Include="data\Shader\light\BlockRenderer.glsl">
       <Filter>Resources / Dependencies\data\Shader\light</Filter>
+    </None>
+    <None Include="data\Font\licence-1001fonts">
+      <Filter>Resources / Dependencies\data\Font</Filter>
+    </None>
+    <None Include="data\Font\licence-devinne-swash">
+      <Filter>Resources / Dependencies\data\Font</Filter>
+    </None>
+    <None Include="data\Font\licence-domesticManners">
+      <Filter>Resources / Dependencies\data\Font</Filter>
+    </None>
+    <None Include="data\Font\licence-ironLatch">
+      <Filter>Resources / Dependencies\data\Font</Filter>
+    </None>
+    <None Include="data\Shader\hsvPicker.frag">
+      <Filter>Resources / Dependencies\data\Shader</Filter>
+    </None>
+    <None Include="data\Shader\hsvPicker.vert">
+      <Filter>Resources / Dependencies\data\Shader</Filter>
+    </None>
+    <None Include="data\Shader\light\gamma.glsl">
+      <Filter>Resources / Dependencies\data\Shader\light</Filter>
+    </None>
+    <None Include="data\Shader\uniforms\Framework.glsl">
+      <Filter>Resources / Dependencies\data\Shader\uniforms</Filter>
+    </None>
+    <None Include="data\Shader\uniforms\MapInfo.glsl">
+      <Filter>Resources / Dependencies\data\Shader\uniforms</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
