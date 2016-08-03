@@ -14,8 +14,7 @@ public:
 	}
 
 	virtual ~UIButtonText()
-	{
-	}
+	{}
 
 	virtual void draw(Drawing& draw) override
 	{
@@ -29,21 +28,23 @@ public:
 			throw Exception("UIButtonText::draw default case, missing style");
 		}
 	}
-	// TODO fix
+
 	virtual void adjustToFontHeadline()
 	{
-		PointF offset;
+		PointF fdim = m_font.getDim(getText());
+		PointF dim;
 		switch (m_style)
 		{
 		case Style::Royal:
-			offset.x = 1.45f;
-			offset.y = 1.7;
+			dim.y = fdim.y * 2.0f;
+			// dim.x = 2 * (sideWidth = aspectOfSideTexture * height) + fdim.x
+			dim.x = 2.0f * (1.226666f * dim.y) + fdim.x;
 			break;
 		default:
 			throw Exception("UIButtonText::adjustToFontHeadline default case, missing style");
 		}
 
-		setDim(PointF::mult(m_font.getDim(getText()), offset));
+		setDim(dim);
 	}
 
 
