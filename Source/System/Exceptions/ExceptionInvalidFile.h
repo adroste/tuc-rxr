@@ -6,6 +6,6 @@ class ExceptionInvalidFile : public Exception
 public:
 	ExceptionInvalidFile(const std::string& txt, const std::string& fileName)
 		:
-		Exception(txt + " - file invalid: \"" + fileName + "\"")
+		Exception(txt + " - invalid file: \"" + fileName + "\"")
 	{}
 };
