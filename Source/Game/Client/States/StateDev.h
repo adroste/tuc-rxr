@@ -28,6 +28,13 @@ public:
 			//setNextState(TransitionState::Discard);
 			m_dlgTest.show();
 
+		if (m_dlgTest.getResult() == UIDialog::Result::Cancel)
+		{
+			m_dlgTest.show();
+			m_dlgTest.setDim({ 300.0f, 300.0f });
+			m_dlgTest.setCenter(Framework::getScreenCenter());
+		}
+
 		return false;
 	}
 
