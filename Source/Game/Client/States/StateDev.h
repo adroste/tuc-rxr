@@ -7,11 +7,16 @@ class StateDev : public GameState
 public:
 	StateDev()
 		:
-		m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "A")
+		m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "A"),
+		m_dlgTest()
 	{
 		m_btnBack.adjustToFontHeadline();
 		m_btnBack.setOrigin({ 10.0f, Framework::STD_DRAW_Y - (m_btnBack.getDim().y + 10.0f) });
 		m_btnBack.registerMe(this);
+		m_dlgTest.setDim({ 300.0f, 300.0f });
+		m_dlgTest.setCenter(Framework::getScreenCenter());
+		m_dlgTest.registerMe(this);
+		m_dlgTest.setZIndex(1);
 	}
 
 	virtual ~StateDev() override
@@ -28,6 +33,7 @@ public:
 	virtual void composeFrame(Drawing& draw, float dt) override
 	{
 		m_btnBack.draw(draw);
+		m_dlgTest.draw(draw);
 	}
 
 	// Input handling
@@ -75,4 +81,5 @@ public:
 
 private:
 	UIButtonText m_btnBack;
+	UIDialog m_dlgTest;
 };

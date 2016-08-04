@@ -25,11 +25,11 @@ public:
 			m_zIndex(zIndex)
 		{}
 		virtual ~IReceiver(){}
+
 		virtual bool keyDown(SDL_Scancode s)
 		{
 			return false;
 		}
-
 		virtual bool keyUp(SDL_Scancode s) 
 		{
 			return false;
@@ -42,8 +42,7 @@ public:
 		{
 			return false;
 		}
-
-		virtual bool mouseDown(Mouse button, const PointF& mpos) // TODO enum
+		virtual bool mouseDown(Mouse button, const PointF& mpos)
 		{
 			return false;
 		} 

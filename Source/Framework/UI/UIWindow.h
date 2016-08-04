@@ -6,7 +6,7 @@
 class UIWindow : public UIObject, public Input::IReceiver
 {
 public:
-	virtual ~UIWindow()
+	virtual ~UIWindow() override
 	{
 		if (m_parent)
 		{
@@ -20,6 +20,11 @@ public:
 		if (!isVisible()) return;
 
 		// TODO draw border, background, window-buttons
+		// just testing
+		{
+			draw.rect(getRect(), Color::Gray());
+			draw.rect(getRect().shrink(2.0f), Color::DarkGray());
+		}
 
 		for (auto obj : m_uiObjects)
 		{
@@ -29,23 +34,40 @@ public:
 
 	virtual bool mouseDown(Input::Mouse button, const PointF& mpos) override
 	{
-		return getRect().isPointInside(mpos);;
+		if (m_isMouseInside && button == Input::Mouse::Left)
+		{
+			m_isMouseLeftDown = true;
+			m_dragSpot = mpos;
+		}
+
+		return m_isMouseInside;
 	}
 
 	virtual bool mouseUp(Input::Mouse button, const PointF& mpos) override
 	{
-		return getRect().isPointInside(mpos);;
+		if (button == Input::Mouse::Left)
+			m_isMouseLeftDown = false;
+
+		return m_isMouseInside;
 	}
 
 	virtual bool mouseMove(const PointF& mpos, bool handled) override
 	{
-		// TODO move window
-		return getRect().isPointInside(mpos);
+		m_isMouseInside = getRect().isPointInside(mpos);
+
+		// drag window
+		if (m_isMouseLeftDown)
+		{
+			setOrigin(getOrigin() + mpos - m_dragSpot);
+			m_dragSpot = mpos;			
+		}
+
+		return m_isMouseInside;
 	}
 
 	virtual bool wheel(float amount, const PointF& mpos) override
 	{
-		return getRect().isPointInside(mpos);
+		return m_isMouseInside;
 	}
 
 	// register after all UIObjects has been added
@@ -74,8 +96,17 @@ protected:
 		m_uiObjects.push_back(obj);
 		Input::IReceiver* pRec = dynamic_cast<Input::IReceiver*>(obj);
 		if (pRec)
+		{
+			if (pRec->getZIndex() <= getZIndex())
+				throw ExceptionInvalidOperation("UIWindow::addUIObject", "z-index of object is <= z-index of window");
 			m_receivers.push_back(pRec);
+		}
 	}
+
+protected:
+	bool m_isMouseInside = false;
+	bool m_isMouseLeftDown = false;
+	PointF m_dragSpot;
 
 private:
 	GameState* m_parent = nullptr;

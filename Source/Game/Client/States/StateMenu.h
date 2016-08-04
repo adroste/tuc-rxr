@@ -4,7 +4,7 @@
 #include "../../../Framework/UI/UIButton.h"
 #include "StateGame.h"
 #include "../../../Framework/UI/UIButtonText.h"
-#include "../../../Framework/OpenGL/Shader/UIColorPicker.h"
+#include "../../../Framework/UI/UIDialogColorPicker.h"
 #include "../../../Framework/UI/UIInputField.h"
 #include "../../../Framework/UI/UILabel.h"
 #include "StateEditor.h"
@@ -117,5 +117,5 @@ private:
 	UIButtonText m_btnSingle;
 	UIButtonText m_btnEdit;
 
-	UIColorPicker m_colorPicker;
+	UIDialogColorPicker m_colorPicker;
 };

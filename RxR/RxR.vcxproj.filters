@@ -381,9 +381,6 @@
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderHSVPicker.h">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Framework\OpenGL\Shader\UIColorPicker.h">
-      <Filter>Source\Framework\UI</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Framework\UI\UILabel.h">
       <Filter>Source\Framework\UI</Filter>
     </ClInclude>
@@ -401,6 +398,15 @@
     </ClInclude>
     <ClInclude Include="..\Source\Game\Client\States\StateDev.h">
       <Filter>Source\Game\Client\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\UIDialogColorPicker.h">
+      <Filter>Source\Framework\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\System\Exceptions\ExceptionInvalidOperation.h">
+      <Filter>Source\System\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\System\Exceptions\ExceptionArgument.h">
+      <Filter>Source\System\Exceptions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

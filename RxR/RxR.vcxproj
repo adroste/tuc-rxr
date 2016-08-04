@@ -207,7 +207,6 @@
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderCube.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderDisk.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderHSVPicker.h" />
-    <ClInclude Include="..\Source\Framework\OpenGL\Shader\UIColorPicker.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlock.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlockFramework.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlockLight.h" />
@@ -228,6 +227,7 @@
     <ClInclude Include="..\Source\Framework\UI\UIButton.h" />
     <ClInclude Include="..\Source\Framework\UI\UIButtonText.h" />
     <ClInclude Include="..\Source\Framework\UI\UIDialog.h" />
+    <ClInclude Include="..\Source\Framework\UI\UIDialogColorPicker.h" />
     <ClInclude Include="..\Source\Framework\UI\UIInputField.h" />
     <ClInclude Include="..\Source\Framework\UI\UILabel.h" />
     <ClInclude Include="..\Source\Framework\UI\UIObject.h" />
@@ -244,7 +244,9 @@
     <ClInclude Include="..\Source\Game\Shared\Game.h" />
     <ClInclude Include="..\Source\Game\Shared\Map.h" />
     <ClInclude Include="..\Source\System\Exceptions\Exception.h" />
+    <ClInclude Include="..\Source\System\Exceptions\ExceptionArgument.h" />
     <ClInclude Include="..\Source\System\Exceptions\ExceptionInvalidFile.h" />
+    <ClInclude Include="..\Source\System\Exceptions\ExceptionInvalidOperation.h" />
     <ClInclude Include="..\Source\System\Exceptions\ExceptionMissingFile.h" />
     <ClInclude Include="..\Source\System\Exceptions\GLEW_Exception.h" />
     <ClInclude Include="..\Source\System\Exceptions\GL_Exception.h" />

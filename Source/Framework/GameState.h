@@ -3,6 +3,7 @@
 #include "OpenGL/Drawing.h"
 #include <list>
 #include <memory>
+#include "../System/Exceptions/ExceptionInvalidOperation.h"
 
 class GameState : public Input::IReceiver
 {
@@ -33,8 +34,8 @@ public:
 
 	void sortReceivers()
 	{
-		// TODO performance? / right order? #jan
-		m_receiver.sort([](Input::IReceiver* lr, Input::IReceiver* rr)
+		// TODO performance? #jan
+		m_receivers.sort([](Input::IReceiver* lr, Input::IReceiver* rr)
 		{
 			return lr->getZIndex() > rr->getZIndex();
 		});
@@ -42,14 +43,16 @@ public:
 
 	void regReceiver(Input::IReceiver* rec)
 	{
-		// TODO check if receiver gets added multiple times
-		m_receiver.push_back(rec);
+		for (auto r : m_receivers)
+			if (r == rec)
+				throw ExceptionInvalidOperation("GameState::regReceiver try to add receiver twice", "receiver already in m_receivers");
+		m_receivers.push_front(rec);
 		sortReceivers();
 	}
 
 	void unregReceiver(Input::IReceiver* rec)
 	{
-		m_receiver.remove_if([rec](Input::IReceiver* curRec)
+		m_receivers.remove_if([rec](Input::IReceiver* curRec)
 		{
 			return rec == curRec;
 		});
@@ -79,7 +82,7 @@ public:
 		int curZ = -1;
 		bool prevHandled = handled;
 
-		for (auto r : m_receiver)
+		for (auto r : m_receivers)
 		{
 			if(curZ != r->getZIndex())
 			{
@@ -129,7 +132,7 @@ private:
 	{
 		int curZ = -1;
 		bool handled = false;
-		for (auto r : m_receiver)
+		for (auto r : m_receivers)
 		{
 			if (handled && curZ != r->getZIndex())
 				break;
@@ -152,7 +155,7 @@ protected:
 private:
 	TransitionState m_transitionState = TransitionState::Undefined;
 	const bool m_drawPrev;
-	std::list<Input::IReceiver*> m_receiver;
+	std::list<Input::IReceiver*> m_receivers;
 	std::unique_ptr<GameState> m_pNextState;
 	bool m_isFinished = false;
 };
