@@ -6,6 +6,11 @@
 class UIWindow : public UIObject, public Input::IReceiver
 {
 public:
+	UIWindow(bool show = false)
+	{
+		show ? UIWindow::show() : UIWindow::hide();
+	}
+
 	virtual ~UIWindow() override
 	{
 		if (m_parent)
@@ -30,6 +35,17 @@ public:
 		{
 			obj->draw(draw);
 		}
+	}
+
+
+	virtual bool keyUp(SDL_Scancode s) override
+	{
+		if (s == SDL_SCANCODE_ESCAPE)
+		{
+			hide();
+			return true;
+		}
+		return false;
 	}
 
 	virtual bool mouseDown(Input::Mouse button, const PointF& mpos) override
@@ -76,18 +92,56 @@ public:
 		m_parent = parent;
 		Input::IReceiver::registerMe(parent);
 		for (auto r : m_receivers)
-		{
 			r->registerMe(parent);
-		}
 	}
 
 	virtual void unregisterMe(GameState* parent) override final // do not remove this final!! 
 	{
 		for (auto r : m_receivers)
-		{
 			r->unregisterMe(parent);
-		}
 		Input::IReceiver::unregisterMe(parent);
+	}
+
+
+	virtual void enable() override
+	{
+		Input::IReceiver::enable();
+		for (auto r : m_receivers)
+			r->enable();
+	}
+
+	virtual void disable() override
+	{
+		for (auto r : m_receivers)
+			r->disable();
+		Input::IReceiver::disable();
+	}
+
+	/*virtual void setVisibility(bool visible) override
+	{
+		UIObject::setVisibility(visible);
+		for (auto o : m_uiObjects)
+			o->setVisibility(visible);
+	}
+	do not use: ui objects visible status should reveal if objects are visible INSIDE the window, not at all*/
+
+	virtual void hide()
+	{
+		m_isShown = false;
+		disable();
+		setVisibility(false);
+	}
+
+	virtual void show()
+	{
+		m_isShown = true;
+		setVisibility(true);
+		enable();
+	}
+
+	bool isShown() const
+	{
+		return m_isShown;
 	}
 
 protected:
@@ -112,4 +166,6 @@ private:
 	GameState* m_parent = nullptr;
 	std::vector<Input::IReceiver*> m_receivers;
 	std::vector<UIObject*> m_uiObjects;
+
+	bool m_isShown;
 };

@@ -25,7 +25,8 @@ public:
 	virtual bool update(float dt) override
 	{
 		if (m_btnBack.isClicked(true))
-			setNextState(TransitionState::Discard);
+			//setNextState(TransitionState::Discard);
+			m_dlgTest.show();
 
 		return false;
 	}
