@@ -41,21 +41,21 @@ void Input::unregisterState(GameState* pState)
 void Input::keyDown(SDL_Scancode s)
 {
 	for (auto l : m_listener)
-		if (l->keyDown(s))
+		if (l->isEnabled() && l->keyDown(s))
 			break;
 }
 
 void Input::keyUp(SDL_Scancode s)
 {
 	for (auto l : m_listener)
-		if (l->keyUp(s))
+		if (l->isEnabled() && l->keyUp(s))
 			break;
 }
 
 void Input::charDown(char c)
 {
 	for (auto l : m_listener)
-		if (l->charDown(c))
+		if (l->isEnabled() && l->charDown(c))
 			break;
 }
 
@@ -63,31 +63,34 @@ void Input::setMouse(PointI pos)
 {
 	m_mousePos = Framework::convertClientPoint(pos);
 
-	/*int handled = 0;
-	for (auto l : m_listener)
-		handled += int(l->mouseMove(m_mousePos, handled != 0));*/
 	bool handled = false;
 	for (auto l : m_listener)
-		handled |= l->mouseMove(m_mousePos, handled);
+	{
+		if (!l->isEnabled())
+			// just to update mouse position
+			l->mouseMove(m_mousePos, true);
+		else
+			handled |= l->mouseMove(m_mousePos, handled);
+	}
 }
 
 void Input::mouseDown(Uint8 button)
 {
 	for (auto l : m_listener)
-		if (l->mouseDown(Mouse(button), m_mousePos))
+		if (l->isEnabled() && l->mouseDown(Mouse(button), m_mousePos))
 			break;
 }
 
 void Input::mouseUp(Uint8 button)
 {
 	for (auto l : m_listener)
-		if (l->mouseUp(Mouse(button), m_mousePos))
+		if (l->isEnabled() && l->mouseUp(Mouse(button), m_mousePos))
 			break;
 }
 
 void Input::wheel(float amount)
 {
 	for (auto l : m_listener)
-		if (l->wheel(amount, m_mousePos))
+		if (l->isEnabled() && l->wheel(amount, m_mousePos))
 			break;
 }

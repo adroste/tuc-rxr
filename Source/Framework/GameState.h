@@ -84,6 +84,13 @@ public:
 
 		for (auto r : m_receivers)
 		{
+			if (!r->isEnabled())
+			{
+				// just to update mouse pos
+				r->mouseMove(mpos, true);
+				continue;
+			}
+
 			if(curZ != r->getZIndex())
 			{
 				prevHandled = handled;
@@ -134,6 +141,8 @@ private:
 		bool handled = false;
 		for (auto r : m_receivers)
 		{
+			if (!r->isEnabled()) 
+				continue;
 			if (handled && curZ != r->getZIndex())
 				break;
 			curZ = r->getZIndex();
