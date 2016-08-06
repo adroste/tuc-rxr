@@ -47,10 +47,14 @@ public:
 	}
 	virtual bool mouseUp(Input::Mouse button, const PointF& mpos) override
 	{
+		bool ret = false;
 		if (m_isHover && m_isDown)
+		{
 			setClicked(true);
+			ret = true;
+		}
 		m_isDown = false;
-		return isClicked(false);
+		return ret;
 	}
 	virtual bool keyDown(SDL_Scancode s) override
 	{
@@ -60,10 +64,14 @@ public:
 	}
 	virtual bool keyUp(SDL_Scancode s) override
 	{
+		bool ret = false;
 		if (s == SDL_SCANCODE_RETURN && isSelected() && m_isDown)
+		{
 			setClicked(true);
+			ret = true;
+		}
 		m_isDown = false;
-		return isClicked(false);
+		return ret;
 	}
 
 protected:
