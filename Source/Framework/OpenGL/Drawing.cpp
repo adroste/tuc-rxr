@@ -12,7 +12,9 @@ Drawing::Drawing()
 	m_uiCam({ Framework::STD_DRAW_X / 2, Framework::STD_DRAW_Y / 2 }, 1.0f, 1000.0f),
 	m_trans({ &m_shHSVPicker, &m_shCubeMap, &m_shButton,
 	&m_fontHeadS, &m_fontHeadM, &m_fontHeadL,
-	&m_fontTextS, &m_fontTextM, &m_fontTextL }, "Transforms"),
+	&m_fontTextS, &m_fontTextM, &m_fontTextL,
+	&m_shColor
+	}, "Transforms"),
 	m_material({ &m_shCubeMap }, "Material"),
 	m_lights({ &m_shCubeMap }, "Lights"),
 	m_mapInfo({ &m_shCubeMap }, "MapInfo"),
@@ -24,7 +26,8 @@ Drawing::Drawing()
 
 void Drawing::rect(const RectF & r, const Color & c)
 {
-	glColor4f(c.r, c.g, c.b, c.a);
+	m_shColor.setColor(c);
+	m_shColor.bind();
 
 	glBegin(GL_TRIANGLE_STRIP);
 	{
@@ -34,6 +37,8 @@ void Drawing::rect(const RectF & r, const Color & c)
 		glVertex3f(r.x1, r.y2, 0.0f);
 	}
 	glEndSafe();
+
+	m_shColor.unbind();
 }
 
 void Drawing::line(PointF p1, PointF p2, float thickness, const Color& color)
@@ -235,6 +240,7 @@ void Drawing::create()
 	m_meshCube.create();
 	m_shCubeMap.create();
 	m_shButton.create();
+	m_shColor.create();
 
 	// fonts
 	m_fontHeadS.create();
@@ -267,6 +273,7 @@ void Drawing::dispose()
 	m_meshCube.dispose();
 	m_shCubeMap.dispose();
 	m_shButton.dispose();
+	m_shColor.dispose();
 
 	// fonts
 	m_fontHeadS.dispose();
@@ -297,6 +304,7 @@ void Drawing::init(FT_Library ftlib)
 	m_shHSVPicker.load();
 	m_shCubeMap.load();
 	m_shButton.load();
+	m_shColor.load();
 
 	// fonts
 	m_fontHeadS.load(ftlib, "data/Font/DevinneSwash.ttf", float(Font::Size::S));

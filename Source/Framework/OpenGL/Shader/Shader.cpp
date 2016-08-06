@@ -191,4 +191,12 @@ void Shader::loadShaderSource(const std::string & filename)
 	m_sources[size_t(Type::Fragment)] = loadShader(filename + EXTENSION_FRAGMENT);
 }
 
+GLint Shader::locateUniform(const char* name) const
+{
+	GLint x = glGetUniformLocation(m_program, name);
+	if (x == -1)
+		throw Exception("Shader::locateUniform for " + m_filename +
+			" failed: " + std::string(name) + " uniform not found");
+	return x;
+}
 

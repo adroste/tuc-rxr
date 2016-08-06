@@ -181,6 +181,9 @@
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderHSVPicker.cpp">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderColor.cpp">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\Shader.h">
@@ -407,6 +410,9 @@
     </ClInclude>
     <ClInclude Include="..\Source\System\Exceptions\ExceptionArgument.h">
       <Filter>Source\System\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderColor.h">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
