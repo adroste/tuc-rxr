@@ -60,6 +60,8 @@ public:
 		//m_colorPicker.draw(draw);
 		m_title.draw(draw);
 
+		draw.line(m_mpos, Framework::getScreenCenter(), 10.0f, Color::Red());
+
 		m_btnSingle.draw(draw);
 		m_btnEdit.draw(draw);
 	}

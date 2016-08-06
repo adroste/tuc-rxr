@@ -6,7 +6,7 @@ class ShaderColor : public Shader
 {
 public:
 	ShaderColor();
-	~ShaderColor() override;
+	virtual ~ShaderColor() override;
 	virtual void load() override;
 	void setColor(const Color& c);
 protected:

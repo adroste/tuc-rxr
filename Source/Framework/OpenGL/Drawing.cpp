@@ -51,20 +51,25 @@ void Drawing::line(PointF p1, PointF p2, float thickness, const Color& color)
 	translate = glm::translate(translate, glm::vec3(-thickness / 2.0f, -thickness / 2.0f, 0.0f));
 	translate = glm::scale(translate, glm::vec3((p1 - p2).length() + thickness, thickness, 1.0f));
 
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glMultMatrixf(&translate[0][0]);
+	m_trans.pushModel(translate);
+	m_trans.flush();
 
-	glColor4f(color.r, color.g, color.b, color.a);
+	m_shColor.setColor(color);
+	m_shColor.bind();
+
 	glBegin(GL_TRIANGLE_STRIP);
 	{
 		glVertex2f(0.0f, 1.0f);
 		glVertex2f(0.0f, 0.0f);
-		glVertex2f(1.0f, 1.0f);		
+		glVertex2f(1.0f, 1.0f);
 		glVertex2f(1.0f, 0.0f);
 	}
 	glEndSafe();
-	glPopMatrix();
+	
+	m_shColor.unbind();
+
+	m_trans.popModel();
+	m_trans.flush();
 }
 
 void Drawing::buttonRoyal(const RectF& r, bool down)
@@ -137,17 +142,20 @@ void Drawing::hsvPicker(const PointF& pos, float r, const Color& color)
 	glEndSafe();
 	m_shHSVPicker.unbind();
 
+	m_shColor2.bind();
+
 	glBegin(GL_TRIANGLES);
 	{
-		glColor3f(color.r, color.g, color.b);
+		glVertexAttrib4f(1 ,color.r, color.g, color.b, 1.0f);
 		glVertex2f(pos.x, pos.y - r * 0.8);
-		glColor3f(0.0f, 0.0f, 0.0f);
+		glVertexAttrib4f(1, 0.0f, 0.0f, 0.0f, 1.0f);
 		glVertex2f(pos.x - r * 0.8 * 0.866025, pos.y + r * 0.8 * 0.5);
-		glColor3f(1.0f, 1.0f, 1.0f);
+		glVertexAttrib4f(1, 1.0f, 1.0f, 1.0f, 1.0f);
 		glVertex2f(pos.x + r * 0.8 * 0.866025, pos.y + r * 0.8 * 0.5);
 	}
 	glEndSafe();
 	
+	m_shColor2.unbind();
 }
 
 void Drawing::shaderedCube(const glm::mat4& mat, Shader& shader)
@@ -161,6 +169,7 @@ void Drawing::shaderedCube(const glm::mat4& mat, Shader& shader)
 	shader.unbind();
 
 	m_trans.popModel();
+	m_trans.flush();
 }
 
 void Drawing::setCubeMaterial(const Color& diffuse, const Color& specular, float gloss)
@@ -182,25 +191,6 @@ UniformBlockTransforms& Drawing::getTransform()
 {
 	return m_trans;
 }
-
-/*
-void Drawing::setCamera(const glm::mat4& mat)
-{
-	m_trans.setCamera(mat);
-	m_trans.flush();
-}
-
-void Drawing::setProjection(const glm::mat4& mat)
-{
-	m_trans.setProjection(mat);
-	m_trans.flush();
-}
-
-void Drawing::setModel(const glm::mat4& mat)
-{
-	m_trans.setModel(mat);
-	m_trans.flush();
-}*/
 
 Font& Drawing::getFont(Font::Style style, Font::Size size)
 {
@@ -241,6 +231,7 @@ void Drawing::create()
 	m_shCubeMap.create();
 	m_shButton.create();
 	m_shColor.create();
+	m_shColor2.create();
 
 	// fonts
 	m_fontHeadS.create();
@@ -274,6 +265,7 @@ void Drawing::dispose()
 	m_shCubeMap.dispose();
 	m_shButton.dispose();
 	m_shColor.dispose();
+	m_shColor2.dispose();
 
 	// fonts
 	m_fontHeadS.dispose();
@@ -305,6 +297,7 @@ void Drawing::init(FT_Library ftlib)
 	m_shCubeMap.load();
 	m_shButton.load();
 	m_shColor.load();
+	m_shColor2.load();
 
 	// fonts
 	m_fontHeadS.load(ftlib, "data/Font/DevinneSwash.ttf", float(Font::Size::S));

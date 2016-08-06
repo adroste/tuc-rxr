@@ -18,6 +18,7 @@
 #include "Shader/UniformBlockFramework.h"
 #include "Shader/ShaderHSVPicker.h"
 #include "Shader/ShaderColor.h"
+#include "Shader/ShaderColor2.h"
 
 class Drawing : public GLObject
 {
@@ -72,6 +73,7 @@ private:
 	ShaderCube m_shCubeMap;
 	ShaderButton m_shButton;
 	ShaderColor m_shColor;
+	ShaderColor2 m_shColor2;
 
 	UniformBlockTransforms m_trans;
 	UniformBlockMaterial m_material;
