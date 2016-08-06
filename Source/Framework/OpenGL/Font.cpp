@@ -160,13 +160,8 @@ void Font::setColor(const Color& c)
 void Font::loadUniforms()
 {
 	// locate unitforms
-	m_uniLocTexture = glGetUniformLocation(m_program, "tex");
-	if (m_uniLocTexture == -1)
-		throw Exception("Font::loadUniforms tex uniform not found");
-
-	m_uniLocColor = glGetUniformLocation(m_program, "color");
-	if (m_uniLocColor == -1)
-		throw Exception("Font::loadUniforms tex uniform not found");
+	m_uniLocTexture = locateUniform("tex");
+	m_uniLocColor = locateUniform("color");
 }
 
 void Font::load()
