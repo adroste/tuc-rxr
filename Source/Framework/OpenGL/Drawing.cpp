@@ -145,24 +145,17 @@ void Drawing::hsvPicker(const PointF& pos, float r, const Color& color)
 	
 }
 
-void Drawing::coloredCube(const PointF& pos, float scalar, const Color& c, float z)
-{
-	//scalar += 0.1f;
-	//setModel( glm::translate(glm::vec3(pos.x, pos.y, z)) * glm::scale(glm::vec3(scalar, scalar, scalar)));
-
-	setCubeMaterial(c, Color::Black(), 1.0f);
-	m_shCubeMap.bind();
-	m_meshCube.draw();
-	m_shCubeMap.unbind();
-}
-
 void Drawing::shaderedCube(const glm::mat4& mat, Shader& shader)
 {
-	setModel(mat);
+	//setModel(mat);
+	m_trans.pushModel(mat);
+	m_trans.flush();
 
 	shader.bind();
 	m_meshCube.draw();
 	shader.unbind();
+
+	m_trans.popModel();
 }
 
 void Drawing::setCubeMaterial(const Color& diffuse, const Color& specular, float gloss)
@@ -180,6 +173,12 @@ void Drawing::setLights(const Color& ambient, const std::vector<UniformBlockLigh
 	m_lights.updateLights(ambient.toVec3(), eye, lights);
 }
 
+UniformBlockTransforms& Drawing::getTransform()
+{
+	return m_trans;
+}
+
+/*
 void Drawing::setCamera(const glm::mat4& mat)
 {
 	m_trans.setCamera(mat);
@@ -196,7 +195,7 @@ void Drawing::setModel(const glm::mat4& mat)
 {
 	m_trans.setModel(mat);
 	m_trans.flush();
-}
+}*/
 
 Font& Drawing::getFont(Font::Style style, Font::Size size)
 {

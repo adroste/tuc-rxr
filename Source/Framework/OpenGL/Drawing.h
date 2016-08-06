@@ -40,16 +40,16 @@ public:
 	void hsvPicker(const PointF& pos, float r, const Color& color);
 
 	// cubes
-	void coloredCube(const PointF& pos, float scalar, const Color& c, float z = 0.0f);
 	void shaderedCube(const glm::mat4& mat, Shader& shader);
 	void setCubeMaterial(const Color& diffuse, const Color& specular, float gloss);
 	void setMapInfo(const Point3S& dim);
 	void setLights(const Color& ambient, const std::vector<UniformBlockLight::LightSource>& lights, const glm::vec3& eye);
 
 	// camera
-	void setCamera(const glm::mat4& mat);
+	/*void setCamera(const glm::mat4& mat);
 	void setProjection(const glm::mat4& mat);
-	void setModel(const glm::mat4& mat);
+	void setModel(const glm::mat4& mat);*/
+	UniformBlockTransforms& getTransform();
 
 	Camera& getUiCam();
 
