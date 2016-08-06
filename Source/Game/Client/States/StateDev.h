@@ -24,16 +24,18 @@ public:
 
 	virtual bool update(float dt) override
 	{
+		m_dlgTest.update(dt);
+
 		if (m_btnBack.isClicked(true))
 			//setNextState(TransitionState::Discard);
 			m_dlgTest.show();
 
-		if (m_dlgTest.getResult() == UIDialog::Result::Cancel)
+		/*if (m_dlgTest.getResult() == UIDialog::Result::Cancel)
 		{
 			m_dlgTest.show();
 			m_dlgTest.setDim({ 300.0f, 300.0f });
 			m_dlgTest.setCenter(Framework::getScreenCenter());
-		}
+		}*/
 
 		return false;
 	}

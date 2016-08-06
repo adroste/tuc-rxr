@@ -18,7 +18,23 @@ public:
 
 public:
 	virtual ~UIDialog() override
-	{}
+	{
+	}
+
+	virtual void update(float dt) override
+	{
+		if (m_btnCancel.isClicked(true))
+			setResult(Result::Cancel);
+
+		// auto close
+		if (m_autoClose && (
+			m_dlgResult == Result::OK
+			|| m_dlgResult == Result::Cancel
+			|| m_dlgResult == Result::Yes
+			|| m_dlgResult == Result::No
+			|| m_dlgResult == Result::Ignore))
+			hide();
+	}
 
 	virtual void draw(Drawing& draw) override
 	{
@@ -30,6 +46,7 @@ public:
 	{
 		return true;
 	}
+
 	virtual bool keyUp(SDL_Scancode s) override
 	{
 		UIWindow::keyUp(s);
@@ -39,25 +56,30 @@ public:
 
 		return true;
 	}
+
 	virtual bool charDown(char c) override
 	{
 		return true;
 	}
+
 	virtual bool mouseDown(Input::Mouse button, const PointF& mpos) override
 	{
 		UIWindow::mouseDown(button, mpos);
 		return true;
 	}
+
 	virtual bool mouseUp(Input::Mouse button, const PointF& mpos) override
 	{
 		UIWindow::mouseUp(button, mpos);
 		return true;
 	}
+
 	virtual bool mouseMove(const PointF& mpos, bool handled) override
 	{
 		UIWindow::mouseMove(mpos, handled);
 		return true;
 	}
+
 	virtual bool wheel(float amount, const PointF& mpos) override
 	{
 		UIWindow::wheel(amount, mpos);
@@ -76,6 +98,11 @@ public:
 		return m_dlgResult;
 	}
 
+	void setAutoClose(bool autoClose)
+	{
+		m_autoClose = autoClose;
+	}
+
 protected:
 	void setResult(Result dlgResult)
 	{
@@ -84,4 +111,5 @@ protected:
 
 private:
 	Result m_dlgResult = Result::None;
+	bool m_autoClose = true;
 };

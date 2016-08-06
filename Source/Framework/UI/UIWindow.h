@@ -7,7 +7,13 @@ class UIWindow : public UIObject, public Input::IReceiver
 {
 public:
 	UIWindow(bool show = false)
+		:
+		m_btnCancel(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "X")
 	{
+		m_btnCancel.setZIndex(getZIndex() + 1);
+		m_btnCancel.adjustToFontHeadline();
+		UIWindow::addUIObject(&m_btnCancel);
+
 		show ? UIWindow::show() : UIWindow::hide();
 	}
 
@@ -20,11 +26,17 @@ public:
 		}
 	}
 
+	virtual void update(float dt)
+	{
+		if (m_btnCancel.isClicked(true))
+			hide();
+	}
+
 	virtual void draw(Drawing& draw) override
 	{
 		if (!isVisible()) return;
 
-		// TODO draw border, background, window-buttons
+		// TODO draw border, background
 		// just testing
 		{
 			draw.rect(getRect(), Color::Gray());
@@ -86,6 +98,15 @@ public:
 		return m_isMouseInside;
 	}
 
+	virtual void setZIndex(int z) override
+	{
+		int zdiff = z - getZIndex();
+		Input::IReceiver::setZIndex(z);
+
+		for (auto r : m_receivers)
+			r->setZIndex(r->getZIndex() + zdiff);
+	}
+
 	// register after all UIObjects has been added
 	virtual void registerMe(GameState* parent) override final
 	{
@@ -101,7 +122,6 @@ public:
 			r->unregisterMe(parent);
 		Input::IReceiver::unregisterMe(parent);
 	}
-
 
 	virtual void enable() override
 	{
@@ -145,6 +165,7 @@ public:
 	}
 
 protected:
+	// every window object needs to be added with this function
 	virtual void addUIObject(UIObject* obj)
 	{
 		m_uiObjects.push_back(obj);
@@ -161,6 +182,8 @@ protected:
 	bool m_isMouseInside = false;
 	bool m_isMouseLeftDown = false;
 	PointF m_dragSpot;
+	
+	UIButtonText m_btnCancel;
 
 private:
 	GameState* m_parent = nullptr;
