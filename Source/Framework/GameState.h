@@ -84,7 +84,7 @@ public:
 
 		for (auto r : m_receivers)
 		{
-			PointF p = transformPoint(mpos);
+			PointF p = r->transformPoint(mpos);
 
 			if (!r->isEnabled())
 			{
