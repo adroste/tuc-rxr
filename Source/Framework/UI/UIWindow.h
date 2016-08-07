@@ -1,7 +1,7 @@
 #pragma once
 #include "UIObject.h"
 #include "../../System/Input.h"
-#include "../GameState.h";
+#include "../GameState.h"
 
 class UIWindow : public UIObject, public Input::IReceiver
 {
@@ -43,10 +43,15 @@ public:
 			draw.rect(getRect().shrink(2.0f), Color::DarkGray());
 		}
 
+		PointF pos = getOrigin();
+		glm::mat4 transform = glm::translate(glm::vec3(pos.x, pos.y, 0.0f));
+		draw.getTransform().pushModel(transform);
+		draw.getTransform().flush();
 		for (auto obj : m_uiObjects)
 		{
 			obj->draw(draw);
 		}
+		draw.getTransform().popModel();
 	}
 
 
