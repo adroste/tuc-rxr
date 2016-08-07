@@ -11,6 +11,6 @@ void main()
 {
 	texCoord = btnInfo.zw;
 	vec4 p = vec4(btnInfo.xy, 0.0, 1.0);
-	pos = p.xyz;
+	pos = (matModel * p).xyz;
 	gl_Position = matProjection * matCamera * matModel * p;
 }
