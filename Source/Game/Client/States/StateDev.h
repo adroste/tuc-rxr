@@ -8,7 +8,7 @@ public:
 	StateDev()
 		:
 		m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "A"),
-		m_dlgTest(150.0f,Framework::getScreenCenter())
+		m_dlgTest()
 	{
 		m_btnBack.adjustToFontHeadline();
 		m_btnBack.setOrigin({ 10.0f, Framework::STD_DRAW_Y - (m_btnBack.getDim().y + 10.0f) });
@@ -91,5 +91,5 @@ public:
 
 private:
 	UIButtonText m_btnBack;
-	UIDialogColorPicker m_dlgTest;
+	UIDialog m_dlgTest;
 };

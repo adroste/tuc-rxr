@@ -17,8 +17,7 @@ public:
 		m_title(Drawing::getFont(Font::Style::Headline,Font::Size::L),"MainWindow"),
 		m_btnSingle(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Can't Touch This"),
 		m_btnEdit(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Editor"),
-		m_btnDev(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Dev"),
-		m_colorPicker(300, { 640, 360 })
+		m_btnDev(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Dev")
 	{
 		//m_btnSingle.setDim({ 350, 80 });
 		m_btnSingle.adjustToFontHeadline();
@@ -128,5 +127,5 @@ private:
 	UIButtonText m_btnEdit;
 	UIButtonText m_btnDev;
 
-	UIDialogColorPicker m_colorPicker;
+	//UIDialogColorPicker m_colorPicker;
 };
