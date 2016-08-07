@@ -74,6 +74,22 @@ void Drawing::line(PointF p1, PointF p2, float thickness, const Color& color)
 	m_trans.flush();
 }
 
+void Drawing::line(const glm::vec3& p1, const glm::vec3& p2, float thikness, const Color& c)
+{
+	glLineWidth(thikness);
+	m_shColor.setColor(c);
+
+	m_trans.flush();
+	m_shColor.bind();
+	glBegin(GL_LINES);
+	{
+		glVertex3f(p1.x, p1.y, p1.z);
+		glVertex3f(p2.x, p2.y, p2.z);
+	}
+	glEndSafe();
+	m_shColor.unbind();
+}
+
 void Drawing::buttonRoyal(const RectF& r, bool down)
 {
 	Texture& bumpMid = down ? m_texBtnBumpMidDown : m_texBtnBumpMid;

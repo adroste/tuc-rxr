@@ -2,6 +2,7 @@
 #include "../../../Framework/GameState.h"
 #include "../../../Framework/UI/UIButtonText.h"
 #include "StateDev.h"
+#include "../GameEditor.h"
 
 class StateEditor : public GameState
 {
@@ -10,6 +11,9 @@ public:
 		:
 		m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Back")
 	{
+		m_editor.registerMe(this);
+
+
 		m_btnBack.adjustToFontHeadline();
 		m_btnBack.setOrigin({ 10.0f, Framework::STD_DRAW_Y - (m_btnBack.getDim().y + 10.0f) });
 		m_btnBack.registerMe(this);
@@ -28,6 +32,7 @@ public:
 	}
 	virtual void composeFrame(Drawing& draw, float dt) override
 	{
+		m_editor.draw(draw);
 		m_btnBack.draw(draw);
 	}
 
@@ -75,5 +80,7 @@ public:
 	}
 
 private:
+	GameEditor m_editor;
+
 	UIButtonText m_btnBack;
 };

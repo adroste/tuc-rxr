@@ -181,6 +181,7 @@
     <ClCompile Include="..\Source\Framework\Sound\MusicFile.cpp" />
     <ClCompile Include="..\Source\Framework\Sound\Sound.cpp" />
     <ClCompile Include="..\Source\Framework\Window.cpp" />
+    <ClCompile Include="..\Source\Game\Client\GameEditor.cpp" />
     <ClCompile Include="..\Source\Game\Client\LightManager.cpp" />
     <ClCompile Include="..\Source\Game\Shared\CharNode.cpp" />
     <ClCompile Include="..\Source\Game\Shared\Cube.cpp" />
@@ -236,6 +237,7 @@
     <ClInclude Include="..\Source\Framework\UI\UIObject.h" />
     <ClInclude Include="..\Source\Framework\UI\UIWindow.h" />
     <ClInclude Include="..\Source\Framework\Window.h" />
+    <ClInclude Include="..\Source\Game\Client\GameEditor.h" />
     <ClInclude Include="..\Source\Game\Client\LightManager.h" />
     <ClInclude Include="..\Source\Game\Client\States\StateDev.h" />
     <ClInclude Include="..\Source\Game\Client\States\StateEditor.h" />
