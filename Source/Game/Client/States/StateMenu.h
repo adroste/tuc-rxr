@@ -17,6 +17,7 @@ public:
 		m_title(Drawing::getFont(Font::Style::Headline,Font::Size::L),"MainWindow"),
 		m_btnSingle(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Can't Touch This"),
 		m_btnEdit(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Editor"),
+		m_btnDev(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Dev"),
 		m_colorPicker(300, { 640, 360 })
 	{
 		//m_btnSingle.setDim({ 350, 80 });
@@ -25,6 +26,9 @@ public:
 		m_btnEdit.adjustToFontHeadline();
 		m_btnEdit.setWidth(m_btnSingle.getDim().x);
 		m_btnEdit.centerX(300.0f);
+		m_btnDev.adjustToFontHeadline();
+		m_btnDev.setOrigin({ Framework::STD_DRAW_X - (m_btnDev.getDim().x + 10.0f), Framework::STD_DRAW_Y - (m_btnDev.getDim().y + 10.0f) });
+		m_btnDev.registerMe(this);
 
 		m_title.centerX(50.0f);
 
@@ -51,6 +55,9 @@ public:
 			setNextState(TransitionState::ForcePreserve, std::unique_ptr<GameState>(new StateEditor()));
 		}
 
+		if (m_btnDev.isClicked(true))
+			setNextState(TransitionState::Preserve, std::unique_ptr<GameState>(new StateDev()));
+
 		return false;
 	}
 
@@ -62,6 +69,7 @@ public:
 
 		m_btnSingle.draw(draw);
 		m_btnEdit.draw(draw);
+		m_btnDev.draw(draw);
 	}
 
 
@@ -116,6 +124,7 @@ private:
 	PointF m_mpos;
 	UIButtonText m_btnSingle;
 	UIButtonText m_btnEdit;
+	UIButtonText m_btnDev;
 
 	UIDialogColorPicker m_colorPicker;
 };
