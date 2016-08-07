@@ -62,15 +62,15 @@ public:
 		return true;
 	}
 
-	virtual bool mouseDown(Input::Mouse button, const PointF& mpos) override
+	virtual bool mouseDown(const PointF& mpos, Input::Mouse button) override
 	{
-		UIWindow::mouseDown(button, mpos);
+		UIWindow::mouseDown(mpos, button);
 		return true;
 	}
 
-	virtual bool mouseUp(Input::Mouse button, const PointF& mpos) override
+	virtual bool mouseUp(const PointF& mpos, Input::Mouse button) override
 	{
-		UIWindow::mouseUp(button, mpos);
+		UIWindow::mouseUp(mpos, button);
 		return true;
 	}
 
@@ -80,9 +80,9 @@ public:
 		return true;
 	}
 
-	virtual bool wheel(float amount, const PointF& mpos) override
+	virtual bool wheel(const PointF& mpos, float amount) override
 	{
-		UIWindow::wheel(amount, mpos);
+		UIWindow::wheel(mpos, amount);
 		return true;
 	}
 

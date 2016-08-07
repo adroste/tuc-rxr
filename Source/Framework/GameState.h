@@ -84,10 +84,12 @@ public:
 
 		for (auto r : m_receivers)
 		{
+			PointF p = transformPoint(mpos);
+
 			if (!r->isEnabled())
 			{
 				// just to update mouse pos
-				r->mouseMove(mpos, true);
+				r->mouseMove(p, true);
 				continue;
 			}
 
@@ -96,22 +98,22 @@ public:
 				prevHandled = handled;
 			}
 
-			bool nowHandled = r->mouseMove(mpos, prevHandled);
+			bool nowHandled = r->mouseMove(p, prevHandled);
 			handled = nowHandled || handled;
 		}
 		return handled;
 	}
-	virtual bool mouseDown(Input::Mouse button, const PointF& mpos) override
+	virtual bool mouseDown(const PointF& mpos, Input::Mouse button) override
 	{
-		return handleKey(&Input::IReceiver::mouseDown, button, mpos);
+		return handleKey(&Input::IReceiver::mouseDown, mpos, button);
 	}
-	virtual bool mouseUp(Input::Mouse button, const PointF& mpos) override
+	virtual bool mouseUp(const PointF& mpos, Input::Mouse button) override
 	{
-		return handleKey(&Input::IReceiver::mouseUp, button, mpos);
+		return handleKey(&Input::IReceiver::mouseUp, mpos, button);
 	}
-	virtual bool wheel(float amount, const PointF& mpos) override
+	virtual bool wheel(const PointF& mpos, float amount) override
 	{
-		return handleKey(&Input::IReceiver::wheel, amount, mpos);
+		return handleKey(&Input::IReceiver::wheel, mpos, amount);
 	}
 
 	bool isFinished() const
@@ -134,6 +136,23 @@ public:
 	}
 
 private:
+	template <typename memFunc, typename... ArgT>
+	bool handleKey(memFunc pFunc, const PointF& mpos, ArgT... args)
+	{
+		int curZ = -1;
+		bool handled = false;
+		for (auto r : m_receivers)
+		{
+			if (!r->isEnabled())
+				continue;
+			if (handled && curZ != r->getZIndex())
+				break;
+			curZ = r->getZIndex();
+			if (((*r).*pFunc)(r->transformPoint(mpos), args...))
+				handled = true;
+		}
+		return handled;
+	}
 	template <typename memFunc, typename... ArgT>
 	bool handleKey(memFunc pFunc, ArgT... args)
 	{

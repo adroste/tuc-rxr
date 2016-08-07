@@ -77,20 +77,20 @@ void Input::setMouse(PointI pos)
 void Input::mouseDown(Uint8 button)
 {
 	for (auto l : m_listener)
-		if (l->isEnabled() && l->mouseDown(Mouse(button), m_mousePos))
+		if (l->isEnabled() && l->mouseDown(m_mousePos, Mouse(button)))
 			break;
 }
 
 void Input::mouseUp(Uint8 button)
 {
 	for (auto l : m_listener)
-		if (l->isEnabled() && l->mouseUp(Mouse(button), m_mousePos))
+		if (l->isEnabled() && l->mouseUp(m_mousePos, Mouse(button)))
 			break;
 }
 
 void Input::wheel(float amount)
 {
 	for (auto l : m_listener)
-		if (l->isEnabled() && l->wheel(amount, m_mousePos))
+		if (l->isEnabled() && l->wheel(m_mousePos, amount))
 			break;
 }

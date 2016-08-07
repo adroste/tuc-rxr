@@ -1,6 +1,7 @@
 #pragma once
 #include "../SDL/SDL.h"
 #include "../Utility/Point.h"
+#include "../glm/glm.hpp"
 
 class Input
 {
@@ -22,7 +23,8 @@ public:
 	public:
 		IReceiver(int zIndex = 0)
 			:
-			m_zIndex(zIndex)
+			m_zIndex(zIndex),
+			m_transform(1.0f)
 		{}
 		virtual ~IReceiver(){}
 
@@ -42,15 +44,15 @@ public:
 		{
 			return false;
 		}
-		virtual bool mouseDown(Mouse button, const PointF& mpos)
+		virtual bool mouseDown(const PointF& mpos, Mouse button)
 		{
 			return false;
 		} 
-		virtual bool mouseUp(Mouse button, const PointF& mpos)
+		virtual bool mouseUp(const PointF& mpos, Mouse button)
 		{
 			return false;
 		}
-		virtual bool wheel(float amount, const PointF& mpos)
+		virtual bool wheel(const PointF& mpos, float amount)
 		{
 			return false;
 		}
@@ -78,11 +80,28 @@ public:
 			m_zIndex = z;
 		}
 
+		glm::mat4 getTransform() const
+		{
+			return m_transform;
+		}
+
+		virtual void setTransform(glm::mat4 transform)
+		{
+			m_transform = transform;
+		}
+
+		virtual PointF transformPoint(const PointF& p)
+		{
+			glm::vec4 pos = getTransform() * glm::vec4(p.x, p.y, 0.0f, 1.0f);
+			return { pos.x, pos.y };
+		}
+
 		virtual void registerMe(class GameState* parent);
 		virtual void unregisterMe(class GameState* parent);
 	private:
 		bool m_enabled = true;
 		int m_zIndex;
+		glm::mat4 m_transform;
 	};
 
 public:
