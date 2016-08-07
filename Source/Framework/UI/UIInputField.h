@@ -124,7 +124,7 @@ public:
 		}
 		return false;
 	}
-	virtual bool mouseDown(Input::Mouse button, const PointF& mpos) override
+	virtual bool mouseDown(const PointF& mpos, Input::Mouse button) override
 	{
 		if(m_isHover && button == Input::Mouse::Left)
 		{

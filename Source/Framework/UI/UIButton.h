@@ -39,13 +39,13 @@ public:
 		// TODO ??? handled
 		return handled;
 	}
-	virtual bool mouseDown(Input::Mouse button, const PointF& mpos) override
+	virtual bool mouseDown(const PointF& mpos, Input::Mouse button) override
 	{
 		if (m_isHover)
 			m_isDown = true;
 		return m_isDown;
 	}
-	virtual bool mouseUp(Input::Mouse button, const PointF& mpos) override
+	virtual bool mouseUp(const PointF& mpos, Input::Mouse button) override
 	{
 		bool ret = false;
 		if (m_isHover && m_isDown)

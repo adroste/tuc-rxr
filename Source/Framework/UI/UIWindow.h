@@ -65,7 +65,7 @@ public:
 		return false;
 	}
 
-	virtual bool mouseDown(Input::Mouse button, const PointF& mpos) override
+	virtual bool mouseDown(const PointF& mpos, Input::Mouse button) override
 	{
 		if (m_isMouseInside && button == Input::Mouse::Left)
 		{
@@ -76,7 +76,7 @@ public:
 		return m_isMouseInside;
 	}
 
-	virtual bool mouseUp(Input::Mouse button, const PointF& mpos) override
+	virtual bool mouseUp(const PointF& mpos, Input::Mouse button) override
 	{
 		if (button == Input::Mouse::Left)
 			m_isMouseLeftDown = false;
@@ -98,7 +98,7 @@ public:
 		return m_isMouseInside;
 	}
 
-	virtual bool wheel(float amount, const PointF& mpos) override
+	virtual bool wheel(const PointF& mpos, float amount) override
 	{
 		return m_isMouseInside;
 	}
@@ -110,6 +110,13 @@ public:
 
 		for (auto r : m_receivers)
 			r->setZIndex(r->getZIndex() + zdiff);
+	}
+
+	virtual void setTransform(glm::mat4 transform) override
+	{
+		Input::IReceiver::setTransform(transform);
+		for (auto r : m_receivers)
+			r->setTransform(transform * r->getTransform());		
 	}
 
 	// register after all UIObjects has been added

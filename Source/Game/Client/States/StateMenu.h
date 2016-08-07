@@ -101,21 +101,21 @@ public:
 		return true;
 	}
 
-	virtual bool mouseDown(Input::Mouse button, const PointF& mpos) override
+	virtual bool mouseDown(const PointF& mpos, Input::Mouse button) override
 	{
-		GameState::mouseDown(button, mpos);
+		GameState::mouseDown(mpos, button);
 		return true;
 	}
 
-	virtual bool mouseUp(Input::Mouse button, const PointF& mpos) override
+	virtual bool mouseUp(const PointF& mpos, Input::Mouse button) override
 	{
-		GameState::mouseUp(button, mpos);
+		GameState::mouseUp(mpos, button);
 		return true;
 	}
 
-	virtual bool wheel(float amount, const PointF& mpos) override
+	virtual bool wheel(const PointF& mpos, float amount) override
 	{
-		GameState::wheel(amount, mpos);
+		GameState::wheel(mpos, amount);
 		return true;
 	}
 
