@@ -43,12 +43,7 @@ public:
 			draw.rect(getRect().shrink(2.0f), Color::DarkGray());
 		}
 
-		PointF pos = getOrigin();
-		glm::mat4 transform = glm::translate(glm::vec3(pos.x, pos.y, 0.0f));
-		m_btnCancel.setTransform(glm::translate(glm::vec3(-pos.x, -pos.y, 0.0f)));
-		PointF t = m_btnCancel.transformPoint({ 490.0f, 210.0f });
-		draw.getTransform().pushModel(transform);
-
+		draw.getTransform().pushModel(m_matTransform);
 		for (auto obj : m_uiObjects)
 		{
 			obj->draw(draw);
@@ -103,6 +98,21 @@ public:
 	virtual bool wheel(const PointF& mpos, float amount) override
 	{
 		return m_isMouseInside;
+	}
+
+
+	virtual void setOrigin(const PointF& p) override
+	{
+		IMetrics::setOrigin(p);
+		m_matTransform = glm::translate(glm::vec3(p.x, p.y, 0.0f));
+		for (auto r : m_receivers)
+			r->setTransform(getTransform() * glm::translate(glm::vec3(-p.x, -p.y, 0.0f)));
+	}
+
+	virtual void setDim(const PointF& d) override
+	{
+		IMetrics::setDim(d);
+		m_btnCancel.setOrigin({ d.x - m_btnCancel.getDim().x + 30.0f, -20.0f });
 	}
 
 	virtual void setZIndex(int z) override
@@ -179,7 +189,7 @@ public:
 	}
 
 protected:
-	// every window object needs to be added with this function
+	// every window object needs to be added with this function (inside constructor)
 	virtual void addUIObject(UIObject* obj)
 	{
 		m_uiObjects.push_back(obj);
@@ -193,6 +203,7 @@ protected:
 	}
 
 protected:
+	glm::mat4 m_matTransform;
 	bool m_isMouseInside = false;
 	bool m_isMouseLeftDown = false;
 	PointF m_dragSpot;
