@@ -12,7 +12,9 @@ Drawing::Drawing()
 	m_uiCam({ Framework::STD_DRAW_X / 2, Framework::STD_DRAW_Y / 2 }, 1.0f, 1000.0f),
 	m_trans({ &m_shHSVPicker, &m_shCubeMap, &m_shButton,
 	&m_fontHeadS, &m_fontHeadM, &m_fontHeadL,
-	&m_fontTextS, &m_fontTextM, &m_fontTextL }, "Transforms"),
+	&m_fontTextS, &m_fontTextM, &m_fontTextL,
+	&m_shColor
+	}, "Transforms"),
 	m_material({ &m_shCubeMap }, "Material"),
 	m_lights({ &m_shCubeMap }, "Lights"),
 	m_mapInfo({ &m_shCubeMap }, "MapInfo"),
@@ -24,7 +26,8 @@ Drawing::Drawing()
 
 void Drawing::rect(const RectF & r, const Color & c)
 {
-	glColor4f(c.r, c.g, c.b, c.a);
+	m_shColor.setColor(c);
+	m_shColor.bind();
 
 	glBegin(GL_TRIANGLE_STRIP);
 	{
@@ -34,6 +37,8 @@ void Drawing::rect(const RectF & r, const Color & c)
 		glVertex3f(r.x1, r.y2, 0.0f);
 	}
 	glEndSafe();
+
+	m_shColor.unbind();
 }
 
 void Drawing::line(PointF p1, PointF p2, float thickness, const Color& color)
@@ -46,20 +51,25 @@ void Drawing::line(PointF p1, PointF p2, float thickness, const Color& color)
 	translate = glm::translate(translate, glm::vec3(-thickness / 2.0f, -thickness / 2.0f, 0.0f));
 	translate = glm::scale(translate, glm::vec3((p1 - p2).length() + thickness, thickness, 1.0f));
 
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glMultMatrixf(&translate[0][0]);
+	m_trans.pushModel(translate);
+	m_trans.flush();
 
-	glColor4f(color.r, color.g, color.b, color.a);
+	m_shColor.setColor(color);
+	m_shColor.bind();
+
 	glBegin(GL_TRIANGLE_STRIP);
 	{
 		glVertex2f(0.0f, 1.0f);
 		glVertex2f(0.0f, 0.0f);
-		glVertex2f(1.0f, 1.0f);		
+		glVertex2f(1.0f, 1.0f);
 		glVertex2f(1.0f, 0.0f);
 	}
 	glEndSafe();
-	glPopMatrix();
+	
+	m_shColor.unbind();
+
+	m_trans.popModel();
+	m_trans.flush();
 }
 
 void Drawing::buttonRoyal(const RectF& r, bool down)
@@ -132,37 +142,34 @@ void Drawing::hsvPicker(const PointF& pos, float r, const Color& color)
 	glEndSafe();
 	m_shHSVPicker.unbind();
 
+	m_shColor2.bind();
+
 	glBegin(GL_TRIANGLES);
 	{
-		glColor3f(color.r, color.g, color.b);
+		glVertexAttrib4f(1 ,color.r, color.g, color.b, 1.0f);
 		glVertex2f(pos.x, pos.y - r * 0.8);
-		glColor3f(0.0f, 0.0f, 0.0f);
+		glVertexAttrib4f(1, 0.0f, 0.0f, 0.0f, 1.0f);
 		glVertex2f(pos.x - r * 0.8 * 0.866025, pos.y + r * 0.8 * 0.5);
-		glColor3f(1.0f, 1.0f, 1.0f);
+		glVertexAttrib4f(1, 1.0f, 1.0f, 1.0f, 1.0f);
 		glVertex2f(pos.x + r * 0.8 * 0.866025, pos.y + r * 0.8 * 0.5);
 	}
 	glEndSafe();
 	
-}
-
-void Drawing::coloredCube(const PointF& pos, float scalar, const Color& c, float z)
-{
-	//scalar += 0.1f;
-	//setModel( glm::translate(glm::vec3(pos.x, pos.y, z)) * glm::scale(glm::vec3(scalar, scalar, scalar)));
-
-	setCubeMaterial(c, Color::Black(), 1.0f);
-	m_shCubeMap.bind();
-	m_meshCube.draw();
-	m_shCubeMap.unbind();
+	m_shColor2.unbind();
 }
 
 void Drawing::shaderedCube(const glm::mat4& mat, Shader& shader)
 {
-	setModel(mat);
+	//setModel(mat);
+	m_trans.pushModel(mat);
+	m_trans.flush();
 
 	shader.bind();
 	m_meshCube.draw();
 	shader.unbind();
+
+	m_trans.popModel();
+	m_trans.flush();
 }
 
 void Drawing::setCubeMaterial(const Color& diffuse, const Color& specular, float gloss)
@@ -180,22 +187,9 @@ void Drawing::setLights(const Color& ambient, const std::vector<UniformBlockLigh
 	m_lights.updateLights(ambient.toVec3(), eye, lights);
 }
 
-void Drawing::setCamera(const glm::mat4& mat)
+UniformBlockTransforms& Drawing::getTransform()
 {
-	m_trans.setCamera(mat);
-	m_trans.flush();
-}
-
-void Drawing::setProjection(const glm::mat4& mat)
-{
-	m_trans.setProjection(mat);
-	m_trans.flush();
-}
-
-void Drawing::setModel(const glm::mat4& mat)
-{
-	m_trans.setModel(mat);
-	m_trans.flush();
+	return m_trans;
 }
 
 Font& Drawing::getFont(Font::Style style, Font::Size size)
@@ -236,6 +230,8 @@ void Drawing::create()
 	m_meshCube.create();
 	m_shCubeMap.create();
 	m_shButton.create();
+	m_shColor.create();
+	m_shColor2.create();
 
 	// fonts
 	m_fontHeadS.create();
@@ -268,6 +264,8 @@ void Drawing::dispose()
 	m_meshCube.dispose();
 	m_shCubeMap.dispose();
 	m_shButton.dispose();
+	m_shColor.dispose();
+	m_shColor2.dispose();
 
 	// fonts
 	m_fontHeadS.dispose();
@@ -298,6 +296,8 @@ void Drawing::init(FT_Library ftlib)
 	m_shHSVPicker.load();
 	m_shCubeMap.load();
 	m_shButton.load();
+	m_shColor.load();
+	m_shColor2.load();
 
 	// fonts
 	m_fontHeadS.load(ftlib, "data/Font/DevinneSwash.ttf", float(Font::Size::S));

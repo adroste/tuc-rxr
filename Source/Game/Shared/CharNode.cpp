@@ -41,14 +41,16 @@ void CharNode::draw(Drawing& draw, glm::mat4 transform)
 	// draw cubes
 	//draw.setModel(transform);
 	//draw.coloredCube({ 0.0f, 0.0f }, 0.5f, Color::Blue(), 0.0f);
+	draw.getTransform().pushModel(transform);
 	for (auto& cube : m_cubes)
 	{
-		cube->draw(draw, transform);
+		cube->draw(draw);
 	}
 
 	for(auto& n : m_nodes)
 	{
-		n->draw(draw, transform);
+		n->draw(draw);
 	}
+	draw.getTransform().popModel();
 }
 #endif // _CLIENT

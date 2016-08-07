@@ -28,8 +28,9 @@ void Camera::apply(Drawing& draw) const
 	else
 		glDepthFunc(GL_LESS);
 
-	draw.setProjection(m_matProject);
-	draw.setCamera(m_matCam);
+	draw.getTransform().setProjection(m_matProject);
+	draw.getTransform().setCamera(m_matCam);
+	draw.getTransform().flush();
 
 	// TODO compatibilty reasons
 	glMatrixMode(GL_PROJECTION);

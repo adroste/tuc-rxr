@@ -54,13 +54,13 @@ void Cube::draw(Drawing& draw)
 	draw.shaderedCube(m_matTrans, shader);
 }
 
-void Cube::draw(Drawing& draw, glm::mat4 t)
-{
-	ShaderCube& shader = draw.getShaderCubeMap();
-	draw.setCubeMaterial(m_diffuse, m_specular, m_desc.gloss);
-
-	draw.shaderedCube(t * m_matTrans, shader);
-}
+//void Cube::draw(Drawing& draw, glm::mat4 t)
+//{
+//	ShaderCube& shader = draw.getShaderCubeMap();
+//	draw.setCubeMaterial(m_diffuse, m_specular, m_desc.gloss);
+//
+//	draw.shaderedCube(t * m_matTrans, shader);
+//}
 #endif // _CLIENT
 
 void Cube::recalcMatrix()

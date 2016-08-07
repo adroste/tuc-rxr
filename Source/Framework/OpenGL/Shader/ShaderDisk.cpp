@@ -7,9 +7,7 @@ void ShaderDisk::load()
 
 void ShaderDisk::loadUniforms()
 {
-	m_color = glGetUniformLocation(m_program, "color");
-	if (m_color == -1)
-		throw Exception("ShaderDisk::loadUniforms color uniform not found");
+	m_color = locateUniform("color");
 }
 
 void ShaderDisk::setColor(const Color& c)

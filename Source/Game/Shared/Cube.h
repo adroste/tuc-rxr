@@ -21,7 +21,7 @@ public:
 
 #ifdef _CLIENT
 	virtual void draw(class Drawing& draw) override;
-	void draw(class Drawing& draw, glm::mat4 t);
+	//void draw(class Drawing& draw, glm::mat4 t);
 #endif // _CLIENT
 
 private:

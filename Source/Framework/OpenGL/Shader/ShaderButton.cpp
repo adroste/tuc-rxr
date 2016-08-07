@@ -30,15 +30,7 @@ void ShaderButton::setLightPos(const glm::vec3& pos)
 
 void ShaderButton::loadUniforms()
 {
-	m_texLoc = glGetUniformLocation(m_program, "tex");
-	if (m_texLoc == -1)
-		throw Exception("ShaderButton::loadUniforms tex uniform not found");
-
-	m_heightLoc = glGetUniformLocation(m_program, "heightMap");
-	if (m_heightLoc == -1)
-		throw Exception("ShaderButton::loadUniforms heightMap uniform not found");
-
-	m_light = glGetUniformLocation(m_program, "lightPos");
-	if (m_light == -1)
-		throw Exception("ShaderButton::loadUniforms lightPos uniform not found");
+	m_texLoc = locateUniform("tex");
+	m_heightLoc = locateUniform("heightMap");
+	m_light = locateUniform("lightPos");
 }

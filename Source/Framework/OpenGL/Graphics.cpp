@@ -82,7 +82,7 @@ void Graphics::beginFrame()
 
 	m_draw.getUiCam().apply(m_draw);
 
-	m_draw.setModel(glm::mat4(1.0f));
+	//m_draw.setModel(glm::mat4(1.0f));
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
