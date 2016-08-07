@@ -48,7 +48,7 @@ public:
 		m_btnCancel.setTransform(glm::translate(glm::vec3(-pos.x, -pos.y, 0.0f)));
 		PointF t = m_btnCancel.transformPoint({ 490.0f, 210.0f });
 		draw.getTransform().pushModel(transform);
-		draw.getTransform().flush();
+
 		for (auto obj : m_uiObjects)
 		{
 			obj->draw(draw);

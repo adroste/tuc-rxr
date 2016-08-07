@@ -17,22 +17,35 @@ void UniformBlockTransforms::create()
 
 	// set modelview to uniform
 	updateModel();
+	m_changed = true;
+}
+
+void UniformBlockTransforms::flush()
+{
+	if(m_changed)
+	{
+		UniformBlock::flush();
+		m_changed = false;
+	}
 }
 
 void UniformBlockTransforms::setProjection(const glm::mat4& mat)
 {
 	updateVar(mat, 0);
+	m_changed = true;
 }
 
 void UniformBlockTransforms::setCamera(const glm::mat4& mat)
 {
 	updateVar(mat, sizeof(glm::mat4));
+	m_changed = true;
 }
 
 void UniformBlockTransforms::pushModel(const glm::mat4& mat)
 {
 	m_modelMats.push(m_modelMats.top() * mat);
 	updateModel();
+	m_changed = true;
 }
 
 void UniformBlockTransforms::popModel()
@@ -40,6 +53,7 @@ void UniformBlockTransforms::popModel()
 	assert(m_modelMats.size() > 1);
 	m_modelMats.pop();
 	updateModel();
+	m_changed = true;
 }
 
 void UniformBlockTransforms::updateModel()
