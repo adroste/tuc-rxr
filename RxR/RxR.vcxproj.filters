@@ -417,6 +417,12 @@
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderColor2.h">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\UIContainer.h">
+      <Filter>Source\Framework\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\UIContainerDraggable.h">
+      <Filter>Source\Framework\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glew32.dll">
