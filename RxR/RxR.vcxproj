@@ -230,6 +230,8 @@
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IValueHolderSafe.h" />
     <ClInclude Include="..\Source\Framework\UI\UIButton.h" />
     <ClInclude Include="..\Source\Framework\UI\UIButtonText.h" />
+    <ClInclude Include="..\Source\Framework\UI\UIContainer.h" />
+    <ClInclude Include="..\Source\Framework\UI\UIContainerDraggable.h" />
     <ClInclude Include="..\Source\Framework\UI\UIDialog.h" />
     <ClInclude Include="..\Source\Framework\UI\UIDialogColorPicker.h" />
     <ClInclude Include="..\Source\Framework\UI\UIInputField.h" />

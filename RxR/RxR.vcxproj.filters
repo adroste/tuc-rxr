@@ -420,10 +420,11 @@
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderColor2.h">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Game\Client\GameEditor.h">
+    <ClInclude Include="..\Source\Framework\UI\UIContainer.h">
+      <Filter>Source\Framework\UI</Filter>    </ClInclude>
+<ClInclude Include="..\Source\Game\Client\GameEditor.h">
       <Filter>Source\Game\Client</Filter>
-    </ClInclude>
-  </ItemGroup>
+    </ClInclude>  </ItemGroup>
   <ItemGroup>
     <None Include="glew32.dll">
       <Filter>Resources / Dependencies</Filter>
