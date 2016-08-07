@@ -46,7 +46,7 @@ public:
 		PointF pos = getOrigin();
 		glm::mat4 transform = glm::translate(glm::vec3(pos.x, pos.y, 0.0f));
 		draw.getTransform().pushModel(transform);
-		draw.getTransform().flush();
+
 		for (auto obj : m_uiObjects)
 		{
 			obj->draw(draw);

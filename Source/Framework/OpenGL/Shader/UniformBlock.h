@@ -26,7 +26,7 @@ public:
 	void dispose() override;
 
 	// send data to gpu
-	void flush();
+	virtual void flush();
 protected:
 	template <class T>
 	void updateVar(const T& var, size_t offset)

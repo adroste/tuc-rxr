@@ -29,6 +29,7 @@ void Drawing::rect(const RectF & r, const Color & c)
 	m_shColor.setColor(c);
 	m_shColor.bind();
 
+	m_trans.flush();
 	glBegin(GL_TRIANGLE_STRIP);
 	{
 		glVertex3f(r.x2, r.y1, 0.0f);
@@ -57,6 +58,7 @@ void Drawing::line(PointF p1, PointF p2, float thickness, const Color& color)
 	m_shColor.setColor(color);
 	m_shColor.bind();
 
+	m_trans.flush();
 	glBegin(GL_TRIANGLE_STRIP);
 	{
 		glVertex2f(0.0f, 1.0f);
@@ -90,6 +92,7 @@ void Drawing::buttonRoyal(const RectF& r, bool down)
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	m_trans.flush();
 	glBegin(GL_TRIANGLE_STRIP);
 	{
 		// left side
@@ -132,6 +135,7 @@ void Drawing::buttonRoyal(const RectF& r, bool down)
 void Drawing::hsvPicker(const PointF& pos, float r, const Color& color)
 {
 	m_shHSVPicker.bind();
+	m_trans.flush();
 	glBegin(GL_TRIANGLE_STRIP);
 	{
 		glVertex4f(pos.x - r, pos.y - r, -1.0f, -1.0f);
