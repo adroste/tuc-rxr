@@ -8,6 +8,6 @@ out vec2 texpos;
 
 void main(void) 
 {
-	gl_Position = matProjection * matCamera * vec4(textInfo.xy, 0, 1);
+	gl_Position = matProjection * matCamera * matModel * vec4(textInfo.xy, 0, 1);
 	texpos = textInfo.zw;
 }
