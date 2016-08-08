@@ -7,7 +7,7 @@
 #include "Interfaces/ISelectable.h"
 
 
-class UIInputField : public UIObject, public Input::IReceiver, public ILabelable, public ISelectable
+class UIInputField : public UIObject, public ILabelable, public ISelectable
 {
 public:
 	UIInputField(Font& font, size_t maxLen)

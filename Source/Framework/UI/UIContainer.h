@@ -3,7 +3,7 @@
 #include "../../System/Input.h"
 #include "../../System/Exceptions/ExceptionInvalidOperation.h"
 
-class UIContainer : public UIObject, public Input::IReceiver
+class UIContainer : public UIObject
 {
 public:
 	UIContainer(bool show = false)
@@ -76,7 +76,7 @@ public:
 	virtual void setZIndex(int z) override
 	{
 		int zdiff = z - getZIndex();
-		Input::IReceiver::setZIndex(z);
+		UIObject::setZIndex(z);
 
 		for (auto r : m_receivers)
 			r->setZIndex(r->getZIndex() + zdiff);
@@ -84,7 +84,7 @@ public:
 
 	virtual void setInpTransform(glm::mat4 transform) override
 	{
-		Input::IReceiver::setInpTransform(transform);
+		UIObject::setInpTransform(transform);
 		for (auto r : m_receivers)
 			r->setInpTransform(transform * r->getInpTransform());
 	}
@@ -93,7 +93,7 @@ public:
 	virtual void registerMe(GameState* parent) override final
 	{
 		m_parent = parent;
-		Input::IReceiver::registerMe(parent);
+		UIObject::registerMe(parent);
 		for (auto r : m_receivers)
 			r->registerMe(parent);
 	}
@@ -102,12 +102,12 @@ public:
 	{
 		for (auto r : m_receivers)
 			r->unregisterMe(parent);
-		Input::IReceiver::unregisterMe(parent);
+		UIObject::unregisterMe(parent);
 	}
 
 	virtual void enable() override
 	{
-		Input::IReceiver::enable();
+		UIObject::enable();
 		for (auto r : m_receivers)
 			r->enable();
 	}
@@ -116,7 +116,7 @@ public:
 	{
 		for (auto r : m_receivers)
 			r->disable();
-		Input::IReceiver::disable();
+		UIObject::disable();
 	}
 
 	/*virtual void setVisibility(bool visible) override

@@ -5,7 +5,7 @@
 #include "Interfaces/ISelectable.h"
 
 
-class UIButton : public UIObject, public Input::IReceiver, public IClickable, public ISelectable
+class UIButton : public UIObject, public IClickable, public ISelectable
 {
 public:
 	enum class Style

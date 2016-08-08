@@ -1,6 +1,7 @@
 #pragma once
 #include "../OpenGL/IDrawable.h"
 #include "Interfaces/IMetrics.h"
+#include "../../System/Input.h"
 
 class UIObject : public IDrawable, public IMetrics, public Input::IReceiver
 {
