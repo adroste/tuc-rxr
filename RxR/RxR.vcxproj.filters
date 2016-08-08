@@ -185,7 +185,7 @@
       <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\Game\Client\GameEditor.cpp">
-      <Filter>Source</Filter>
+      <Filter>Source\Game\Client</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -431,7 +431,7 @@
     </ClInclude>
     <ClInclude Include="..\Source\Game\Client\GameEditor.h">
       <Filter>Source\Game\Client</Filter>
-    </ClInclude> 
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glew32.dll">

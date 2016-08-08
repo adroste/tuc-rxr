@@ -14,6 +14,7 @@ public:
 	virtual ~UIObject() override
 	{}
 
+	// IMPORTANT: do not override input methods (IReceiver)!!
 
 	virtual void enable() override
 	{
@@ -29,11 +30,6 @@ public:
 			Input::IReceiver::disable();
 	}
 
-	virtual bool isEnabled() const override
-	{
-		return m_isEnabled;
-	}
-
 	virtual void setVisibility(bool visible)
 	{
 		m_isVisible = visible;
@@ -42,6 +38,16 @@ public:
 			m_isEnabled ? Input::IReceiver::enable() : Input::IReceiver::disable();
 		else
 			Input::IReceiver::disable();
+	}
+
+	virtual void show()
+	{
+		setVisibility(true);
+	}
+
+	virtual void hide()
+	{
+		setVisibility(false);
 	}
 
 	bool isVisible() const

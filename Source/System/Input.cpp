@@ -6,16 +6,6 @@
 static PointF m_mousePos;
 static std::list<GameState*> m_listener;
 
-void Input::IReceiver::registerMe(GameState* parent)
-{
-	parent->regReceiver(this);
-}
-
-void Input::IReceiver::unregisterMe(GameState* parent)
-{
-	parent->unregReceiver(this);
-}
-
 void Input::init()
 {
 }

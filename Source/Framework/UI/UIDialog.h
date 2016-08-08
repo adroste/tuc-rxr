@@ -36,14 +36,10 @@ public:
 			hide();
 	}
 
-	virtual void draw(Drawing& draw) override
-	{
-		UIWindow::draw(draw);
-	}
-
 	// Input handling
 	virtual bool keyDown(SDL_Scancode s) override
 	{
+		UIWindow::keyDown(s);
 		return true;
 	}
 
@@ -59,6 +55,7 @@ public:
 
 	virtual bool charDown(char c) override
 	{
+		UIWindow::charDown(c);
 		return true;
 	}
 

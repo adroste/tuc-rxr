@@ -12,11 +12,23 @@ public:
 	{
 		m_btnCancel.setZIndex(getZIndex() + 1);
 		m_btnCancel.adjustToFontHeadline();
-		UIWindow::addUIObject(&m_btnCancel);
+		m_btnCancel.registerMe(this);
 	}
 
 	virtual ~UIWindow() override
-	{}
+	{
+		m_btnCancel.unregisterMe();
+	}
+
+	virtual void draw(Drawing& draw) override
+	{
+		if (!isVisible()) return;
+
+		UIContainerDraggable::draw(draw);
+		pushDrawTransform(draw);
+		m_btnCancel.draw(draw);
+		popDrawTransform(draw);
+	}
 
 	virtual void update(float dt) override
 	{
@@ -26,6 +38,8 @@ public:
 
 	virtual bool keyUp(SDL_Scancode s) override
 	{
+		sendKeyUp(s);
+
 		if (s == SDL_SCANCODE_ESCAPE)
 		{
 			hide();

@@ -14,6 +14,8 @@ public:
 
 	virtual bool mouseDown(const PointF& mpos, Input::Mouse button) override
 	{
+		sendMouseDown(mpos, button);
+
 		if (m_isMouseInside && button == Input::Mouse::Left)
 		{
 			m_isMouseLeftDown = true;
@@ -25,6 +27,8 @@ public:
 
 	virtual bool mouseUp(const PointF& mpos, Input::Mouse button) override
 	{
+		sendMouseUp(mpos, button);
+
 		if (button == Input::Mouse::Left)
 			m_isMouseLeftDown = false;
 
@@ -33,6 +37,8 @@ public:
 
 	virtual bool mouseMove(const PointF& mpos, bool handled) override
 	{
+		sendMouseMove(mpos, handled);
+
 		m_isMouseInside = getRect().isPointInside(mpos);
 
 		// drag window

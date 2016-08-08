@@ -3,22 +3,16 @@
 #include "../../System/Input.h"
 #include "../../System/Exceptions/ExceptionInvalidOperation.h"
 
-class UIContainer : public UIObject
+class UIContainer : public UIObject, public Input::IBroadcaster
 {
 public:
 	UIContainer(bool show = false)
 	{
-		show ? UIContainer::show() : UIContainer::hide();
+		show ? UIObject::show() : UIObject::hide();
 	}
 
 	virtual ~UIContainer() override
-	{
-		if (m_parent)
-		{
-			unregisterMe(m_parent);
-			m_parent = nullptr;
-		}
-	}
+	{}
 
 	virtual void update(float dt)
 	{}
@@ -33,34 +27,50 @@ public:
 			draw.rect(getRect(), Color::Gray());
 			draw.rect(getRect().shrink(2.0f), Color::DarkGray());
 		}
+	}
 
-		draw.getTransform().pushModel(m_matTransform);
-		for (auto obj : m_uiObjects)
-		{
-			obj->draw(draw);
-		}
+	virtual void pushDrawTransform(Drawing& draw)
+	{
+		draw.getTransform().pushModel(m_matTransform);		
+	}
+
+	virtual void popDrawTransform(Drawing& draw)
+	{
 		draw.getTransform().popModel();
 	}
 
 	// Input
-	virtual bool mouseDown(const PointF& mpos, Input::Mouse button) override
+	virtual bool keyDown(SDL_Scancode s) override
 	{
-		return m_isMouseInside;
+		return sendKeyDown(s);
 	}
-
-	virtual bool mouseUp(const PointF& mpos, Input::Mouse button) override
+	virtual bool keyUp(SDL_Scancode s) override
 	{
-		return m_isMouseInside;
+		return sendKeyUp(s);
 	}
-
+	virtual bool charDown(char c) override
+	{
+		return sendCharDown(c);
+	}
 	virtual bool mouseMove(const PointF& mpos, bool handled) override
 	{
+		sendMouseMove(mpos, handled);
 		m_isMouseInside = getRect().isPointInside(mpos);
 		return m_isMouseInside;
 	}
-
+	virtual bool mouseDown(const PointF& mpos, Input::Mouse button) override
+	{
+		sendMouseDown(mpos, button);
+		return m_isMouseInside;
+	}
+	virtual bool mouseUp(const PointF& mpos, Input::Mouse button) override
+	{
+		sendMouseUp(mpos, button);
+		return m_isMouseInside;
+	}
 	virtual bool wheel(const PointF& mpos, float amount) override
 	{
+		sendWheel(mpos, amount);
 		return m_isMouseInside;
 	}
 
@@ -73,50 +83,11 @@ public:
 			r->setInpTransform(getInpTransform() * glm::translate(glm::vec3(-p.x, -p.y, 0.0f)));
 	}
 
-	virtual void setZIndex(int z) override
-	{
-		int zdiff = z - getZIndex();
-		UIObject::setZIndex(z);
-
-		for (auto r : m_receivers)
-			r->setZIndex(r->getZIndex() + zdiff);
-	}
-
 	virtual void setInpTransform(glm::mat4 transform) override
 	{
 		UIObject::setInpTransform(transform);
 		for (auto r : m_receivers)
 			r->setInpTransform(transform * r->getInpTransform());
-	}
-
-	// register after all receivers have been added
-	virtual void registerMe(GameState* parent) override final
-	{
-		m_parent = parent;
-		UIObject::registerMe(parent);
-		for (auto r : m_receivers)
-			r->registerMe(parent);
-	}
-
-	virtual void unregisterMe(GameState* parent) override final // do not remove this final!! 
-	{
-		for (auto r : m_receivers)
-			r->unregisterMe(parent);
-		UIObject::unregisterMe(parent);
-	}
-
-	virtual void enable() override
-	{
-		UIObject::enable();
-		for (auto r : m_receivers)
-			r->enable();
-	}
-
-	virtual void disable() override
-	{
-		for (auto r : m_receivers)
-			r->disable();
-		UIObject::disable();
 	}
 
 	/*virtual void setVisibility(bool visible) override
@@ -127,28 +98,9 @@ public:
 	}
 	do not use: ui objects visible status should reveal if objects are visible INSIDE the container, not at all*/
 
-	virtual void hide()
-	{
-		m_isShown = false;
-		disable();
-		setVisibility(false);
-	}
-
-	virtual void show()
-	{
-		m_isShown = true;
-		setVisibility(true);
-		enable();
-	}
-
-	bool isShown() const
-	{
-		return m_isShown;
-	}
-
 protected:
 	// every container object needs to be added with this function
-	virtual void addUIObject(UIObject* obj)
+	/*virtual void addUIObject(UIObject* obj)
 	{
 		m_uiObjects.push_back(obj);
 		Input::IReceiver* pRec = dynamic_cast<Input::IReceiver*>(obj);
@@ -159,16 +111,9 @@ protected:
 			m_receivers.push_back(pRec);
 		}
 		m_isShown ? enable() : disable();
-	}
+	}*/
 
 protected:
 	glm::mat4 m_matTransform;
 	bool m_isMouseInside = false;
-
-private:
-	GameState* m_parent = nullptr;
-	std::vector<Input::IReceiver*> m_receivers;
-	std::vector<UIObject*> m_uiObjects;
-
-	bool m_isShown;
 };
