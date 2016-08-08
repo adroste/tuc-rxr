@@ -184,6 +184,9 @@
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderColor.cpp">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Game\Client\GameEditor.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\Shader.h">
@@ -426,6 +429,9 @@
     <ClInclude Include="..\Source\Framework\UI\UIMessageBox.h">
       <Filter>Source\Framework\UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Game\Client\GameEditor.h">
+      <Filter>Source\Game\Client</Filter>
+    </ClInclude> 
   </ItemGroup>
   <ItemGroup>
     <None Include="glew32.dll">

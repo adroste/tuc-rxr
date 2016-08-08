@@ -35,6 +35,7 @@ public:
 	// basic
 	void rect(const RectF& r, const Color& c);
 	void line(PointF p1, PointF p2, float thickness, const Color& color);
+	void line(const glm::vec3& p1, const glm::vec3& p2, float thikness, const Color& c);
 
 	// ui
 	void buttonRoyal(const RectF& r, bool down);

@@ -18,6 +18,7 @@ public:
 #ifdef _CLIENT
 	virtual void draw(Drawing& draw) override;
 	virtual bool keyDown(SDL_Scancode s) override;
+	static std::unique_ptr<Camera> makeCamera();
 #endif // _CLIENT
 
 private:
