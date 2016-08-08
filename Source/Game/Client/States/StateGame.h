@@ -26,7 +26,7 @@ public:
 		Font& f = draw.getFont(Font::Style::Text, Font::Size::M);
 
 		f.setColor(Color::White());
-		f.write("hello", { 10,10 });
+		f.write(draw, "hello", { 10,10 });
 	}
 
 	// Input handling

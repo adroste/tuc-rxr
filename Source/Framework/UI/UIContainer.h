@@ -29,16 +29,6 @@ public:
 		}
 	}
 
-	virtual void pushDrawTransform(Drawing& draw)
-	{
-		draw.getTransform().pushModel(m_matTransform);		
-	}
-
-	virtual void popDrawTransform(Drawing& draw)
-	{
-		draw.getTransform().popModel();
-	}
-
 	// Input
 	virtual bool keyDown(SDL_Scancode s) override
 	{
@@ -112,6 +102,16 @@ protected:
 		}
 		m_isShown ? enable() : disable();
 	}*/
+
+	virtual void pushDrawTransform(Drawing& draw)
+	{
+		draw.getTransform().pushModel(m_matTransform);
+	}
+
+	virtual void popDrawTransform(Drawing& draw)
+	{
+		draw.getTransform().popModel();
+	}
 
 protected:
 	glm::mat4 m_matTransform;

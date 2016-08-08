@@ -26,7 +26,7 @@ public:
 
 		m_font.setColor(Color::White());
 		draw.rect(getRect(), Color::DarkGray());
-		m_font.write(getDisplayText(), m_pos);
+		m_font.write(draw, getDisplayText(), m_pos);
 	}
 	void setRegex(const std::string& r)
 	{

@@ -1,4 +1,5 @@
 #include "Font.h"
+#include "Drawing.h"
 #include "../../System/Exceptions/ExceptionMissingFile.h"
 #include "../../System/Exceptions/ExceptionInvalidFile.h"
 
@@ -74,7 +75,7 @@ void Font::dispose()
 	Shader::dispose();
 }
 
-void Font::write(const std::string& txt, PointF pos) const
+void Font::write(Drawing& draw, const std::string& txt, PointF pos) const
 {
 	// bind shader
 	bind();
@@ -105,11 +106,12 @@ void Font::write(const std::string& txt, PointF pos) const
 			// bind and draw texture
 			assert(m_textureArray[c - CHAR_START]);
 			glBindTexture(GL_TEXTURE_2D, m_textureArray[c - CHAR_START]);
-
+			
+			draw.getTransform().flush();
+			
 			glCheck("font::write before glBegin");
 			glBegin(GL_TRIANGLE_STRIP);
 			{
-
 				glVertex4f(pos.x + bearX, pos.y + offHeight, 0, 0);
 				glVertex4f(pos.x + bearX, pos.y + offHeight + bmpHeight, 0, 1);
 				glVertex4f(pos.x + bearX + bmpWidth, pos.y + offHeight, 1, 0);

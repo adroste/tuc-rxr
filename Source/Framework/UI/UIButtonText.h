@@ -5,7 +5,7 @@
 class UIButtonText : public UIButton, public ILabelable
 {
 public:
-	UIButtonText(Style style, Font& font, const std::string& text)
+	UIButtonText(Style style, Font& font, const std::string& text = "")
 		:
 		UIButton(style),
 		m_font(font)
@@ -18,11 +18,13 @@ public:
 
 	virtual void draw(Drawing& draw) override
 	{
+		if (!isVisible()) return;
+
 		switch (m_style)
 		{
 		case Style::Royal:
 			draw.buttonRoyal(getRect(), m_isDown);
-			m_font.write(getText(), m_textPosRel + getOrigin());
+			m_font.write(draw, getText(), m_textPosRel + getOrigin());
 			break;
 		default:
 			throw Exception("UIButtonText::draw default case, missing style");

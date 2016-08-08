@@ -17,8 +17,8 @@ public:
 
 	enum class Size
 	{
-		S = 30,
-		M = 50,
+		S = 20,
+		M = 30,
 		L = 70
 	};
 
@@ -30,7 +30,7 @@ public:
 	virtual void create() override;
 	virtual void dispose() override;
 
-	void write(const std::string& txt, PointF pos) const;
+	void write(class Drawing& draw, const std::string& txt, PointF pos) const;
 	PointF getDim(const char* txt) const;
 	PointF getDim(const std::string& txt) const;
 	void setColor(const Color& c);

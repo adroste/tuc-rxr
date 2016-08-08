@@ -19,7 +19,7 @@ public:
 	{
 		if (!isVisible()) return;
 
-		m_font.write(getText(), m_pos);
+		m_font.write(draw, getText(), m_pos);
 	}
 
 	virtual void setText(const std::string& text) override

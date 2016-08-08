@@ -15,8 +15,8 @@ public:
 	StateMenu()
 		:
 		m_title(Drawing::getFont(Font::Style::Headline,Font::Size::L),"MainWindow"),
-		m_btnSingle(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Can't Touch This"),
-		m_btnEdit(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Editor"),
+		m_btnSingle(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::M), "Can't Touch This"),
+		m_btnEdit(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::M), "Editor"),
 		m_btnDev(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Dev")
 	{
 		//m_btnSingle.setDim({ 350, 80 });
@@ -35,7 +35,7 @@ public:
 		m_btnEdit.registerMe(this);
 
 		m_mpos = { 500,500 };
-		Sound::playMusic(Sound::Music::Hey);
+		//Sound::playMusic(Sound::Music::Hey);
 	}
 	virtual ~StateMenu()
 	{}
