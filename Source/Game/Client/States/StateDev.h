@@ -7,12 +7,20 @@ class StateDev : public GameState
 public:
 	StateDev()
 		:
-		m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "A"),
+		m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Back"),
+		m_btnDlg(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Dialog"),
+		m_btnMsgBox(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "MessageBox"),
 		m_dlgTest()
 	{
 		m_btnBack.adjustToFontHeadline();
 		m_btnBack.setOrigin({ 10.0f, Framework::STD_DRAW_Y - (m_btnBack.getDim().y + 10.0f) });
 		m_btnBack.registerMe(this);
+		m_btnDlg.adjustToFontHeadline();
+		m_btnDlg.setOrigin({ Framework::STD_DRAW_X - (m_btnDlg.getDim().x + 10.0f), 10.0f });
+		m_btnDlg.registerMe(this);
+		m_btnMsgBox.adjustToFontHeadline();
+		m_btnMsgBox.setOrigin({ Framework::STD_DRAW_X - (m_btnMsgBox.getDim().x + 10.0f), 100.0f });
+		m_btnMsgBox.registerMe(this);
 		m_dlgTest.setDim({ 300.0f, 300.0f });
 		m_dlgTest.setCenter(Framework::getScreenCenter());
 		m_dlgTest.registerMe(this);
@@ -27,7 +35,9 @@ public:
 		m_dlgTest.update(dt);
 
 		if (m_btnBack.isClicked(true))
-			//setNextState(TransitionState::Discard);
+			setNextState(TransitionState::Discard);
+
+		if (m_btnDlg.isClicked(true))
 			m_dlgTest.show();
 
 		/*if (m_dlgTest.getResult() == UIDialog::Result::Cancel)
@@ -43,6 +53,8 @@ public:
 	virtual void composeFrame(Drawing& draw, float dt) override
 	{
 		m_btnBack.draw(draw);
+		m_btnDlg.draw(draw);
+		m_btnMsgBox.draw(draw);
 		m_dlgTest.draw(draw);
 	}
 
@@ -91,5 +103,7 @@ public:
 
 private:
 	UIButtonText m_btnBack;
+	UIButtonText m_btnDlg;
+	UIButtonText m_btnMsgBox;
 	UIDialog m_dlgTest;
 };

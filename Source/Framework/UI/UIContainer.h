@@ -70,7 +70,7 @@ public:
 		IMetrics::setOrigin(p);
 		m_matTransform = glm::translate(glm::vec3(p.x, p.y, 0.0f));
 		for (auto r : m_receivers)
-			r->setTransform(getTransform() * glm::translate(glm::vec3(-p.x, -p.y, 0.0f)));
+			r->setInpTransform(getInpTransform() * glm::translate(glm::vec3(-p.x, -p.y, 0.0f)));
 	}
 
 	virtual void setZIndex(int z) override
@@ -82,11 +82,11 @@ public:
 			r->setZIndex(r->getZIndex() + zdiff);
 	}
 
-	virtual void setTransform(glm::mat4 transform) override
+	virtual void setInpTransform(glm::mat4 transform) override
 	{
-		Input::IReceiver::setTransform(transform);
+		Input::IReceiver::setInpTransform(transform);
 		for (auto r : m_receivers)
-			r->setTransform(transform * r->getTransform());
+			r->setInpTransform(transform * r->getInpTransform());
 	}
 
 	// register after all receivers have been added

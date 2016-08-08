@@ -9,7 +9,7 @@ public:
 	{
 		None,
 		OK,
-		Cancel,
+		Cancel, // cancel == abort
 		Yes,
 		No,
 		Retry,

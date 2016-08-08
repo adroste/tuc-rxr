@@ -1,5 +1,6 @@
 #pragma once
 #include "UIContainerDraggable.h"
+#include "UIButtonText.h"
 
 class UIWindow : public UIContainerDraggable
 {

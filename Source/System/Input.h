@@ -65,7 +65,7 @@ public:
 		{
 			m_enabled = false;
 		}
-		bool isEnabled() const
+		virtual bool isEnabled() const
 		{
 			return m_enabled;
 		}
@@ -80,19 +80,19 @@ public:
 			m_zIndex = z;
 		}
 
-		glm::mat4 getTransform() const
+		glm::mat4 getInpTransform() const
 		{
 			return m_transform;
 		}
 
-		virtual void setTransform(glm::mat4 transform)
+		virtual void setInpTransform(glm::mat4 transform)
 		{
 			m_transform = transform;
 		}
 
-		virtual PointF transformPoint(const PointF& p)
+		virtual PointF transformInpPoint(const PointF& p)
 		{
-			glm::vec4 pos = getTransform() * glm::vec4(p.x, p.y, 0.0f, 1.0f);
+			glm::vec4 pos = getInpTransform() * glm::vec4(p.x, p.y, 0.0f, 1.0f);
 			return { pos.x, pos.y };
 		}
 

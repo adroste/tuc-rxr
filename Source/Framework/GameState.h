@@ -84,7 +84,7 @@ public:
 
 		for (auto r : m_receivers)
 		{
-			PointF p = r->transformPoint(mpos);
+			PointF p = r->transformInpPoint(mpos);
 
 			if (!r->isEnabled())
 			{
@@ -148,7 +148,7 @@ private:
 			if (handled && curZ != r->getZIndex())
 				break;
 			curZ = r->getZIndex();
-			if (((*r).*pFunc)(r->transformPoint(mpos), args...))
+			if (((*r).*pFunc)(r->transformInpPoint(mpos), args...))
 				handled = true;
 		}
 		return handled;
