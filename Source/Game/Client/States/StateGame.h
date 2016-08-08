@@ -14,6 +14,7 @@ public:
 
 	virtual bool update(float dt) override 
 	{
+		m_game.update(dt);
 		return false;
 	}
 

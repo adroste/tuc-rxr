@@ -432,6 +432,9 @@
     <ClInclude Include="..\Source\Game\Client\GameEditor.h">
       <Filter>Source\Game\Client</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Game\Shared\Character.h">
+      <Filter>Source\Game\Shared</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glew32.dll">

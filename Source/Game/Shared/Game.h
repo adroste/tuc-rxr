@@ -15,6 +15,7 @@ public:
 	Game();
 	virtual ~Game();
 
+	virtual void update(float dt);
 #ifdef _CLIENT
 	virtual void draw(Drawing& draw) override;
 	virtual bool keyDown(SDL_Scancode s) override;

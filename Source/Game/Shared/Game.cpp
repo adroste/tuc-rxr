@@ -159,6 +159,10 @@ Game::~Game()
 {
 }
 
+void Game::update(float dt)
+{
+
+}
 
 #ifdef _CLIENT
 void Game::draw(Drawing& draw)
