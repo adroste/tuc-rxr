@@ -12,9 +12,9 @@ public:
 		: x(x), y(y)
 	{}
 	Point()
-	{
-		Point(T(0.0), T(0.0));
-	}
+		:
+		Point(T(0.0), T(0.0))
+	{}
 	template <class T2, class T3>
 	Point(T2 x, T3 y)
 		:

@@ -159,6 +159,11 @@ void Font::setColor(const Color& c)
 	glUseProgram(0);
 }
 
+int Font::getMaxHeight() const
+{
+	return m_fontHeight;
+}
+
 void Font::loadUniforms()
 {
 	// locate unitforms

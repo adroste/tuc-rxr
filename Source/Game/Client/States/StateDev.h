@@ -2,6 +2,7 @@
 #include "../../../Framework/GameState.h"
 #include "../../../Framework/UI/UIButtonText.h"
 #include "../../../Framework/UI/UIMessageBox.h"
+#include "../../../Framework/UI/UITextBox.h"
 
 class StateDev : public GameState
 {
@@ -18,7 +19,8 @@ public:
 		m_btnDlg(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Dialog"),
 		m_btnMsgBox(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "MessageBox"),
 		m_dlgTest(),
-		m_msgBox()
+		m_msgBox("naaaanaanaaanaaaananananaaaananananaaaa hey jude ....", UIMessageBox::Buttons::AbortRetryIgnore),
+		m_txtBox(Drawing::getFont(Font::Style::Text, Font::Size::M))
 	{
 		m_lblHeadS.setOrigin({ 50.0f, 50.0f });
 		m_lblHeadM.setOrigin({ 50.0f, m_lblHeadS.getRect().y2 + 10.0f });
@@ -40,10 +42,14 @@ public:
 		m_dlgTest.setCenter(Framework::getScreenCenter());
 		m_dlgTest.registerMe(this);
 		m_dlgTest.setZIndex(1);
-		m_msgBox.setDim({ 300.0f, 300.0f });
+		m_msgBox.setDim({ 600.0f, 300.0f });
 		m_msgBox.setCenter(Framework::getScreenCenter());
 		m_msgBox.registerMe(this);
 		m_msgBox.setZIndex(1);
+
+		m_txtBox.setText("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
+		m_txtBox.setDim({ 300.0f, 300.0f });
+		m_txtBox.setCenter(Framework::getScreenCenter());
 	}
 
 	virtual ~StateDev() override
@@ -75,20 +81,20 @@ public:
 
 	virtual void composeFrame(Drawing& draw, float dt) override
 	{
-		draw.getTransform().flush();
+		Drawing::getFont(Font::Style::Headline, Font::Size::S).write(draw, "ghi\njkl", { 800.0f, 800.0f });
 		m_lblHeadS.draw(draw);
 		m_lblHeadM.draw(draw);
 		m_lblHeadL.draw(draw);
 		m_lblTextS.draw(draw);
 		m_lblTextM.draw(draw);
 		m_lblTextL.draw(draw);
-		draw.getTransform().flush();
 
 		m_btnBack.draw(draw);
 		m_btnDlg.draw(draw);
 		m_btnMsgBox.draw(draw);
 		m_dlgTest.draw(draw);
 		m_msgBox.draw(draw);
+		m_txtBox.draw(draw);
 	}
 
 	// Input handling
@@ -146,4 +152,5 @@ private:
 	UIButtonText m_btnMsgBox;
 	UIDialog m_dlgTest;
 	UIMessageBox m_msgBox;
+	UITextBox m_txtBox;
 };

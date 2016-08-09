@@ -238,6 +238,7 @@
     <ClInclude Include="..\Source\Framework\UI\UILabel.h" />
     <ClInclude Include="..\Source\Framework\UI\UIMessageBox.h" />
     <ClInclude Include="..\Source\Framework\UI\UIObject.h" />
+    <ClInclude Include="..\Source\Framework\UI\UITextBox.h" />
     <ClInclude Include="..\Source\Framework\UI\UIWindow.h" />
     <ClInclude Include="..\Source\Framework\Window.h" />
     <ClInclude Include="..\Source\Game\Client\GameEditor.h" />
