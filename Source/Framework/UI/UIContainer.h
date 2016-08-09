@@ -1,7 +1,7 @@
 #pragma once
 #include "UIObject.h"
 #include "../../System/Input.h"
-#include "../../System/Exceptions/ExceptionInvalidOperation.h"
+#include <assert.h>
 
 class UIContainer : public UIObject, public Input::IBroadcaster
 {
@@ -65,6 +65,13 @@ public:
 	}
 
 
+	virtual void setDim(const PointF& d) override
+	{
+		assert(!m_fixedDim);
+		if (!m_fixedDim)
+			UIObject::setDim(d);
+	}
+
 	virtual void setOrigin(const PointF& p) override
 	{
 		IMetrics::setOrigin(p);
@@ -80,29 +87,7 @@ public:
 			r->setInpTransform(transform * r->getInpTransform());
 	}
 
-	/*virtual void setVisibility(bool visible) override
-	{
-	UIObject::setVisibility(visible);
-	for (auto o : m_uiObjects)
-	o->setVisibility(visible);
-	}
-	do not use: ui objects visible status should reveal if objects are visible INSIDE the container, not at all*/
-
 protected:
-	// every container object needs to be added with this function
-	/*virtual void addUIObject(UIObject* obj)
-	{
-		m_uiObjects.push_back(obj);
-		Input::IReceiver* pRec = dynamic_cast<Input::IReceiver*>(obj);
-		if (pRec)
-		{
-			if (pRec->getZIndex() <= getZIndex())
-				throw ExceptionInvalidOperation("UIWindow::addUIObject", "z-index of object is <= z-index of window");
-			m_receivers.push_back(pRec);
-		}
-		m_isShown ? enable() : disable();
-	}*/
-
 	virtual void pushDrawTransform(Drawing& draw)
 	{
 		draw.getTransform().pushModel(m_matTransform);
@@ -113,7 +98,15 @@ protected:
 		draw.getTransform().popModel();
 	}
 
+	void setFixedDim(bool fixedDim) // should be set inside constructor of derived classes
+	{
+		m_fixedDim = fixedDim;
+	}
+
 protected:
 	glm::mat4 m_matTransform;
 	bool m_isMouseInside = false;
+
+private:
+	bool m_fixedDim = false;
 };

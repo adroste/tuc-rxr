@@ -28,6 +28,8 @@ public:
 		m_btn2.setDim(m_btn1.getDim());
 		m_btn3.setDim(m_btn1.getDim());
 		
+		UIMessageBox::setDim({ 600.0f, 300.0f });
+
 		m_btn1.registerMe(this);
 		m_btn2.registerMe(this);
 		m_btn3.registerMe(this);

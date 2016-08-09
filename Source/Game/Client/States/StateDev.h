@@ -43,7 +43,7 @@ public:
 		m_dlgTest.setCenter(Framework::getScreenCenter());
 		m_dlgTest.registerMe(this);
 		m_dlgTest.setZIndex(1);
-		m_msgBox.setDim({ 600.0f, 300.0f });
+		//m_msgBox.setDim({ 600.0f, 300.0f });
 		m_msgBox.setCenter(Framework::getScreenCenter());
 		m_msgBox.registerMe(this);
 		m_msgBox.setZIndex(1);

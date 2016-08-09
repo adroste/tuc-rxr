@@ -4,10 +4,10 @@
 class UIDialogColorPicker : public UIDialog
 {
 public:
-	UIDialogColorPicker(float width, const PointF& centerPos)
+	UIDialogColorPicker()
 	{
-		IMetrics::setDim({ width, width * 2 });
-		IMetrics::setCenter(centerPos);
+		UIDialog::setDim({ 300.0f, 450.0f });
+		setFixedDim(true);
 	}
 
 	virtual ~UIDialogColorPicker() override
@@ -20,7 +20,8 @@ public:
 		draw.hsvPicker(getMidpoint(), getDim().x / 2.0f, Color::Red());
 	}
 
+
+
 private:
 	float m_angle;
-
 };

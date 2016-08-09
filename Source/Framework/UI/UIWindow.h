@@ -50,7 +50,7 @@ public:
 
 	virtual void setDim(const PointF& d) override
 	{
-		IMetrics::setDim(d);
+		UIContainerDraggable::setDim(d);
 		m_btnCancel.setOrigin({ d.x - m_btnCancel.getDim().x + 30.0f, -20.0f });
 	}
 
