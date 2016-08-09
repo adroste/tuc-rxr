@@ -53,6 +53,11 @@ public:
 		m_txtBox.setOrigin({ 50.0f, 300.0f });
 
 		m_msgBoxResult.setOrigin({ 800.0f, 100.0f });
+
+		m_hsvPicker.setCenter(Framework::getScreenCenter());
+		m_hsvPicker.registerMe(this);
+		m_hsvPicker.setZIndex(1);
+		m_hsvPicker.show();
 	}
 
 	virtual ~StateDev() override
@@ -62,6 +67,7 @@ public:
 	{
 		m_dlgTest.update(dt);
 		m_msgBox.update(dt);
+		m_hsvPicker.update(dt);
 
 		if (m_btnBack.isClicked(true))
 			setNextState(TransitionState::Discard);
@@ -105,6 +111,7 @@ public:
 		m_btnMsgBox.draw(draw);
 		m_dlgTest.draw(draw);
 		m_msgBox.draw(draw);
+		m_hsvPicker.draw(draw);
 	}
 
 	// Input handling
@@ -164,4 +171,5 @@ private:
 	UIMessageBox m_msgBox;
 	UITextBox m_txtBox;
 	UILabel m_msgBoxResult;
+	UIDialogColorPicker m_hsvPicker;
 };
