@@ -1,5 +1,6 @@
 #pragma once
 
+// TODO think about it (tab through objects?)
 class ISelectable
 {
 public:

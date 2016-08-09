@@ -20,7 +20,8 @@ public:
 		m_btnMsgBox(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "MessageBox"),
 		m_dlgTest(),
 		m_msgBox("naaaanaanaaanaaaananananaaaananananaaaa hey jude ....", UIMessageBox::Buttons::AbortRetryIgnore),
-		m_txtBox(Drawing::getFont(Font::Style::Text, Font::Size::M))
+		m_txtBox(Drawing::getFont(Font::Style::Text, Font::Size::M)),
+		m_msgBoxResult(Drawing::getFont(Font::Style::Text, Font::Size::M), "MsgBox result: ")
 	{
 		m_lblHeadS.setOrigin({ 50.0f, 50.0f });
 		m_lblHeadM.setOrigin({ 50.0f, m_lblHeadS.getRect().y2 + 10.0f });
@@ -49,7 +50,9 @@ public:
 
 		m_txtBox.setText("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
 		m_txtBox.setDim({ 300.0f, 300.0f });
-		m_txtBox.setCenter(Framework::getScreenCenter());
+		m_txtBox.setOrigin({ 50.0f, 300.0f });
+
+		m_msgBoxResult.setOrigin({ 800.0f, 100.0f });
 	}
 
 	virtual ~StateDev() override
@@ -67,14 +70,20 @@ public:
 			m_dlgTest.show();
 
 		if (m_btnMsgBox.isClicked(true))
-			m_msgBox.show();
+			m_msgBox.show("The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.", UIMessageBox::Buttons::OKCancel);
 
-		/*if (m_dlgTest.getResult() == UIDialog::Result::Cancel)
+		std::string msgBoxRes;
+		switch(m_msgBox.getResult())
 		{
-			m_dlgTest.show();
-			m_dlgTest.setDim({ 300.0f, 300.0f });
-			m_dlgTest.setCenter(Framework::getScreenCenter());
-		}*/
+		case UIDialog::Result::None: msgBoxRes = "None"; break;
+		case UIDialog::Result::OK: msgBoxRes = "OK"; break;
+		case UIDialog::Result::Cancel: msgBoxRes = "Cancel"; break;
+		case UIDialog::Result::Yes: msgBoxRes = "Yes"; break;
+		case UIDialog::Result::No: msgBoxRes = "No"; break;
+		case UIDialog::Result::Retry: msgBoxRes = "Retry"; break;
+		case UIDialog::Result::Ignore: msgBoxRes = "Ignore"; break;
+		}
+		m_msgBoxResult.setText("MsgBox result: " + msgBoxRes);
 
 		return false;
 	}
@@ -88,13 +97,14 @@ public:
 		m_lblTextS.draw(draw);
 		m_lblTextM.draw(draw);
 		m_lblTextL.draw(draw);
+		m_txtBox.draw(draw);
+		m_msgBoxResult.draw(draw);
 
 		m_btnBack.draw(draw);
 		m_btnDlg.draw(draw);
 		m_btnMsgBox.draw(draw);
 		m_dlgTest.draw(draw);
 		m_msgBox.draw(draw);
-		m_txtBox.draw(draw);
 	}
 
 	// Input handling
@@ -153,4 +163,5 @@ private:
 	UIDialog m_dlgTest;
 	UIMessageBox m_msgBox;
 	UITextBox m_txtBox;
+	UILabel m_msgBoxResult;
 };
