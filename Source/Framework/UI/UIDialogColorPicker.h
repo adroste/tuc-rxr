@@ -15,9 +15,14 @@ public:
 
 	virtual void draw(Drawing& draw) override
 	{
+		if (!isVisible()) return;
+		
 		UIDialog::draw(draw);
 
-		draw.hsvPicker(getMidpoint(), getDim().x / 2.0f, Color::Red());
+		pushDrawTransform(draw);
+		float r = getDim().x / 2.0f;
+		draw.hsvPicker({ r, r }, r, Color::Red());
+		popDrawTransform(draw);
 	}
 
 

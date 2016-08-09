@@ -40,7 +40,7 @@ public:
 	// ui
 	void buttonRoyal(const RectF& r, bool down);
 
-	void hsvPicker(const PointF& pos, float r, const Color& color);
+	void hsvPicker(const PointF& midPos, float r, const Color& color);
 
 	// cubes
 	void shaderedCube(const glm::mat4& mat, Shader& shader);

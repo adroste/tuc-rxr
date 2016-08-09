@@ -50,9 +50,8 @@ void Graphics::init(SDL_Window* wnd, PointI dim)
 	resize(dim);
 
 	glEnable(GL_DEPTH_TEST);
-	// TODO reactivate culling
-	//glEnable(GL_CULL_FACE);
-	//glFrontFace(GL_CW);
+	glEnable(GL_CULL_FACE);
+	glFrontFace(GL_CW);
 	glCullFace(GL_FRONT);
 	
 

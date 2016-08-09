@@ -148,30 +148,42 @@ void Drawing::buttonRoyal(const RectF& r, bool down)
 	glDisable(GL_BLEND);
 }
 
-void Drawing::hsvPicker(const PointF& pos, float r, const Color& color)
+void Drawing::hsvPicker(const PointF& midPos, float r, const Color& color)
 {
 	m_shHSVPicker.bind();
 	m_trans.flush();
 	glBegin(GL_TRIANGLE_STRIP);
 	{
-		glVertex4f(pos.x - r, pos.y - r, -1.0f, -1.0f);
-		glVertex4f(pos.x - r, pos.y + r, -1.0f, 1.0f);
-		glVertex4f(pos.x + r, pos.y - r, 1.0f, -1.0f);
-		glVertex4f(pos.x + r, pos.y + r, 1.0f, 1.0f);	
+		glVertex4f(midPos.x - r, midPos.y - r, -1.0f, -1.0f);
+		glVertex4f(midPos.x - r, midPos.y + r, -1.0f, 1.0f);
+		glVertex4f(midPos.x + r, midPos.y - r, 1.0f, -1.0f);
+		glVertex4f(midPos.x + r, midPos.y + r, 1.0f, 1.0f);	
 	}
 	glEndSafe();
 	m_shHSVPicker.unbind();
 
 	m_shColor2.bind();
 
-	glBegin(GL_TRIANGLES);
+	glBegin(GL_TRIANGLE_STRIP);
 	{
-		glVertexAttrib4f(1 ,color.r, color.g, color.b, 1.0f);
-		glVertex2f(pos.x, pos.y - r * 0.8);
-		glVertexAttrib4f(1, 0.0f, 0.0f, 0.0f, 1.0f);
-		glVertex2f(pos.x - r * 0.8 * 0.866025, pos.y + r * 0.8 * 0.5);
+		int d = r * 0.8 * 0.707107;
 		glVertexAttrib4f(1, 1.0f, 1.0f, 1.0f, 1.0f);
-		glVertex2f(pos.x + r * 0.8 * 0.866025, pos.y + r * 0.8 * 0.5);
+		glVertex2f(midPos.x - d, midPos.y - d);
+		glVertexAttrib4f(1, 0.0f, 0.0f, 0.0f, 1.0f);
+		glVertex2f(midPos.x - d, midPos.y + d);
+		glVertexAttrib4f(1, color.r, color.g, color.b, 1.0f);
+		glVertex2f(midPos.x + d, midPos.y - d);
+		glVertexAttrib4f(1, 0.0f, 0.0f, 0.0f, 1.0f);
+		glVertex2f(midPos.x + d, midPos.y + d);
+
+		/*glVertexAttrib4f(1, 0.0f, 0.0f, 0.0f, 1.0f);
+		glVertex2f(midPos.x - d, midPos.y + d);
+		glVertexAttrib4f(1, 0.0f, 0.0f, 0.0f, 1.0f);
+		glVertex2f(midPos.x + d, midPos.y + d);
+		glVertexAttrib4f(1, 1.0f, 1.0f, 1.0f, 1.0f);
+		glVertex2f(midPos.x - d, midPos.y - d);
+		glVertexAttrib4f(1, color.r, color.g, color.b, 1.0f);
+		glVertex2f(midPos.x + d, midPos.y - d);*/
 	}
 	glEndSafe();
 	

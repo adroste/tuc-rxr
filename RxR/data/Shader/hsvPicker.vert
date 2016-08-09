@@ -8,6 +8,6 @@ out vec2 pos;
 
 void main()
 {
-	gl_Position = matProjection * matCamera * vec4(info.xy, 0, 1);
+	gl_Position = matProjection * matCamera * matModel * vec4(info.xy, 0, 1);
 	pos = info.zw;
 }
