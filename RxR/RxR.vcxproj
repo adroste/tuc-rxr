@@ -192,6 +192,7 @@
     <ClCompile Include="..\Source\main.cpp" />
     <ClCompile Include="..\Source\System\Input.cpp" />
     <ClCompile Include="..\Source\System\Log.cpp" />
+    <ClCompile Include="..\Source\System\System.cpp" />
     <ClCompile Include="..\Source\System\TextFileAppender.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -237,6 +238,7 @@
     <ClInclude Include="..\Source\Framework\UI\UIDialog.h" />
     <ClInclude Include="..\Source\Framework\UI\UIDialogColorPicker.h" />
     <ClInclude Include="..\Source\Framework\UI\UIInputField.h" />
+    <ClInclude Include="..\Source\Framework\UI\UIItemLister.h" />
     <ClInclude Include="..\Source\Framework\UI\UILabel.h" />
     <ClInclude Include="..\Source\Framework\UI\UIMessageBox.h" />
     <ClInclude Include="..\Source\Framework\UI\UIObject.h" />

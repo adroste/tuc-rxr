@@ -187,6 +187,9 @@
     <ClCompile Include="..\Source\Game\Client\GameEditor.cpp">
       <Filter>Source\Game\Client</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\System\System.cpp">
+      <Filter>Source\System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\Shader.h">
@@ -436,6 +439,9 @@
       <Filter>Source\Game\Shared</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Framework\UI\UITextBox.h">
+      <Filter>Source\Framework\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\UIItemLister.h">
       <Filter>Source\Framework\UI</Filter>
     </ClInclude>
   </ItemGroup>
