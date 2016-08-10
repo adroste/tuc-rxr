@@ -137,6 +137,18 @@ public:
 	{
 		SDL_StopTextInput();
 	}
+	static void hideCursor()
+	{
+		SDL_ShowCursor(0);
+	}
+	static void showCursor()
+	{
+		SDL_ShowCursor(1);
+	}
+	static void setTrapCursor(bool trap)
+	{
+		SDL_SetRelativeMouseMode(trap? SDL_TRUE : SDL_FALSE);
+	}
 
 	static size_t getThreadID()
 	{
