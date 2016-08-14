@@ -168,6 +168,7 @@
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\Shader.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderButton.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderColor.cpp" />
+    <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderCube.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderCubeMap.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderDisk.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderHSVPicker.cpp" />
@@ -211,6 +212,7 @@
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderButton.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderColor.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderColor2.h" />
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderCube.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderCubeMap.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderDisk.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderHSVPicker.h" />

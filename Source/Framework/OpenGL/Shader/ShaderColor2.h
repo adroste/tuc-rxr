@@ -1,7 +1,7 @@
 #pragma once
 #include "Shader.h"
 
-class ShaderColor2 : public Shader
+class ShaderColor2 : public Shader, public Shader::Loadable
 {
 public:
 	~ShaderColor2() override

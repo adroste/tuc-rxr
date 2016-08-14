@@ -190,6 +190,9 @@
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderCubeMap.cpp">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderCube.cpp">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\Shader.h">
@@ -442,6 +445,9 @@
       <Filter>Source\Framework\UI</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderCubeMap.h">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderCube.h">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClInclude>
   </ItemGroup>

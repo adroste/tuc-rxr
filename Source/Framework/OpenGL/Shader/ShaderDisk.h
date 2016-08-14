@@ -2,7 +2,7 @@
 #include "Shader.h"
 #include "../../Color.h"
 
-class ShaderDisk : public Shader
+class ShaderDisk : public Shader, public Shader::Loadable
 {
 public:
 	virtual void load() override;

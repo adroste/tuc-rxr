@@ -16,10 +16,16 @@ class Shader : public GLObject
 
 		Size
 	};
+public:
+	class Loadable
+	{
+	public:
+		virtual ~Loadable(){}
+		virtual void load() = 0;
+	};
 
 public:
 	Shader();
-	virtual void load() = 0;
 	virtual void create() override;
 	virtual void dispose() override;
 	void bind() const;

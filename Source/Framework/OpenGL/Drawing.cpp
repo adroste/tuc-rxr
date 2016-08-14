@@ -18,7 +18,13 @@ Drawing::Drawing()
 	m_material({ &m_shCubeMap }, "Material"),
 	m_lights({ &m_shCubeMap }, "Lights"),
 	m_mapInfo({ &m_shCubeMap }, "MapInfo"),
-	m_blockFramework({&m_shButton },"Framework")
+	m_blockFramework({&m_shButton },"Framework"),
+
+	m_shaders({
+	&m_shCubeMap, &m_shCube, &m_shButton, &m_shColor, &m_shColor2,
+	&m_shHSVPicker, 
+	&m_fontHeadS, &m_fontHeadM, &m_fontHeadL, &m_fontTextS, &m_fontTextM, &m_fontTextL
+	})
 {
 	m_curInstance = this;
 	m_drawThreadID = System::getThreadID();
@@ -250,6 +256,11 @@ ShaderCubeMap& Drawing::getShaderCubeMap()
 	return m_shCubeMap;
 }
 
+ShaderCube& Drawing::getShaderCubeDefault()
+{
+	return m_shCube;
+}
+
 Drawing& Drawing::get()
 {
 	assert(m_curInstance);
@@ -258,21 +269,10 @@ Drawing& Drawing::get()
 
 void Drawing::create()
 {
-	m_shHSVPicker.create();
+	for (auto& s : m_shaders)
+		s->create();
+
 	m_meshCube.create();
-	m_shCubeMap.create();
-	m_shButton.create();
-	m_shColor.create();
-	m_shColor2.create();
-
-	// fonts
-	m_fontHeadS.create();
-	m_fontHeadM.create();
-	m_fontHeadL.create();
-	m_fontTextS.create();
-	m_fontTextM.create();
-	m_fontTextL.create();
-
 
 	m_trans.create();
 	m_material.create();
@@ -292,20 +292,11 @@ void Drawing::create()
 
 void Drawing::dispose()
 {
-	m_shHSVPicker.dispose();
-	m_meshCube.dispose();
-	m_shCubeMap.dispose();
-	m_shButton.dispose();
-	m_shColor.dispose();
-	m_shColor2.dispose();
+	// dispose shader
+	for (auto& s : m_shaders)
+		s->dispose();
 
-	// fonts
-	m_fontHeadS.dispose();
-	m_fontHeadM.dispose();
-	m_fontHeadL.dispose();
-	m_fontTextS.dispose();
-	m_fontTextM.dispose();
-	m_fontTextL.dispose();
+	m_meshCube.dispose();
 
 	m_trans.dispose();
 	m_material.dispose();
@@ -325,11 +316,11 @@ void Drawing::dispose()
 
 void Drawing::init(FT_Library ftlib)
 {
-	m_shHSVPicker.load();
-	m_shCubeMap.load();
-	m_shButton.load();
-	m_shColor.load();
-	m_shColor2.load();
+	for(auto& s : m_shaders)
+	{
+		auto l = dynamic_cast<Shader::Loadable*>(s);
+		if (l) l->load();
+	}
 
 	// fonts
 	m_fontHeadS.load(ftlib, "data/Font/DevinneSwash.ttf", float(Font::Size::S));

@@ -19,6 +19,7 @@
 #include "Shader/ShaderHSVPicker.h"
 #include "Shader/ShaderColor.h"
 #include "Shader/ShaderColor2.h"
+#include "Shader/ShaderCube.h"
 
 class Drawing : public GLObject
 {
@@ -58,6 +59,7 @@ public:
 
 	// shader
 	ShaderCubeMap& getShaderCubeMap();
+	ShaderCube& getShaderCubeDefault();
 
 	// static
 	static Font& getFont(Font::Style style, Font::Size size);
@@ -67,14 +69,14 @@ private:
 private:
 	Camera m_uiCam;
 
-	ShaderHSVPicker m_shHSVPicker;
-
 	MeshCube m_meshCube;
 
 	ShaderCubeMap m_shCubeMap;
+	ShaderCube m_shCube;
 	ShaderButton m_shButton;
 	ShaderColor m_shColor;
 	ShaderColor2 m_shColor2;
+	ShaderHSVPicker m_shHSVPicker;
 
 	UniformBlockTransforms m_trans;
 	UniformBlockMaterial m_material;
@@ -101,4 +103,7 @@ private:
 	Texture m_texBtnBumpLeftDown;
 	Texture m_texBtnBumpRightDown;
 	Texture m_texBtnBumpMidDown;
+
+	// init speedup
+	const std::vector<Shader*> m_shaders;
 };

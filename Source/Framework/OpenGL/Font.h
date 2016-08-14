@@ -39,7 +39,6 @@ public:
 
 protected:
 	virtual void loadUniforms() override;
-	void load() override;
 private:
 	void findMaxBearing(float scalar);
 	void loadTextures();

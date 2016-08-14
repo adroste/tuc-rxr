@@ -171,12 +171,6 @@ void Font::loadUniforms()
 	m_uniLocColor = locateUniform("color");
 }
 
-void Font::load()
-{
-	// dummy function dont call
-	throw Exception("Font::load stupid, don't call this on font...");
-}
-
 void Font::findMaxBearing(float scalar)
 {
 	m_fontHeight = scalar;

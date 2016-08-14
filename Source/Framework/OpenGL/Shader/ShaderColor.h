@@ -2,7 +2,7 @@
 #include "Shader.h"
 #include "../../Color.h"
 
-class ShaderColor : public Shader
+class ShaderColor : public Shader, public Shader::Loadable
 {
 public:
 	ShaderColor();
