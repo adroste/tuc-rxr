@@ -3,13 +3,15 @@
 #include "../../../Framework/UI/UIButtonText.h"
 #include "StateDev.h"
 #include "../GameEditor.h"
+#include "../../../Framework/UI/UIItemLister.h"
 
 class StateEditor : public GameState
 {
 public:
 	StateEditor()
 		:
-		m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Back")
+		m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Back"),
+		lblTest(Drawing::getFont(Font::Style::Text,Font::Size::M),"Hallo")
 	{
 		m_editor.registerMe(this);
 
@@ -17,6 +19,14 @@ public:
 		m_btnBack.adjustToFontHeadline();
 		m_btnBack.setOrigin({ 10.0f, Framework::STD_DRAW_Y - (m_btnBack.getDim().y + 10.0f) });
 		m_btnBack.registerMe(this);
+
+		// material list
+		m_listMaterial.addToList(&lblTest,nullptr);
+		m_listMaterial.setDim({ 400,600 });
+		m_listMaterial.setOrigin({ 600,100 });
+
+		m_listMaterial.registerMe(this);
+		m_listMaterial.orderItems();
 	}
 
 	virtual ~StateEditor() override
@@ -33,6 +43,8 @@ public:
 	virtual void composeFrame(Drawing& draw, float dt) override
 	{
 		m_editor.draw(draw);
+		
+		m_listMaterial.draw(draw);
 		m_btnBack.draw(draw);
 	}
 
@@ -83,4 +95,9 @@ private:
 	GameEditor m_editor;
 
 	UIButtonText m_btnBack;
+
+	// material list
+	UIItemLister m_listMaterial;
+
+	UILabel lblTest;
 };

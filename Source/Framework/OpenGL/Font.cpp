@@ -159,7 +159,7 @@ void Font::setColor(const Color& c)
 	glUseProgram(0);
 }
 
-int Font::getMaxHeight() const
+float Font::getMaxHeight() const
 {
 	return m_fontHeight;
 }
