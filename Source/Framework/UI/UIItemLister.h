@@ -56,16 +56,16 @@ public:
 	}
 	void orderItems()
 	{
-		float curY = m_pos.y + PADDING + m_wallPadd;
+		float curY = /*m_pos.y + */PADDING + m_wallPadd;
 
 		// TODO adjustable width
 		float widthLeft = m_dim.x / 2.0f;
 		float widthRight = widthLeft;
 
-		float leftStart = m_pos.x + PADDING;
-		float leftEnd = m_pos.x + widthLeft - PADDING;
-		float rightStart = m_pos.x + widthLeft + PADDING;
-		float rightEnd = m_pos.x + widthLeft + widthRight - PADDING;
+		float leftStart = /*m_pos.x + */PADDING;
+		float leftEnd = /*m_pos.x + */widthLeft - PADDING;
+		float rightStart = /*m_pos.x + */widthLeft + PADDING;
+		float rightEnd = /*m_pos.x + */widthLeft + widthRight - PADDING;
 
 		auto clipFunc = &UIItemLister::clipToRectMid;
 		if (m_mode == Mode::Left)
@@ -99,6 +99,8 @@ public:
 		{
 			UIContainer::draw(draw);
 
+			pushDrawTransform(draw);
+
 			LockGuard g(m_muItms);
 			for (auto& i : m_items)
 			{
@@ -108,6 +110,8 @@ public:
 				if (i.right)
 					i.right->draw(draw);
 			}
+
+			popDrawTransform(draw);
 		}
 	}
 
