@@ -5,21 +5,21 @@
 class Color
 {
 public:
-	Color(float r, float g, float b, float a)
+	constexpr Color(float r, float g, float b, float a)
 		:
 		r(r), g(g), b(b), a(a)
 	{}
-	Color(float r, float g, float b)
+	constexpr Color(float r, float g, float b)
 		: Color(r, g, b, 1.0f)
 	{}
 
-	explicit Color(uint32_t dword)
-	{
-		b = (dword & 0xFF) / 255.0f;
-		g = ((dword & 0xFF00) >> 8) / 255.0f;
-		r = ((dword & 0xFF0000) >> 16) / 255.0f;
-		a = ((dword) >> 24) / 255.0f;
-	}
+	explicit constexpr Color(uint32_t dword)
+		:
+		r(((dword & 0xFF0000) >> 16) / 255.0f),
+		g(((dword & 0xFF00) >> 8) / 255.0f),
+		b((dword & 0xFF) / 255.0f),
+		a(((dword) >> 24) / 255.0f)
+	{}
 	uint32_t toDWORD()
 	{
 		normalize();
@@ -112,59 +112,59 @@ public:
 	}
 
 	// predefined colors
-	static Color Red()
+	static constexpr Color Red()
 	{
 		return Color(1.0f, 0.0f, 0.0f);
 	}
-	static Color DarkRed()
+	static constexpr Color DarkRed()
 	{
 		return Color(0.5f, 0.0f, 0.0f);
 	}
-	static Color Green()
+	static constexpr Color Green()
 	{
 		return Color(0.0f, 1.0f, 0.0f);
 	}
-	static Color DarkGreen()
+	static constexpr Color DarkGreen()
 	{
 		return Color(0.0f, 0.5f, 0.0f);
 	}
-	static Color Blue()
+	static constexpr Color Blue()
 	{
 		return Color(0.0f, 0.0f, 1.0f);
 	}
-	static Color White()
+	static constexpr Color White()
 	{
 		return Color(1.0f, 1.0f, 1.0f);
 	}
-	static Color Black()
+	static constexpr Color Black()
 	{
 		return Color(0.0f, 0.0f, 0.0f);
 	}
-	static Color Yellow()
+	static constexpr Color Yellow()
 	{
 		return Color(1.0f, 1.0f, 0.0f);
 	}
-	static Color Cyan()
+	static constexpr Color Cyan()
 	{
 		return Color(0.0f, 1.0f, 1.0f);
 	}
-	static Color Magenta()
+	static constexpr Color Magenta()
 	{
 		return Color(1.0f, 0.0f, 1.0f);
 	}
-	static Color Gray(float f)
+	static constexpr Color Gray(float f)
 	{
 		return Color(f, f, f);
 	}
-	static Color Gray()
+	static constexpr Color Gray()
 	{
 		return Color(0.5f, 0.5f, 0.5f);
 	}
-	static Color DarkGray()
+	static constexpr Color DarkGray()
 	{
 		return Color(0.2f, 0.2f, 0.2f);
 	}
-	static Color Brown()
+	static constexpr Color Brown()
 	{
 		return Color(0.72f, 0.47f, 0.34f);
 	}
@@ -176,7 +176,7 @@ public:
 		return Color(rx, ry, rz);
 	}
 
-	static Color getLuminanceConst()
+	static constexpr Color getLuminanceConst()
 	{
 		return Color(0.299f, 0.587f, 0.114f, 0.0f);
 	}
