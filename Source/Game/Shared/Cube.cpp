@@ -2,14 +2,15 @@
 #include "../../Framework/OpenGL/Shader/Shader.h"
 #include "../../Framework/OpenGL/Shader/ShaderCubeMap.h"
 
-Cube::Cube(const CubeDesc & desc, const glm::vec3 & pos, float scalar)
+Cube::Cube(const CubeDesc& desc, const glm::vec3& pos, bool isMapCube, float scalar)
 	:
 	m_desc(desc),
 	m_diffuse(desc.diffuse),
 	m_specular(desc.spec),
 	m_pos(pos),
-	m_rot(0.0f,0.0f,0.0f),
-	m_scalar(scalar * 0.5f + 0.001f)
+	m_rot(0.0f, 0.0f, 0.0f),
+	m_scalar(scalar * 0.5f + 0.001f),
+	m_isMapCube(isMapCube)
 {
 	recalcMatrix();
 }
@@ -48,19 +49,16 @@ const glm::mat4& Cube::getTransform() const
 #ifdef _CLIENT
 void Cube::draw(Drawing& draw)
 {
-	ShaderCubeMap& shader = draw.getShaderCubeMap();
+	Shader* shader = nullptr;
+	if (m_isMapCube)
+		shader = &(draw.getShaderCubeMap());
+	else
+		shader = &(draw.getShaderCubeDefault());
+
 	draw.setCubeMaterial(m_diffuse, m_specular, m_desc.gloss);
 
-	draw.shaderedCube(m_matTrans, shader);
+	draw.shaderedCube(m_matTrans, *shader);
 }
-
-//void Cube::draw(Drawing& draw, glm::mat4 t)
-//{
-//	ShaderCubeMap& shader = draw.getShaderCubeMap();
-//	draw.setCubeMaterial(m_diffuse, m_specular, m_desc.gloss);
-//
-//	draw.shaderedCube(t * m_matTrans, shader);
-//}
 #endif // _CLIENT
 
 void Cube::recalcMatrix()

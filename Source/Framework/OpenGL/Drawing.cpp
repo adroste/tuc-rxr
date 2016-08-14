@@ -10,14 +10,14 @@ static size_t m_drawThreadID = 0;
 Drawing::Drawing()
 	:
 	m_uiCam({ Framework::STD_DRAW_X / 2, Framework::STD_DRAW_Y / 2 }, 1.0f, 1000.0f),
-	m_trans({ &m_shHSVPicker, &m_shCubeMap, &m_shButton,
+	m_trans({  &m_shCubeMap, &m_shCube,
 	&m_fontHeadS, &m_fontHeadM, &m_fontHeadL,
 	&m_fontTextS, &m_fontTextM, &m_fontTextL,
-	&m_shColor
+	&m_shColor, &m_shHSVPicker, &m_shButton
 	}, "Transforms"),
-	m_material({ &m_shCubeMap }, "Material"),
-	m_lights({ &m_shCubeMap }, "Lights"),
-	m_mapInfo({ &m_shCubeMap }, "MapInfo"),
+	m_material({ &m_shCubeMap,  &m_shCube }, "Material"),
+	m_lights({ &m_shCubeMap,  &m_shCube }, "Lights"),
+	m_mapInfo({ &m_shCubeMap,  &m_shCube }, "MapInfo"),
 	m_blockFramework({&m_shButton },"Framework"),
 
 	m_shaders({

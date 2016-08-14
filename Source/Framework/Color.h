@@ -166,7 +166,7 @@ public:
 	}
 	static Color Brown()
 	{
-		return Color(0.72, 0.47, 0.34);
+		return Color(0.72f, 0.47f, 0.34f);
 	}
 	static Color Random()
 	{
