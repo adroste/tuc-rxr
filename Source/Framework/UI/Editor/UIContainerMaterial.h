@@ -30,13 +30,16 @@ public:
 		addToList(&m_lblSpecular, &m_btnSpecular);
 		addToList(&m_lblGloss, nullptr);
 		addToList(&m_lblShader, nullptr);
+
+		setCellPadding(8.0f);
+		setWallPadding(5.0f);
 	}
 
 private:
 	// font for description
 	static Font& getDFont()
 	{
-		return Drawing::getFont(Font::Style::Headline, Font::Size::S);
+		return Drawing::getFont(Font::Style::Headline, Font::Size::M);
 	}
 private:
 	UILabel m_lblTitle;
