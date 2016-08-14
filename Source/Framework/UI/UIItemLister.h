@@ -70,7 +70,7 @@ public:
 				clipToRect(i.left, RectF(leftStart, curY, leftEnd, curY + maxHei));
 
 			if (i.right)
-				clipToRect(i.left, RectF(rightStart, curY, rightEnd, curY + maxHei));
+				clipToRect(i.right, RectF(rightStart, curY, rightEnd, curY + maxHei));
 
 			curY += maxHei;
 		}

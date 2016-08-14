@@ -235,6 +235,7 @@
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IValueHolder.h" />
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IValueHolderSafe.h" />
     <ClInclude Include="..\Source\Framework\UI\UIButton.h" />
+    <ClInclude Include="..\Source\Framework\UI\UIButtonColor.h" />
     <ClInclude Include="..\Source\Framework\UI\UIButtonText.h" />
     <ClInclude Include="..\Source\Framework\UI\UIContainer.h" />
     <ClInclude Include="..\Source\Framework\UI\UIContainerDraggable.h" />
