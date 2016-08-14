@@ -74,6 +74,9 @@
     <Filter Include="Source\System\Exceptions">
       <UniqueIdentifier>{ac887b3f-a08e-4c4b-b747-8bceb16a48cd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\UI\Editor">
+      <UniqueIdentifier>{3312d835-a3e5-4d89-b815-238d603de878}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\Shader.cpp">
@@ -449,6 +452,9 @@
     </ClInclude>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderCube.h">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\Editor\UIContainerMaterial.h">
+      <Filter>Source\Framework\UI\Editor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

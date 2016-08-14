@@ -35,7 +35,7 @@ public:
 	PointF getDim(const std::string& txt) const;
 	void setColor(const Color& c);
 
-	int getMaxHeight() const;
+	float getMaxHeight() const;
 
 protected:
 	virtual void loadUniforms() override;
