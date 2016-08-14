@@ -127,9 +127,6 @@
     <ClCompile Include="..\Source\Framework\OpenGL\Geometry\MeshCube.cpp">
       <Filter>Source\Framework\OpenGL\Geometry</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderCube.cpp">
-      <Filter>Source\Framework\OpenGL\Shader</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\UniformBlock.cpp">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClCompile>
@@ -189,6 +186,9 @@
     </ClCompile>
     <ClCompile Include="..\Source\System\System.cpp">
       <Filter>Source\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderCubeMap.cpp">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -287,9 +287,6 @@
     </ClInclude>
     <ClInclude Include="..\Source\Framework\OpenGL\Geometry\MeshCube.h">
       <Filter>Source\Framework\OpenGL\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderCube.h">
-      <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlock.h">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
@@ -443,6 +440,9 @@
     </ClInclude>
     <ClInclude Include="..\Source\Framework\UI\UIItemLister.h">
       <Filter>Source\Framework\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderCubeMap.h">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

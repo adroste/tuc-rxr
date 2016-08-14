@@ -3,7 +3,7 @@
 #include "../../Utility/Rect.h"
 #include "../Color.h"
 #include "Geometry/MeshCube.h"
-#include "Shader/ShaderCube.h"
+#include "Shader/ShaderCubeMap.h"
 #include "Shader/ShaderButton.h"
 #include "Font.h"
 #include "Shader/UniformBlockTransforms.h"
@@ -57,7 +57,7 @@ public:
 	Camera& getUiCam();
 
 	// shader
-	ShaderCube& getShaderCubeMap();
+	ShaderCubeMap& getShaderCubeMap();
 
 	// static
 	static Font& getFont(Font::Style style, Font::Size size);
@@ -71,7 +71,7 @@ private:
 
 	MeshCube m_meshCube;
 
-	ShaderCube m_shCubeMap;
+	ShaderCubeMap m_shCubeMap;
 	ShaderButton m_shButton;
 	ShaderColor m_shColor;
 	ShaderColor2 m_shColor2;

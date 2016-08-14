@@ -245,7 +245,7 @@ Camera& Drawing::getUiCam()
 	return m_uiCam;
 }
 
-ShaderCube& Drawing::getShaderCubeMap()
+ShaderCubeMap& Drawing::getShaderCubeMap()
 {
 	return m_shCubeMap;
 }

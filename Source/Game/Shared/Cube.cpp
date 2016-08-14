@@ -1,6 +1,6 @@
 #include "Cube.h"
 #include "../../Framework/OpenGL/Shader/Shader.h"
-#include "../../Framework/OpenGL/Shader/ShaderCube.h"
+#include "../../Framework/OpenGL/Shader/ShaderCubeMap.h"
 
 Cube::Cube(const CubeDesc & desc, const glm::vec3 & pos, float scalar)
 	:
@@ -48,7 +48,7 @@ const glm::mat4& Cube::getTransform() const
 #ifdef _CLIENT
 void Cube::draw(Drawing& draw)
 {
-	ShaderCube& shader = draw.getShaderCubeMap();
+	ShaderCubeMap& shader = draw.getShaderCubeMap();
 	draw.setCubeMaterial(m_diffuse, m_specular, m_desc.gloss);
 
 	draw.shaderedCube(m_matTrans, shader);
@@ -56,7 +56,7 @@ void Cube::draw(Drawing& draw)
 
 //void Cube::draw(Drawing& draw, glm::mat4 t)
 //{
-//	ShaderCube& shader = draw.getShaderCubeMap();
+//	ShaderCubeMap& shader = draw.getShaderCubeMap();
 //	draw.setCubeMaterial(m_diffuse, m_specular, m_desc.gloss);
 //
 //	draw.shaderedCube(t * m_matTrans, shader);

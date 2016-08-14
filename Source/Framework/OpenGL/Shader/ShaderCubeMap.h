@@ -2,9 +2,9 @@
 #include "Shader.h"
 #include "../../Color.h"
 
-class ShaderCube : public Shader
+class ShaderCubeMap : public Shader
 {
 public:
-	virtual ~ShaderCube() {}
+	virtual ~ShaderCubeMap() {}
 	void load() override;
 };
