@@ -4,6 +4,7 @@
 #include "StateDev.h"
 #include "../GameEditor.h"
 #include "../../../Framework/UI/UIItemLister.h"
+#include "../../../Framework/UI/Editor/UIContainerMaterial.h"
 
 class StateEditor : public GameState
 {
@@ -21,9 +22,8 @@ public:
 		m_btnBack.registerMe(this);
 
 		// material list
-		m_listMaterial.addToList(&lblTest,nullptr);
 		m_listMaterial.setDim({ 400,600 });
-		m_listMaterial.setOrigin({ 600,100 });
+		m_listMaterial.setOrigin({ 800,100 });
 
 		m_listMaterial.registerMe(this);
 		m_listMaterial.orderItems();
@@ -97,7 +97,7 @@ private:
 	UIButtonText m_btnBack;
 
 	// material list
-	UIItemLister m_listMaterial;
+	UIContainerMaterial m_listMaterial;
 
 	UILabel lblTest;
 };

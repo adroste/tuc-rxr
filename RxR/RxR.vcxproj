@@ -227,6 +227,7 @@
     <ClInclude Include="..\Source\Framework\OpenGL\VolumeTextureMap.h" />
     <ClInclude Include="..\Source\Framework\Sound\MusicFile.h" />
     <ClInclude Include="..\Source\Framework\Sound\Sound.h" />
+    <ClInclude Include="..\Source\Framework\UI\Editor\UIContainerMaterial.h" />
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IClickable.h" />
     <ClInclude Include="..\Source\Framework\UI\Interfaces\ILabelable.h" />
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IMetrics.h" />
@@ -234,11 +235,13 @@
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IValueHolder.h" />
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IValueHolderSafe.h" />
     <ClInclude Include="..\Source\Framework\UI\UIButton.h" />
+    <ClInclude Include="..\Source\Framework\UI\UIButtonColor.h" />
     <ClInclude Include="..\Source\Framework\UI\UIButtonText.h" />
     <ClInclude Include="..\Source\Framework\UI\UIContainer.h" />
     <ClInclude Include="..\Source\Framework\UI\UIContainerDraggable.h" />
     <ClInclude Include="..\Source\Framework\UI\UIDialog.h" />
     <ClInclude Include="..\Source\Framework\UI\UIDialogColorPicker.h" />
+    <ClInclude Include="..\Source\Framework\UI\UIInputBox.h" />
     <ClInclude Include="..\Source\Framework\UI\UIInputField.h" />
     <ClInclude Include="..\Source\Framework\UI\UIItemLister.h" />
     <ClInclude Include="..\Source\Framework\UI\UILabel.h" />
