@@ -1,7 +1,7 @@
 #pragma once
 #include "Shader.h"
 
-class ShaderCube : public Shader, public Shader::Loadable
+class ShaderCube : public Shader, public Shader::ILoadable
 {
 public:
 	virtual ~ShaderCube() {}

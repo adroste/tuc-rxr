@@ -2,7 +2,7 @@
 #include "Shader.h"
 #include "../../Color.h"
 
-class ShaderDisk : public Shader, public Shader::ILoadable
+class ShaderHSVPickerSquare : public Shader, public Shader::ILoadable
 {
 public:
 	virtual void load() override;

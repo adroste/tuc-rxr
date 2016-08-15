@@ -3,7 +3,7 @@
 #include "../../../Utility/Point.h"
 #include "../../../glm/detail/type_vec3.hpp"
 
-class ShaderButton : public Shader, public Shader::Loadable
+class ShaderButton : public Shader, public Shader::ILoadable
 {
 public:
 	virtual ~ShaderButton() override;

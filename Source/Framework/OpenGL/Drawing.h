@@ -16,10 +16,11 @@
 #include "VolumeTextureMap.h"
 #include "Texture.h"
 #include "Shader/UniformBlockFramework.h"
-#include "Shader/ShaderHSVPicker.h"
+#include "Shader/ShaderHSVPickerCircle.h"
 #include "Shader/ShaderColor.h"
 #include "Shader/ShaderColor2.h"
 #include "Shader/ShaderCube.h"
+#include "Shader/ShaderHSVPickerSquare.h"
 
 class Drawing : public GLObject
 {
@@ -76,7 +77,8 @@ private:
 	ShaderButton m_shButton;
 	ShaderColor m_shColor;
 	ShaderColor2 m_shColor2;
-	ShaderHSVPicker m_shHSVPicker;
+	ShaderHSVPickerCircle m_shHSVPickerCircle;
+	ShaderHSVPickerSquare m_shHSVPickerSquare;
 
 	UniformBlockTransforms m_trans;
 	UniformBlockMaterial m_material;

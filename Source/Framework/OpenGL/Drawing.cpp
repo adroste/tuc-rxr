@@ -13,7 +13,7 @@ Drawing::Drawing()
 	m_trans({  &m_shCubeMap, &m_shCube,
 	&m_fontHeadS, &m_fontHeadM, &m_fontHeadL,
 	&m_fontTextS, &m_fontTextM, &m_fontTextL,
-	&m_shColor, &m_shHSVPicker, &m_shButton
+	&m_shColor, &m_shHSVPickerCircle, &m_shHSVPickerSquare, &m_shButton
 	}, "Transforms"),
 	m_material({ &m_shCubeMap,  &m_shCube }, "Material"),
 	m_lights({ &m_shCubeMap,  &m_shCube }, "Lights"),
@@ -22,7 +22,7 @@ Drawing::Drawing()
 
 	m_shaders({
 	&m_shCubeMap, &m_shCube, &m_shButton, &m_shColor, &m_shColor2,
-	&m_shHSVPicker, 
+	&m_shHSVPickerCircle, &m_shHSVPickerSquare,
 	&m_fontHeadS, &m_fontHeadM, &m_fontHeadL, &m_fontTextS, &m_fontTextM, &m_fontTextL
 	})
 {
@@ -156,7 +156,7 @@ void Drawing::buttonRoyal(const RectF& r, bool down)
 
 void Drawing::hsvPicker(const PointF& midPos, float r, const Color& color)
 {
-	m_shHSVPicker.bind();
+	m_shHSVPickerCircle.bind();
 	m_trans.flush();
 	glBegin(GL_TRIANGLE_STRIP);
 	{
@@ -166,34 +166,47 @@ void Drawing::hsvPicker(const PointF& midPos, float r, const Color& color)
 		glVertex4f(midPos.x + r, midPos.y + r, 1.0f, 1.0f);	
 	}
 	glEndSafe();
-	m_shHSVPicker.unbind();
+	m_shHSVPickerCircle.unbind();
 
-	m_shColor2.bind();
-
+	m_shHSVPickerSquare.setColor(color);
+	m_shHSVPickerSquare.bind();
 	glBegin(GL_TRIANGLE_STRIP);
 	{
 		int d = r * 0.8 * 0.707107;
-		glVertexAttrib4f(1, 1.0f, 1.0f, 1.0f, 1.0f);
-		glVertex2f(midPos.x - d, midPos.y - d);
-		glVertexAttrib4f(1, 0.0f, 0.0f, 0.0f, 1.0f);
-		glVertex2f(midPos.x - d, midPos.y + d);
-		glVertexAttrib4f(1, color.r, color.g, color.b, 1.0f);
-		glVertex2f(midPos.x + d, midPos.y - d);
-		glVertexAttrib4f(1, 0.0f, 0.0f, 0.0f, 1.0f);
-		glVertex2f(midPos.x + d, midPos.y + d);
-
-		/*glVertexAttrib4f(1, 0.0f, 0.0f, 0.0f, 1.0f);
-		glVertex2f(midPos.x - d, midPos.y + d);
-		glVertexAttrib4f(1, 0.0f, 0.0f, 0.0f, 1.0f);
-		glVertex2f(midPos.x + d, midPos.y + d);
-		glVertexAttrib4f(1, 1.0f, 1.0f, 1.0f, 1.0f);
-		glVertex2f(midPos.x - d, midPos.y - d);
-		glVertexAttrib4f(1, color.r, color.g, color.b, 1.0f);
-		glVertex2f(midPos.x + d, midPos.y - d);*/
+		glVertex4f(midPos.x - d, midPos.y - d, -1.0f, -1.0f);
+		glVertex4f(midPos.x - d, midPos.y + d, -1.0f, 1.0f);
+		glVertex4f(midPos.x + d, midPos.y - d, 1.0f, -1.0f);
+		glVertex4f(midPos.x + d, midPos.y + d, 1.0f, 1.0f);
 	}
 	glEndSafe();
-	
-	m_shColor2.unbind();
+	m_shHSVPickerSquare.unbind();
+
+	//m_shColor2.bind();
+
+	//glBegin(GL_TRIANGLE_STRIP);
+	//{
+	//	int d = r * 0.8 * 0.707107;
+	//	glVertexAttrib4f(1, 1.0f, 1.0f, 1.0f, 1.0f);
+	//	glVertex2f(midPos.x - d, midPos.y - d);
+	//	glVertexAttrib4f(1, 0.0f, 0.0f, 0.0f, 1.0f);
+	//	glVertex2f(midPos.x - d, midPos.y + d);
+	//	glVertexAttrib4f(1, color.r, color.g, color.b, 1.0f);
+	//	glVertex2f(midPos.x + d, midPos.y - d);
+	//	glVertexAttrib4f(1, 0.0f, 0.0f, 0.0f, 1.0f);
+	//	glVertex2f(midPos.x + d, midPos.y + d);
+
+	//	/*glVertexAttrib4f(1, 0.0f, 0.0f, 0.0f, 1.0f);
+	//	glVertex2f(midPos.x - d, midPos.y + d);
+	//	glVertexAttrib4f(1, 0.0f, 0.0f, 0.0f, 1.0f);
+	//	glVertex2f(midPos.x + d, midPos.y + d);
+	//	glVertexAttrib4f(1, 1.0f, 1.0f, 1.0f, 1.0f);
+	//	glVertex2f(midPos.x - d, midPos.y - d);
+	//	glVertexAttrib4f(1, color.r, color.g, color.b, 1.0f);
+	//	glVertex2f(midPos.x + d, midPos.y - d);*/
+	//}
+	//glEndSafe();
+	//
+	//m_shColor2.unbind();
 }
 
 void Drawing::shaderedCube(const glm::mat4& mat, Shader& shader)
@@ -318,7 +331,7 @@ void Drawing::init(FT_Library ftlib)
 {
 	for(auto& s : m_shaders)
 	{
-		auto l = dynamic_cast<Shader::Loadable*>(s);
+		auto l = dynamic_cast<Shader::ILoadable*>(s);
 		if (l) l->load();
 	}
 

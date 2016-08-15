@@ -1,7 +1,7 @@
 #pragma once
 #include "Shader.h"
 
-class ShaderHSVPicker : public Shader, public Shader::Loadable
+class ShaderHSVPickerCircle : public Shader, public Shader::ILoadable
 {
 public:
 	virtual void load() override;

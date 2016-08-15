@@ -2,7 +2,7 @@
 #include "Shader.h"
 #include "../../Color.h"
 
-class ShaderCubeMap : public Shader, public Shader::Loadable
+class ShaderCubeMap : public Shader, public Shader::ILoadable
 {
 public:
 	virtual ~ShaderCubeMap() {}

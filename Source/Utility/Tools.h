@@ -16,7 +16,7 @@ namespace tool
 	{
 		assert(scale >= TScalar(0.0));
 		assert(scale <= TScalar(1.0));
-		return val1 * scale + val2 * (TScalar(1.0) - scale);
+		return val2 * scale + val1 * (TScalar(1.0) - scale);
 	}
 
 	inline void splitFilenameToPathFile(std::string* dstPath, std::string* dstFile, const std::string& full)

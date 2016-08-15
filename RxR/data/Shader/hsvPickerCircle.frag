@@ -12,8 +12,8 @@ void main()
 	if(length(pos) > 1.0 || length(pos) < 0.8)
 		discard;
 	
-	float angle = acos(dot(normalize(pos), vec2(0.0, -1.0)));
-	if(dot(pos, vec2(1.0, 0.0)) < 0)
+	float angle = acos(dot(normalize(pos), vec2(1.0, 0.0)));
+	if(dot(normalize(pos), vec2(0.0, 1.0)) < 0)
 		angle = PI2 - angle;
 	
 	float hue = angle / PI2;

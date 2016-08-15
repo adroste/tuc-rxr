@@ -171,7 +171,8 @@
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderCube.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderCubeMap.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderDisk.cpp" />
-    <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderHSVPicker.cpp" />
+    <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderHSVPickerCircle.cpp" />
+    <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderHSVPickerSquare.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\UniformBlock.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\UniformBlockFramework.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\UniformBlockLight.cpp" />
@@ -215,7 +216,8 @@
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderCube.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderCubeMap.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderDisk.h" />
-    <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderHSVPicker.h" />
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderHSVPickerCircle.h" />
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderHSVPickerSquare.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlock.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlockFramework.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlockLight.h" />

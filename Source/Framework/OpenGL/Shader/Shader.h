@@ -17,10 +17,10 @@ class Shader : public GLObject
 		Size
 	};
 public:
-	class Loadable
+	class ILoadable
 	{
 	public:
-		virtual ~Loadable(){}
+		virtual ~ILoadable(){}
 		virtual void load() = 0;
 	};
 

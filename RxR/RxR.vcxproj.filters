@@ -178,9 +178,6 @@
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderButton.cpp">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderHSVPicker.cpp">
-      <Filter>Source\Framework\OpenGL\Shader</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderColor.cpp">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClCompile>
@@ -194,6 +191,12 @@
       <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderCube.cpp">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderHSVPickerCircle.cpp">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderHSVPickerSquare.cpp">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClCompile>
   </ItemGroup>
@@ -390,9 +393,6 @@
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderButton.h">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderHSVPicker.h">
-      <Filter>Source\Framework\OpenGL\Shader</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Framework\UI\UILabel.h">
       <Filter>Source\Framework\UI</Filter>
     </ClInclude>
@@ -461,6 +461,12 @@
     </ClInclude>
     <ClInclude Include="..\Source\Framework\UI\UIInputBox.h">
       <Filter>Source\Framework\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderHSVPickerCircle.h">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderHSVPickerSquare.h">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
