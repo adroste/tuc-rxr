@@ -27,12 +27,7 @@ public:
 			setResult(Result::Cancel);
 
 		// auto close
-		if (m_autoClose && (
-			m_dlgResult == Result::OK
-			|| m_dlgResult == Result::Cancel
-			|| m_dlgResult == Result::Yes
-			|| m_dlgResult == Result::No
-			|| m_dlgResult == Result::Ignore))
+		if (m_autoClose && m_dlgResult != Result::None)
 			hide();
 	}
 

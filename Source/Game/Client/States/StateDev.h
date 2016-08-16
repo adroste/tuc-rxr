@@ -76,7 +76,8 @@ public:
 			m_dlgTest.show();
 
 		if (m_btnMsgBox.isClicked(true))
-			m_msgBox.show("The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.", UIMessageBox::Buttons::OKCancel);
+			//m_msgBox.show("The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.", UIMessageBox::Buttons::OKCancel);
+			m_msgBox.show();
 
 		std::string msgBoxRes;
 		switch(m_msgBox.getResult())
