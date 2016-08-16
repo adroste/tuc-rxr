@@ -8,6 +8,7 @@ class UIContainer : public UIObject, public Input::IBroadcaster
 public:
 	UIContainer(bool show = false)
 	{
+		//setOrigin({ 0.0f, 0.0f });
 		show ? UIObject::show() : UIObject::hide();
 	}
 

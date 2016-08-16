@@ -68,8 +68,8 @@ void Drawing::line(PointF p1, PointF p2, float thickness, const Color& color)
 	glBegin(GL_TRIANGLE_STRIP);
 	{
 		glVertex2f(0.0f, 1.0f);
-		glVertex2f(0.0f, 0.0f);
 		glVertex2f(1.0f, 1.0f);
+		glVertex2f(0.0f, 0.0f);		
 		glVertex2f(1.0f, 0.0f);
 	}
 	glEndSafe();

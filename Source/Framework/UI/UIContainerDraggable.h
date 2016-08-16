@@ -50,6 +50,7 @@ public:
 		if (!handled)
 		{
 			// drag window
+			// TODO drag window on top border, not everywhere (wait for window-design)
 			if (m_isDragged)
 			{
 				setOrigin(getOrigin() + mpos - m_dragSpot);

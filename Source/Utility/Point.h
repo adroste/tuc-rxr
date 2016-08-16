@@ -222,8 +222,8 @@ public:
 	inline Point<T> rotate(float angle) const
 	{
 		Point<T> res = *this;
-		float cost = cosf(angle);
-		float sint = sinf(angle);
+		float cost = cos(angle);
+		float sint = sin(angle);
 		// math magic
 		res.x = x * cost - y * sint;
 		res.y = y * cost + x * sint;

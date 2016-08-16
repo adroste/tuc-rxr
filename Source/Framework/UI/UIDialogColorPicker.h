@@ -1,5 +1,6 @@
 #pragma once
 #include "UIDialog.h"
+#include "UIColorPicker.h"
 
 class UIDialogColorPicker : public UIDialog
 {
@@ -8,10 +9,14 @@ public:
 	{
 		UIDialog::setDim({ 300.0f, 450.0f });
 		setFixedDim(true);
+
+		m_colorPicker.registerMe(this);
 	}
 
 	virtual ~UIDialogColorPicker() override
-	{}
+	{
+		m_colorPicker.unregisterMe();
+	}
 
 	virtual void draw(Drawing& draw) override
 	{
@@ -20,13 +25,12 @@ public:
 		UIDialog::draw(draw);
 
 		pushDrawTransform(draw);
-		float r = getDim().x / 2.0f;
-		draw.hsvPicker({ r, r }, r, Color::Red());
+		m_colorPicker.draw(draw);
 		popDrawTransform(draw);
 	}
 
 
 
 private:
-	float m_angle;
+	UIColorPicker m_colorPicker;
 };

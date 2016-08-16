@@ -10,7 +10,7 @@ public:
 		UIContainerDraggable(show),
 		m_btnCancel(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "X")
 	{
-		m_btnCancel.setZIndex(getZIndex() + 1);
+		//m_btnCancel.setZIndex(getZIndex() + 1);
 		m_btnCancel.adjustToFontHeadline();
 		m_btnCancel.registerMe(this);
 	}
