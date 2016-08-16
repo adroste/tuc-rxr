@@ -128,7 +128,9 @@ public:
 		m_wallPadd = p;
 	}
 private:
+	// ReSharper disable CppMemberFunctionMayBeStatic
 	void clipToRectMid(UIObject* o, const RectF& r) const
+	// ReSharper restore CppMemberFunctionMayBeStatic
 	{
 		float y = (r.y1 + r.y2) / 2.0f - o->getDim().y / 2.0f;
 		float x = (r.x1 + r.x2) / 2.0f - o->getDim().x / 2.0f;

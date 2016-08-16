@@ -75,7 +75,7 @@ protected:
 
 		PointF dim = getDim();
 		const std::string& t = getText();
-		size_t length = t.length();
+		int length = int(t.length());
 
 		float lineOffset = calcLineOffset();
 		float height = lineOffset;

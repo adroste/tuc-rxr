@@ -3,12 +3,17 @@
 #include "../../../Framework/UI/UIButtonText.h"
 #include "../../../Framework/UI/UIMessageBox.h"
 #include "../../../Framework/UI/UITextBox.h"
+#include "../../../Framework/UI/UIObjectList.h"
 
 class StateDev : public GameState
 {
 public:
 	StateDev()
 		:
+		m_uiList({&m_lblHeadS, &m_lblHeadM, &m_lblHeadL, &m_lblTextS, &m_lblTextM, &m_lblTextL, 
+			&m_btnBack, &m_btnDlg, &m_btnMsgBox, &m_dlgTest, &m_msgBox, &m_txtBox, &m_msgBoxResult,
+			&m_hsvPicker
+		}),
 		m_lblHeadS(Drawing::getFont(Font::Style::Headline, Font::Size::S), "ABCxyz"),
 		m_lblHeadM(Drawing::getFont(Font::Style::Headline, Font::Size::M), "ABCxyz"),
 		m_lblHeadL(Drawing::getFont(Font::Style::Headline, Font::Size::L), "ABCxyz"),
@@ -32,20 +37,15 @@ public:
 
 		m_btnBack.adjustToFontHeadline();
 		m_btnBack.setOrigin({ 10.0f, Framework::STD_DRAW_Y - (m_btnBack.getDim().y + 10.0f) });
-		m_btnBack.registerMe(this);
 		m_btnDlg.adjustToFontHeadline();
 		m_btnDlg.setOrigin({ Framework::STD_DRAW_X - (m_btnDlg.getDim().x + 10.0f), 10.0f });
-		m_btnDlg.registerMe(this);
 		m_btnMsgBox.adjustToFontHeadline();
 		m_btnMsgBox.setOrigin({ Framework::STD_DRAW_X - (m_btnMsgBox.getDim().x + 10.0f), 100.0f });
-		m_btnMsgBox.registerMe(this);
 		m_dlgTest.setDim({ 300.0f, 300.0f });
 		m_dlgTest.setCenter(Framework::getScreenCenter());
-		m_dlgTest.registerMe(this);
 		m_dlgTest.setZIndex(1);
 		//m_msgBox.setDim({ 600.0f, 300.0f });
 		m_msgBox.setCenter(Framework::getScreenCenter());
-		m_msgBox.registerMe(this);
 		m_msgBox.setZIndex(1);
 
 		m_txtBox.setText("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
@@ -55,9 +55,10 @@ public:
 		m_msgBoxResult.setOrigin({ 800.0f, 100.0f });
 
 		m_hsvPicker.setCenter(Framework::getScreenCenter());
-		m_hsvPicker.registerMe(this);
 		m_hsvPicker.setZIndex(1);
 		m_hsvPicker.show();
+
+		m_uiList.registerAll(this);
 	}
 
 	virtual ~StateDev() override
@@ -97,7 +98,7 @@ public:
 
 	virtual void composeFrame(Drawing& draw, float dt) override
 	{
-		Drawing::getFont(Font::Style::Headline, Font::Size::S).write(draw, "ghi\njkl", { 800.0f, 800.0f });
+		/*Drawing::getFont(Font::Style::Headline, Font::Size::S).write(draw, "ghi\njkl", { 800.0f, 800.0f });
 		m_lblHeadS.draw(draw);
 		m_lblHeadM.draw(draw);
 		m_lblHeadL.draw(draw);
@@ -112,7 +113,9 @@ public:
 		m_btnMsgBox.draw(draw);
 		m_dlgTest.draw(draw);
 		m_msgBox.draw(draw);
-		m_hsvPicker.draw(draw);
+		m_hsvPicker.draw(draw);*/
+
+		m_uiList.draw(draw);
 	}
 
 	// Input handling
@@ -159,6 +162,7 @@ public:
 	}
 
 private:
+	UIObjectList m_uiList;
 	UILabel m_lblHeadS;
 	UILabel m_lblHeadM;
 	UILabel m_lblHeadL;

@@ -44,7 +44,7 @@ public:
 
 			// inner square
 			PointF mid = getMidpoint();
-			int d = r * 0.8 * 0.707107;
+			float d = r * 0.8f * 0.707107f;
 			PointF d2(d, d);
 
 			RectF rect = RectF(mid - d2, mid + d2);
@@ -102,7 +102,7 @@ private:
 		PointF pnorm = p.normalize();
 		float angle = acos(pnorm * PointF(1.0f, 0.0f));
 		if (pnorm * PointF(0.0f, 1.0f) > 0.0f)
-			angle = M_PI * 2.0f - angle;
+			angle = float(M_PI) * 2.0f - angle;
 		setAngle(angle);
 	}
 	
@@ -110,7 +110,7 @@ private:
 	{
 		float r = getDim().x / 2.0f;
 		PointF mid = getMidpoint();
-		int d = r * 0.8 * 0.707107;
+		float d = r * 0.8f * 0.707107f;
 		PointF d2(d, d);
 
 		RectF rect = RectF(mid - d2, mid + d2);
@@ -143,7 +143,7 @@ private:
 
 	void calcColor()
 	{
-		float hue = m_angle / (M_PI * 2.0f);
+		float hue = m_angle / (float(M_PI) * 2.0f);
 		m_hueColor.r = tool::clamp(abs(6.0f * hue - 3.0f) - 1.0f, 0.0f, 1.0f);
 		m_hueColor.g = tool::clamp(2.0f - abs(6.0f * hue - 2.0f), 0.0f, 1.0f);
 		m_hueColor.b = tool::clamp(2.0f - abs(6.0f * hue - 4.0f), 0.0f, 1.0f);
