@@ -15,9 +15,6 @@ public:
 	virtual ~UIContainer() override
 	{}
 
-	virtual void update(float dt)
-	{}
-
 	virtual void draw(Drawing& draw) override
 	{
 		if (!isVisible()) return;

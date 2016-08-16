@@ -35,6 +35,22 @@ public:
 		m_btn3.registerMe(this);
 
 		UIMessageBox::init();
+
+		m_btn1.setOnClickCallback([this](IClickable*)
+		{
+			setResult(m_resBtn1);
+			hide();
+		});
+		m_btn2.setOnClickCallback([this](IClickable*)
+		{
+			setResult(m_resBtn2);
+			hide();
+		});
+		m_btn3.setOnClickCallback([this](IClickable*)
+		{
+			setResult(m_resBtn3);
+			hide();
+		});
 	}
 
 	virtual ~UIMessageBox() override
@@ -42,18 +58,6 @@ public:
 		m_btn1.unregisterMe();
 		m_btn2.unregisterMe();
 		m_btn3.unregisterMe();
-	}
-
-	virtual void update(float dt) override
-	{
-		UIDialog::update(dt);
-
-		if (m_btn1.isClicked(true))
-			setResult(m_resBtn1);
-		if (m_btn2.isClicked(true))
-			setResult(m_resBtn2);
-		if (m_btn3.isClicked(true))
-			setResult(m_resBtn3);		
 	}
 
 	virtual void draw(Drawing& draw) override

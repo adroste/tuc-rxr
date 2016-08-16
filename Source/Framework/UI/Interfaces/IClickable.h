@@ -22,7 +22,9 @@ public:
 protected:
 	void setClicked(bool val)
 	{
-		if (!m_isClicked && val)
+		/*if (!m_isClicked && val)
+			m_onClick(this);*/
+		if (val)
 			m_onClick(this);
 
 		m_isClicked = val;

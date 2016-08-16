@@ -18,6 +18,16 @@ public:
 	};
 
 public:
+	UIDialog()
+	{
+		m_btnCancel.setOnClickCallback([this](IClickable*)
+		{
+			setResult(Result::Cancel);
+			if (m_autoClose)
+				hide();
+		});
+	}
+
 	virtual ~UIDialog() override
 	{
 	}
@@ -26,16 +36,6 @@ public:
 	{
 		assert(c != nullptr);
 		m_onResult = c;
-	}
-
-	virtual void update(float dt) override
-	{
-		if (m_btnCancel.isClicked(true))
-			setResult(Result::Cancel);
-
-		// auto close
-		if (m_autoClose && m_dlgResult != Result::None)
-			hide();
 	}
 
 	// Input handling

@@ -66,10 +66,6 @@ public:
 
 	virtual bool update(float dt) override
 	{
-		m_dlgTest.update(dt);
-		m_msgBox.update(dt);
-		m_hsvPicker.update(dt);
-
 		if (m_btnBack.isClicked(true))
 			setNextState(TransitionState::Discard);
 

@@ -13,6 +13,11 @@ public:
 		//m_btnCancel.setZIndex(getZIndex() + 1);
 		m_btnCancel.adjustToFontHeadline();
 		m_btnCancel.registerMe(this);
+
+		m_btnCancel.setOnClickCallback([this](IClickable*)
+		{
+			hide();
+		});
 	}
 
 	virtual ~UIWindow() override
@@ -28,12 +33,6 @@ public:
 		pushDrawTransform(draw);
 		m_btnCancel.draw(draw);
 		popDrawTransform(draw);
-	}
-
-	virtual void update(float dt) override
-	{
-		if (m_btnCancel.isClicked(true))
-			hide();
 	}
 
 	virtual bool keyUp(SDL_Scancode s) override
