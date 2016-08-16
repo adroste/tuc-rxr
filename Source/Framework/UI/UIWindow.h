@@ -38,14 +38,17 @@ public:
 
 	virtual bool keyUp(SDL_Scancode s) override
 	{
-		sendKeyUp(s);
+		bool handled = sendKeyUp(s);
 
-		if (s == SDL_SCANCODE_ESCAPE)
+		if (!handled)
 		{
-			hide();
-			return true;
+			if (s == SDL_SCANCODE_ESCAPE)
+			{
+				hide();
+				return true;
+			}
 		}
-		return false;
+		return handled;
 	}
 
 	virtual void setDim(const PointF& d) override

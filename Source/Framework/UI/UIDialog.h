@@ -45,11 +45,23 @@ public:
 
 	virtual bool keyUp(SDL_Scancode s) override
 	{
-		UIWindow::keyUp(s);
+		/*UIWindow::keyUp(s);
 
 		if (s == SDL_SCANCODE_ESCAPE)
 			setResult(Result::Cancel);
 
+		return true;*/
+
+		bool handled = sendKeyUp(s);
+
+		if (!handled)
+		{
+			if (s == SDL_SCANCODE_ESCAPE)
+			{
+				hide();
+				setResult(Result::Cancel);
+			}
+		}
 		return true;
 	}
 

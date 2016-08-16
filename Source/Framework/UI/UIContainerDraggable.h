@@ -14,12 +14,15 @@ public:
 
 	virtual bool mouseDown(const PointF& mpos, Input::Mouse button) override
 	{
-		sendMouseDown(mpos, button);
+		bool handled = sendMouseDown(mpos, button);
 
-		if (m_isMouseInside && button == Input::Mouse::Left)
+		if (!handled)
 		{
-			m_isMouseLeftDown = true;
-			m_dragSpot = mpos;
+			if (m_isMouseInside && button == Input::Mouse::Left)
+			{
+				m_isDragged = true;
+				m_dragSpot = mpos;
+			}
 		}
 
 		return m_isMouseInside;
@@ -27,31 +30,37 @@ public:
 
 	virtual bool mouseUp(const PointF& mpos, Input::Mouse button) override
 	{
-		sendMouseUp(mpos, button);
+		bool handled = sendMouseUp(mpos, button);
 
-		if (button == Input::Mouse::Left)
-			m_isMouseLeftDown = false;
+		if (!handled)
+		{
+			if (button == Input::Mouse::Left)
+				m_isDragged = false;
+		}
 
 		return m_isMouseInside;
 	}
 
 	virtual bool mouseMove(const PointF& mpos, bool handled) override
 	{
-		sendMouseMove(mpos, handled);
+		handled = sendMouseMove(mpos, handled);
 
 		m_isMouseInside = getRect().isPointInside(mpos);
 
-		// drag window
-		if (m_isMouseLeftDown)
+		if (!handled)
 		{
-			setOrigin(getOrigin() + mpos - m_dragSpot);
-			m_dragSpot = mpos;
+			// drag window
+			if (m_isDragged)
+			{
+				setOrigin(getOrigin() + mpos - m_dragSpot);
+				m_dragSpot = mpos;
+			}
 		}
 
 		return m_isMouseInside;
 	}
 
 protected:
-	bool m_isMouseLeftDown = false;
+	bool m_isDragged = false;
 	PointF m_dragSpot;
 };

@@ -49,6 +49,9 @@ void Graphics::init(SDL_Window* wnd, PointI dim)
 
 	resize(dim);
 
+	// auto correct gamma:
+	//glEnable(GL_FRAMEBUFFER_SRGB);
+
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glFrontFace(GL_CW);
