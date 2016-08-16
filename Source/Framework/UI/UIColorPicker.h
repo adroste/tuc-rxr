@@ -18,7 +18,7 @@ public:
 	{
 		float r = getDim().x / 2.0f;
 		PointF mid = getMidpoint();
-		draw.hsvPicker({ r, r }, r, m_color);
+		draw.hsvPicker({ r, r }, r, m_hueColor);
 		PointF o(2.0f, 2.0f);
 		draw.rect(RectF(m_pick - o, m_pick + o), Color::White());
 		
@@ -144,13 +144,13 @@ private:
 	void calcColor()
 	{
 		float hue = m_angle / (M_PI * 2.0f);
-		m_color.r = tool::clamp(abs(6.0f * hue - 3.0f) - 1.0f, 0.0f, 1.0f);
-		m_color.g = tool::clamp(2.0f - abs(6.0f * hue - 2.0f), 0.0f, 1.0f);
-		m_color.b = tool::clamp(2.0f - abs(6.0f * hue - 4.0f), 0.0f, 1.0f);
+		m_hueColor.r = tool::clamp(abs(6.0f * hue - 3.0f) - 1.0f, 0.0f, 1.0f);
+		m_hueColor.g = tool::clamp(2.0f - abs(6.0f * hue - 2.0f), 0.0f, 1.0f);
+		m_hueColor.b = tool::clamp(2.0f - abs(6.0f * hue - 4.0f), 0.0f, 1.0f);
 
-		m_color.r = ((m_color.r - 1.0f) * m_saturation + 1.0f) * m_value;
-		m_color.g = ((m_color.g - 1.0f) * m_saturation + 1.0f) * m_value;
-		m_color.b = ((m_color.b - 1.0f) * m_saturation + 1.0f) * m_value;
+		m_color.r = ((m_hueColor.r - 1.0f) * m_saturation + 1.0f) * m_value;
+		m_color.g = ((m_hueColor.g - 1.0f) * m_saturation + 1.0f) * m_value;
+		m_color.b = ((m_hueColor.b - 1.0f) * m_saturation + 1.0f) * m_value;
 	}
 
 	void setAngle(float angle)
@@ -163,6 +163,7 @@ private:
 	bool m_isMouseLeftDownCircle = false;
 	bool m_isMouseLeftDownSquare = false;
 
+	Color m_hueColor = Color::Red();
 	Color m_color = Color::Red();
 	float m_angle = 0.0f;
 	PointF m_pick;
