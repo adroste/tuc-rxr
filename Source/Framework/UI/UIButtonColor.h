@@ -26,7 +26,7 @@ public:
 		m_colorPicker.registerMe(broadcaster);
 	}
 protected:
-	virtual void clickEvent() override
+	virtual void onClick() override
 	{
 		// show color dialog
 	
@@ -35,5 +35,6 @@ protected:
 	}
 
 private:
+	// TODO z-index colorPicker
 	UIDialogColorPicker m_colorPicker;
 };

@@ -17,12 +17,12 @@ protected:
 	void setClicked(bool val)
 	{
 		if (!m_isClicked && val)
-			clickEvent();
+			onClick();
 
 		m_isClicked = val;
 	}
 	// this function will be triggered if m_isClicked changes to true
-	virtual void clickEvent()
+	virtual void onClick()
 	{}
 private:
 	bool m_isClicked = false;
