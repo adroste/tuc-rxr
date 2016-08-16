@@ -77,18 +77,14 @@ public:
 	{
 		IMetrics::setOrigin(p);
 		m_matTransform = glm::translate(glm::vec3(p.x, p.y, 0.0f));
-		for (auto r : m_receivers)
-			r->setInpTransform(getInpTransform() * glm::translate(glm::vec3(-p.x, -p.y, 0.0f)));
-	}
-
-	virtual void setInpTransform(glm::mat4 transform) override
-	{
-		UIObject::setInpTransform(transform);
-		for (auto r : m_receivers)
-			r->setInpTransform(transform * r->getInpTransform());
 	}
 
 protected:
+	virtual PointF transformMouse(PointF mpos) override
+	{
+		return mpos - m_pos;
+	}
+
 	virtual void pushDrawTransform(Drawing& draw)
 	{
 		draw.getTransform().pushModel(m_matTransform);

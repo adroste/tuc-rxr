@@ -28,8 +28,7 @@ public:
 	public:
 		IReceiver(int zIndex = 0)
 			:
-			m_zIndex(zIndex),
-			m_transform(1.0f)
+			m_zIndex(zIndex)
 		{}
 		virtual ~IReceiver()
 		{}
@@ -86,22 +85,6 @@ public:
 			m_zIndex = z;
 		}
 
-		glm::mat4 getInpTransform() const
-		{
-			return m_transform;
-		}
-
-		virtual void setInpTransform(glm::mat4 transform)
-		{
-			m_transform = transform;
-		}
-
-		virtual PointF transformInpPoint(const PointF& p)
-		{
-			glm::vec4 pos = getInpTransform() * glm::vec4(p.x, p.y, 0.0f, 1.0f);
-			return { pos.x, pos.y };
-		}
-
 		virtual void registerMe(IBroadcaster* broadcaster)
 		{
 			m_broadcaster = broadcaster;
@@ -118,7 +101,6 @@ public:
 	private:
 		bool m_enabled = true;
 		int m_zIndex;
-		glm::mat4 m_transform;
 		IBroadcaster* m_broadcaster = nullptr;
 	};
 
@@ -167,15 +149,15 @@ public:
 		{
 			return handleKey(&Input::IReceiver::charDown, c);
 		}
+
 		virtual bool sendMouseMove(const PointF& mpos, bool handled)
 		{
 			int curZ = -1;
 			bool prevHandled = handled;
+			auto p = transformMouse(mpos);
 
 			for (auto r : m_receivers)
 			{
-				PointF p = r->transformInpPoint(mpos);
-
 				if (!r->isEnabled())
 				{
 					// just to update mouse pos
@@ -195,23 +177,30 @@ public:
 		}
 		virtual bool sendMouseDown(const PointF& mpos, Input::Mouse button)
 		{
-			return handleKey(&Input::IReceiver::mouseDown, mpos, button);
+			return handleMouse(&Input::IReceiver::mouseDown, mpos, button);
 		}
 		virtual bool sendMouseUp(const PointF& mpos, Input::Mouse button)
 		{
-			return handleKey(&Input::IReceiver::mouseUp, mpos, button);
+			return handleMouse(&Input::IReceiver::mouseUp, mpos, button);
 		}
 		virtual bool sendWheel(const PointF& mpos, float amount)
 		{
-			return handleKey(&Input::IReceiver::wheel, mpos, amount);
+			return handleMouse(&Input::IReceiver::wheel, mpos, amount);
+		}
+	
+	protected:
+		virtual PointF transformMouse(PointF mpos)
+		{
+			return mpos;
 		}
 
 	private:
 		template <typename memFunc, typename... ArgT>
-		bool handleKey(memFunc pFunc, const PointF& mpos, ArgT... args)
+		bool handleMouse(memFunc pFunc, const PointF& mpos, ArgT... args)
 		{
 			int curZ = -1;
 			bool handled = false;
+			auto p = transformMouse(mpos);
 			for (auto r : m_receivers)
 			{
 				if (!r->isEnabled())
@@ -219,7 +208,7 @@ public:
 				if (handled && curZ != r->getZIndex())
 					break;
 				curZ = r->getZIndex();
-				if (((*r).*pFunc)(r->transformInpPoint(mpos), args...))
+				if (((*r).*pFunc)(p, args...))
 					handled = true;
 			}
 			return handled;
