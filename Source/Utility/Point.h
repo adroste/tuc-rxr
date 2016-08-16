@@ -146,8 +146,8 @@ public:
 	{
 		Point<T> res(*this);
 		T len = length();
-		assert(len != (T)0);
-		if (len != (T)0)
+		//assert(len != (T)0);
+		if (len != static_cast<T>(0))
 			return res /= len;
 		else
 			return res;

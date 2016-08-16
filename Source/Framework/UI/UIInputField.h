@@ -25,8 +25,8 @@ public:
 		if (!isVisible()) return;
 
 		m_font.setColor(Color::White());
-		draw.rect(getRect(), Color::DarkGray());
-		m_font.write(draw, getDisplayText(), m_pos);
+		draw.rect(getRectPad(), Color::DarkGray());
+		m_font.write(draw, getDisplayText(), getOriginPad());
 	}
 	void setRegex(const std::string& r)
 	{
@@ -176,6 +176,7 @@ protected:
 	{
 		static int timer = 0;
 
+		float wi = getDimPad().x;
 		if(isSelected())
 		{
 			// draw with cool | animation
@@ -189,13 +190,13 @@ protected:
 				res.insert(m_cursorPos,toAdd);
 			g.unlock();
 
-			if(m_font.getDim(res).x > m_dim.x)
+			if(m_font.getDim(res).x > wi)
 			{
-				while (m_font.getDim(res).x > m_dim.x && m_cursorPos + 4 < res.length())
+				while (m_font.getDim(res).x > wi && m_cursorPos + 4 < res.length())
 					res.pop_back();
 			}
 
-			while (m_font.getDim(res).x > m_dim.x)
+			while (m_font.getDim(res).x > wi)
 				res = res.substr(1, res.length() - 1);
 			return res;
 		}
@@ -203,7 +204,7 @@ protected:
 		{
 			// draw plain text
 			std::string res = getText();
-			while (m_font.getDim(res).x > m_dim.x)
+			while (m_font.getDim(res).x > wi)
 				res.pop_back();
 			return res;
 		}

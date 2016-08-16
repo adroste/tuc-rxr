@@ -2,43 +2,20 @@
 #include "UIInputField.h"
 #include "UIContainer.h"
 
-class UIInputBox : public UIContainer
+class UIInputBox : public UIInputField
 {
 public:
 	UIInputBox(Font& font, size_t maxlen)
 		:
-		m_field(font, maxlen)
+		UIInputField(font, maxlen)
 	{
-		m_field.registerMe(this);
+		setPadding({ 5.0f, 5.0f });
 	}
 
 	virtual void draw(Drawing& draw) override
 	{
 		// TODO replace with fancy box
 		draw.rect(getRect(), Color::White());
-
-		pushDrawTransform(draw);
-		m_field.draw(draw);
-		popDrawTransform(draw);
+		UIInputField::draw(draw);
 	}
-
-	virtual void setDim(const PointF& d) override
-	{
-		UIContainer::setDim(d);
-		updateInputRect();
-	}
-	virtual void setOrigin(const PointF& p) override
-	{
-		UIContainer::setOrigin(p);
-		updateInputRect();
-	}
-private:
-	void updateInputRect()
-	{
-		m_field.setOrigin(PointF(border, border));
-		m_field.setDim(m_dim - PointF(border, border) * 2.0f);
-	}
-private:
-	UIInputField m_field;
-	const float border = 5.0f;
 };

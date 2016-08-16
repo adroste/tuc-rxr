@@ -44,10 +44,17 @@ public:
 		m_btnDiffuse.setOnClickCallback([this](IClickable*)
 		{
 			m_colorPicker.show();
-			m_colorPicker.setOnResultCallback([this](UIDialog* dlg)
+			m_colorPicker.setOnResultCallback([this](UIDialog*)
 			{
-				//if(dlg->getResult() == UIDialog)
 				m_btnDiffuse.setValue(m_colorPicker.getColor());
+			});
+		});
+		m_btnSpecular.setOnClickCallback([this](IClickable*)
+		{
+			m_colorPicker.show();
+			m_colorPicker.setOnResultCallback([this](UIDialog*)
+			{
+				m_btnSpecular.setValue(m_colorPicker.getColor());
 			});
 		});
 	}
