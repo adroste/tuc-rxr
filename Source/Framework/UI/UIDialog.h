@@ -4,6 +4,7 @@
 // UIDialogs are modal (=> blocking other input)
 class UIDialog : public UIWindow
 {
+	std::function<void(UIDialog*)> m_onResult = [](UIDialog*) {};
 public:
 	enum class Result
 	{
@@ -19,6 +20,12 @@ public:
 public:
 	virtual ~UIDialog() override
 	{
+	}
+
+	void setOnResultCallback(decltype(m_onResult) c)
+	{
+		assert(c != nullptr);
+		m_onResult = c;
 	}
 
 	virtual void update(float dt) override
@@ -111,6 +118,7 @@ protected:
 	void setResult(Result dlgResult)
 	{
 		m_dlgResult = dlgResult;
+		m_onResult(this);
 	}
 
 private:

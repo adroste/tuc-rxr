@@ -37,8 +37,28 @@ public:
 
 		setCellPadding(8.0f);
 		setWallPadding(5.0f);
+
+		m_colorPicker.setZIndex(1);
+		m_colorPicker.registerMe(this);
+
+		m_btnDiffuse.setOnClickCallback([this](IClickable*)
+		{
+			m_colorPicker.show();
+			m_colorPicker.setOnResultCallback([this](UIDialog* dlg)
+			{
+				//if(dlg->getResult() == UIDialog)
+				m_btnDiffuse.setValue(m_colorPicker.getColor());
+			});
+		});
 	}
 
+	virtual void draw(Drawing& draw) override
+	{
+		UIItemLister::draw(draw);
+		pushDrawTransform(draw);
+		m_colorPicker.draw(draw);
+		popDrawTransform(draw);
+	}
 private:
 	// font for description
 	static Font& getDFont()
@@ -56,4 +76,6 @@ private:
 	UIButtonColor m_btnSpecular;
 
 	UIInputBox m_inpShader;
+
+	UIDialogColorPicker m_colorPicker;
 };

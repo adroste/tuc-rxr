@@ -30,6 +30,11 @@ public:
 	}
 
 
+	Color getColor() const
+	{
+		return m_colorPicker.getColor();
+	}
+
 
 private:
 	UIColorPicker m_colorPicker;

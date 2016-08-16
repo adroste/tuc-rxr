@@ -2,6 +2,7 @@
 
 class IClickable
 {
+	std::function<void(IClickable*)> m_onClick = [](IClickable*) {};
 public:
 	virtual ~IClickable()
 	{}
@@ -13,17 +14,20 @@ public:
 			m_isClicked = false;
 		return t;
 	}
+	void setOnClickCallback(decltype(m_onClick) c)
+	{
+		assert(c != nullptr);
+		m_onClick = c;
+	}
 protected:
 	void setClicked(bool val)
 	{
 		if (!m_isClicked && val)
-			onClick();
+			m_onClick(this);
 
 		m_isClicked = val;
 	}
-	// this function will be triggered if m_isClicked changes to true
-	virtual void onClick()
-	{}
 private:
+	
 	bool m_isClicked = false;
 };

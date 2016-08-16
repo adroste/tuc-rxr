@@ -11,6 +11,7 @@ class StateEditor : public GameState
 public:
 	StateEditor()
 		:
+		m_uiList({ &m_btnBack, &lblTest, &m_listMaterial }),
 		m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Back"),
 		lblTest(Drawing::getFont(Font::Style::Text,Font::Size::M),"Hallo")
 	{
@@ -19,14 +20,13 @@ public:
 
 		m_btnBack.adjustToFontHeadline();
 		m_btnBack.setOrigin({ 10.0f, Framework::STD_DRAW_Y - (m_btnBack.getDim().y + 10.0f) });
-		m_btnBack.registerMe(this);
 
 		// material list
 		m_listMaterial.setDim({ 400,600 });
 		m_listMaterial.setOrigin({ 800,100 });
-
-		m_listMaterial.registerMe(this);
 		m_listMaterial.orderItems();
+
+		m_uiList.registerAll(this);
 	}
 
 	virtual ~StateEditor() override
@@ -44,8 +44,7 @@ public:
 	{
 		m_editor.draw(draw);
 		
-		m_listMaterial.draw(draw);
-		m_btnBack.draw(draw);
+		m_uiList.draw(draw);
 	}
 
 	// Input handling
@@ -92,6 +91,8 @@ public:
 	}
 
 private:
+	UIObjectList m_uiList;
+
 	GameEditor m_editor;
 
 	UIButtonText m_btnBack;
