@@ -172,7 +172,7 @@ void Drawing::hsvPicker(const PointF& midPos, float r, const Color& color)
 	m_shHSVPickerSquare.bind();
 	glBegin(GL_TRIANGLE_STRIP);
 	{
-		int d = r * 0.8 * 0.707107;
+		float d = r * 0.8f * 0.707107f;
 		glVertex4f(midPos.x - d, midPos.y - d, -1.0f, -1.0f);
 		glVertex4f(midPos.x - d, midPos.y + d, -1.0f, 1.0f);
 		glVertex4f(midPos.x + d, midPos.y - d, 1.0f, -1.0f);
@@ -180,33 +180,6 @@ void Drawing::hsvPicker(const PointF& midPos, float r, const Color& color)
 	}
 	glEndSafe();
 	m_shHSVPickerSquare.unbind();
-
-	//m_shColor2.bind();
-
-	//glBegin(GL_TRIANGLE_STRIP);
-	//{
-	//	int d = r * 0.8 * 0.707107;
-	//	glVertexAttrib4f(1, 1.0f, 1.0f, 1.0f, 1.0f);
-	//	glVertex2f(midPos.x - d, midPos.y - d);
-	//	glVertexAttrib4f(1, 0.0f, 0.0f, 0.0f, 1.0f);
-	//	glVertex2f(midPos.x - d, midPos.y + d);
-	//	glVertexAttrib4f(1, color.r, color.g, color.b, 1.0f);
-	//	glVertex2f(midPos.x + d, midPos.y - d);
-	//	glVertexAttrib4f(1, 0.0f, 0.0f, 0.0f, 1.0f);
-	//	glVertex2f(midPos.x + d, midPos.y + d);
-
-	//	/*glVertexAttrib4f(1, 0.0f, 0.0f, 0.0f, 1.0f);
-	//	glVertex2f(midPos.x - d, midPos.y + d);
-	//	glVertexAttrib4f(1, 0.0f, 0.0f, 0.0f, 1.0f);
-	//	glVertex2f(midPos.x + d, midPos.y + d);
-	//	glVertexAttrib4f(1, 1.0f, 1.0f, 1.0f, 1.0f);
-	//	glVertex2f(midPos.x - d, midPos.y - d);
-	//	glVertexAttrib4f(1, color.r, color.g, color.b, 1.0f);
-	//	glVertex2f(midPos.x + d, midPos.y - d);*/
-	//}
-	//glEndSafe();
-	//
-	//m_shColor2.unbind();
 }
 
 void Drawing::shaderedCube(const glm::mat4& mat, Shader& shader)

@@ -50,9 +50,16 @@ public:
 		g.unlock();
 
 		if (left)
+		{
 			left->registerMe(this);
+			m_uiList.add(left);
+		}
 		if (right)
+		{
 			right->registerMe(this);
+			m_uiList.add(right);
+		}
+
 	}
 	void orderItems()
 	{
@@ -101,15 +108,7 @@ public:
 
 			pushDrawTransform(draw);
 
-			LockGuard g(m_muItms);
-			for (auto& i : m_items)
-			{
-				if (i.left)
-					i.left->draw(draw);
-
-				if (i.right)
-					i.right->draw(draw);
-			}
+			m_uiList.draw(draw);
 
 			popDrawTransform(draw);
 		}
@@ -158,7 +157,7 @@ protected:
 	Mode m_mode;
 	float m_cellPadd = 0.0f; // padding between objects
 	float m_wallPadd = 0.0f; // padding to wall
-
-protected:
 	const float PADDING = 5.0f;
+
+	UIObjectList m_uiList;
 };
