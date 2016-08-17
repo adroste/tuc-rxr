@@ -251,6 +251,8 @@
     <ClInclude Include="..\Source\Framework\UI\UILabel.h" />
     <ClInclude Include="..\Source\Framework\UI\UIMessageBox.h" />
     <ClInclude Include="..\Source\Framework\UI\UINumUpDown.h" />
+    <ClInclude Include="..\Source\Framework\UI\UINumUpDownFloat.h" />
+    <ClInclude Include="..\Source\Framework\UI\UINumUpDownInt.h" />
     <ClInclude Include="..\Source\Framework\UI\UIObject.h" />
     <ClInclude Include="..\Source\Framework\UI\UIObjectList.h" />
     <ClInclude Include="..\Source\Framework\UI\UITextBox.h" />

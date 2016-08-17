@@ -3,6 +3,8 @@
 #include "../UILabel.h"
 #include "../UIButtonColor.h"
 #include "../UIInputBox.h"
+#include "../UINumUpDownFloat.h"
+#include "../UINumUpDownInt.h"
 
 class UIContainerMaterial : public UIItemLister
 {           
@@ -17,7 +19,8 @@ public:
 		m_lblShader(getDFont(), "shader"),
 		m_btnDiffuse(Color::Green()),
 		m_btnSpecular(Color::White()),
-		m_inpShader(getDFont(),20)
+		m_inpShader(getDFont(), 20),
+		m_numSpec(getDFont(), 100.0f, 1.0f, 100000.0f, 1.0f)
 	{
 		// metrics
 		float fh = getDFont().getMaxHeight();
@@ -26,13 +29,14 @@ public:
 		m_btnSpecular.setDim(cdim);
 
 		m_inpShader.setDim(cdim + PointF(10, 10));
+		m_numSpec.setDim(m_inpShader.getDim());
 
 		// registering
 		addToList(&m_lblTitle, nullptr);
 
 		addToList(&m_lblDiffuse, &m_btnDiffuse);
 		addToList(&m_lblSpecular, &m_btnSpecular);
-		addToList(&m_lblGloss, nullptr);
+		addToList(&m_lblGloss, &m_numSpec);
 		addToList(&m_lblShader, &m_inpShader);
 
 		setCellPadding(8.0f);
@@ -83,6 +87,7 @@ private:
 	UIButtonColor m_btnSpecular;
 
 	UIInputBox m_inpShader;
+	UINumUpDownFloat m_numSpec;
 
 	UIDialogColorPicker m_colorPicker;
 };

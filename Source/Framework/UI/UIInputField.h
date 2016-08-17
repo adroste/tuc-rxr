@@ -7,6 +7,9 @@
 #include "Interfaces/ISelectable.h"
 #include "Callback.h"
 
+// url regex
+//  (?<=\s|^)["'([{]*(https?:\/\/)?(\w+\.)?(\w+\.)(\w{2,})((?:\/[^\s?]+)+)?\/?(\?(?:[^\s?]+)?)?['")]}]*(?=[.,:;?!]*(?:\s|$))
+
 class UIInputField : public UIObject, public ILabelable, public ISelectable
 {
 	CALLBACK( Finish, UIInputField*);
@@ -16,7 +19,7 @@ public:
 		m_font(font),
 		m_maxLen(maxLen)
 	{
-		m_regex = "[ -~]";
+		m_regex = "[ -~]*";
 		// TODO set metrics?
 	}
 	virtual ~UIInputField() override
@@ -164,15 +167,16 @@ protected:
 		if(getText().length() < m_maxLen)
 		{
 			std::string ins = std::string(1, c);
-			if(std::regex_match(ins, std::regex(m_regex)))
-			{
-				std::string s = getText();
-				// insert char at cursor pos
-				if (m_cursorPos == s.length())
-					s.push_back(c);
-				else
-					s.insert(m_cursorPos, ins);
 
+			std::string s = getText();
+			// insert char at cursor pos
+			if (m_cursorPos == s.length())
+				s.push_back(c);
+			else
+				s.insert(m_cursorPos, ins);
+
+			if(std::regex_match(s, std::regex(m_regex)))
+			{
 				LockGuard g(m_muCursor);
 				ILabelable::setText(s);
 				m_cursorPos++;
