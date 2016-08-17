@@ -49,6 +49,9 @@ void Sound::loadFiles()
 
 	m_soundFiles[size_t(Sound::Sfx::Plop)] = std::unique_ptr<MusicFile>
 		(new MusicFile("data/Sound/plop.ogg", 1.0f));
+
+	m_soundFiles[size_t(Sound::Sfx::Knock)] = std::unique_ptr<MusicFile>
+		(new MusicFile("data/Sound/knock.wav", 1.0f));
 }
 
 void Sound::playMusic(Music track)
@@ -66,7 +69,7 @@ void Sound::playMusic(Music track)
 
 void Sound::playSound(Sfx sound)
 {
-	m_soundFiles[size_t(sound)]->play(true);
+	m_soundFiles[size_t(sound)]->play(false);
 }
 
 void Sound::update(float dt)

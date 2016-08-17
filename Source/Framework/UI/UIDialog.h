@@ -75,6 +75,9 @@ public:
 
 	virtual bool mouseDown(const PointF& mpos, Input::Mouse button) override
 	{
+		if (!getRect().isPointInside(mpos))
+			Sound::playSound(Sound::Sfx::Knock);
+
 		UIWindow::mouseDown(mpos, button);
 		return true;
 	}

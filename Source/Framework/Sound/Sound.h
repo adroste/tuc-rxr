@@ -13,6 +13,7 @@ public:
 	enum class Sfx
 	{
 		Plop,
+		Knock,
 		Size
 	};
 
