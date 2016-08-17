@@ -118,7 +118,8 @@ protected:
 	void setResult(Result dlgResult)
 	{
 		m_dlgResult = dlgResult;
-		m_onResult(this);
+		if (m_dlgResult != Result::None)
+			m_onResult(this);
 	}
 
 private:
