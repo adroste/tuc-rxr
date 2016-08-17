@@ -115,7 +115,7 @@ public:
 
 		m_saturation = tool::clamp(chroma / (r + 1e-20f), 0.0f, 1.0f);
 		m_value = tool::clamp(r, 0.0f, 1.0f);
-		setAngle(h * float(M_PI) * 2.0f);
+		m_angle = h * float(M_PI) * 2.0f;
 
 		// set pick
 		float radius = getDim().x / 2.0f;
@@ -125,6 +125,8 @@ public:
 		RectF rect = RectF(mid - d2, mid + d2);
 		m_pick.x = (rect.x2 - rect.x1) * m_saturation + rect.x1;
 		m_pick.y = (rect.y2 - rect.y1) * (1.0f - m_value) + rect.y1;
+		
+		calcColor();
 	}
 
 private:
