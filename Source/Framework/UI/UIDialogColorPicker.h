@@ -29,6 +29,17 @@ public:
 		popDrawTransform(draw);
 	}
 
+	using UIDialog::show;
+	virtual void show(const Color& color)
+	{
+		setColor(color);
+		show();
+	}
+
+	void setColor(const Color& color)
+	{
+		m_colorPicker.setColor(color);
+	}
 
 	Color getColor() const
 	{

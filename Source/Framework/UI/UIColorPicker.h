@@ -92,6 +92,41 @@ public:
 		return m_color;
 	}
 
+	void setColor(const Color& color)
+	{
+		// convert rgb to hsv
+		float r = color.r, g = color.g, b = color.b;
+		float K = 0.0f;
+
+		if (g < b)
+		{
+			std::swap(g, b);
+			K = -1.0f;
+		}
+
+		if (r < g)
+		{
+			std::swap(r, g);
+			K = -2.0f / 6.0f - K;
+		}
+
+		float chroma = r - std::min(g, b);
+		float h = fabs(K + (g - b) / (6.0f * chroma + 1e-20f));
+
+		m_saturation = tool::clamp(chroma / (r + 1e-20f), 0.0f, 1.0f);
+		m_value = tool::clamp(r, 0.0f, 1.0f);
+		setAngle(h * float(M_PI) * 2.0f);
+
+		// set pick
+		float radius = getDim().x / 2.0f;
+		PointF mid = getMidpoint();
+		float d = radius * 0.8f * 0.707107f;
+		PointF d2(d, d);
+		RectF rect = RectF(mid - d2, mid + d2);
+		m_pick.x = (rect.x2 - rect.x1) * m_saturation + rect.x1;
+		m_pick.y = (rect.y2 - rect.y1) * (1.0f - m_value) + rect.y1;
+	}
+
 private:
 	void calcCircleAngle(const PointF& mpos)
 	{
@@ -144,10 +179,12 @@ private:
 	void calcColor()
 	{
 		float hue = m_angle / (float(M_PI) * 2.0f);
+		// angle to hue
 		m_hueColor.r = tool::clamp(abs(6.0f * hue - 3.0f) - 1.0f, 0.0f, 1.0f);
 		m_hueColor.g = tool::clamp(2.0f - abs(6.0f * hue - 2.0f), 0.0f, 1.0f);
 		m_hueColor.b = tool::clamp(2.0f - abs(6.0f * hue - 4.0f), 0.0f, 1.0f);
 
+		// hsv to rgb
 		m_color.r = ((m_hueColor.r - 1.0f) * m_saturation + 1.0f) * m_value;
 		m_color.g = ((m_hueColor.g - 1.0f) * m_saturation + 1.0f) * m_value;
 		m_color.b = ((m_hueColor.b - 1.0f) * m_saturation + 1.0f) * m_value;
