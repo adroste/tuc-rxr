@@ -5,6 +5,11 @@ template <class T>
 class IValueHolder
 {
 public:
+	IValueHolder(){}
+	IValueHolder(T val)
+		:
+		m_value(val)
+	{}
 	virtual ~IValueHolder()
 	{}
 	virtual T getValue() const

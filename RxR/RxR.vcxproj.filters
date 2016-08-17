@@ -474,6 +474,12 @@
     <ClInclude Include="..\Source\Framework\UI\UIObjectList.h">
       <Filter>Source\Framework\UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\UINumUpDown.h">
+      <Filter>Source\Framework\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\Callback.h">
+      <Filter>Source\Framework\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glew32.dll">

@@ -5,10 +5,11 @@
 #include "Interfaces/ILabelable.h"
 #include "../../System/System.h"
 #include "Interfaces/ISelectable.h"
-
+#include "Callback.h"
 
 class UIInputField : public UIObject, public ILabelable, public ISelectable
 {
+	CALLBACK( Finish, UIInputField*);
 public:
 	UIInputField(Font& font, size_t maxLen)
 		:
@@ -20,6 +21,7 @@ public:
 	}
 	virtual ~UIInputField() override
 	{}
+	
 	virtual void draw(Drawing& draw) override
 	{
 		if (!isVisible()) return;
@@ -31,6 +33,12 @@ public:
 	void setRegex(const std::string& r)
 	{
 		m_regex = r;
+	}
+
+	virtual void deselect() override
+	{
+		ISelectable::deselect();
+		m_onFinish(this);
 	}
 
 	virtual bool keyDown(SDL_Scancode s) override

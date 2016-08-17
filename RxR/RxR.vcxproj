@@ -229,6 +229,7 @@
     <ClInclude Include="..\Source\Framework\OpenGL\VolumeTextureMap.h" />
     <ClInclude Include="..\Source\Framework\Sound\MusicFile.h" />
     <ClInclude Include="..\Source\Framework\Sound\Sound.h" />
+    <ClInclude Include="..\Source\Framework\UI\Callback.h" />
     <ClInclude Include="..\Source\Framework\UI\Editor\UIContainerMaterial.h" />
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IClickable.h" />
     <ClInclude Include="..\Source\Framework\UI\Interfaces\ILabelable.h" />
@@ -249,6 +250,7 @@
     <ClInclude Include="..\Source\Framework\UI\UIItemLister.h" />
     <ClInclude Include="..\Source\Framework\UI\UILabel.h" />
     <ClInclude Include="..\Source\Framework\UI\UIMessageBox.h" />
+    <ClInclude Include="..\Source\Framework\UI\UINumUpDown.h" />
     <ClInclude Include="..\Source\Framework\UI\UIObject.h" />
     <ClInclude Include="..\Source\Framework\UI\UIObjectList.h" />
     <ClInclude Include="..\Source\Framework\UI\UITextBox.h" />

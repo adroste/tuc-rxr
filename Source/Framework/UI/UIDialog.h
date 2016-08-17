@@ -1,10 +1,11 @@
 #pragma once
 #include "UIWindow.h"
+#include "Callback.h"
 
 // UIDialogs are modal (=> blocking other input)
 class UIDialog : public UIWindow
 {
-	std::function<void(UIDialog*)> m_onResult = [](UIDialog*) {};
+	CALLBACK(Result, UIDialog*);
 public:
 	enum class Result
 	{
@@ -30,12 +31,6 @@ public:
 
 	virtual ~UIDialog() override
 	{
-	}
-
-	void setOnResultCallback(decltype(m_onResult) c)
-	{
-		assert(c != nullptr);
-		m_onResult = c;
 	}
 
 	// Input handling
