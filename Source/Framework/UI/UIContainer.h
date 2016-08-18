@@ -48,18 +48,18 @@ public:
 	}
 	virtual bool mouseDown(const PointF& mpos, Input::Mouse button) override
 	{
-		sendMouseDown(mpos, button);
-		return m_isMouseInside;
+		bool ret = sendMouseDown(mpos, button);
+		return m_isMouseInside || ret;
 	}
 	virtual bool mouseUp(const PointF& mpos, Input::Mouse button) override
 	{
-		sendMouseUp(mpos, button);
-		return m_isMouseInside;
+		bool ret = sendMouseUp(mpos, button);
+		return m_isMouseInside || ret;
 	}
 	virtual bool wheel(const PointF& mpos, float amount) override
 	{
-		sendWheel(mpos, amount);
-		return m_isMouseInside;
+		auto ret = sendWheel(mpos, amount);
+		return m_isMouseInside || ret;
 	}
 
 

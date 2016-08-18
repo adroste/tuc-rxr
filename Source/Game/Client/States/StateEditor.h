@@ -25,6 +25,7 @@ public:
 		m_listMaterial.setDim({ 400,600 });
 		m_listMaterial.setOrigin({ 800,100 });
 		m_listMaterial.orderItems();
+		m_listMaterial.setZIndex(2);
 
 		m_uiList.registerAll(this);
 	}
