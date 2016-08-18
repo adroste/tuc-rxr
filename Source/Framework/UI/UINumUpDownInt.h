@@ -28,4 +28,12 @@ protected:
 		{ }
 		return res;
 	}
+	virtual int negateValue(int val) override
+	{
+		return -val;
+	}
+	virtual int addValue(int left, int right) override
+	{
+		return left + right;
+	}
 };

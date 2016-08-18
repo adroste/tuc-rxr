@@ -5,6 +5,7 @@
 #include "../UIInputBox.h"
 #include "../UINumUpDownFloat.h"
 #include "../UINumUpDownInt.h"
+#include "../UINumUpDownCubeShader.h"
 
 class UIContainerMaterial : public UIItemLister
 {           
@@ -19,17 +20,17 @@ public:
 		m_lblShader(getDFont(), "shader"),
 		m_btnDiffuse(Color::Green()),
 		m_btnSpecular(Color::White()),
-		m_inpShader(getDFont(), 20),
-		m_numSpec(getDFont(), 100.0f, 1.0f, 100000.0f, 1.0f)
+		m_numSpec(getDFont(), 100.0f, 1.0f, 100000.0f, 1.0f),
+		m_numShader(getDFont(), CubeShader::Default, CubeShader::Default, CubeShader(int(CubeShader::Size) - 1),CubeShader(1))
 	{
 		// metrics
 		float fh = getDFont().getMaxHeight();
-		const PointF cdim = { 3.0f * fh,fh };
+		const PointF cdim = { 5.0f * fh,fh };
 		m_btnDiffuse.setDim(cdim);
 		m_btnSpecular.setDim(cdim);
 
-		m_inpShader.setDim(cdim + PointF(10, 10));
-		m_numSpec.setDim(m_inpShader.getDim());
+		m_numShader.setDim(cdim + PointF(10, 10));
+		m_numSpec.setDim(m_numShader.getDim());
 
 		// registering
 		addToList(&m_lblTitle, nullptr);
@@ -37,7 +38,7 @@ public:
 		addToList(&m_lblDiffuse, &m_btnDiffuse);
 		addToList(&m_lblSpecular, &m_btnSpecular);
 		addToList(&m_lblGloss, &m_numSpec);
-		addToList(&m_lblShader, &m_inpShader);
+		addToList(&m_lblShader, &m_numShader);
 
 		setCellPadding(8.0f);
 		setWallPadding(5.0f);
@@ -86,8 +87,8 @@ private:
 	UIButtonColor m_btnDiffuse;
 	UIButtonColor m_btnSpecular;
 
-	UIInputBox m_inpShader;
 	UINumUpDownFloat m_numSpec;
+	UINumUpDownCubeShader m_numShader;
 
 	UIDialogColorPicker m_colorPicker;
 };

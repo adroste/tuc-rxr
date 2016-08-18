@@ -486,6 +486,12 @@
     <ClInclude Include="..\Source\Framework\UI\UINumUpDownFloat.h">
       <Filter>Source\Framework\UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\UINumUpDownCubeShader.h">
+      <Filter>Source\Framework\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\UINumUpDownEnum.h">
+      <Filter>Source\Framework\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glew32.dll">

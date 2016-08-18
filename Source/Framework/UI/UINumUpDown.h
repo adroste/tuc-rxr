@@ -40,10 +40,10 @@ public:
 			switch (s)
 			{
 			case SDL_SCANCODE_UP:
-				setValue(this->getValue() + m_step);
+				setValue(addValue(this->getValue(),m_step));
 				return true;
 			case SDL_SCANCODE_DOWN:
-				setValue(this->getValue() - m_step);
+				setValue(addValue(this->getValue(), negateValue(m_step)));
 				return true;
 			}
 		}
@@ -53,7 +53,8 @@ public:
 protected:
 	virtual std::string numToSting(T n) const = 0;
 	virtual T stringToNum(const std::string& s) const = 0;
-
+	virtual T addValue(T left, T right) = 0;
+	virtual T negateValue(T val) = 0;
 private:
 	const T m_step,
 		m_min, m_max;

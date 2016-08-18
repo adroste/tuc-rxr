@@ -3,7 +3,9 @@
 
 enum class CubeShader
 {
-	Default
+	Default,
+	Special,
+	Size
 };
 
 struct CubeDesc

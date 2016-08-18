@@ -39,4 +39,14 @@ protected:
 		}
 		return res;
 	}
+
+	virtual float negateValue(float val) override
+	{
+		return -val;
+	}
+
+	virtual float addValue(float left, float right) override
+	{
+		return left + right;
+	}
 };
