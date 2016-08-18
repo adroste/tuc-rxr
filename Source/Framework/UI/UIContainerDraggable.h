@@ -25,7 +25,7 @@ public:
 			}
 		}
 
-		return m_isMouseInside;
+		return m_isMouseInside || handled;
 	}
 
 	virtual bool mouseUp(const PointF& mpos, Input::Mouse button) override
@@ -38,7 +38,7 @@ public:
 				m_isDragged = false;
 		}
 
-		return m_isMouseInside;
+		return m_isMouseInside || handled;
 	}
 
 	virtual bool mouseMove(const PointF& mpos, bool handled) override
@@ -58,7 +58,7 @@ public:
 			}
 		}
 
-		return m_isMouseInside;
+		return m_isMouseInside || handled;
 	}
 
 protected:
