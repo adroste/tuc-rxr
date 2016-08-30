@@ -24,9 +24,9 @@ public:
 		: x(x), y(y), z(z)
 	{}
 	Point3()
-	{
-		Point3(T(0.0), T(0.0), T(0.0));
-	}
+		:
+		Point3(T(0.0), T(0.0), T(0.0))
+	{}
 	template <class T2, class T3, class T4>
 	Point3(T2 x, T3 y, T4 z)
 		:
