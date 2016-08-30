@@ -1,6 +1,7 @@
 #include "GameEditor.h"
 #include "../Shared/Game.h"
 #include "../../System/System.h"
+#include <functional>
 
 GameEditor::GameEditor()
 	:
@@ -46,12 +47,25 @@ void GameEditor::draw(Drawing& draw)
 	drawGrid(draw);
 	if(m_hasCapture)
 	{
+		const Point3F fpos = m_blockPos;
+		const Point3F off = Point3F(0.5f, 0.5f, 0.5f);
 		// draw block in mouse coordinates
 		glDepthFunc(GL_LEQUAL);
 		Cube curCube = Cube(m_curCubeDesc,m_blockPos.toGlmVec3(),false);
 		curCube.draw(draw);
+
+		glDepthFunc(GL_ALWAYS);
+		drawLineBox(draw, fpos - off, fpos + off, Color::Gray());
+
 		
-		//draw.rect(RectF::constructFromPoint({ m_blockPos.x,m_blockPos.z }, 1.0f), Color::Red());
+		if (m_setDown || m_eraseDown)
+		{
+			drawLineBox(draw, 
+				Point3F(std::min(m_blockPos, m_downPos)) - off,
+				Point3F(std::max(m_blockPos, m_downPos)) + off,
+				Color::Red());
+		}
+
 	}
 
 	draw.getUiCam().apply(draw);
@@ -96,14 +110,25 @@ bool GameEditor::mouseDown(const PointF& mpos, Input::Mouse button)
 	case Input::Mouse::Left: 
 		if(m_hasCapture)
 		{
+			if (!m_eraseDown)
+			{
+				m_setDown = true;
+				m_downPos = m_blockPos;
+			}
 			// set block
-			m_pMap->setCube(new Cube(m_curCubeDesc, m_blockPos.toGlmVec3(), true), false, true);
+			/*m_pMap->setCube(new Cube(m_curCubeDesc, m_blockPos.toGlmVec3(), true), false, true);*/
 		}
 		else if (m_hover) // && !m_capture
 			takeCapture();
 		break;
 	case Input::Mouse::Middle: break;
-	case Input::Mouse::Right: break;
+	case Input::Mouse::Right: 
+		if(!m_setDown && m_hasCapture)
+		{
+			m_eraseDown = true;
+			m_downPos = m_blockPos;
+		}
+		break;
 	case Input::Mouse::X1: break;
 	case Input::Mouse::X2: break;
 	}
@@ -115,12 +140,40 @@ bool GameEditor::mouseUp(const PointF& mpos, Input::Mouse button)
 {
 	if(m_hasCapture)
 	{
+		auto forAllInBox = [](Point3I start, Point3I end, std::function<void(Point3I)> doFunc)
+		{
+			Point3S s = std::min(start,end);
+			Point3S e = std::max(start,end);
+
+			for (auto x = s.x; x <= e.x; x++)
+				for (auto y = s.y; y <= e.y; y++)
+					for (auto z = s.z; z <= e.z; z++)
+						doFunc({ x,y,z });
+		};
+		                                                                 
 		switch (button)
 		{
-		case Input::Mouse::Left: break;
+		case Input::Mouse::Left: 
+			if(m_setDown)
+			{
+				m_setDown = false;
+				forAllInBox(m_downPos,m_blockPos,[this](Point3S p)
+				{
+					m_pMap->setCube(new Cube(m_curCubeDesc, p.toGlmVec3(), true), false, true);
+				});
+			}
+			break;
 		case Input::Mouse::Middle: break;
 		case Input::Mouse::Right:
 			// delete block
+			if(m_eraseDown)
+			{
+				m_eraseDown = false;
+				forAllInBox(m_downPos, m_blockPos, [this](Point3S p)
+				{
+					m_pMap->destroyBlock(p);
+				});
+			}
 			m_pMap->destroyBlock(m_blockPos);
 			break;
 		case Input::Mouse::X1: break;
@@ -198,6 +251,29 @@ void GameEditor::drawGrid(Drawing& draw) const
 	}
 
 	draw.getTransform().popModel();
+}
+
+void GameEditor::drawLineBox(Drawing& draw, const Point3F& p1, const Point3F& p2, const Color& c) const
+{
+	auto s = p1.toGlmVec3();//std::min(p1, p2).toGlmVec3();
+	auto e = p2.toGlmVec3();//std::max(p1, p2).toGlmVec3();
+	float t = 1.0f;
+
+	draw.line(s, glm::vec3(s.x,s.y,e.z), t, c);
+	draw.line(s, glm::vec3(s.x, e.y, s.z), t, c);
+	draw.line(s, glm::vec3(e.x, s.y, s.z), t, c);
+	draw.line(e, glm::vec3(e.x, e.y, s.z), t, c);
+	draw.line(e, glm::vec3(e.x, s.y, e.z), t, c);
+	draw.line(e, glm::vec3(s.x, e.y, e.z), t, c);
+	
+	draw.line(glm::vec3(s.x, e.y, s.z), glm::vec3(s.x, e.y, e.z), t, c);
+	draw.line(glm::vec3(e.x, s.y, s.z), glm::vec3(e.x, s.y, e.z), t, c);
+	
+	draw.line(glm::vec3(s.x, s.y, e.z), glm::vec3(e.x, s.y, e.z), t, c);
+	draw.line(glm::vec3(s.x, e.y, s.z), glm::vec3(e.x, e.y, s.z), t, c);
+
+	draw.line(glm::vec3(s.x, s.y, e.z), glm::vec3(s.x, e.y, e.z), t, c);
+	draw.line(glm::vec3(e.x, s.y, s.z), glm::vec3(e.x, e.y, s.z), t, c);
 }
 
 void GameEditor::releaseCapture()

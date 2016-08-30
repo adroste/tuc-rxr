@@ -192,6 +192,22 @@ public:
 	}
 };
 
+// min max func 
+namespace std
+{
+	template<class T>
+	Point3<T> min(const Point3<T>& a, const Point3<T>& b)
+	{
+		return Point3<T>(std::min(a.x, b.x), std::min(a.y, b.y), std::min(a.z, b.z));
+	}
+
+	template<class T>
+	Point3<T> max(const Point3<T>& a, const Point3<T>& b)
+	{
+		return Point3<T>(std::max(a.x, b.x), std::max(a.y, b.y), std::max(a.z, b.z));
+	}
+}
+
 using Point3F = Point3<float>;
 using Point3I = Point3<int>;
 using Point3S = Point3<size_t>;

@@ -20,9 +20,9 @@ public:
 	void setCurrentBlock(const CubeDesc& c);
 private:
 	void drawGrid(Drawing& draw) const;
+	void drawLineBox(Drawing& draw, const Point3F& p1, const Point3F& p2, const Color& c) const;
 	void releaseCapture();
 	void takeCapture();
-
 private:
 	std::unique_ptr<Map> m_pMap;
 
@@ -30,13 +30,15 @@ private:
 	std::unique_ptr<LightManager> m_pLight;
 	bool m_hasCapture = false;
 	bool m_hover = false;
-	bool m_zdown = false;
+	bool m_setDown = false;
+	bool m_eraseDown = false;
 
 	// mouse positioning
 	PointF m_prevClientMouse;
 	PointF m_mouseDiff;
 	float m_wheelDiff = 0.0f;
 	Point3I m_blockPos;
+	Point3I m_downPos;
 
 	CubeDesc m_curCubeDesc;
 };
