@@ -90,13 +90,13 @@ vec3 renderMapBlock(vec3 pos, vec3 normal, vec3 mdiff, vec3 mspec, float ngloss)
 	{
 		if(LightsLight[i].type == uint(0)) // directional
 		{
-			float factor = getSoftShadowDirectional(pos, -LightsLight[i].origin);
+			factor = getSoftShadowDirectional(pos, -LightsLight[i].origin);
 			if(factor <= FACTOR_DISCARD)
 				continue;
 				
 			// lambert term
 			reflectedLight = reflect(LightsLight[i].origin, normal);
-			theta = dot(reflectedLight , normal);
+			theta = dot(reflectedLight, normal);
 			if(theta < 0.0)
 				continue; // light comes from other direction
 		}

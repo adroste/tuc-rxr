@@ -19,13 +19,7 @@ GameEditor::GameEditor()
 	UniformBlockLight::LightSource l;
 	l.type = UniformBlockLight::LightSource::Directional;
 	l.color = Color::White().toVec3();
-	l.origin = glm::normalize(glm::vec3(0.0f, 1.0f, 0.0f));
-	lights.push_back(l);
-
-	l.type = UniformBlockLight::LightSource::PointLight;
-	l.color = Color::White().toVec3();
-	l.origin = { 10,10,-10 };//glm::normalize(glm::vec3(0.2f, -1.0f, 0.3f));
-	l.attenuation = 0.00001f;
+	l.origin = glm::normalize(glm::vec3(0.0f, 1.0f, 0.5f));
 	lights.push_back(l);
 
 	m_pLight->init(Color::Gray(0.01f), std::move(lights));
