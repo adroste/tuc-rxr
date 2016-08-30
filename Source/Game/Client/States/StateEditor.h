@@ -16,7 +16,6 @@ public:
 	{
 		m_editor.registerMe(this);
 
-
 		m_btnBack.adjustToFontHeadline();
 		m_btnBack.setOrigin({ 10.0f, Framework::STD_DRAW_Y - (m_btnBack.getDim().y + 10.0f) });
 		m_btnBack.setZIndex(1);
@@ -33,6 +32,22 @@ public:
 		m_listMaterial.setOnMaterialChangeCallback([this](CubeDesc d)
 		{
 			m_editor.setCurrentBlock(d);
+		});
+
+		m_editor.setOnCaptureCallback([this](bool getCapture)
+		{
+			if(getCapture)
+			{
+				// set highest z index
+				m_editor.setZIndex(INT_MAX);
+				sortReceivers();
+			}
+			else
+			{
+				// set index 0
+				m_editor.setZIndex(0);
+				sortReceivers();
+			}
 		});
 	}
 

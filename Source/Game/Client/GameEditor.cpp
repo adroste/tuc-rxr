@@ -281,6 +281,7 @@ void GameEditor::releaseCapture()
 	m_hasCapture = false;
 	System::showCursor();
 	System::setTrapCursor(false);
+	m_onCapture(false);
 }
 
 void GameEditor::takeCapture()
@@ -288,4 +289,5 @@ void GameEditor::takeCapture()
 	m_hasCapture = true;
 	System::hideCursor();
 	System::setTrapCursor(true);
+	m_onCapture(true);
 }

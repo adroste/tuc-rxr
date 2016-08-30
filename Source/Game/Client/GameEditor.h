@@ -3,9 +3,11 @@
 #include "../Shared/Map.h"
 #include "LightManager.h"
 #include "../../System/Input.h"
+#include "../../Framework/UI/Callback.h"
 
 class GameEditor : public IDrawable, public Input::IReceiver
 {
+	CALLBACK(Capture, bool);
 public:
 	GameEditor();
 	virtual ~GameEditor() override;
