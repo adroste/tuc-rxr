@@ -65,6 +65,14 @@ public:
 				this->updateColor();
 			});
 		});
+		m_numSpec.setOnValueCallback([this](IValueHolder<float>*)
+		{
+			updateColor();
+		});
+		m_numShader.setOnValueCallback([this](IValueHolder<CubeShader>*)
+		{
+			updateColor();
+		});
 	}
 
 	virtual void draw(Drawing& draw) override
@@ -77,11 +85,19 @@ public:
 	CubeDesc getCubeDesc() const
 	{
 		CubeDesc d;
-		d.diffuse = m_btnDiffuse.getValue().toDWORD();
-		d.spec = m_btnSpecular.getValue().toDWORD();
+		d.diffuse = toGamma(m_btnDiffuse.getValue()).toDWORD();
+		d.spec = toGamma(m_btnSpecular.getValue()).toDWORD();
 		d.gloss = m_numSpec.getValue();
 		d.shader = m_numShader.getValue();
 		return d;
+	}
+	static Color toGamma(const Color& c)
+	{
+		return Color(std::pow(c.r, 2.2f), std::pow(c.g, 2.2f), std::pow(c.b, 2.2f), c.a);
+	}
+	static Color fromGamma(const Color& c)
+	{
+		return Color(std::pow(c.r, 1.0f/2.2f), std::pow(c.g, 1.0f/2.2f), std::pow(c.b, 1.0f/2.2f), c.a);
 	}
 private:
 	// font for description
