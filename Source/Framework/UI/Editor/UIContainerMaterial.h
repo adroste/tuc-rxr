@@ -8,7 +8,8 @@
 #include "../UINumUpDownCubeShader.h"
 
 class UIContainerMaterial : public UIItemLister
-{           
+{     
+	CALLBACK(MaterialChange, CubeDesc);
 public:
 	UIContainerMaterial()
 		:
@@ -52,6 +53,7 @@ public:
 			m_colorPicker.setOnResultCallback([this](UIDialog*)
 			{
 				m_btnDiffuse.setValue(m_colorPicker.getColor());
+				this->updateColor();
 			});
 		});
 		m_btnSpecular.setOnClickCallback([this](IClickable*)
@@ -60,6 +62,7 @@ public:
 			m_colorPicker.setOnResultCallback([this](UIDialog*)
 			{
 				m_btnSpecular.setValue(m_colorPicker.getColor());
+				this->updateColor();
 			});
 		});
 	}
@@ -71,11 +74,24 @@ public:
 		m_colorPicker.draw(draw);
 		popDrawTransform(draw);
 	}
+	CubeDesc getCubeDesc() const
+	{
+		CubeDesc d;
+		d.diffuse = m_btnDiffuse.getValue().toDWORD();
+		d.spec = m_btnSpecular.getValue().toDWORD();
+		d.gloss = m_numSpec.getValue();
+		d.shader = m_numShader.getValue();
+		return d;
+	}
 private:
 	// font for description
 	static Font& getDFont()
 	{
 		return Drawing::getFont(Font::Style::Headline, Font::Size::M);
+	}
+	void updateColor() const
+	{
+		m_onMaterialChange(getCubeDesc());
 	}
 private:
 	UILabel m_lblTitle;

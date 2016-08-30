@@ -16,7 +16,9 @@ struct CubeDesc
 		:
 		diffuse(diff),
 		spec(0),
-		gloss(1.0f)
+		gloss(1.0f),
+		shader(CubeShader::Default),
+		glowing(0.0f)
 	{}
 
 	uint32_t diffuse;

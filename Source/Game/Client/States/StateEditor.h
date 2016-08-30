@@ -11,15 +11,15 @@ class StateEditor : public GameState
 public:
 	StateEditor()
 		:
-		m_uiList({ &m_btnBack, &lblTest, &m_listMaterial }),
-		m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Back"),
-		lblTest(Drawing::getFont(Font::Style::Text,Font::Size::M),"Hallo")
+		m_uiList({ &m_btnBack, &m_listMaterial }),
+		m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Back")
 	{
 		m_editor.registerMe(this);
 
 
 		m_btnBack.adjustToFontHeadline();
 		m_btnBack.setOrigin({ 10.0f, Framework::STD_DRAW_Y - (m_btnBack.getDim().y + 10.0f) });
+		m_btnBack.setZIndex(1);
 
 		// material list
 		m_listMaterial.setDim({ 400,600 });
@@ -28,6 +28,12 @@ public:
 		m_listMaterial.setZIndex(2);
 
 		m_uiList.registerAll(this);
+
+		m_editor.setCurrentBlock(m_listMaterial.getCubeDesc());
+		m_listMaterial.setOnMaterialChangeCallback([this](CubeDesc d)
+		{
+			m_editor.setCurrentBlock(d);
+		});
 	}
 
 	virtual ~StateEditor() override
@@ -100,6 +106,4 @@ private:
 
 	// material list
 	UIContainerMaterial m_listMaterial;
-
-	UILabel lblTest;
 };
