@@ -34,6 +34,7 @@ private:
 	bool m_hover = false;
 	bool m_setDown = false;
 	bool m_eraseDown = false;
+	bool m_dragDown = false;
 
 	// mouse positioning
 	PointF m_prevClientMouse;

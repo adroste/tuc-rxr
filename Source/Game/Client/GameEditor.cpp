@@ -84,18 +84,27 @@ bool GameEditor::mouseMove(const PointF& mpos, bool handled)
 
 	if(m_hasCapture)
 	{
-		auto xdiff = int(m_mouseDiff.x);
-		auto ydiff = int(m_mouseDiff.y);
+		if(!m_dragDown)
+		{
+			auto xdiff = int(m_mouseDiff.x);
+			auto ydiff = int(m_mouseDiff.y);
 
-		m_blockPos.x += xdiff;
-		m_blockPos.y += ydiff;
+			m_blockPos.x += xdiff;
+			m_blockPos.y += ydiff;
 
-		m_mouseDiff.x -= float(xdiff);
-		m_mouseDiff.y -= float(ydiff);
+			m_mouseDiff.x -= float(xdiff);
+			m_mouseDiff.y -= float(ydiff);
 
-		// clip
-		m_blockPos.x = tool::clamp(m_blockPos.x, 0, signed(m_pMap->getDim().x - 1));
-		m_blockPos.y = tool::clamp(m_blockPos.y, 0, signed(m_pMap->getDim().y - 1));
+			// clip
+			m_blockPos.x = tool::clamp(m_blockPos.x, 0, signed(m_pMap->getDim().x - 1));
+			m_blockPos.y = tool::clamp(m_blockPos.y, 0, signed(m_pMap->getDim().y - 1));
+		}
+		else
+		{
+			// dragging
+			m_pCam->setLookAt(m_pCam->getLookAt() - m_mouseDiff);
+			m_mouseDiff = PointF(0.0f, 0.0f);
+		}
 	}
 
 	m_hover = !handled;
@@ -110,7 +119,7 @@ bool GameEditor::mouseDown(const PointF& mpos, Input::Mouse button)
 	case Input::Mouse::Left: 
 		if(m_hasCapture)
 		{
-			if (!m_eraseDown)
+			if (!m_eraseDown && !m_dragDown)
 			{
 				m_setDown = true;
 				m_downPos = m_blockPos;
@@ -121,9 +130,15 @@ bool GameEditor::mouseDown(const PointF& mpos, Input::Mouse button)
 		else if (m_hover) // && !m_capture
 			takeCapture();
 		break;
-	case Input::Mouse::Middle: break;
+	case Input::Mouse::Middle:
+		if(m_hasCapture && !m_setDown && !m_eraseDown)
+		{
+			m_dragDown = true;
+			m_mouseDiff = PointF(0.0f, 0.0f);
+		}
+		break;
 	case Input::Mouse::Right: 
-		if(!m_setDown && m_hasCapture)
+		if(!m_setDown && m_hasCapture && !m_dragDown)
 		{
 			m_eraseDown = true;
 			m_downPos = m_blockPos;
@@ -163,7 +178,12 @@ bool GameEditor::mouseUp(const PointF& mpos, Input::Mouse button)
 				});
 			}
 			break;
-		case Input::Mouse::Middle: break;
+		case Input::Mouse::Middle: 
+			if(m_dragDown)
+			{
+				m_dragDown = 0.0f;
+			}
+			break;
 		case Input::Mouse::Right:
 			// delete block
 			if(m_eraseDown)
@@ -282,6 +302,9 @@ void GameEditor::releaseCapture()
 	System::showCursor();
 	System::setTrapCursor(false);
 	m_onCapture(false);
+	m_dragDown = false;
+	m_setDown = false;
+	m_eraseDown = false;
 }
 
 void GameEditor::takeCapture()
