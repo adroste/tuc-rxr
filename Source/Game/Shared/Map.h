@@ -12,6 +12,7 @@ public:
 	virtual ~Map();
 
 	void setCube(Cube* cube, bool isLight = false, bool overwrite = false);
+	void destroyBlock(const Point3S& pos);
 
 #ifdef _CLIENT
 	virtual void draw(Drawing& draw) override;

@@ -51,6 +51,16 @@ void Map::setCube(Cube* cube, bool isLight, bool overwrite)
 #endif
 }
 
+void Map::destroyBlock(const Point3S& pos)
+{
+	size_t idx = getIndex(pos);
+	if(m_ppCubes[idx])
+	{
+		delete m_ppCubes[idx];
+		m_ppCubes[idx] = nullptr;
+		m_pTextureMap->setValue(pos, 0.0f);
+	}
+}
 #ifdef _CLIENT
 void Map::draw(Drawing& draw)
 {

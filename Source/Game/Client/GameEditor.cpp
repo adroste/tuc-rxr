@@ -47,6 +47,7 @@ void GameEditor::draw(Drawing& draw)
 	if(m_hasCapture)
 	{
 		// draw block in mouse coordinates
+		glDepthFunc(GL_LEQUAL);
 		Cube curCube = Cube(m_curCubeDesc,m_blockPos.toGlmVec3(),false);
 		curCube.draw(draw);
 		
@@ -112,14 +113,20 @@ bool GameEditor::mouseDown(const PointF& mpos, Input::Mouse button)
 
 bool GameEditor::mouseUp(const PointF& mpos, Input::Mouse button)
 {
-	switch (button)
+	if(m_hasCapture)
 	{
-	case Input::Mouse::Left: break;
-	case Input::Mouse::Middle: break;
-	case Input::Mouse::Right: break;
-	case Input::Mouse::X1: break;
-	case Input::Mouse::X2: break;
-	default: break;
+		switch (button)
+		{
+		case Input::Mouse::Left: break;
+		case Input::Mouse::Middle: break;
+		case Input::Mouse::Right:
+			// delete block
+			m_pMap->destroyBlock(m_blockPos);
+			break;
+		case Input::Mouse::X1: break;
+		case Input::Mouse::X2: break;
+		default: break;
+		}
 	}
 	return true;
 }
