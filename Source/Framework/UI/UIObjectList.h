@@ -57,6 +57,17 @@ public:
 				o->draw(draw);
 	}
 
+	void setFocusFor(UIObject* obj)
+	{
+		// get highest index
+		int maxZ = 0;
+		for (const auto& o : m_objs)
+			maxZ = std::max(maxZ, o->getZIndex());
+
+		obj->setZIndex(maxZ + 1);
+
+		sort();
+	}
 private:
 	std::list<UIObject*> m_objs;
 	Mutex m_muObjs;
