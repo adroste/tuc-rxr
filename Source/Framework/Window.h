@@ -18,13 +18,18 @@ public:
 
 	void init(const std::string& title, const PointI& dim);
 	void run();
+
+	void setMouse(PointI p);
+
 private:
 	void handleEvents();
 	void close();
 	void updateState(float dt);
 	void composeFrame(float dt);
+
 protected:
 	virtual int threadProc() override;
+
 private:
 	SDL_Window* m_pWnd = nullptr;
 	bool m_isRunning = true;

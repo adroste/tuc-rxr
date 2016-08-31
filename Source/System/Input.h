@@ -236,8 +236,9 @@ public:
 	};
 
 public:
-	static void init();
+	static void init(Window* pWnd);
 	static PointF getMouse();
+	static void setCamMouse(const PointF& p);
 
 	static void registerState(class GameState* pState);
 	static void unregisterState(class GameState* pState);

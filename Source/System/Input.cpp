@@ -1,18 +1,28 @@
 #include "Input.h"
+#include <list>
 #include "../Framework/Framework.h"
 #include "../Framework/GameState.h"
-#include <list>
+#include "../Framework/Window.h"
 
 static PointF m_mousePos;
 static std::list<GameState*> m_listener;
+static Window* m_pWnd = nullptr;
 
-void Input::init()
+void Input::init(Window* pWnd)
 {
+	assert(pWnd);
+	m_pWnd = pWnd;
 }
 
 PointF Input::getMouse()
 {
 	return m_mousePos;
+}
+
+void Input::setCamMouse(const PointF& p)
+{
+	PointI cpos = Framework::convertCamPoint(p);
+	m_pWnd->setMouse(cpos);
 }
 
 void Input::registerState(GameState* pState)

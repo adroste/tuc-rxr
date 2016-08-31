@@ -11,7 +11,6 @@ int main(int argc, char** argv)
 	try
 	{
 		System::init();
-		Input::init();
 		Sound::init();
 
 		Sound::loadFiles();

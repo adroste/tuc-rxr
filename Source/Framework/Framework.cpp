@@ -15,6 +15,17 @@ PointF Framework::convertClientPoint(const PointI& p)
 	return res;
 }
 
+PointI Framework::convertCamPoint(PointF p)
+{
+	p.x -= (float(STD_DRAW_X) - float(m_camDim.x)) / 2.0f;
+	p.y -= (float(STD_DRAW_Y) - float(m_camDim.y)) / 2.0f;
+
+	p.x = p.x * float(m_clientDim.x) / float(m_camDim.x);
+	p.y = p.y * float(m_clientDim.y) / float(m_camDim.y);
+
+	return p;
+}
+
 void Framework::setWindowSize(const PointI& clientDim, const PointI& camDim, float scale)
 {
 	m_clientDim = clientDim;

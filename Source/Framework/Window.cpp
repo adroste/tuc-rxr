@@ -48,6 +48,8 @@ void Window::init(const std::string & title, const PointI & dim)
 	if (!m_pWnd)
 		throw SDL_Exception("Window::init window creation failed");
 
+	Input::init(this);
+
 	// TODO: load icon
 
 	SDL_SetWindowMinimumSize(m_pWnd, 800, 600);
@@ -128,6 +130,11 @@ void Window::run()
 		}
 	}
 	m_isRunning = false;
+}
+
+void Window::setMouse(PointI p)
+{
+	SDL_WarpMouseInWindow(m_pWnd, p.x, p.y);
 }
 
 void Window::handleEvents()
