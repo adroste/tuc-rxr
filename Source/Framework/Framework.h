@@ -15,4 +15,5 @@ public:
 	static PointF getCamDim();
 	static PointF getCamOrigin();
 	static PointF getScreenCenter();
+	static float getScalar();
 };

@@ -52,3 +52,8 @@ PointF Framework::getScreenCenter()
 {
 	return { STD_DRAW_X / 2, STD_DRAW_Y / 2 };
 }
+
+float Framework::getScalar()
+{
+	return m_scale;
+}
