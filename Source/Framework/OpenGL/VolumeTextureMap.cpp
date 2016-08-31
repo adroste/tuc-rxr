@@ -1,5 +1,7 @@
 #include "VolumeTextureMap.h"
 #include "../../System/Exceptions/GL_Exception.h"
+#include "Drawing.h"
+#include "../../System/System.h"
 
 VolumeTextureMap::VolumeTextureMap()
 {
@@ -45,6 +47,7 @@ void VolumeTextureMap::resize(Point3S dim)
 void VolumeTextureMap::create()
 {
 	assert(m_texture == 0);
+	assert(Drawing::getThreadID() == System::getThreadID());
 
 	glGenTextures(1, &m_texture);
 	glBindTexture(GL_TEXTURE_3D, m_texture);
@@ -63,6 +66,7 @@ void VolumeTextureMap::create()
 
 void VolumeTextureMap::dispose()
 {
+	assert(Drawing::getThreadID() == System::getThreadID());
 	if(m_texture)
 	{
 		glDeleteTextures(1, &m_texture);
@@ -87,6 +91,7 @@ void VolumeTextureMap::bind(unsigned id)
 {
 	assert(id < 32);
 	assert(m_texture);
+	assert(Drawing::getThreadID() == System::getThreadID());
 
 	glActiveTexture(GL_TEXTURE0 + id);
 	glBindTexture(GL_TEXTURE_3D, m_texture);
@@ -98,6 +103,7 @@ void VolumeTextureMap::bind(unsigned id)
 
 void VolumeTextureMap::unbind()
 {
+	assert(Drawing::getThreadID() == System::getThreadID());
 	glBindTexture(GL_TEXTURE_3D, 0);
 }
 
