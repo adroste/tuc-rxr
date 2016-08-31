@@ -5,15 +5,33 @@
 #include "../GameEditor.h"
 #include "../../../Framework/UI/UIItemLister.h"
 #include "../../../Framework/UI/Editor/UIContainerMaterial.h"
+#include "../../../Framework/UI/UIMenuBar.h"
 
 class StateEditor : public GameState
 {
 public:
 	StateEditor()
 		:
-		m_uiList({ &m_btnBack, &m_listMaterial }),
+		m_uiList({ &m_btnBack, &m_listMaterial, &m_menu }),
+		m_menu(Drawing::getFont(Font::Style::Headline,Font::Size::M)),
 		m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Back")
 	{
+		// TODO fix z index thing
+		m_menu.setZIndex(100);
+
+		m_menu.addSection("File");
+		m_menu.addItem("File", "New");
+		m_menu.addItem("File", "Open");
+		m_menu.addItem("File", "Save");
+		m_menu.addItem("File", "Save as");
+
+		m_menu.addSection("Edit");
+		m_menu.addItem("Edit", "Undo");
+		m_menu.addItem("Edit", "Redo");
+
+		m_menu.addSection("Map");
+		m_menu.addItem("Map", "Lights");
+
 		m_editor.registerMe(this);
 
 		m_btnBack.adjustToFontHeadline();
@@ -118,7 +136,7 @@ private:
 	GameEditor m_editor;
 
 	UIButtonText m_btnBack;
-
+	UIMenuBar m_menu;
 	// material list
 	UIContainerMaterial m_listMaterial;
 };

@@ -492,6 +492,9 @@
     <ClInclude Include="..\Source\Framework\UI\UINumUpDownEnum.h">
       <Filter>Source\Framework\UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\UIMenuBar.h">
+      <Filter>Source\Framework\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glew32.dll">

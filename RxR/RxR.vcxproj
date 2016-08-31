@@ -249,6 +249,7 @@
     <ClInclude Include="..\Source\Framework\UI\UIInputField.h" />
     <ClInclude Include="..\Source\Framework\UI\UIItemLister.h" />
     <ClInclude Include="..\Source\Framework\UI\UILabel.h" />
+    <ClInclude Include="..\Source\Framework\UI\UIMenuBar.h" />
     <ClInclude Include="..\Source\Framework\UI\UIMessageBox.h" />
     <ClInclude Include="..\Source\Framework\UI\UINumUpDown.h" />
     <ClInclude Include="..\Source\Framework\UI\UINumUpDownCubeShader.h" />

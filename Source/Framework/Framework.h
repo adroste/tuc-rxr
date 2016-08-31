@@ -12,5 +12,6 @@ public:
 	static void setWindowSize(const PointI& clientDim, const PointI& camDim, float scale);
 	static float getAspect();
 	static PointF getCamDim();
+	static PointF getCamOrigin();
 	static PointF getScreenCenter();
 };

@@ -32,6 +32,11 @@ PointF Framework::getCamDim()
 	return m_camDim;
 }
 
+PointF Framework::getCamOrigin()
+{
+	return (PointF(STD_DRAW_X, STD_DRAW_Y) - m_camDim) / 2.0f;
+}
+
 PointF Framework::getScreenCenter()
 {
 	return { STD_DRAW_X / 2, STD_DRAW_Y / 2 };
