@@ -85,7 +85,7 @@ void Input::setMouse(PointI pos, PointI diff)
 	if (!m_isMouseTrapped)	
 		m_mousePos = Framework::convertClientPoint(pos);
 
-	m_mouseDiff = Framework::convertClientPoint(diff);
+	m_mouseDiff = PointF(diff) / Framework::getScalar();
 
 	bool handled = false;
 	for (auto l : m_listener)
