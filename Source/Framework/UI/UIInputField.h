@@ -51,6 +51,7 @@ public:
 			switch (s)
 			{
 			case SDL_SCANCODE_RETURN:
+			case SDL_SCANCODE_ESCAPE:
 				deselect();
 				System::stopTextInput();
 				break;
@@ -221,6 +222,7 @@ protected:
 			return res;
 		}
 	}
+
 private:
 	Font& m_font;
 	const size_t m_maxLen;

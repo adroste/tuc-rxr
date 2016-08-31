@@ -50,11 +50,26 @@ public:
 		
 		return UIInputBox::keyDown(s);
 	}
+
+	virtual bool wheel(const PointF& mpos, float amount) override
+	{
+		if (isSelected()) 
+		{
+			if (amount > 0)
+				setValue(addValue(this->getValue(), m_step));
+			else if (amount < 0)
+				setValue(addValue(this->getValue(), negateValue(m_step)));
+			return true;
+		}
+		return false;
+	}
+
 protected:
 	virtual std::string numToSting(T n) const = 0;
 	virtual T stringToNum(const std::string& s) const = 0;
 	virtual T addValue(T left, T right) = 0;
 	virtual T negateValue(T val) = 0;
+
 private:
 	const T m_step,
 		m_min, m_max;
