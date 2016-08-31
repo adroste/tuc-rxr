@@ -48,9 +48,9 @@ public:
 	{
 		return sendCharDown(c);
 	}
-	virtual bool mouseMove(const PointF& mpos, bool handled) override
+	virtual bool mouseMove(const PointF& mpos, const PointF& mdiff, bool handled) override
 	{
-		return sendMouseMove(mpos, handled);
+		return sendMouseMove(mpos, mdiff, handled);
 	}
 	virtual bool mouseDown(const PointF& mpos, Input::Mouse button) override
 	{

@@ -13,7 +13,7 @@ public:
 	virtual ~GameEditor() override;
 	virtual void draw(Drawing& draw) override;
 
-	virtual bool mouseMove(const PointF& mpos, bool handled) override;
+	virtual bool mouseMove(const PointF& mpos, const PointF& mdiff, bool handled) override;
 	virtual bool mouseDown(const PointF& mpos, Input::Mouse button) override;
 	virtual bool mouseUp(const PointF& mpos, Input::Mouse button) override;
 	virtual bool wheel(const PointF& mpos, float amount) override;
@@ -31,6 +31,7 @@ private:
 	std::unique_ptr<Camera> m_pCam;
 	std::unique_ptr<LightManager> m_pLight;
 	bool m_hasCapture = false;
+	bool m_isCaptureTemp = false;
 	bool m_hover = false;
 	bool m_setDown = false;
 	bool m_eraseDown = false;

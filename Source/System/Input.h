@@ -45,7 +45,7 @@ public:
 		{
 			return false;
 		}
-		virtual bool mouseMove(const PointF& mpos, bool handled)
+		virtual bool mouseMove(const PointF& mpos, const PointF& mdiff, bool handled)
 		{
 			return false;
 		}
@@ -150,7 +150,7 @@ public:
 			return handleKey(&Input::IReceiver::charDown, c);
 		}
 
-		virtual bool sendMouseMove(const PointF& mpos, bool handled)
+		virtual bool sendMouseMove(const PointF& mpos, const PointF& mdiff, bool handled)
 		{
 			int curZ = -1;
 			bool prevHandled = handled;
@@ -161,7 +161,7 @@ public:
 				if (!r->isEnabled())
 				{
 					// just to update mouse pos
-					r->mouseMove(p, true);
+					r->mouseMove(p, mdiff, true);
 					continue;
 				}
 
@@ -170,7 +170,7 @@ public:
 					prevHandled = handled;
 				}
 
-				bool nowHandled = r->mouseMove(p, prevHandled);
+				bool nowHandled = r->mouseMove(p, mdiff, prevHandled);
 				handled = nowHandled || handled;
 			}
 			return handled;
@@ -240,6 +240,10 @@ public:
 	static PointF getMouse();
 	static void setCamMouse(const PointF& p);
 
+	static void trapMouse();
+	static void freeMouse();
+	static bool isMouseTrapped();
+
 	static void registerState(class GameState* pState);
 	static void unregisterState(class GameState* pState);
 private:
@@ -247,7 +251,7 @@ private:
 	static void keyUp(SDL_Scancode s);
 	static void charDown(char c);
 
-	static void setMouse(PointI pos);
+	static void setMouse(PointI pos, PointI diff);
 	static void mouseDown(Uint8 button);
 	static void mouseUp(Uint8 button);
 
