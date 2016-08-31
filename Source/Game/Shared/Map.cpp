@@ -126,7 +126,8 @@ void Map::setDim(Point3S dim)
 	m_ppCubes = newCubes;
 	m_dim = dim;
 
-	// TODO do the volume map thing
+	m_volMap.resize(m_dim);
+	m_texCreated = false;
 }
 #endif // _CLIENT
 

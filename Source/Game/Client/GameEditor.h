@@ -17,6 +17,7 @@ public:
 	virtual bool mouseDown(const PointF& mpos, Input::Mouse button) override;
 	virtual bool mouseUp(const PointF& mpos, Input::Mouse button) override;
 	virtual bool wheel(const PointF& mpos, float amount) override;
+	virtual bool keyDown(SDL_Scancode s) override;
 	virtual bool keyUp(SDL_Scancode s) override;
 
 	void setCurrentBlock(const CubeDesc& c);
