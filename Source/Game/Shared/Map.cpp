@@ -2,6 +2,11 @@
 #include <assert.h>
 #include "../../System/Exceptions/Exception.h"
 
+#ifdef _CLIENT
+#define CLIENTLOCK LockGuard g(m_muMap)
+#else
+#define CLIENTLOCK
+#endif
 
 Map::Map(Point3S dim)
 	:
@@ -34,6 +39,8 @@ Map::~Map()
 
 void Map::setCube(Cube* cube, bool isLight, bool overwrite)
 {
+	CLIENTLOCK;
+
 	size_t idx = getIndex(Point3S(cube->getPos()));
 	if(overwrite && m_ppCubes[idx])
 	{
@@ -53,6 +60,8 @@ void Map::setCube(Cube* cube, bool isLight, bool overwrite)
 
 void Map::destroyBlock(const Point3S& pos)
 {
+	CLIENTLOCK;
+
 	size_t idx = getIndex(pos);
 	if(m_ppCubes[idx])
 	{
@@ -64,6 +73,8 @@ void Map::destroyBlock(const Point3S& pos)
 #ifdef _CLIENT
 void Map::draw(Drawing& draw)
 {
+	CLIENTLOCK;
+
 	if(!m_texCreated)
 	{
 		m_pTextureMap->create();
@@ -79,6 +90,40 @@ void Map::draw(Drawing& draw)
 			(*i)->draw(draw);
 		}
 	}
+}
+
+void Map::setDim(Point3S dim)
+{
+	if (dim == m_dim)
+		return;
+
+	CLIENTLOCK;
+	
+	Cube** newCubes = new Cube*[dim.size()];
+	memset(newCubes, 0, dim.size() * sizeof(Cube*));
+
+	// move prev cubes
+	for(size_t x = 0; x < std::min(dim.x,m_dim.x); x++)
+		for (size_t y = 0; y < std::min(dim.y, m_dim.y); y++)
+			for (size_t z = 0; z < std::min(dim.z, m_dim.z); z++)
+			{
+				auto idx = getIndex({ x,y,z });
+				newCubes[dim.width * (y + z * dim.height) + x] = m_ppCubes[idx];
+				m_ppCubes[idx] = nullptr;
+			}
+
+	// remove unused cubes if map is smaller
+	for(size_t i = 0; i < m_dim.size(); i++)
+	{
+		delete m_ppCubes[i];
+		m_ppCubes[i] = nullptr;
+	}
+
+	delete[] m_ppCubes;
+	m_ppCubes = newCubes;
+	m_dim = dim;
+
+	// TODO do the volume map thing
 }
 #endif // _CLIENT
 

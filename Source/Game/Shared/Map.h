@@ -1,6 +1,7 @@
 #pragma once
 #include "Cube.h"
 #include "../../Utility/Point3.h"
+#include "../../Utility/Mutex.h"
 #ifdef _CLIENT
 #include "../../Framework/OpenGL/VolumeTextureMap.h"
 #endif
@@ -16,6 +17,7 @@ public:
 
 #ifdef _CLIENT
 	virtual void draw(Drawing& draw) override;
+	void setDim(Point3S dim);
 #endif // _CLIENT
 
 	Point3S getDim() const;
@@ -30,5 +32,6 @@ private:
 #ifdef _CLIENT
 	std::unique_ptr<VolumeTextureMap> m_pTextureMap;
 	bool m_texCreated = false;
+	Mutex m_muMap;
 #endif // _CLIENT
 };
