@@ -11,13 +11,15 @@
 Map::Map(Point3S dim)
 	:
 	m_dim(dim)
+#ifdef _CLIENT
+	,m_volMap(Drawing::getVolumeTextureMap())
+#endif
 {
 	m_ppCubes = new Cube * [m_dim.size()];
 	memset(m_ppCubes, 0, sizeof(Cube*) * m_dim.size());
 
 #ifdef _CLIENT
-	m_pTextureMap = std::unique_ptr<VolumeTextureMap>(new VolumeTextureMap());
-	m_pTextureMap->init(dim);
+	m_volMap.init(dim);
 #endif
 }
 
@@ -53,8 +55,7 @@ void Map::setCube(Cube* cube, bool isLight, bool overwrite)
 	m_ppCubes[idx] = cube;
 
 #ifdef _CLIENT
-
-	m_pTextureMap->setValue(Point3S(cube->getPos()),isLight? 0.0f : 1.0f);
+	m_volMap.setValue(Point3S(cube->getPos()),isLight? 0.0f : 1.0f);
 #endif
 }
 
@@ -67,7 +68,9 @@ void Map::destroyBlock(const Point3S& pos)
 	{
 		delete m_ppCubes[idx];
 		m_ppCubes[idx] = nullptr;
-		m_pTextureMap->setValue(pos, 0.0f);
+#ifdef _CLIENT
+		m_volMap.setValue(pos, 0.0f);
+#endif
 	}
 }
 #ifdef _CLIENT
@@ -77,11 +80,11 @@ void Map::draw(Drawing& draw)
 
 	if(!m_texCreated)
 	{
-		m_pTextureMap->create();
+		// TODO resolve this
 		draw.setMapInfo(m_dim);
 		m_texCreated = true;
 	}
-	m_pTextureMap->bind(0);
+	m_volMap.bind(0);
 
 	for (Cube** i = m_ppCubes, **end = m_ppCubes + m_dim.size(); i != end; ++i)
 	{
@@ -123,7 +126,8 @@ void Map::setDim(Point3S dim)
 	m_ppCubes = newCubes;
 	m_dim = dim;
 
-	// TODO do the volume map thing
+	m_volMap.resize(m_dim);
+	m_texCreated = false;
 }
 #endif // _CLIENT
 

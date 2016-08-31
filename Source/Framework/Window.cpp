@@ -225,7 +225,6 @@ void Window::close()
 
 	if (m_pGfx)
 	{
-		m_pGfx->close();
 		m_pGfx.reset();
 	}
 
@@ -314,6 +313,8 @@ int Window::threadProc()
 				System::sleep(1);
 			}
 		}
+
+		m_pGfx->close();
 	}
 	catch(const std::exception& e)
 	{

@@ -226,6 +226,29 @@ bool GameEditor::wheel(const PointF& mpos, float amount)
 	return true;
 }
 
+bool GameEditor::keyDown(SDL_Scancode s)
+{
+	switch (s)
+	{
+	case SDL_SCANCODE_LEFT:
+		if(m_pMap->getDim().x > 1)
+			m_pMap->setDim(m_pMap->getDim() - Point3S(1, 0, 0));
+		break;
+	case SDL_SCANCODE_RIGHT:
+		m_pMap->setDim(m_pMap->getDim() + Point3S(1, 0, 0));
+		break;
+	case SDL_SCANCODE_UP:
+		m_pMap->setDim(m_pMap->getDim() + Point3S(0, 1, 0));
+		break;
+	case SDL_SCANCODE_DOWN:
+		if (m_pMap->getDim().y > 1)
+			m_pMap->setDim(m_pMap->getDim() - Point3S(0, 1, 0));
+		break;
+
+	}
+	return true;
+}
+
 bool GameEditor::keyUp(SDL_Scancode s)
 {
 	switch (s)

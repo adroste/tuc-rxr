@@ -66,6 +66,8 @@ public:
 
 	// static
 	static Font& getFont(Font::Style style, Font::Size size);
+	static size_t getThreadID();
+	static VolumeTextureMap& getVolumeTextureMap();
 private:
 	static Drawing& get();
 
@@ -109,6 +111,7 @@ private:
 	Texture m_texBtnBumpRightDown;
 	Texture m_texBtnBumpMidDown;
 
+	VolumeTextureMap m_volTexMap;
 	// init speedup
 	const std::vector<Shader*> m_shaders;
 };

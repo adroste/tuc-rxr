@@ -30,7 +30,7 @@ private:
 	Point3S m_dim;
 
 #ifdef _CLIENT
-	std::unique_ptr<VolumeTextureMap> m_pTextureMap;
+	VolumeTextureMap& m_volMap;
 	bool m_texCreated = false;
 	Mutex m_muMap;
 #endif // _CLIENT

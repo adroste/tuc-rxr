@@ -190,6 +190,14 @@ public:
 	{
 		return glm::vec3(float(x), float(y), float(z));
 	}
+
+	T calcIndex(Point3 pos)
+	{
+		assert(pos.x < width);
+		assert(pos.y < height);
+		assert(pos.z < depth);
+		return width * (height * pos.z + pos.y) + pos.x;
+	}
 };
 
 // min max func 

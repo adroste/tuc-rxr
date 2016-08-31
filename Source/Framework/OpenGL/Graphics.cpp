@@ -16,7 +16,7 @@ Graphics::Graphics()
 
 Graphics::~Graphics()
 {
-	close();
+	
 }
 
 
