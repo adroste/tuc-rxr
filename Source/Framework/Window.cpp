@@ -153,7 +153,7 @@ void Window::handleEvents()
 			/////////////////////////////////////
 
 		case SDL_EventType::SDL_MOUSEMOTION:
-			Input::setMouse(PointI(msg.motion.x, msg.motion.y));
+			Input::setMouse(PointI(msg.motion.x, msg.motion.y), PointI(msg.motion.xrel, msg.motion.yrel));
 			break;
 		case SDL_EventType::SDL_MOUSEBUTTONDOWN:
 			Input::mouseDown(msg.button.button);

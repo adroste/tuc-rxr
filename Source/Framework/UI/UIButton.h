@@ -33,7 +33,7 @@ public:
 		}
 	}
 
-	virtual bool mouseMove(const PointF& mpos, bool handled) override
+	virtual bool mouseMove(const PointF& mpos, const PointF& mdiff, bool handled) override
 	{
 		m_isHover = RectF(getRect()).isPointInside(mpos);
 		// TODO ??? handled

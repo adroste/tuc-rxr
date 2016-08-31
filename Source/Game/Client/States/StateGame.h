@@ -48,9 +48,9 @@ public:
 		return true;
 	}
 
-	virtual bool mouseMove(const PointF& mpos, bool handled) override
+	virtual bool mouseMove(const PointF& mpos, const PointF& mdiff, bool handled) override
 	{
-		GameState::mouseMove(mpos, handled);
+		GameState::mouseMove(mpos, mdiff, handled);
 		return true;
 	}
 

@@ -41,9 +41,9 @@ public:
 		return m_isMouseInside || handled;
 	}
 
-	virtual bool mouseMove(const PointF& mpos, bool handled) override
+	virtual bool mouseMove(const PointF& mpos, const PointF& mdiff, bool handled) override
 	{
-		handled = sendMouseMove(mpos, handled);
+		handled = sendMouseMove(mpos, mdiff, handled);
 
 		m_isMouseInside = getRect().isPointInside(mpos);
 

@@ -5,8 +5,10 @@
 #include "../Framework/Window.h"
 
 static PointF m_mousePos;
+static PointF m_mouseDiff;
 static std::list<GameState*> m_listener;
 static Window* m_pWnd = nullptr;
+static bool m_isMouseTrapped = false;
 
 void Input::init(Window* pWnd)
 {
@@ -23,6 +25,25 @@ void Input::setCamMouse(const PointF& p)
 {
 	PointI cpos = Framework::convertCamPoint(p);
 	m_pWnd->setMouse(cpos);
+}
+
+void Input::trapMouse()
+{
+	System::setTrapCursor(true);
+	m_isMouseTrapped = true;
+}
+
+void Input::freeMouse()
+{
+	
+	m_isMouseTrapped = false;
+	System::setTrapCursor(false);
+	setCamMouse(m_mousePos);
+}
+
+bool Input::isMouseTrapped()
+{
+	return m_isMouseTrapped;
 }
 
 void Input::registerState(GameState* pState)
@@ -59,20 +80,24 @@ void Input::charDown(char c)
 			break;
 }
 
-void Input::setMouse(PointI pos)
+void Input::setMouse(PointI pos, PointI diff)
 {
-	m_mousePos = Framework::convertClientPoint(pos);
+	if (!m_isMouseTrapped)	
+		m_mousePos = Framework::convertClientPoint(pos);
+
+	m_mouseDiff = Framework::convertClientPoint(diff);
 
 	bool handled = false;
 	for (auto l : m_listener)
 	{
 		if (!l->isEnabled())
 			// just to update mouse position
-			l->mouseMove(m_mousePos, true);
+			l->mouseMove(m_mousePos, m_mouseDiff, true);
 		else
-			handled |= l->mouseMove(m_mousePos, handled);
+			handled |= l->mouseMove(m_mousePos, m_mouseDiff, handled);
 	}
 }
+
 
 void Input::mouseDown(Uint8 button)
 {

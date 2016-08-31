@@ -71,14 +71,15 @@ void GameEditor::draw(Drawing& draw)
 		+ " : " + std::to_string(m_blockPos.z), { 10,10 });
 }
 
-bool GameEditor::mouseMove(const PointF& mpos, bool handled)
+bool GameEditor::mouseMove(const PointF& mpos, const PointF& mdiff, bool handled)
 {
-	m_mouseDiff -= (m_prevClientMouse - mpos) * 0.1f;
-	m_prevClientMouse = mpos;
-
 	if(m_hasCapture)
 	{
-		if(!m_dragDown)
+		//m_mouseDiff -= (m_mouseCapPos - mpos) * 0.025f;
+		//Input::setCamMouse(m_mouseCapPos);
+		m_mouseDiff += mdiff * 0.05f;
+
+		if (!m_dragDown)
 		{
 			auto xdiff = int(m_mouseDiff.x);
 			auto ydiff = int(m_mouseDiff.y);
@@ -125,6 +126,11 @@ bool GameEditor::mouseDown(const PointF& mpos, Input::Mouse button)
 			takeCapture();
 		break;
 	case Input::Mouse::Middle:
+		if (!m_hasCapture && m_hover)
+		{
+			m_isCaptureTemp = true;
+			takeCapture();
+		}
 		if(m_hasCapture && !m_setDown && !m_eraseDown)
 		{
 			m_dragDown = true;
@@ -193,6 +199,12 @@ bool GameEditor::mouseUp(const PointF& mpos, Input::Mouse button)
 		case Input::Mouse::X1: break;
 		case Input::Mouse::X2: break;
 		default: break;
+		}
+
+		if (m_isCaptureTemp)
+		{
+			m_isCaptureTemp = false;
+			releaseCapture();
 		}
 	}
 	return true;
@@ -293,8 +305,7 @@ void GameEditor::drawLineBox(Drawing& draw, const Point3F& p1, const Point3F& p2
 void GameEditor::releaseCapture()
 {
 	m_hasCapture = false;
-	System::showCursor();
-	System::setTrapCursor(false);
+	Input::freeMouse();
 	m_onCapture(false);
 	m_dragDown = false;
 	m_setDown = false;
@@ -304,7 +315,8 @@ void GameEditor::releaseCapture()
 void GameEditor::takeCapture()
 {
 	m_hasCapture = true;
-	System::hideCursor();
-	System::setTrapCursor(true);
+	//System::hideCursor();
+	//System::setTrapCursor(true);
+	Input::trapMouse();
 	m_onCapture(true);
 }

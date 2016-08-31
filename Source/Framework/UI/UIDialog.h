@@ -83,9 +83,9 @@ public:
 		return true;
 	}
 
-	virtual bool mouseMove(const PointF& mpos, bool handled) override
+	virtual bool mouseMove(const PointF& mpos, const PointF& mdiff, bool handled) override
 	{
-		UIWindow::mouseMove(mpos, handled);
+		UIWindow::mouseMove(mpos, mdiff, handled);
 		return true;
 	}
 

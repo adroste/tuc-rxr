@@ -40,9 +40,9 @@ public:
 	{
 		return sendCharDown(c);
 	}
-	virtual bool mouseMove(const PointF& mpos, bool handled) override
+	virtual bool mouseMove(const PointF& mpos, const PointF& mdiff, bool handled) override
 	{
-		bool ret = sendMouseMove(mpos, handled);
+		bool ret = sendMouseMove(mpos, mdiff, handled);
 		m_isMouseInside = getRect().isPointInside(mpos);
 		return m_isMouseInside || ret;
 	}
