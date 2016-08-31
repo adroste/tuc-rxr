@@ -203,6 +203,9 @@ void Window::handleEvents()
 						LockGuard g(m_muGfx);
 						m_pGfx->resize(m_dim);
 						g.unlock();
+
+						for (auto& s : m_states)
+							s->onResize();
 					}
 				}
 				break;
