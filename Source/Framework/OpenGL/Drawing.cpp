@@ -10,10 +10,11 @@ static size_t m_drawThreadID = 0;
 Drawing::Drawing()
 	:
 	m_uiCam({ Framework::STD_DRAW_X / 2, Framework::STD_DRAW_Y / 2 }, 1.0f, 1000.0f),
-	m_trans({  &m_shCubeMap, &m_shCube,
-	&m_fontHeadS, &m_fontHeadM, &m_fontHeadL,
-	&m_fontTextS, &m_fontTextM, &m_fontTextL,
-	&m_shColor, &m_shHSVPickerCircle, &m_shHSVPickerSquare, &m_shButton
+	m_trans({ &m_shCubeMap, &m_shCube,
+		&m_fontHeadS, &m_fontHeadM, &m_fontHeadL,
+		&m_fontTextS, &m_fontTextM, &m_fontTextL,
+		&m_shColor, &m_shHSVPickerCircle, &m_shHSVPickerSquare, &m_shButton,
+		&m_shDisc
 	}, "Transforms"),
 	m_material({ &m_shCubeMap,  &m_shCube }, "Material"),
 	m_lights({ &m_shCubeMap,  &m_shCube }, "Lights"),
@@ -21,9 +22,9 @@ Drawing::Drawing()
 	m_blockFramework({&m_shButton },"Framework"),
 
 	m_shaders({
-	&m_shCubeMap, &m_shCube, &m_shButton, &m_shColor, &m_shColor2,
-	&m_shHSVPickerCircle, &m_shHSVPickerSquare,
-	&m_fontHeadS, &m_fontHeadM, &m_fontHeadL, &m_fontTextS, &m_fontTextM, &m_fontTextL
+		&m_shCubeMap, &m_shCube, &m_shButton, &m_shColor, &m_shColor2,
+		&m_shHSVPickerCircle, &m_shHSVPickerSquare, &m_shDisc,
+		&m_fontHeadS, &m_fontHeadM, &m_fontHeadL, &m_fontTextS, &m_fontTextM, &m_fontTextL
 	})
 {
 	m_curInstance = this;
@@ -94,6 +95,22 @@ void Drawing::line(const glm::vec3& p1, const glm::vec3& p2, float thikness, con
 	}
 	glEndSafe();
 	m_shColor.unbind();
+}
+
+void Drawing::disc(const PointF& midPos, float r, const Color& color)
+{
+	m_shDisc.setColor(color);
+	m_trans.flush();
+	m_shDisc.bind();
+	glBegin(GL_TRIANGLE_STRIP);
+	{
+		glVertex4f(midPos.x - r, midPos.y - r, -1.0f, -1.0f);
+		glVertex4f(midPos.x - r, midPos.y + r, -1.0f, 1.0f);
+		glVertex4f(midPos.x + r, midPos.y - r, 1.0f, -1.0f);
+		glVertex4f(midPos.x + r, midPos.y + r, 1.0f, 1.0f);
+	}
+	glEndSafe();
+	m_shDisc.unbind();
 }
 
 void Drawing::buttonRoyal(const RectF& r, bool down)

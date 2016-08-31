@@ -1,14 +1,11 @@
-#version 120
+#version 330 core
 
-varying vec2 curPos;
+in vec2 curPos;
 uniform vec4 color;
 
 void main()
 {
-	float alpha = 0.0;
-	if (length(curPos) <= 1.0)
-	{
-		alpha = 1.0;
-	}
-	gl_FragColor = vec4(color.rgb, color.a * alpha);
+	if (length(curPos) > 1.0)
+		discard;
+	gl_FragColor = color;
 }

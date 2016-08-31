@@ -1,12 +1,12 @@
-#version 120
+#version 330 core
 
-varying vec2 curPos;
+#include "uniforms/Transforms.glsl"
+
+in vec4 inPos;
+out vec2 curPos;
 
 void main() 
 {
-	curPos =  gl_Vertex.xy;
-	vec2 new;
-	new.x = gl_Vertex.x * 1280.0;
-	new.y = gl_Vertex.y * 20.0;
-	gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * vec4(new,10.0,1.0);
+	curPos = inPos.zw;
+	gl_Position = matProjection * matCamera * matModel * vec4(inPos.xy, 0.0, 1.0);
 }

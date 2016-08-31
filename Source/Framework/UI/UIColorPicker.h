@@ -19,8 +19,8 @@ public:
 		float r = getDim().x / 2.0f;
 		PointF mid = getMidpoint();
 		draw.hsvPicker({ r, r }, r, m_hueColor);
-		PointF o(2.0f, 2.0f);
-		draw.rect(RectF(m_pick - o, m_pick + o), Color::White());
+		draw.disc(m_pick, 7.0f, Color::White());
+		draw.disc(m_pick, 5.5f, getColor());
 		
 		PointF sel(1.0f, 0.0f);
 		sel = sel.rotate(-m_angle);

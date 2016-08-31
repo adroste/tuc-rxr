@@ -21,6 +21,7 @@
 #include "Shader/ShaderColor2.h"
 #include "Shader/ShaderCube.h"
 #include "Shader/ShaderHSVPickerSquare.h"
+#include "Shader/ShaderDisk.h"
 
 class Drawing : public GLObject
 {
@@ -38,6 +39,7 @@ public:
 	void rect(const RectF& r, const Color& c);
 	void line(PointF p1, PointF p2, float thickness, const Color& color);
 	void line(const glm::vec3& p1, const glm::vec3& p2, float thikness, const Color& c);
+	void disc(const PointF& midPos, float r, const Color& color);
 
 	// ui
 	void buttonRoyal(const RectF& r, bool down);
@@ -79,6 +81,7 @@ private:
 	ShaderColor2 m_shColor2;
 	ShaderHSVPickerCircle m_shHSVPickerCircle;
 	ShaderHSVPickerSquare m_shHSVPickerSquare;
+	ShaderDisk m_shDisc;
 
 	UniformBlockTransforms m_trans;
 	UniformBlockMaterial m_material;
