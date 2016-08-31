@@ -24,8 +24,6 @@ public:
 		m_btnCancel.setOnClickCallback([this](IClickable*)
 		{
 			setResult(Result::Cancel);
-			if (m_autoClose)
-				hide();
 		});
 	}
 
@@ -117,7 +115,11 @@ protected:
 	{
 		m_dlgResult = dlgResult;
 		if (m_dlgResult != Result::None)
+		{
+			if (m_autoClose)
+				hide();
 			m_onResult(this);
+		}
 	}
 
 private:

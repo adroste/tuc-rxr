@@ -189,7 +189,7 @@ void Drawing::hsvPicker(const PointF& midPos, float r, const Color& color)
 	m_shHSVPickerSquare.bind();
 	glBegin(GL_TRIANGLE_STRIP);
 	{
-		float d = r * 0.8f * 0.707107f;
+		float d = r * 0.75f * 0.707107f;
 		glVertex4f(midPos.x - d, midPos.y - d, -1.0f, -1.0f);
 		glVertex4f(midPos.x - d, midPos.y + d, -1.0f, 1.0f);
 		glVertex4f(midPos.x + d, midPos.y - d, 1.0f, -1.0f);
