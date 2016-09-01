@@ -8,23 +8,7 @@ GameEditor::GameEditor()
 	m_prevClientMouse(Input::getMouse()),
 	m_curCubeDesc(Color::Green().toDWORD())
 {
-	m_pMap = std::unique_ptr<Map>(new Map({ 10,8,4 }));
-	m_pMap->setCube(new Cube(CubeDesc(Color::Green().toDWORD()),{3,3,3},true));
-
-	m_pCam = Game::makeCamera();
-	m_pLight = std::unique_ptr<LightManager>(new LightManager(*m_pCam));
-
-	// add light sources
-	std::vector<UniformBlockLight::LightSource> lights;
-	UniformBlockLight::LightSource l;
-	l.type = UniformBlockLight::LightSource::Directional;
-	l.color = Color::White().toVec3();
-	l.origin = glm::normalize(glm::vec3(0.0f, 1.0f, 0.5f));
-	lights.push_back(l);
-
-	m_pLight->init(Color::Gray(0.01f), std::move(lights));
-
-	m_pCam->setLookAt({5,4});
+	reset();
 }
 
 GameEditor::~GameEditor()
@@ -34,6 +18,8 @@ GameEditor::~GameEditor()
 
 void GameEditor::draw(Drawing& draw)
 {
+	LockGuard g(m_muMap);
+
 	m_pCam->apply(draw);
 	m_pLight->apply(draw);
 	m_pMap->draw(draw);
@@ -263,6 +249,27 @@ bool GameEditor::keyUp(SDL_Scancode s)
 void GameEditor::setCurrentBlock(const CubeDesc& c)
 {
 	m_curCubeDesc = c;
+}
+
+void GameEditor::reset()
+{
+	LockGuard g(m_muMap);
+	m_pMap = std::unique_ptr<Map>(new Map({ 10,8,4 }));
+	m_pCam = Game::makeCamera();
+
+	m_pLight = std::unique_ptr<LightManager>(new LightManager(*m_pCam));
+
+	// add light sources
+	std::vector<UniformBlockLight::LightSource> lights;
+	UniformBlockLight::LightSource l;
+	l.type = UniformBlockLight::LightSource::Directional;
+	l.color = Color::White().toVec3();
+	l.origin = glm::normalize(glm::vec3(0.0f, 1.0f, 0.5f));
+	lights.push_back(l);
+
+	m_pLight->init(Color::Gray(0.01f), std::move(lights));
+
+	m_pCam->setLookAt({ 5,4 });
 }
 
 void GameEditor::drawGrid(Drawing& draw) const

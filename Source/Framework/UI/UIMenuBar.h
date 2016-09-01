@@ -27,7 +27,7 @@ class UIMenuBar : public UIContainer
 		class Item final : public UIButton
 		{
 		public:
-			Item(const std::string& name, callFunc onPress, Font& font)
+			Item(const std::string& name, callFunc onPress, Font& font, Section& parent)
 				:
 				UIButton(Style::Royal),
 				m_font(font),
@@ -35,10 +35,12 @@ class UIMenuBar : public UIContainer
 				m_onPress(onPress)
 			{
 				IMetrics::setDim(font.getDim(name));
-				setOnClickCallback([this](IClickable*)
+				setOnClickCallback([this,&parent](IClickable*)
 				{
 					m_onPress(m_name);
+					parent.close();
 				});
+				IReceiver::setZIndex(2);
 			}
 
 			virtual void draw(Drawing& draw) override
@@ -64,12 +66,13 @@ class UIMenuBar : public UIContainer
 			{
 				open();
 			});
+			IReceiver::setZIndex(1);
 		}
 
 		virtual bool mouseDown(const PointF& mpos, Input::Mouse button) override
 		{
-			bool handled = UIButton::mouseDown(mpos, button);
 			close();
+			bool handled = UIButton::mouseDown(mpos, button);
 			return handled;
 		}
 		void open()
@@ -102,7 +105,7 @@ class UIMenuBar : public UIContainer
 
 		void addItem(const std::string& name, callFunc func, UIObjectList& olist)
 		{
-			m_itms.push_back(std::unique_ptr<Item>(new Item(name, func, m_font)));
+			m_itms.push_back(std::unique_ptr<Item>(new Item(name, func, m_font,*this)));
 			olist.add(m_itms.back().get());
 			m_itms.back()->disable();
 		}
@@ -192,13 +195,12 @@ public:
 
 		// set origin for sections
 		float curX = 0.0f;
-		for(auto& s : m_secs)
+		for (auto& s : m_secs)
 		{
 			s->setOrigin({ curX,0.0f });
 			curX += s->getDim().x + 10.0f;
 		}
 	}
-
 private:
 	Font& m_font;
 	std::vector<std::unique_ptr<Section>> m_secs;

@@ -21,6 +21,7 @@ public:
 	virtual bool keyUp(SDL_Scancode s) override;
 
 	void setCurrentBlock(const CubeDesc& c);
+	void reset();
 private:
 	void drawGrid(Drawing& draw) const;
 	void drawLineBox(Drawing& draw, const Point3F& p1, const Point3F& p2, const Color& c) const;
@@ -28,6 +29,7 @@ private:
 	void takeCapture();
 private:
 	std::unique_ptr<Map> m_pMap;
+	Mutex m_muMap;
 
 	std::unique_ptr<Camera> m_pCam;
 	std::unique_ptr<LightManager> m_pLight;

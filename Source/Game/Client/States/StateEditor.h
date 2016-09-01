@@ -20,7 +20,7 @@ public:
 		m_menu.setZIndex(100);
 
 		m_menu.addSection("File");
-		m_menu.addItem("File", "New");
+		m_menu.addItem("File", "New", [this](const std::string&) {m_editor.reset();});
 		m_menu.addItem("File", "Open");
 		m_menu.addItem("File", "Save");
 		m_menu.addItem("File", "Save as");
