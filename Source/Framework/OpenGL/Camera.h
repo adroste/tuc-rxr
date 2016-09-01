@@ -8,7 +8,7 @@ public:
 	Camera(const PointF& lookAt, float height, float dist, float heightOffset = 0.0f, bool overrideEqualDepth = true);
 	virtual ~Camera();
 
-	void apply(class Drawing& draw) const;
+	void apply(class Drawing& draw);
 
 	const PointF& getLookAt() const;
 	void setLookAt(const PointF& lookAt);
@@ -32,4 +32,5 @@ private:
 	float m_dist;
 	float m_heightOffset;
 	bool m_overrideEverything;
+	float m_lastAspect = 0.0f;
 };

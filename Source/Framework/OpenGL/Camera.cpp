@@ -21,27 +21,26 @@ Camera::~Camera()
 
 }
 
-void Camera::apply(Drawing& draw) const
+void Camera::apply(Drawing& draw)
 {
 	if (m_overrideEverything)
 		glDepthFunc(GL_ALWAYS);
 	else
 		glDepthFunc(GL_LESS);
 
+	// check for aspect change
+	if (m_lastAspect != Framework::getAspect())
+		recalcProject();
+
 	draw.getTransform().setProjection(m_matProject);
 	draw.getTransform().setCamera(m_matCam);
-
-	// TODO compatibilty reasons
-	glMatrixMode(GL_PROJECTION);
-	glLoadMatrixf(&m_matProject[0][0]);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(&m_matCam[0][0]);
 }
 
 void Camera::recalcProject()
 {
 	float fovY = 2.0f * atanf(m_height / (2.0f * m_dist));
-	m_matProject = glm::perspective(fovY, Framework::getAspect(), m_dist / 1.5f, m_dist * 1.5f);
+	m_lastAspect = Framework::getAspect();
+	m_matProject = glm::perspective(fovY, m_lastAspect, m_dist / 1.5f, m_dist * 1.5f);
 }
 
 void Camera::recalcCam()
