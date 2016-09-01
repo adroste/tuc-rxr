@@ -21,11 +21,26 @@ struct CubeDesc
 		glowing(0.0f)
 	{}
 
+	// visual part
 	uint32_t diffuse;
 	uint32_t spec;
 	float gloss; // cos(phi)^gloss
-	//uint16_t flags;
 	CubeShader shader;
-	//uint32_t special;
 	float glowing;
+
+	// game part
+	enum BlockType
+	{
+		Immortal,
+		Transparent,
+		Solid,
+		Liquid
+	};
+	enum BlockFlag
+	{
+		Gravity
+	};
+	uint8_t blockType;
+	uint8_t blockFlags;
+	uint32_t blockHP; // 0 = not destroyable
 };

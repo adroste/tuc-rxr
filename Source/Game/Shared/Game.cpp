@@ -93,11 +93,11 @@ Game::Game()
 	// add light sources
 	std::vector<UniformBlockLight::LightSource> lights;
 	UniformBlockLight::LightSource l;
-	l.type = UniformBlockLight::LightSource::Directional;
+	/*l.type = UniformBlockLight::LightSource::Directional;
 	l.color = (Color::White() * 0.1f).toVec3();
 	l.origin = glm::normalize(glm::vec3(0.0f, 1.0f, 0.0f));
 	lights.push_back(l);
-
+	*/
 	l.type = UniformBlockLight::LightSource::PointLight;
 	l.color = Color(1.0f, 0.8f, 0.4f).toVec3();
 	l.origin = glm::vec3(8, 24, dim.depth / 2);
@@ -122,7 +122,7 @@ Game::Game()
 	lights.push_back(l);
 	m_pMap->setCube(new Cube(CubeDesc(Color::Blue().toDWORD()), l.origin, false, 0.5f), true, true);
 
-	m_pLight->init(Color::Gray(0.01f), std::move(lights));
+	m_pLight->init(Color::Gray(0.001f), std::move(lights));
 #endif // _CLIENT
 
 	auto nodeArmLeft = std::unique_ptr <CharNode>(new CharNode(glm::vec3(1.0f, -2.0f, 0.0f)));

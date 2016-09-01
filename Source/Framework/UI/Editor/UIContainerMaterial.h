@@ -19,10 +19,14 @@ public:
 		m_lblSpecular(getDFont(), "specular"),
 		m_lblGloss(getDFont(), "gloss"),
 		m_lblShader(getDFont(), "shader"),
+		m_lblBlockType(getDFont(), "type"),
+		m_lblGravity(getDFont(), "has gravity"),
+		m_lblHP(getDFont(),"HP"),
 		m_btnDiffuse(Color::Green()),
 		m_btnSpecular(Color::White()),
 		m_numSpec(getDFont(), 100.0f, 1.0f, 100000.0f, 1.0f),
-		m_numShader(getDFont(), CubeShader::Default, CubeShader::Default, CubeShader(int(CubeShader::Size) - 1),CubeShader(1))
+		m_numShader(getDFont(), CubeShader::Default, CubeShader::Default, CubeShader(int(CubeShader::Size) - 1),CubeShader(1)),
+		m_numHealth(getDFont(),0,0,INT_MAX,10)
 	{
 		// metrics
 		float fh = getDFont().getMaxHeight();
@@ -32,6 +36,7 @@ public:
 
 		m_numShader.setDim(cdim + PointF(10, 10));
 		m_numSpec.setDim(m_numShader.getDim());
+		m_numHealth.setDim(m_numShader.getDim());
 
 		// registering
 		addToList(&m_lblTitle, nullptr);
@@ -40,6 +45,9 @@ public:
 		addToList(&m_lblSpecular, &m_btnSpecular);
 		addToList(&m_lblGloss, &m_numSpec);
 		addToList(&m_lblShader, &m_numShader);
+		addToList(&m_lblBlockType, nullptr);
+		addToList(&m_lblGravity, nullptr);
+		addToList(&m_lblHP, &m_numHealth);
 
 		setCellPadding(8.0f);
 		setWallPadding(5.0f);
@@ -73,6 +81,10 @@ public:
 		{
 			updateColor();
 		});
+		m_numHealth.setOnValueCallback([this](IValueHolder<int>*)
+		{
+			updateColor();
+		});
 	}
 
 	virtual void draw(Drawing& draw) override
@@ -89,6 +101,8 @@ public:
 		d.spec = toGamma(m_btnSpecular.getValue()).toDWORD();
 		d.gloss = m_numSpec.getValue();
 		d.shader = m_numShader.getValue();
+
+		d.blockHP = m_numHealth.getValue();
 		return d;
 	}
 	static Color toGamma(const Color& c)
@@ -115,12 +129,16 @@ private:
 	UILabel m_lblSpecular;
 	UILabel m_lblGloss;
 	UILabel m_lblShader;
+	UILabel m_lblBlockType;
+	UILabel m_lblGravity;
+	UILabel m_lblHP;
 
 	UIButtonColor m_btnDiffuse;
 	UIButtonColor m_btnSpecular;
 
 	UINumUpDownFloat m_numSpec;
 	UINumUpDownCubeShader m_numShader;
+	UINumUpDownInt m_numHealth;
 
 	UIDialogColorPicker m_colorPicker;
 };
