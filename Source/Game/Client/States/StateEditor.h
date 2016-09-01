@@ -130,6 +130,12 @@ public:
 		return true;
 	}
 
+	// Events
+	virtual void onResize() override
+	{
+		m_menu.orderItems();
+	}
+
 private:
 	UIObjectList m_uiList;
 

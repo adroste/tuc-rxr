@@ -16,7 +16,7 @@ public:
 		m_max(max)
 	{
 		//setRegex("0-9");
-		setOnFinishCallback([this](UIInputField* inp)
+		setOnFinishProtectedCallback([this](UIInputField* inp)
 		{
 			// convert input string to Value Type T
 			this->setValue(stringToNum(inp->getText()));

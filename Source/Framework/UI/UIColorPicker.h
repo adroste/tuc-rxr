@@ -1,9 +1,11 @@
 #pragma once
 #include "UIObject.h"
+#include "Callback.h"
 #include <math.h>
 
 class UIColorPicker : public UIObject
 {
+	CALLBACK(ColorChange, UIColorPicker*);
 public:
 	UIColorPicker()
 	{
@@ -18,7 +20,7 @@ public:
 	{
 		float r = getDim().x / 2.0f;
 		PointF mid = getMidpoint();
-		draw.hsvPicker({ r, r }, r, m_hueColor);
+		draw.hsvPicker(getMidpoint(), r, m_hueColor);
 		draw.disc(m_pick, 7.0f, Color::White());
 		draw.disc(m_pick, 5.5f, getColor());
 		
@@ -40,11 +42,12 @@ public:
 			{
 				m_isMouseLeftDownCircle = true;
 				calcCircleAngle(mpos);
+				return true;
 			}
 
 			// inner square
 			PointF mid = getMidpoint();
-			float d = r * 0.8f * 0.707107f;
+			float d = r * 0.75f * 0.707107f;
 			PointF d2(d, d);
 
 			RectF rect = RectF(mid - d2, mid + d2);
@@ -52,6 +55,7 @@ public:
 			{
 				m_isMouseLeftDownSquare = true;
 				calcSquarePick(mpos);
+				return true;
 			}
 		}
 		return false;
@@ -120,7 +124,7 @@ public:
 		// set pick
 		float radius = getDim().x / 2.0f;
 		PointF mid = getMidpoint();
-		float d = radius * 0.8f * 0.707107f;
+		float d = radius * 0.75f * 0.707107f;
 		PointF d2(d, d);
 		RectF rect = RectF(mid - d2, mid + d2);
 		m_pick.x = (rect.x2 - rect.x1) * m_saturation + rect.x1;
@@ -147,7 +151,7 @@ private:
 	{
 		float r = getDim().x / 2.0f;
 		PointF mid = getMidpoint();
-		float d = r * 0.8f * 0.707107f;
+		float d = r * 0.75f * 0.707107f;
 		PointF d2(d, d);
 
 		RectF rect = RectF(mid - d2, mid + d2);
@@ -190,6 +194,8 @@ private:
 		m_color.r = ((m_hueColor.r - 1.0f) * m_saturation + 1.0f) * m_value;
 		m_color.g = ((m_hueColor.g - 1.0f) * m_saturation + 1.0f) * m_value;
 		m_color.b = ((m_hueColor.b - 1.0f) * m_saturation + 1.0f) * m_value;
+
+		m_onColorChange(this);
 	}
 
 	void setAngle(float angle)

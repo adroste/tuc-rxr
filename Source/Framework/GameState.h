@@ -66,6 +66,12 @@ public:
 	}
 
 
+	// Events
+	virtual void onResize()
+	{
+	}
+
+
 	bool drawPreviousState() const
 	{
 		return m_drawPrev;

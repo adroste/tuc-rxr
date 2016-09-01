@@ -15,6 +15,10 @@ public:
 		:
 		Point(T(0.0), T(0.0))
 	{}
+	explicit Point(T xy)
+		:
+		x(xy), y(xy)
+	{}
 	template <class T2, class T3>
 	Point(T2 x, T3 y)
 		:

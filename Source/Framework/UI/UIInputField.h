@@ -12,7 +12,8 @@
 
 class UIInputField : public UIObject, public ILabelable, public ISelectable
 {
-	CALLBACK( Finish, UIInputField*);
+	CALLBACK(Finish, UIInputField*);
+	CALLBACKPROTECTED(FinishProtected, UIInputField*);
 public:
 	UIInputField(Font& font, size_t maxLen)
 		:
@@ -40,8 +41,12 @@ public:
 
 	virtual void deselect() override
 	{
-		ISelectable::deselect();
-		m_onFinish(this);
+		if(isSelected())
+		{
+			ISelectable::deselect();
+			m_onFinishProtected(this);
+			m_onFinish(this);			
+		}
 	}
 
 	virtual bool keyDown(SDL_Scancode s) override
@@ -50,11 +55,6 @@ public:
 		{
 			switch (s)
 			{
-			case SDL_SCANCODE_RETURN:
-			case SDL_SCANCODE_ESCAPE:
-				deselect();
-				System::stopTextInput();
-				break;
 			case SDL_SCANCODE_LEFT:
 				if (m_cursorPos > 0)
 					m_cursorPos--;
@@ -110,9 +110,21 @@ public:
 	}
 	virtual bool keyUp(SDL_Scancode s) override
 	{
-		if (s == SDL_SCANCODE_LCTRL)
-			m_ctrlDown = false;
+		if (isSelected())
+		{
+			switch (s)
+			{
+			case SDL_SCANCODE_RETURN:
+			case SDL_SCANCODE_ESCAPE:
+				deselect();
+				System::stopTextInput();
+				return true;
+			}
+		}
 
+		if(s == SDL_SCANCODE_LCTRL)
+			m_ctrlDown = false;
+					
 		return false;
 	}
 	virtual bool charDown(char c) override
