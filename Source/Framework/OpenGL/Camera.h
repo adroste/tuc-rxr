@@ -31,5 +31,5 @@ private:
 	float m_height;
 	float m_dist;
 	float m_heightOffset;
-	bool m_overrideEqualDepth;
+	bool m_overrideEverything;
 };
