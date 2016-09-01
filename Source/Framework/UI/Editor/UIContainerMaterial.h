@@ -6,6 +6,7 @@
 #include "../UINumUpDownFloat.h"
 #include "../UINumUpDownInt.h"
 #include "../UINumUpDownCubeShader.h"
+#include "../UINumUpDownBlockType.h"
 
 class UIContainerMaterial : public UIItemLister
 {     
@@ -26,7 +27,8 @@ public:
 		m_btnSpecular(Color::White()),
 		m_numSpec(getDFont(), 100.0f, 1.0f, 100000.0f, 1.0f),
 		m_numShader(getDFont(), CubeShader::Default, CubeShader::Default, CubeShader(int(CubeShader::Size) - 1),CubeShader(1)),
-		m_numHealth(getDFont(),0,0,INT_MAX,10)
+		m_numHealth(getDFont(),0,0,INT_MAX,10),
+		m_numBlockType(getDFont(),CubeDesc::Solid)
 	{
 		// metrics
 		float fh = getDFont().getMaxHeight();
@@ -103,6 +105,7 @@ public:
 		d.shader = m_numShader.getValue();
 
 		d.blockHP = m_numHealth.getValue();
+		d.blockType = m_numBlockType.getValue();
 		return d;
 	}
 	static Color toGamma(const Color& c)
@@ -139,6 +142,7 @@ private:
 	UINumUpDownFloat m_numSpec;
 	UINumUpDownCubeShader m_numShader;
 	UINumUpDownInt m_numHealth;
+	UINumUpDownBlockType m_numBlockType;
 
 	UIDialogColorPicker m_colorPicker;
 };

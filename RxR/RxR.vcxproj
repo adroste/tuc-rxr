@@ -253,6 +253,7 @@
     <ClInclude Include="..\Source\Framework\UI\UIMenuBar.h" />
     <ClInclude Include="..\Source\Framework\UI\UIMessageBox.h" />
     <ClInclude Include="..\Source\Framework\UI\UINumUpDown.h" />
+    <ClInclude Include="..\Source\Framework\UI\UINumUpDownBlockType.h" />
     <ClInclude Include="..\Source\Framework\UI\UINumUpDownCubeShader.h" />
     <ClInclude Include="..\Source\Framework\UI\UINumUpDownEnum.h" />
     <ClInclude Include="..\Source\Framework\UI\UINumUpDownFloat.h" />
