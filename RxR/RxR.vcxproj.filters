@@ -501,6 +501,12 @@
     <ClInclude Include="..\Source\Framework\UI\UINumUpDownBlockType.h">
       <Filter>Source\Framework\UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\Editor\UIContainerLights.h">
+      <Filter>Source\Framework\UI\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\Editor\UIDialogLights.h">
+      <Filter>Source\Framework\UI\Editor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glew32.dll">

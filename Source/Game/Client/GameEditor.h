@@ -22,6 +22,8 @@ public:
 
 	void setCurrentBlock(const CubeDesc& c);
 	void reset();
+
+	const Color& getAmbientColor() const;
 private:
 	void drawGrid(Drawing& draw) const;
 	void drawLineBox(Drawing& draw, const Point3F& p1, const Point3F& p2, const Color& c) const;

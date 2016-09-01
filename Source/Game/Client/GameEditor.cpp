@@ -272,6 +272,11 @@ void GameEditor::reset()
 	m_pCam->setLookAt({ 5,4 });
 }
 
+const Color& GameEditor::getAmbientColor() const
+{
+	return m_pLight->getAmbient();
+}
+
 void GameEditor::drawGrid(Drawing& draw) const
 {
 	draw.getTransform().pushModel(glm::translate(glm::vec3{ -0.5f, -0.5f, -0.5f }));

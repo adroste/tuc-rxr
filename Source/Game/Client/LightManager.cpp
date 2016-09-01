@@ -22,3 +22,8 @@ void LightManager::apply(Drawing& draw)
 	}
 	// TODO else check for changes => apply only on changes
 }
+
+const Color& LightManager::getAmbient() const
+{
+	return m_ambient;
+}

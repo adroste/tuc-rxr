@@ -10,6 +10,8 @@ public:
 	LightManager(const Camera& cam);
 	void init(const Color& ambient ,std::vector<UniformBlockLight::LightSource> lights);
 	void apply(Drawing& draw);
+
+	const Color& getAmbient() const;
 private:
 	const Camera& m_cam;
 	std::vector<UniformBlockLight::LightSource> m_lights;
