@@ -240,6 +240,7 @@
     <ClInclude Include="..\Source\Framework\UI\UIButton.h" />
     <ClInclude Include="..\Source\Framework\UI\UIButtonColor.h" />
     <ClInclude Include="..\Source\Framework\UI\UIButtonText.h" />
+    <ClInclude Include="..\Source\Framework\UI\UICheckBox.h" />
     <ClInclude Include="..\Source\Framework\UI\UIColorPicker.h" />
     <ClInclude Include="..\Source\Framework\UI\UIContainer.h" />
     <ClInclude Include="..\Source\Framework\UI\UIContainerDraggable.h" />
