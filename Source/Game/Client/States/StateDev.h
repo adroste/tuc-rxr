@@ -4,15 +4,16 @@
 #include "../../../Framework/UI/UIMessageBox.h"
 #include "../../../Framework/UI/UITextBox.h"
 #include "../../../Framework/UI/UIObjectList.h"
+#include "../../../Framework/UI/UICheckBox.h"
 
 class StateDev : public GameState
 {
 public:
 	StateDev()
 		:
-		m_uiList({&m_lblHeadS, &m_lblHeadM, &m_lblHeadL, &m_lblTextS, &m_lblTextM, &m_lblTextL, 
+		m_uiList({ &m_lblHeadS, &m_lblHeadM, &m_lblHeadL, &m_lblTextS, &m_lblTextM, &m_lblTextL,
 			&m_btnBack, &m_btnDlg, &m_btnMsgBox, &m_dlgTest, &m_msgBox, &m_txtBox, &m_msgBoxResult,
-			&m_hsvPicker
+			&m_hsvPicker, &m_checkBox
 		}),
 		m_lblHeadS(Drawing::getFont(Font::Style::Headline, Font::Size::S), "ABCxyz"),
 		m_lblHeadM(Drawing::getFont(Font::Style::Headline, Font::Size::M), "ABCxyz"),
@@ -56,8 +57,16 @@ public:
 
 		m_hsvPicker.setCenter(Framework::getScreenCenter());
 		m_hsvPicker.setZIndex(1);
-		m_hsvPicker.show();
+		//m_hsvPicker.show();
 
+		m_checkBox.setOrigin({ 600.0f, 450.0f });
+		m_checkBox.setOnCheckedChangeCallback([this](UICheckBox*, bool isChecked)
+		{
+			if (isChecked)
+				m_hsvPicker.show();
+		});
+
+		m_uiList.sort();
 		m_uiList.registerAll(this);
 	}
 
@@ -173,4 +182,5 @@ private:
 	UITextBox m_txtBox;
 	UILabel m_msgBoxResult;
 	UIDialogColorPicker m_hsvPicker;
+	UICheckBox m_checkBox;
 };

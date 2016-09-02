@@ -1,53 +1,61 @@
 #pragma once
 #include "UIObject.h"
 #include "Interfaces/IClickable.h"
-#include "Interfaces/ILabelable.h"
+#include "Callback.h"
 
-class UICheckBox : public UIObject, public IClickable, public ILabelable
+class UICheckBox : public UIObject, public IClickable
 {
+	CALLBACK(CheckedChange, UICheckBox*, bool isChecked);
 public:
-	UICheckBox(const std::string& text = "")
+	UICheckBox(bool isChecked = false)
 		:
-		m_font(Drawing::getFont(Font::Style::Text, Font::Size::M))
+		m_isChecked(isChecked)
 	{
-		UICheckBox::setText(text);
-		
+		UICheckBox::setDim(PointF(30.0f));		
 	}
 
 	void draw(Drawing& draw) override
 	{
-		RectF rct(getOrigin(), getOrigin() + m_boxDim);
+		RectF rct(getOrigin(), getOrigin() + getDim());
 		draw.rect(rct, Color::Gray(0.8f));
-		draw.rect(rct.shrink(5.0f), Color::Gray(0.1f));
-
-		m_font.write(draw, getText(), m_txtPos);
+		draw.rect(rct.shrink(5.0f), Color::Gray(0.2f));
+		if (m_isChecked)
+			draw.rect(rct.shrink(7.0f), Color::White());
 	}
 
-	virtual void setText(const std::string& text) override
-	{
-		ILabelable::setText(text);
-		calcDim();
-	}
 
-protected:
-	virtual void calcDim()
+	virtual bool mouseDown(const PointF& mpos, Input::Mouse button) override
 	{
-		PointF dim = m_boxDim;
-		PointF fdim = m_font.getDim(getText());
-		assert(fdim.y <= dim.y);
+		if (!getRect().isPointInside(mpos))
+			return false;
 		
-		setDim(dim);
+		if (button == Input::Mouse::Left)
+			m_isMouseDown = true;
+		return true;
 	}
 
-	// override as protected in order to disable changing dim from the outside
-	virtual void setDim(const PointF& d) override
+	virtual bool mouseUp(const PointF& mpos, Input::Mouse button) override
 	{
-		UIObject::setDim(d);
+		if (!getRect().isPointInside(mpos)) 
+			return false;
+
+		if (m_isMouseDown && button == Input::Mouse::Left)
+		{
+			m_isMouseDown = false;
+			setClicked(true);
+			m_isChecked = !m_isChecked;
+			m_onCheckedChange(this, m_isChecked);
+		}		
+		return true;
+	}
+
+
+	virtual bool isChecked()
+	{
+		return m_isChecked;
 	}
 
 private:
-	Font& m_font;
-
-	PointF m_boxDim = { 30.0f, 30.0f };
-	PointF m_txtPos;
+	bool m_isChecked;
+	bool m_isMouseDown = false;
 };
