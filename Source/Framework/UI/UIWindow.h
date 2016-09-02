@@ -44,6 +44,7 @@ public:
 		{
 			if (m_isMouseInside && button == Input::Mouse::Left)
 			{
+				// TODO drag window on top border, not everywhere (wait for window-design)
 				m_isDragged = true;
 				m_dragSpot = mpos;
 			}
@@ -71,15 +72,11 @@ public:
 
 		m_isMouseInside = getRect().isPointInside(mpos);
 
-		if (!handled)
+		// drag window
+		if (m_isDragged)
 		{
-			// drag window
-			// TODO drag window on top border, not everywhere (wait for window-design)
-			if (m_isDragged)
-			{
-				setOrigin(getOrigin() + mpos - m_dragSpot);
-				m_dragSpot = mpos;
-			}
+			setOrigin(getOrigin() + mpos - m_dragSpot);
+			m_dragSpot = mpos;
 		}
 
 		return m_isMouseInside || handled;
