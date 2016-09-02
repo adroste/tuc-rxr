@@ -429,9 +429,6 @@
     <ClInclude Include="..\Source\Framework\UI\UIContainer.h">
       <Filter>Source\Framework\UI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Framework\UI\UIContainerDraggable.h">
-      <Filter>Source\Framework\UI</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Framework\UI\UIMessageBox.h">
       <Filter>Source\Framework\UI</Filter>
     </ClInclude>
