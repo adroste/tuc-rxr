@@ -55,32 +55,6 @@ public:
 		return m_isVisible;
 	}
 
-protected:
-	void setPadding(const PointF& padding)
-	{
-		m_padding = padding;
-	}
-
-	PointF getPadding() const
-	{
-		return m_padding;
-	}
-
-	PointF getDimPad() const
-	{
-		return m_dim - m_padding * 2.0f;
-	}
-
-	PointF getOriginPad() const
-	{
-		return m_pos + m_padding;
-	}
-
-	RectF getRectPad() const
-	{
-		return RectF(getOriginPad(), getOriginPad() + getDimPad());
-	}
-
 private:
 	PointF m_padding;
 	bool m_isEnabled;

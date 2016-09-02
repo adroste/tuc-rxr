@@ -8,14 +8,17 @@ public:
 	UIInputBox(Font& font, size_t maxlen)
 		:
 		UIInputField(font, maxlen)
-	{
-		setPadding({ 5.0f, 5.0f });
-	}
+	{}
 
 	virtual void draw(Drawing& draw) override
 	{
 		// TODO replace with fancy box
 		draw.rect(getRect(), Color::White());
+		// shrink dimensions + move origin by 5.0f
+		addPadding(PointF(5.0f)); 
+		// draw InputField with shrinked dimensions + moved origin
 		UIInputField::draw(draw);
+		// reset dimensions + origin
+		addPadding(PointF(-5.0f)); 
 	}
 };

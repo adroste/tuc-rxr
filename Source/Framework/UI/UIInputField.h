@@ -31,8 +31,8 @@ public:
 		if (!isVisible()) return;
 
 		m_font.setColor(Color::White());
-		draw.rect(getRectPad(), Color::DarkGray());
-		m_font.write(draw, getDisplayText(), getOriginPad());
+		draw.rect(getRect(), Color::DarkGray());
+		m_font.write(draw, getDisplayText(), getOrigin());
 	}
 	void setRegex(const std::string& r)
 	{
@@ -201,7 +201,7 @@ protected:
 	{
 		static int timer = 0;
 
-		float wi = getDimPad().x;
+		float wi = getDim().x;
 		if(isSelected())
 		{
 			// draw with cool | animation

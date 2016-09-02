@@ -58,6 +58,18 @@ public:
 		return PointF(m_pos + (m_dim / 2.0f));
 	}
 
+	/* 
+	*	shrinks (p > 0) or grows (p < 0) dims + moves origin
+	*	PointF pad: 
+	*				pad.x - left / right padding
+	*				pad.y - top / bottom padding
+	*/
+	virtual void addPadding(PointF pad) 
+	{
+		setDim(getDim() - pad * 2.0f);
+		setOrigin(getOrigin() + pad);
+	}
+
 protected:
 	PointF m_pos;
 	PointF m_dim;
