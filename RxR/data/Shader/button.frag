@@ -27,6 +27,8 @@ vec3 calcDirectionalLight(vec3 normal, vec3 direction, vec3 mdiff, vec3 lightCol
 
 void main()
 {
+	if(!framework_isInRect(pos.xy)) discard;
+
 	vec4 raw = texture(heightMap, texCoord);
 	
 	vec3 normal = normalize( ((255.0 / 128.0 * raw.xyz) - 1.0) );

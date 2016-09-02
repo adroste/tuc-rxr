@@ -4,9 +4,12 @@
 
 in vec4 inPos;
 out vec2 curPos;
+out vec2 screen;
 
 void main() 
 {
 	curPos = inPos.zw;
-	gl_Position = matProjection * matCamera * matModel * vec4(inPos.xy, 0.0, 1.0);
+	vec4 pos = matModel * vec4(inPos.xy, 0.0, 1.0);
+	gl_Position = matProjection * matCamera * pos;
+	screen = pos.xy;
 }

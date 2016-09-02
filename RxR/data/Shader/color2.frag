@@ -1,11 +1,13 @@
 #version 330 core
 
 #include "light/gamma.glsl"
+#include "uniforms/Framework.glsl"
 
 in vec4 fcolor;
+in vec2 screen;
 
-void main()
+void main(void) 
 {
-	//gl_FragColor = vec4(correctGamma(fcolor.xyz), 1.0);
+	if(!framework_isInRect(screen)) discard;
 	gl_FragColor = fcolor;
 }

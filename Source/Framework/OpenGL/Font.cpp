@@ -85,6 +85,7 @@ void Font::write(Drawing& draw, const std::string& txt, PointF pos) const
 
 	glActiveTexture(GL_TEXTURE0);
 
+	draw.prepareDraw();
 	// Loop through all chars
 	for (const auto& c : txt)
 	{

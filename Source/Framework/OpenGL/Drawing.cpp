@@ -14,12 +14,18 @@ Drawing::Drawing()
 		&m_fontHeadS, &m_fontHeadM, &m_fontHeadL,
 		&m_fontTextS, &m_fontTextM, &m_fontTextL,
 		&m_shColor, &m_shHSVPickerCircle, &m_shHSVPickerSquare, &m_shButton,
-		&m_shDisc
+		&m_shDisc, &m_shColor2
 	}, "Transforms"),
 	m_material({ &m_shCubeMap,  &m_shCube }, "Material"),
 	m_lights({ &m_shCubeMap,  &m_shCube }, "Lights"),
 	m_mapInfo({ &m_shCubeMap,  &m_shCube }, "MapInfo"),
-	m_blockFramework({&m_shButton },"Framework"),
+	
+	m_blockFramework({&m_shButton,
+		&m_fontHeadS, &m_fontHeadM, &m_fontHeadL,
+		&m_fontTextS, &m_fontTextM, &m_fontTextL,
+		&m_shColor, &m_shDisc, &m_shColor2
+
+	},"Framework"),
 
 	m_shaders({
 		&m_shCubeMap, &m_shCube, &m_shButton, &m_shColor, &m_shColor2,
@@ -36,7 +42,7 @@ void Drawing::rect(const RectF & r, const Color & c)
 	m_shColor.setColor(c);
 	m_shColor.bind();
 
-	m_trans.flush();
+	prepareDraw();
 	glBegin(GL_TRIANGLE_STRIP);
 	{
 		glVertex3f(r.x2, r.y1, 0.0f);
@@ -65,7 +71,7 @@ void Drawing::line(PointF p1, PointF p2, float thickness, const Color& color)
 	m_shColor.setColor(color);
 	m_shColor.bind();
 
-	m_trans.flush();
+	prepareDraw();
 	glBegin(GL_TRIANGLE_STRIP);
 	{
 		glVertex2f(0.0f, 1.0f);
@@ -86,7 +92,7 @@ void Drawing::line(const glm::vec3& p1, const glm::vec3& p2, float thikness, con
 	glLineWidth(thikness);
 	m_shColor.setColor(c);
 
-	m_trans.flush();
+	prepareDraw();
 	m_shColor.bind();
 	glBegin(GL_LINES);
 	{
@@ -100,7 +106,7 @@ void Drawing::line(const glm::vec3& p1, const glm::vec3& p2, float thikness, con
 void Drawing::disc(const PointF& midPos, float r, const Color& color)
 {
 	m_shDisc.setColor(color);
-	m_trans.flush();
+	prepareDraw();
 	m_shDisc.bind();
 	glBegin(GL_TRIANGLE_STRIP);
 	{
@@ -131,7 +137,7 @@ void Drawing::buttonRoyal(const RectF& r, bool down)
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	m_trans.flush();
+	prepareDraw();
 	glBegin(GL_TRIANGLE_STRIP);
 	{
 		// left side
@@ -174,7 +180,7 @@ void Drawing::buttonRoyal(const RectF& r, bool down)
 void Drawing::hsvPicker(const PointF& midPos, float r, const Color& color)
 {
 	m_shHSVPickerCircle.bind();
-	m_trans.flush();
+	prepareDraw();
 	glBegin(GL_TRIANGLE_STRIP);
 	{
 		glVertex4f(midPos.x - r, midPos.y - r, -1.0f, -1.0f);
@@ -203,7 +209,7 @@ void Drawing::shaderedCube(const glm::mat4& mat, Shader& shader)
 {
 	//setModel(mat);
 	m_trans.pushModel(mat);
-	m_trans.flush();
+	prepareDraw();
 
 	shader.bind();
 	m_meshCube.draw();
@@ -231,6 +237,21 @@ void Drawing::setLights(const Color& ambient, const std::vector<UniformBlockLigh
 UniformBlockTransforms& Drawing::getTransform()
 {
 	return m_trans;
+}
+
+void Drawing::pushClippingRect(const RectF& rect)
+{
+	m_blockFramework.pushRect(rect);
+}
+
+void Drawing::popClippingRect()
+{
+	m_blockFramework.pop();
+}
+
+void Drawing::pushIgnoreRect()
+{
+	m_blockFramework.pushIgnore();
 }
 
 Font& Drawing::getFont(Font::Style style, Font::Size size)
@@ -278,6 +299,12 @@ Drawing& Drawing::get()
 {
 	assert(m_curInstance);
 	return *m_curInstance;
+}
+
+void Drawing::prepareDraw()
+{
+	m_trans.flush();
+	m_blockFramework.flush();
 }
 
 void Drawing::create()

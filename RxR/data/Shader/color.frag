@@ -1,8 +1,12 @@
 #version 330 core
 
-uniform vec4 color;
+#include "uniforms/Framework.glsl"
 
-void main()
+uniform vec4 color;
+in vec2 screen;
+
+void main(void) 
 {
+	if(!framework_isInRect(screen)) discard;
 	gl_FragColor = color;
 }

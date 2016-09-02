@@ -26,6 +26,7 @@
 class Drawing : public GLObject
 {
 	friend class Graphics;
+	friend Font; // because flushing transforms + clipping
 	Drawing();
 public:
 	~Drawing() {}
@@ -53,10 +54,10 @@ public:
 	void setLights(const Color& ambient, const std::vector<UniformBlockLight::LightSource>& lights, const glm::vec3& eye);
 
 	// camera
-	/*void setCamera(const glm::mat4& mat);
-	void setProjection(const glm::mat4& mat);
-	void setModel(const glm::mat4& mat);*/
 	UniformBlockTransforms& getTransform();
+	void pushClippingRect(const RectF& rect);
+	void popClippingRect();
+	void pushIgnoreRect();
 
 	Camera& getUiCam();
 
@@ -70,7 +71,7 @@ public:
 	static VolumeTextureMap& getVolumeTextureMap();
 private:
 	static Drawing& get();
-
+	void prepareDraw();
 private:
 	Camera m_uiCam;
 

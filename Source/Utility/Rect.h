@@ -109,17 +109,17 @@ public:
 	}
 	inline bool isRectInside(const Rect<T>& re) const
 	{
-		if (PointInside(re.getTopLeft()))
-			if (PointInside(re.getBottomRight()))
-				if (PointInside(re.getTopRight()))
-					if (PointInside(re.getBottomLeft()))
+		if (isPointInside(re.getTopLeft()))
+			if (isPointInside(re.getBottomRight()))
+				if (isPointInside(re.getTopRight()))
+					if (isPointInside(re.getBottomLeft()))
 						return true;
 		return false;
 	}
 	inline bool isRectCutting(const  Rect<T>& re) const
 	{
-		if (PointInside(re.getTopLeft()) || PointInside(re.getTopRight()) ||
-			PointInside(re.getTopRight()) || PointInside(re.getBottomLeft()))
+		if (isPointInside(re.getTopLeft()) || isPointInside(re.getTopRight()) ||
+			isPointInside(re.getTopRight()) || isPointInside(re.getBottomLeft()))
 			return true;
 		return false;
 	}
