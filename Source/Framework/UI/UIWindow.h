@@ -1,13 +1,13 @@
 #pragma once
-#include "UIContainerDraggable.h"
+#include "UIContainer.h"
 #include "UIButtonText.h"
 
-class UIWindow : public UIContainerDraggable
+class UIWindow : public UIContainer
 {
 public:
 	UIWindow(bool show = false)
 		:
-		UIContainerDraggable(show),
+		UIContainer(show),
 		m_btnCancel(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "X")
 	{
 		//m_btnCancel.setZIndex(getZIndex() + 1);
@@ -29,10 +29,60 @@ public:
 	{
 		if (!isVisible()) return;
 
-		UIContainerDraggable::draw(draw);
+		UIContainer::draw(draw);
 		pushDrawTransform(draw);
 		m_btnCancel.draw(draw);
 		popDrawTransform(draw);
+	}
+
+	// input
+	virtual bool mouseDown(const PointF& mpos, Input::Mouse button) override
+	{
+		bool handled = sendMouseDown(mpos, button);
+
+		if (!handled)
+		{
+			if (m_isMouseInside && button == Input::Mouse::Left)
+			{
+				m_isDragged = true;
+				m_dragSpot = mpos;
+			}
+		}
+
+		return m_isMouseInside || handled;
+	}
+
+	virtual bool mouseUp(const PointF& mpos, Input::Mouse button) override
+	{
+		bool handled = sendMouseUp(mpos, button);
+
+		if (!handled)
+		{
+			if (button == Input::Mouse::Left)
+				m_isDragged = false;
+		}
+
+		return m_isMouseInside || handled;
+	}
+
+	virtual bool mouseMove(const PointF& mpos, const PointF& mdiff, bool handled) override
+	{
+		handled = sendMouseMove(mpos, mdiff, handled);
+
+		m_isMouseInside = getRect().isPointInside(mpos);
+
+		if (!handled)
+		{
+			// drag window
+			// TODO drag window on top border, not everywhere (wait for window-design)
+			if (m_isDragged)
+			{
+				setOrigin(getOrigin() + mpos - m_dragSpot);
+				m_dragSpot = mpos;
+			}
+		}
+
+		return m_isMouseInside || handled;
 	}
 
 	virtual bool keyUp(SDL_Scancode s) override
@@ -52,10 +102,13 @@ public:
 
 	virtual void setDim(const PointF& d) override
 	{
-		UIContainerDraggable::setDim(d);
+		UIContainer::setDim(d);
 		m_btnCancel.setOrigin({ d.x - m_btnCancel.getDim().x + 30.0f, -20.0f });
 	}
 
 protected:	
 	UIButtonText m_btnCancel;
+
+	bool m_isDragged = false;
+	PointF m_dragSpot;
 };
