@@ -43,8 +43,7 @@ public:
 		{
 			m_isMouseDown = false;
 			setClicked(true);
-			m_isChecked = !m_isChecked;
-			m_onCheckedChange(this, m_isChecked);
+			setChecked(!m_isChecked);
 		}		
 		return true;
 	}
@@ -53,6 +52,15 @@ public:
 	virtual bool isChecked()
 	{
 		return m_isChecked;
+	}
+	
+	virtual void setChecked(bool checked)
+	{
+		if (checked == m_isChecked)
+			return;
+		
+		m_isChecked = checked;
+		m_onCheckedChange(this, m_isChecked);
 	}
 
 private:
