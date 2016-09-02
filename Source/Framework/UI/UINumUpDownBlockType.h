@@ -7,6 +7,7 @@ public:
 	UINumUpDownBlockType(Font& font, CubeDesc::BlockType start)
 		: UINumUpDownEnum<CubeDesc::BlockType>(font, start, CubeDesc::BlockType::Immortal, CubeDesc::BlockType::Liquid)
 	{
+		UINumUpDown<CubeDesc::BlockType>::setValue(start);
 	}
 
 protected:

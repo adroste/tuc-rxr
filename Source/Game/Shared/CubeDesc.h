@@ -38,7 +38,7 @@ struct CubeDesc
 	};
 	enum BlockFlag
 	{
-		Gravity
+		Gravity = 1
 	};
 	uint8_t blockType;
 	uint8_t blockFlags;

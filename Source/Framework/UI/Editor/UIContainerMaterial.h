@@ -28,7 +28,8 @@ public:
 		m_numSpec(getDFont(), 100.0f, 1.0f, 100000.0f, 1.0f),
 		m_numShader(getDFont(), CubeShader::Default, CubeShader::Default, CubeShader(int(CubeShader::Size) - 1),CubeShader(1)),
 		m_numHealth(getDFont(),0,0,INT_MAX,10),
-		m_numBlockType(getDFont(),CubeDesc::Solid)
+		m_numBlockType(getDFont(),CubeDesc::Solid),
+		m_boxGravity(false)
 	{
 		// metrics
 		float fh = getDFont().getMaxHeight();
@@ -36,9 +37,12 @@ public:
 		m_btnDiffuse.setDim(cdim);
 		m_btnSpecular.setDim(cdim);
 
+		m_boxGravity.setDim({ fh,fh });
+
 		m_numShader.setDim(cdim + PointF(10, 10));
 		m_numSpec.setDim(m_numShader.getDim());
 		m_numHealth.setDim(m_numShader.getDim());
+		m_numBlockType.setDim(m_numShader.getDim());
 
 		// registering
 		addToList(&m_lblTitle, nullptr);
@@ -47,8 +51,8 @@ public:
 		addToList(&m_lblSpecular, &m_btnSpecular);
 		addToList(&m_lblGloss, &m_numSpec);
 		addToList(&m_lblShader, &m_numShader);
-		addToList(&m_lblBlockType, nullptr);
-		addToList(&m_lblGravity, nullptr);
+		addToList(&m_lblBlockType, &m_numBlockType);
+		addToList(&m_lblGravity, &m_boxGravity);
 		addToList(&m_lblHP, &m_numHealth);
 
 		setCellPadding(8.0f);
@@ -87,6 +91,14 @@ public:
 		{
 			updateColor();
 		});
+		m_boxGravity.setOnValueCallback([this](IValueHolder<bool>*)
+		{
+			updateColor();
+		});
+		m_numBlockType.setOnValueCallback([this](IValueHolder<CubeDesc::BlockType>*)
+		{
+			updateColor();
+		});
 	}
 
 	virtual void draw(Drawing& draw) override
@@ -103,6 +115,9 @@ public:
 		d.spec = toGamma(m_btnSpecular.getValue()).toDWORD();
 		d.gloss = m_numSpec.getValue();
 		d.shader = m_numShader.getValue();
+
+		d.blockFlags = 0;
+		if (m_boxGravity.getValue()) d.blockFlags |= CubeDesc::Gravity;
 
 		d.blockHP = m_numHealth.getValue();
 		d.blockType = m_numBlockType.getValue();
@@ -143,6 +158,8 @@ private:
 	UINumUpDownCubeShader m_numShader;
 	UINumUpDownInt m_numHealth;
 	UINumUpDownBlockType m_numBlockType;
+
+	UICheckBox m_boxGravity;
 
 	UIDialogColorPicker m_colorPicker;
 };
