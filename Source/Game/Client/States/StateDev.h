@@ -60,9 +60,9 @@ public:
 		//m_hsvPicker.show();
 
 		m_checkBox.setOrigin({ 600.0f, 450.0f });
-		m_checkBox.setOnCheckedChangeCallback([this](UICheckBox*, bool isChecked)
+		m_checkBox.setOnValueCallback([this](IValueHolder<bool>* sender)
 		{
-			if (isChecked)
+			if (sender->getValue())
 				m_hsvPicker.show();
 		});
 

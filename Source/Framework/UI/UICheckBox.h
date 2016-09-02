@@ -3,13 +3,12 @@
 #include "Interfaces/IClickable.h"
 #include "Callback.h"
 
-class UICheckBox : public UIObject, public IClickable
+class UICheckBox : public UIObject, public IClickable, public IValueHolder<bool>
 {
-	CALLBACK(CheckedChange, UICheckBox*, bool isChecked);
 public:
 	UICheckBox(bool isChecked = false)
 		:
-		m_isChecked(isChecked)
+		IValueHolder(isChecked)
 	{
 		UICheckBox::setDim(PointF(30.0f));		
 	}
@@ -19,7 +18,7 @@ public:
 		RectF rct(getOrigin(), getOrigin() + getDim());
 		draw.rect(rct, Color::Gray(0.8f));
 		draw.rect(rct.shrink(5.0f), Color::Gray(0.2f));
-		if (m_isChecked)
+		if (getValue())
 			draw.rect(rct.shrink(7.0f), Color::White());
 	}
 
@@ -43,27 +42,11 @@ public:
 		{
 			m_isMouseDown = false;
 			setClicked(true);
-			setChecked(!m_isChecked);
+			setValue(!getValue());
 		}		
 		return true;
 	}
 
-
-	virtual bool isChecked()
-	{
-		return m_isChecked;
-	}
-	
-	virtual void setChecked(bool checked)
-	{
-		if (checked == m_isChecked)
-			return;
-		
-		m_isChecked = checked;
-		m_onCheckedChange(this, m_isChecked);
-	}
-
 private:
-	bool m_isChecked;
 	bool m_isMouseDown = false;
 };
