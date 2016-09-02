@@ -2,6 +2,7 @@
 #include "UniformBlock.h"
 #include "../../../glm/gtx/transform.hpp"
 #include <stack>
+#include "../../../Utility/Point.h"
 
 class UniformBlockTransforms : public UniformBlock
 {
@@ -13,6 +14,8 @@ public:
 	void setCamera(const glm::mat4& mat);
 	void pushModel(const glm::mat4& mat);
 	void popModel();
+
+	PointF modelToWorld(const PointF& m);
 private:
 	void updateModel();
 

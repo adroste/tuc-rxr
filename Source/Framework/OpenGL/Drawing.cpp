@@ -239,8 +239,11 @@ UniformBlockTransforms& Drawing::getTransform()
 	return m_trans;
 }
 
-void Drawing::pushClippingRect(const RectF& rect)
+void Drawing::pushClippingRect(RectF rect)
 {
+	// transform rect points from model to world coords
+	rect.p1 = m_trans.modelToWorld(rect.p1);
+	rect.p2 = m_trans.modelToWorld(rect.p2);
 	m_blockFramework.pushRect(rect);
 }
 

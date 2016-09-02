@@ -55,7 +55,7 @@ public:
 
 	// camera
 	UniformBlockTransforms& getTransform();
-	void pushClippingRect(const RectF& rect);
+	void pushClippingRect(RectF rect);
 	void popClippingRect();
 	void pushIgnoreRect();
 

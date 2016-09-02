@@ -56,6 +56,13 @@ void UniformBlockTransforms::popModel()
 	m_changed = true;
 }
 
+PointF UniformBlockTransforms::modelToWorld(const PointF& m)
+{
+	assert(m_modelMats.size() > 0);
+	auto v = (m_modelMats.top() * glm::vec4(m.x, m.y, 0.0f, 1.0f));
+	return PointF(v.x, v.y);
+}
+
 void UniformBlockTransforms::updateModel()
 {
 	assert(m_modelMats.size());
