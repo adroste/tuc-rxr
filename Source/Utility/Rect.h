@@ -32,18 +32,18 @@ public:
 		};
 	};
 	Rect()
-	{
-		Rect(T(0.0), T(0.0), T(0.0), T(0.0));
-	}
+		:
+		Rect(T(0.0), T(0.0), T(0.0), T(0.0))
+	{}
 	Rect(T left, T top, T right, T bottom)
 		:
-		left(left), right(right), top(top), bottom(bottom)
+		left(left), top(top), right(right), bottom(bottom)
 	{}
 	Rect(const Point<T>& po1, const Point<T>& po2)
 		:
 		x1(std::min(po1.x, po2.x)),
-		x2(std::max(po1.x, po2.x)),
 		y1(std::min(po1.y, po2.y)),
+		x2(std::max(po1.x, po2.x)),
 		y2(std::max(po1.y, po2.y))
 	{}
 	template <class T2>
