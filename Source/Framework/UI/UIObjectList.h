@@ -52,9 +52,10 @@ public:
 	virtual void draw(Drawing& draw) override
 	{
 		LockGuard g(m_muObjs);
-		for (auto o : m_objs)
-			if(o->isVisible())
-				o->draw(draw);
+
+		for (auto it = m_objs.rbegin(); it != m_objs.rend(); ++it)
+			if ((*it)->isVisible())
+				(*it)->draw(draw);
 	}
 
 	void setFocusFor(UIObject* obj)
