@@ -6,15 +6,17 @@
 #include "../../../Framework/UI/UIItemLister.h"
 #include "../../../Framework/UI/Editor/UIContainerMaterial.h"
 #include "../../../Framework/UI/UIMenuBar.h"
+#include "../../../Framework/UI/Editor/UIDialogLights.h"
 
 class StateEditor : public GameState
 {
 public:
 	StateEditor()
 		:
-		m_uiList({ &m_btnBack, &m_listMaterial, &m_menu }),
+		m_uiList({ &m_btnBack, &m_listMaterial, &m_menu, &m_dlgLights }),
 		m_menu(Drawing::getFont(Font::Style::Headline,Font::Size::M)),
-		m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Back")
+		m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Back"),
+		m_dlgLights(m_editor)
 	{
 		// TODO fix z index thing
 		m_menu.setZIndex(100);
@@ -30,7 +32,13 @@ public:
 		m_menu.addItem("Edit", "Redo");
 
 		m_menu.addSection("Map");
-		m_menu.addItem("Map", "Lights");
+		m_menu.addItem("Map", "Lights", [this](const std::string&)
+		{
+			m_uiList.setFocusFor(&m_dlgLights);
+			sortReceivers(); // TODO maybe add broadcaster reference to uilist? for better focus setting
+			m_dlgLights.center();
+			m_dlgLights.show();
+		});
 
 		m_editor.registerMe(this);
 
@@ -142,6 +150,7 @@ private:
 	GameEditor m_editor;
 
 	UIButtonText m_btnBack;
+	UIDialogLights m_dlgLights;
 	UIMenuBar m_menu;
 	// material list
 	UIContainerMaterial m_listMaterial;

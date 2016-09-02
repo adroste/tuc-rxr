@@ -7,13 +7,13 @@ class UIDialogLights : public UIDialog
 public:
 	UIDialogLights(GameEditor& editor)
 		:
-		UIDialog(),
+		UIDialog(Buttons::OKCancel),
 		m_lights(editor)
 	{
-		UIDialog::setDim({ 300,400 });
+		UIDialog::setDim({ 400,400 });
 		setFixedDim(true);
 
-		m_lights.setDim({ 280,300 });
+		m_lights.setDim({ 380,300 });
 		m_lights.setOrigin({ 10,10 });
 		m_lights.orderItems();
 

@@ -23,6 +23,7 @@ public:
 		float fh = getDFont().getMaxHeight();
 		const PointF cdim = { 5.0f * fh,fh };
 		m_btnAmbient.setDim(cdim);
+		m_btnAddLight.adjustToFontHeadline();
 
 		addToList(&m_lblTitle, nullptr);
 		addToList(&m_lblAmbient, &m_btnAmbient);
