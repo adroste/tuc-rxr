@@ -10,11 +10,10 @@ class UIDialogColorPicker : public UIDialog
 public:
 	UIDialogColorPicker()
 		:
+		UIDialog(Buttons::OKCancel),
 		m_uiObjects({ 
-		&m_colorPicker, &m_btnOk, &m_btnCancel, &m_numR, &m_numG, &m_numB, &m_lblR, &m_lblG, &m_lblB
+		&m_colorPicker, &m_numR, &m_numG, &m_numB, &m_lblR, &m_lblG, &m_lblB
 	}),
-		m_btnOk(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "OK"),
-		m_btnCancel(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Cancel"),
 		m_numR(Drawing::getFont(Font::Style::Text, Font::Size::M), 0, 0, 255, 1),
 		m_numG(Drawing::getFont(Font::Style::Text, Font::Size::M), 0, 0, 255, 1),
 		m_numB(Drawing::getFont(Font::Style::Text, Font::Size::M), 0, 0, 255, 1),
@@ -27,11 +26,6 @@ public:
 		
 		m_colorPicker.setOrigin({ 10.0f, 10.0f });
 		m_colorPicker.setZIndex(1);
-
-		m_btnCancel.adjustToFontHeadline();
-		m_btnCancel.setOrigin(UIDialogColorPicker::getDim() - m_btnCancel.getDim() - PointF(10.0f));
-		m_btnOk.adjustToFontHeadline();
-		m_btnOk.setOrigin(UIDialogColorPicker::getDim() - PointF({ m_btnCancel.getDim().x + 10.0f, 0.0f}) - m_btnOk.getDim() - PointF(10.0f));
 
 		m_numR.setOrigin({ 30.0f, 330.0f });
 		m_numR.setDim({ 60.0f, 40.0f });
@@ -46,15 +40,10 @@ public:
 		m_uiObjects.registerAll(this);
 
 		// Events
-		m_btnCancel.setOnClickCallback([this](IClickable*)
+		setOnResultProtectedCallback([this](UIDialog* sender)
 		{
-			setResult(Result::Cancel);
-		});
-
-		m_btnOk.setOnClickCallback([this](IClickable*)
-		{
-			m_color = m_colorPicker.getColor();
-			setResult(Result::OK);
+			if (sender->getResult() == Result::OK)
+				m_color = m_colorPicker.getColor();
 		});
 
 		m_colorPicker.setOnColorChangeCallback([this](UIColorPicker*) { onColorChange(); });
@@ -132,8 +121,6 @@ private:
 	UIObjectList m_uiObjects;
 
 	UIColorPicker m_colorPicker;
-	UIButtonText m_btnOk;
-	UIButtonText m_btnCancel;
 
 	UINumUpDownInt m_numR;
 	UINumUpDownInt m_numG;
