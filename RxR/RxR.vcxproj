@@ -245,7 +245,6 @@
     <ClInclude Include="..\Source\Framework\UI\UICheckBox.h" />
     <ClInclude Include="..\Source\Framework\UI\UIColorPicker.h" />
     <ClInclude Include="..\Source\Framework\UI\UIContainer.h" />
-    <ClInclude Include="..\Source\Framework\UI\UIContainerDraggable.h" />
     <ClInclude Include="..\Source\Framework\UI\UIDialog.h" />
     <ClInclude Include="..\Source\Framework\UI\UIDialogColorPicker.h" />
     <ClInclude Include="..\Source\Framework\UI\UIInputBox.h" />
