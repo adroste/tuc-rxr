@@ -114,6 +114,12 @@ public:
 		}
 	}
 
+	virtual void setDim(const PointF& d) override
+	{
+		UIContainer::setDim(d);
+		orderItems();
+	}
+
 	void UIItemLister::setMode(const Mode mode)
 	{
 		m_mode = mode;
