@@ -3,10 +3,19 @@
 #include "UIObjectList.h"
 #include "UIButtonText.h"
 
-class UIButtonText;
+/*
+	UITabView:
+		1. create UITabView instance
+		2. set Dimensions (+ origin)
+		3. create UIContainer instances (dont register listener!)
+		4. call addTab() and pass pointer to UIContainer instance and define Tab-name
+		5. call registerMe on UITabView instance
+		6. draw UITabView
+*/
 
 class UITabView : public UIContainer
 {
+public:
 	enum class ControlPosition
 	{
 		Top,
@@ -58,6 +67,9 @@ public:
 		container->registerMe(this);
 
 		updateMetrics();
+
+		// activate first container
+		activateContainer(m_containers.front());
 	}
 
 	virtual void activateContainer(UIContainer* container)
