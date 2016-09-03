@@ -158,6 +158,7 @@ protected:
 	float m_cellPadd = 0.0f; // padding between objects
 	float m_wallPadd = 0.0f; // padding to wall
 	const float PADDING = 5.0f;
+	// TODO it is called a padding when its inside the content-box, otherwise it is called margin
 
 	UIObjectList m_uiList;
 };
