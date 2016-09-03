@@ -40,7 +40,7 @@ public:
 			m_colorPicker.show(m_btnAmbient.getValue());
 			m_colorPicker.setOnResultCallback([this](UIDialog*)
 			{
-				m_btnAmbient.setValue(m_colorPicker.getColor());
+				m_btnAmbient.setValue(m_colorPicker.getValue());
 			});
 		});
 	}

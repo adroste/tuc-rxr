@@ -5,12 +5,13 @@
 #include "UINumUpDownInt.h"
 #include "UILabel.h"
 
-class UIDialogColorPicker : public UIDialog
+class UIDialogColorPicker : public UIDialog, public IValueHolder<Color>
 {
 public:
 	UIDialogColorPicker()
 		:
 		UIDialog(Buttons::OKCancel),
+		IValueHolder(Color::Red()),
 		m_uiObjects({ 
 		&m_colorPicker, &m_numR, &m_numG, &m_numB, &m_lblR, &m_lblG, &m_lblB
 	}),
@@ -43,10 +44,10 @@ public:
 		setOnResultProtectedCallback([this](UIDialog* sender)
 		{
 			if (sender->getResult() == Result::OK)
-				m_color = m_colorPicker.getColor();
+				setValue(m_colorPicker.getValue());
 		});
 
-		m_colorPicker.setOnColorChangeCallback([this](UIColorPicker*) { onColorChange(); });
+		m_colorPicker.setOnValueCallback([this](IValueHolder<Color>*) { onColorChange(); });
 
 		m_numR.setOnValueCallback([this](IValueHolder<int>*) { onColorChangeNum(); });
 		m_numG.setOnValueCallback([this](IValueHolder<int>*) { onColorChangeNum(); });
@@ -68,7 +69,7 @@ public:
 		m_uiObjects.draw(draw);
 		
 		// color box
-		draw.rect(RectF(280.0f, 330.0f, 310.0f, 370.0f), m_colorPicker.getColor());
+		draw.rect(RectF(280.0f, 330.0f, 310.0f, 370.0f), m_colorPicker.getValue());
 
 		popDrawTransforms(draw);
 	}
@@ -76,19 +77,14 @@ public:
 	using UIDialog::show;
 	virtual void show(const Color& color)
 	{
-		setColor(color);
+		setValue(color);
 		show();
 	}
 
-	void setColor(const Color& color)
+	virtual void setValue(const Color& value) override
 	{
-		m_color = color;
-		m_colorPicker.setColor(m_color);
-	}
-
-	Color getColor() const
-	{
-		return m_color;
+		IValueHolder::setValue(value);
+		m_colorPicker.setValue(value);
 	}
 
 private:
@@ -97,7 +93,7 @@ private:
 		if (m_suppressColorUpdate) return;
 
 		m_suppressColorUpdate = true;
-		Color c = m_colorPicker.getColor();
+		Color c = m_colorPicker.getValue();
 		m_numR.setValue(tool::clamp(int(c.r * 255.0f), 0, 255));
 		m_numG.setValue(tool::clamp(int(c.g * 255.0f), 0, 255));
 		m_numB.setValue(tool::clamp(int(c.b * 255.0f), 0, 255));
@@ -113,7 +109,7 @@ private:
 		c.r = tool::clamp(float(m_numR.getValue()) / 255.0f, 0.0f, 1.0f);
 		c.g = tool::clamp(float(m_numG.getValue()) / 255.0f, 0.0f, 1.0f);
 		c.b = tool::clamp(float(m_numB.getValue()) / 255.0f, 0.0f, 1.0f);
-		m_colorPicker.setColor(c);
+		m_colorPicker.setValue(c);
 		m_suppressColorUpdate = false;
 	}
 
@@ -129,8 +125,6 @@ private:
 	UILabel m_lblR;
 	UILabel m_lblG;
 	UILabel m_lblB;
-
-	Color m_color = Color::Red();
 
 	bool m_suppressColorUpdate = false;
 };

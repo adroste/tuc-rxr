@@ -1,13 +1,14 @@
 #pragma once
 #include "UIObject.h"
-#include "Callback.h"
 #include <math.h>
+#include "Interfaces/IValueHolder.h"
 
-class UIColorPicker : public UIObject
+class UIColorPicker : public UIObject, public IValueHolder<Color>
 {
-	CALLBACK(ColorChange, UIColorPicker*);
 public:
 	UIColorPicker()
+		:
+		IValueHolder(Color::Red())
 	{
 		UIColorPicker::setDim(300.0f);
 		calcSquarePick(getMidpoint());
@@ -22,7 +23,7 @@ public:
 		PointF mid = getMidpoint();
 		draw.hsvPicker(getMidpoint(), r, m_hueColor);
 		draw.disc(m_pick, 7.0f, Color::White());
-		draw.disc(m_pick, 5.5f, getColor());
+		draw.disc(m_pick, 5.5f, getValue());
 		
 		PointF sel(1.0f, 0.0f);
 		sel = sel.rotate(-m_angle);
@@ -91,12 +92,7 @@ public:
 		UIObject::setDim({ d, d });
 	}
 
-	Color getColor() const
-	{
-		return m_color;
-	}
-
-	void setColor(const Color& color)
+	virtual void setValue(const Color& color) override
 	{
 		// convert rgb to hsv
 		float r = color.r, g = color.g, b = color.b;
@@ -191,11 +187,12 @@ private:
 		m_hueColor.b = tool::clamp(2.0f - abs(6.0f * hue - 4.0f), 0.0f, 1.0f);
 
 		// hsv to rgb
-		m_color.r = ((m_hueColor.r - 1.0f) * m_saturation + 1.0f) * m_value;
-		m_color.g = ((m_hueColor.g - 1.0f) * m_saturation + 1.0f) * m_value;
-		m_color.b = ((m_hueColor.b - 1.0f) * m_saturation + 1.0f) * m_value;
+		Color c;
+		c.r = ((m_hueColor.r - 1.0f) * m_saturation + 1.0f) * m_value;
+		c.g = ((m_hueColor.g - 1.0f) * m_saturation + 1.0f) * m_value;
+		c.b = ((m_hueColor.b - 1.0f) * m_saturation + 1.0f) * m_value;
 
-		m_onColorChange(this);
+		IValueHolder::setValue(c);
 	}
 
 	void setAngle(float angle)
@@ -209,7 +206,6 @@ private:
 	bool m_isMouseLeftDownSquare = false;
 
 	Color m_hueColor = Color::Red();
-	Color m_color = Color::Red();
 	float m_angle = 0.0f;
 	PointF m_pick;
 	float m_saturation = 0.0f;

@@ -66,7 +66,7 @@ public:
 			m_colorPicker.show(m_btnDiffuse.getValue());
 			m_colorPicker.setOnResultCallback([this](UIDialog*)
 			{
-				m_btnDiffuse.setValue(m_colorPicker.getColor());
+				m_btnDiffuse.setValue(m_colorPicker.getValue());
 				this->updateColor();
 			});
 		});
@@ -75,7 +75,7 @@ public:
 			m_colorPicker.show(m_btnSpecular.getValue());
 			m_colorPicker.setOnResultCallback([this](UIDialog*)
 			{
-				m_btnSpecular.setValue(m_colorPicker.getColor());
+				m_btnSpecular.setValue(m_colorPicker.getValue());
 				this->updateColor();
 			});
 		});
