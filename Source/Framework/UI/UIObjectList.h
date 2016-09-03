@@ -69,6 +69,7 @@ public:
 
 		sort();
 	}
+
 private:
 	std::list<UIObject*> m_objs;
 	Mutex m_muObjs;

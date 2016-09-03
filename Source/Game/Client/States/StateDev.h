@@ -5,6 +5,8 @@
 #include "../../../Framework/UI/UITextBox.h"
 #include "../../../Framework/UI/UIObjectList.h"
 #include "../../../Framework/UI/UICheckBox.h"
+//#include "../../../Framework/UI/UITabView.h"
+#include "../../../Framework/UI/Editor/UIContainerMaterial.h"
 
 class StateDev : public GameState
 {
@@ -13,7 +15,7 @@ public:
 		:
 		m_uiList({ &m_lblHeadS, &m_lblHeadM, &m_lblHeadL, &m_lblTextS, &m_lblTextM, &m_lblTextL,
 			&m_btnBack, &m_btnDlg, &m_btnMsgBox, &m_dlgTest, &m_msgBox, &m_txtBox, &m_msgBoxResult,
-			&m_hsvPicker, &m_checkBox
+			&m_hsvPicker, &m_checkBox/*, &m_tabView*/
 		}),
 		m_lblHeadS(Drawing::getFont(Font::Style::Headline, Font::Size::S), "ABCxyz"),
 		m_lblHeadM(Drawing::getFont(Font::Style::Headline, Font::Size::M), "ABCxyz"),
@@ -65,6 +67,11 @@ public:
 			if (sender->getValue())
 				m_hsvPicker.show();
 		});
+
+		//m_tabView.setOrigin(PointF(40.0f));
+		//m_tabView.setDim(PointF(300.0f, 550.0f));
+		//m_tabView.setZIndex(100);
+		//m_tabView.addTab(&m_containerMaterial, "Material");
 
 		m_uiList.sort();
 		m_uiList.registerAll(this);
@@ -183,4 +190,6 @@ private:
 	UILabel m_msgBoxResult;
 	UIDialogColorPicker m_hsvPicker;
 	UICheckBox m_checkBox;
+	//UITabView m_tabView;
+	//UIContainerMaterial m_containerMaterial;
 };
