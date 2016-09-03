@@ -150,12 +150,12 @@ public:
 	virtual void draw(Drawing& draw) override
 	{
 		draw.rect(getRect(), Color::Gray());
-		pushDrawTransform(draw);
+		pushDrawTransforms(draw);
 		{
 			for (auto& s : m_secs)
 				s->draw(draw);
 		}
-		popDrawTransform(draw);
+		popDrawTransforms(draw);
 	}
 
 	void addSection(const std::string& name)

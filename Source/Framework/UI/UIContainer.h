@@ -21,10 +21,11 @@ public:
 
 		// TODO draw border, background
 		// just testing
-		{
-			draw.rect(getRect(), Color::Gray());
-			draw.rect(getRect().shrink(2.0f), Color::DarkGray());
-		}
+		pushDrawTransforms(draw, PointF(0.0f));
+		RectF rct(PointF(0.0f), getDim());
+		draw.rect(rct, Color::Gray());
+		draw.rect(rct.shrink(2.0f), Color::DarkGray());
+		popDrawTransforms(draw);
 	}
 
 	// Input
@@ -82,13 +83,23 @@ protected:
 		return mpos - m_pos;
 	}
 
-	virtual void pushDrawTransform(Drawing& draw)
+	/*
+	*	clipPadding: shrinks clipRect if clipPadding > 0, grows if < 0
+	*				x - left / right padding
+	*				y - top / bottom padding
+	*	default value = border size
+	*/
+	virtual void pushDrawTransforms(Drawing& draw, PointF clipPadding = PointF(2.0f))
 	{
 		draw.getTransform().pushModel(m_matTransform);
+		draw.pushIgnoreRect();
+		draw.pushClippingRect(RectF(clipPadding, getDim() - clipPadding));
 	}
 
-	virtual void popDrawTransform(Drawing& draw)
+	virtual void popDrawTransforms(Drawing& draw)
 	{
+		draw.popClippingRect();
+		draw.popClippingRect();
 		draw.getTransform().popModel();
 	}
 

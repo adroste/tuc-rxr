@@ -64,13 +64,13 @@ public:
 		
 		UIDialog::draw(draw);
 
-		pushDrawTransform(draw);
+		pushDrawTransforms(draw);
 		m_uiObjects.draw(draw);
 		
 		// color box
 		draw.rect(RectF(280.0f, 330.0f, 310.0f, 370.0f), m_colorPicker.getColor());
 
-		popDrawTransform(draw);
+		popDrawTransforms(draw);
 	}
 
 	using UIDialog::show;

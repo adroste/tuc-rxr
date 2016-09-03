@@ -22,9 +22,9 @@ public:
 		if (!isVisible()) return;
 
 		UIDialog::draw(draw);
-		pushDrawTransform(draw);
+		pushDrawTransforms(draw);
 		m_txtBox.draw(draw);
-		popDrawTransform(draw);
+		popDrawTransforms(draw);
 	}
 
 	using UIDialog::show;

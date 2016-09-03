@@ -26,9 +26,9 @@ public:
 
 		UIDialog::draw(draw);
 
-		pushDrawTransform(draw);
+		pushDrawTransforms(draw);
 		m_lights.draw(draw);
-		popDrawTransform(draw);
+		popDrawTransforms(draw);
 	}
 private:
 	UIContainerLights m_lights;

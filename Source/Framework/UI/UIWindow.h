@@ -30,9 +30,10 @@ public:
 		if (!isVisible()) return;
 
 		UIContainer::draw(draw);
-		pushDrawTransform(draw);
+		// smaller clipping rect for drawing cancel button outside container
+		pushDrawTransforms(draw, PointF(-30.0f));
 		m_btnCancel.draw(draw);
-		popDrawTransform(draw);
+		popDrawTransforms(draw);
 	}
 
 	// input

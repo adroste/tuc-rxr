@@ -79,11 +79,11 @@ public:
 		if (!isVisible()) return;
 
 		UIWindow::draw(draw);
-		pushDrawTransform(draw);
+		pushDrawTransforms(draw);
 		m_btn1.draw(draw);
 		m_btn2.draw(draw);
 		m_btn3.draw(draw);
-		popDrawTransform(draw);
+		popDrawTransforms(draw);
 	}
 
 	// Input handling

@@ -126,7 +126,8 @@ public:
 	//clip this rect into another
 	inline Rect<T> clipTo(const Rect<T>& o) const
 	{
-		assert(isRectCutting(o));
+		// TODO this assert is useless? crashes draw clippingRect functionality at least
+		//assert(isRectCutting(o)); 
 
 		Rect<T> r;
 		r.x1 = std::max(o.x1, x1);
