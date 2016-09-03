@@ -20,12 +20,7 @@ public:
 	{}
 
 	virtual ~UITabView() override
-	{
-		for (auto& ctrl : m_tabCtrls)
-		{
-			ctrl.reset();
-		}
-	}
+	{}
 
 
 	virtual void draw(Drawing& draw) override
@@ -47,7 +42,6 @@ public:
 		assert(container);
 
 		auto pbtn = std::unique_ptr<UIButtonText>(new UIButtonText(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), name));
-		m_tabCtrls.push_back(pbtn);
 
 		pbtn->adjustToFontHeadline();
 		m_maxCtrlWidth = std::max(pbtn->getDim().x, m_maxCtrlWidth);
@@ -57,6 +51,8 @@ public:
 		{
 			activateContainer(container);
 		});
+
+		m_tabCtrls.push_back(std::move(pbtn));
 
 		m_containers.push_back(container);
 		container->registerMe(this);
