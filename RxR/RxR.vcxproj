@@ -230,9 +230,11 @@
     <ClInclude Include="..\Source\Framework\Sound\MusicFile.h" />
     <ClInclude Include="..\Source\Framework\Sound\Sound.h" />
     <ClInclude Include="..\Source\Framework\UI\Callback.h" />
+    <ClInclude Include="..\Source\Framework\UI\Editor\UIContainerLightAdd.h" />
     <ClInclude Include="..\Source\Framework\UI\Editor\UIContainerLights.h" />
     <ClInclude Include="..\Source\Framework\UI\Editor\UIContainerMaterial.h" />
     <ClInclude Include="..\Source\Framework\UI\Editor\UIDialogLights.h" />
+    <ClInclude Include="..\Source\Framework\UI\Editor\UIDialogLightsAdd.h" />
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IClickable.h" />
     <ClInclude Include="..\Source\Framework\UI\Interfaces\ILabelable.h" />
     <ClInclude Include="..\Source\Framework\UI\Interfaces\IMetrics.h" />
@@ -259,6 +261,7 @@
     <ClInclude Include="..\Source\Framework\UI\UINumUpDownEnum.h" />
     <ClInclude Include="..\Source\Framework\UI\UINumUpDownFloat.h" />
     <ClInclude Include="..\Source\Framework\UI\UINumUpDownInt.h" />
+    <ClInclude Include="..\Source\Framework\UI\UINumUpDownLightSource.h" />
     <ClInclude Include="..\Source\Framework\UI\UIObject.h" />
     <ClInclude Include="..\Source\Framework\UI\UIObjectList.h" />
     <ClInclude Include="..\Source\Framework\UI\UITabView.h" />

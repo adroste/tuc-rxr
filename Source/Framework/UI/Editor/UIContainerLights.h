@@ -5,7 +5,7 @@
 #include "../UIButtonText.h"
 #include "../../../Game/Client/GameEditor.h"
 #include "../UIDialogColorPicker.h"
-
+#include "UIDialogLightsAdd.h"
 
 class UIContainerLights : public UIItemLister
 {
@@ -34,6 +34,8 @@ public:
 
 		m_colorPicker.setZIndex(1);
 		m_colorPicker.registerMe(this);
+		m_dlgLightAdd.setZIndex(1);
+		m_dlgLightAdd.registerMe(this);
 
 		m_btnAmbient.setOnClickCallback([this](IClickable*)
 		{
@@ -43,6 +45,11 @@ public:
 				m_btnAmbient.setValue(m_colorPicker.getValue());
 			});
 		});
+		m_btnAddLight.setOnClickCallback([this](IClickable*)
+		{
+			m_dlgLightAdd.show();
+
+		});
 	}
 
 
@@ -51,6 +58,7 @@ public:
 		UIItemLister::draw(draw);
 		pushDrawTransforms(draw);
 		m_colorPicker.draw(draw);
+		m_dlgLightAdd.draw(draw);
 		popDrawTransforms(draw);
 	}
 private:
@@ -68,4 +76,5 @@ private:
 	UIButtonText m_btnAddLight;
 
 	UIDialogColorPicker m_colorPicker;
+	UIDialogLightsAdd m_dlgLightAdd;
 };

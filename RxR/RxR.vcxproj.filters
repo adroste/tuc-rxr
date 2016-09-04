@@ -510,6 +510,15 @@
     <ClInclude Include="..\Source\Framework\UI\UITrackbar.h">
       <Filter>Source\Framework\UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\Editor\UIContainerLightAdd.h">
+      <Filter>Source\Framework\UI\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\UINumUpDownLightSource.h">
+      <Filter>Source\Framework\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\Editor\UIDialogLightsAdd.h">
+      <Filter>Source\Framework\UI\Editor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glew32.dll">
