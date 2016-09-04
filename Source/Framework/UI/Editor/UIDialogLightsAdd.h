@@ -10,11 +10,10 @@ public:
 		UIDialog(Buttons::OKCancel),
 		m_light()
 	{
-		UIDialog::setDim({ 400,400 });
+		auto o = UIDialog::setClientArea(m_light.getDim());
 		setFixedDim(true);
 
-		m_light.setDim({ 380,300 });
-		m_light.setOrigin({ 10,10 });
+		m_light.setOrigin(o);
 		m_light.orderItems();
 
 		m_light.registerMe(this);

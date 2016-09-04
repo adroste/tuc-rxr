@@ -104,6 +104,14 @@ public:
 		m_btnCancel.setOrigin({ d.x - m_btnCancel.getDim().x + 30.0f, -20.0f });
 	}
 
+protected:
+	// sets client area size and returns origin of the client area
+	virtual PointF setClientArea(const PointF& dim)
+	{
+		// TODO fix
+		setDim(dim + PointF(20.0f));
+		return PointF(10.0f);
+	}
 protected:	
 	UIButtonText m_btnCancel;
 

@@ -21,7 +21,7 @@ public:
 	{
 		// metrics
 		float fh = getDFont().getMaxHeight();
-		const PointF cdim = { 5.0f * fh,fh };
+		const PointF cdim = { 3.0f * fh,fh };
 		m_btnAmbient.setDim(cdim);
 		m_btnAddLight.adjustToFontHeadline();
 
@@ -31,6 +31,8 @@ public:
 
 		setCellPadding(8.0f);
 		setWallPadding(5.0f);
+		adjustToItems();
+		setFixedDim(true);
 
 		m_colorPicker.setZIndex(1);
 		m_colorPicker.registerMe(this);
@@ -47,6 +49,7 @@ public:
 		});
 		m_btnAddLight.setOnClickCallback([this](IClickable*)
 		{
+			m_dlgLightAdd.setCenter(getRect().getMidpoint());
 			m_dlgLightAdd.show();
 
 		});

@@ -66,12 +66,12 @@ public:
 		float curY = PADDING + m_wallPadd;
 
 		float widthLeft = m_dim.x * m_midDivider;
-		float widthRight = widthLeft;
+		float widthRight = m_dim.x - widthLeft;
 
 		float leftStart = PADDING;
 		float leftEnd = widthLeft - PADDING;
 		float rightStart = widthLeft + PADDING;
-		float rightEnd = widthLeft + widthRight - PADDING;
+		float rightEnd = m_dim.x - PADDING;
 
 		auto clipFunc = &UIItemLister::clipToRectMid;
 		if (m_mode == Mode::Left)
@@ -124,10 +124,10 @@ public:
 
 		// final height of all items
 		curY += PADDING + m_wallPadd;
-		setDim({PADDING + m_wallPadd + leftMaxX + m_cellPadd + rightMaxX + m_wallPadd + PADDING, curY});
+		setDim({PADDING + m_wallPadd + leftMaxX + 2.0f * PADDING + rightMaxX + m_wallPadd + PADDING, curY});
 		
 		if (leftMaxX > 0.0f)
-			setMidDivider(leftMaxX / (leftMaxX + rightMaxX));
+			setMidDivider((2.0f * PADDING + m_wallPadd + leftMaxX) / (m_dim.x));
 		else
 			setMidDivider(0.0f);
 	}
@@ -180,14 +180,14 @@ private:
 	void clipToRectLeft(UIObject* o, const RectF& r) const
 	{
 		float y = (r.y1 + r.y2) / 2.0f - o->getDim().y / 2.0f;
-		float x = r.x1 + m_wallPadd;
+		float x = r.x1; //+ m_wallPadd;
 
 		o->setOrigin({ x,y });
 	}
 	void clipToRectRight(UIObject* o, const RectF& r) const
 	{
 		float y = (r.y1 + r.y2) / 2.0f - o->getDim().y / 2.0f;
-		float x = r.x2 - o->getDim().x - m_wallPadd;
+		float x = r.x2 - o->getDim().x; //- m_wallPadd;
 
 		o->setOrigin({ x,y });
 	}

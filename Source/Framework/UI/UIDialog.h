@@ -158,9 +158,9 @@ public:
 	virtual void setDim(const PointF& d) override
 	{
 		UIWindow::setDim(d);
-		m_btn1.setOrigin({ d.x - (m_btn1.getDim().x + 10.0f), d.y - (m_btn1.getDim().y + 10.0f) });
-		m_btn2.setOrigin({ m_btn1.getOrigin().x - (m_btn2.getDim().x + 10.0f), d.y - (m_btn2.getDim().y + 10.0f) });
-		m_btn3.setOrigin({ m_btn2.getOrigin().x - (m_btn3.getDim().x + 10.0f), d.y - (m_btn3.getDim().y + 10.0f) });
+		m_btn1.setOrigin({ d.x - (m_btn1.getDim().x + BTN_PADD), d.y - (m_btn1.getDim().y + BTN_PADD) });
+		m_btn2.setOrigin({ m_btn1.getOrigin().x - (m_btn2.getDim().x + BTN_PADD), d.y - (m_btn2.getDim().y + BTN_PADD) });
+		m_btn3.setOrigin({ m_btn2.getOrigin().x - (m_btn3.getDim().x + BTN_PADD), d.y - (m_btn3.getDim().y + BTN_PADD) });
 	}
 
 	Result getResult() const
@@ -250,6 +250,14 @@ protected:
 		return m_btn1.getDim().y + 10.0f;
 	}
 
+
+	virtual PointF setClientArea(const PointF& dim) override
+	{
+		// TODO alex should check this
+		setDim(PointF(2.0f * BTN_PADD, 3.0f * BTN_PADD + m_btn1.getDim().y) + dim);
+		// TODO add minumum x for buttons
+		return PointF(BTN_PADD);
+	}
 private:
 	Result m_dlgResult = Result::None;
 	bool m_autoClose = true;
@@ -261,4 +269,6 @@ private:
 	Result m_resBtn1 = Result::None;
 	Result m_resBtn2 = Result::None;
 	Result m_resBtn3 = Result::None;
+
+	const float BTN_PADD = 10.0f;
 };

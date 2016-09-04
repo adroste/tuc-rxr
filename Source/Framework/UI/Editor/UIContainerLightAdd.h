@@ -48,11 +48,13 @@ public:
 
 		setCellPadding(8.0f);
 		setWallPadding(5.0f);
+		adjustToItems();
+		setFixedDim(true);
 	}
 private:
 	static Font& getDFont()
 	{
-		return Drawing::getFont(Font::Style::Text, Font::Size::M);
+		return Drawing::getFont(Font::Style::Headline, Font::Size::M);
 	}
 public:
 	UINumUpDownLightSource m_type;
