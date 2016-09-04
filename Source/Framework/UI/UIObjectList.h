@@ -39,6 +39,13 @@ public:
 		m_objs.push_back(obj);
 		sort();
 	}
+	void addAndReg(UIObject* obj, Input::IBroadcaster* broadcaster)
+	{
+		LockGuard g(m_muObjs);
+		obj->registerMe(broadcaster);
+		m_objs.push_back(obj);
+		sort();
+	}
 
 	void remove(UIObject* obj)
 	{
@@ -47,6 +54,7 @@ public:
 		{
 			return obj == o;
 		});
+		obj->unregisterMe();
 	}
 
 	virtual void draw(Drawing& draw) override
