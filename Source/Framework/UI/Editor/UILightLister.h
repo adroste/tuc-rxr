@@ -1,0 +1,104 @@
+#pragma once
+#include "../UIContainerLister.h"
+#include "../UILabel.h"
+#include "../UIButtonText.h"
+
+class UILightLister : public UIContainerLister
+{
+	class Item : public UIContainer
+	{
+	public:
+		Item(const UniformBlockLight::LightSource& l, UILightLister& parent)
+			:
+			m_parent(parent),
+			m_objs({&m_lblType, &m_btnClose, &m_lblOrigin}),
+			m_lblType(getFont(),getType(l.type)),
+			m_btnClose(UIButton::Style::Royal,getFont(),"X"),
+			m_lblOrigin(getFont(),getOriginText(l.type, l.origin)),
+			m_color(l.color.r, l.color.g, l.color.b),
+			m_extra(getFont(),getExtraText(l))
+		{
+			m_btnClose.adjustToFontHeadline();
+			if (m_extra.getText().length())
+				m_objs.add(&m_extra);
+			m_objs.registerAll(this);
+		}
+
+
+		virtual void setDim(const PointF& d) override
+		{
+			// only width matters
+			float w = d.x;
+
+			m_lblType.setOrigin({ 10,10 });
+			m_lblOrigin.setOrigin(m_lblType.getRect().getBottomLeft() + PointF(0.0f, 10.0f));
+			m_btnClose.setOrigin({ w - 10.0f - m_btnClose.getDim().x,10 });
+
+			float y = m_btnClose.getRect().getBottomRight().y + 10.0f;
+
+			if (m_extra.getText().length())
+			{
+				m_extra.setOrigin(m_lblOrigin.getRect().getBottomLeft() + PointF(0.0f, 10.0f));
+				y = m_extra.getRect().getBottomRight().y + 10.0f;
+			}
+			UIContainer::setDim({ w,y });
+		}
+
+		virtual void draw(Drawing& draw) override
+		{
+			pushDrawTransforms(draw, PointF(0.0f));
+			m_objs.draw(draw);
+			draw.rect({ 100.0f,10.0f,200.0f,30.0f }, m_color);
+			popDrawTransforms(draw);
+		}
+
+		static Font& getFont()
+		{
+			return Drawing::getFont(Font::Style::Text, Font::Size::S);
+		}
+
+		static std::string getType(UniformBlockLight::LightSource::Type t)
+		{
+			switch (t)
+			{
+			case UniformBlockLight::LightSource::Directional: return "Directional";
+			case UniformBlockLight::LightSource::PointLight: return "Point";
+			}
+			return "ERROR";
+		}
+
+		static std::string getOriginText(UniformBlockLight::LightSource::Type t, const glm::vec3& p)
+		{
+			std::string txt = t == UniformBlockLight::LightSource::PointLight ? "Origin" : "Direction";
+			txt += ": ";
+			txt += std::to_string(p.x) + " | " + std::to_string(p.y) + " | " + std::to_string(p.z);
+			return txt;
+		}
+		static std::string getExtraText(const UniformBlockLight::LightSource& l)
+		{
+			std::string t;
+			if(l.type == UniformBlockLight::LightSource::PointLight)
+			{
+				t = "attenuation: " + std::to_string(l.attenuation);
+			}
+			return t;
+		}
+	private:
+		UILightLister& m_parent;
+		UIObjectList m_objs;
+		UILabel m_lblType;
+		UIButtonText m_btnClose;
+		UILabel m_lblOrigin;
+		UILabel m_extra;
+		const Color m_color;
+	};
+public:
+	UILightLister()
+	{
+		
+	}
+	void add(const UniformBlockLight::LightSource& l)
+	{
+		addContainer(std::unique_ptr<UIContainer>(new Item(l, *this)));
+	}
+};

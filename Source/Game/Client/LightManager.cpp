@@ -27,3 +27,8 @@ const Color& LightManager::getAmbient() const
 {
 	return m_ambient;
 }
+
+const std::vector<UniformBlockLight::LightSource>& LightManager::getLights() const
+{
+	return m_lights;
+}

@@ -12,6 +12,7 @@ public:
 	void apply(Drawing& draw);
 
 	const Color& getAmbient() const;
+	const std::vector<UniformBlockLight::LightSource>& getLights() const;
 private:
 	const Camera& m_cam;
 	std::vector<UniformBlockLight::LightSource> m_lights;

@@ -19,6 +19,13 @@ public:
 		:
 		UIContainer(true)
 	{}
+
+	virtual void setDim(const PointF& d) override
+	{
+		UIContainer::setDim(d);
+		for (auto& i : m_cons)
+			i->setWidth(d.x);
+	}
 	void addContainer(std::unique_ptr<UIContainer> c)
 	{
 		if(!hasFixedDim())
