@@ -57,6 +57,8 @@ public:
 
 		setCellPadding(8.0f);
 		setWallPadding(5.0f);
+		adjustToItems();
+		setFixedDim(true);
 
 		m_colorPicker.setZIndex(1);
 		m_colorPicker.registerMe(this);

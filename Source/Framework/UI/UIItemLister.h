@@ -63,16 +63,15 @@ public:
 	}
 	void orderItems()
 	{
-		float curY = /*m_pos.y + */PADDING + m_wallPadd;
+		float curY = PADDING + m_wallPadd;
 
-		// TODO adjustable width
-		float widthLeft = m_dim.x / 2.0f;
+		float widthLeft = m_dim.x * m_midDivider;
 		float widthRight = widthLeft;
 
-		float leftStart = /*m_pos.x + */PADDING;
-		float leftEnd = /*m_pos.x + */widthLeft - PADDING;
-		float rightStart = /*m_pos.x + */widthLeft + PADDING;
-		float rightEnd = /*m_pos.x + */widthLeft + widthRight - PADDING;
+		float leftStart = PADDING;
+		float leftEnd = widthLeft - PADDING;
+		float rightStart = widthLeft + PADDING;
+		float rightEnd = widthLeft + widthRight - PADDING;
 
 		auto clipFunc = &UIItemLister::clipToRectMid;
 		if (m_mode == Mode::Left)
@@ -99,7 +98,39 @@ public:
 
 		sortReceivers();
 	}
+	// setting dim
+	void adjustToItems()
+	{
+		float leftMaxX = 0.0f;
+		float rightMaxX = 0.0f;
 
+		float curY = PADDING + m_wallPadd;
+
+		for(const auto& i : m_items)
+		{
+			float maxHei = 0.0f;
+			if (i.left)
+			{
+				maxHei = i.left->getDim().y;
+				leftMaxX = std::max(i.left->getDim().x, leftMaxX);
+			}
+			if (i.right)
+			{
+				maxHei = std::max(maxHei, i.right->getDim().y);
+				rightMaxX = std::max(i.right->getDim().x, rightMaxX);
+			}
+			curY += maxHei + m_cellPadd;
+		}
+
+		// final height of all items
+		curY += PADDING + m_wallPadd;
+		setDim({PADDING + m_wallPadd + leftMaxX + m_cellPadd + rightMaxX + m_wallPadd + PADDING, curY});
+		
+		if (leftMaxX > 0.0f)
+			setMidDivider(leftMaxX / (leftMaxX + rightMaxX));
+		else
+			setMidDivider(0.0f);
+	}
 	virtual void draw(Drawing& draw) override
 	{
 		if(isVisible())
@@ -131,6 +162,10 @@ public:
 	void setWallPadding(float p)
 	{
 		m_wallPadd = p;
+	}
+	void setMidDivider(float d)
+	{
+		m_midDivider = d;
 	}
 private:
 	// ReSharper disable CppMemberFunctionMayBeStatic
@@ -165,6 +200,7 @@ protected:
 	float m_wallPadd = 0.0f; // padding to wall
 	const float PADDING = 5.0f;
 	// TODO it is called a padding when its inside the content-box, otherwise it is called margin
+	float m_midDivider = 0.5f; // divided in middle
 
 	UIObjectList m_uiList;
 };
