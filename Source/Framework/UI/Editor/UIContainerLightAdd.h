@@ -20,8 +20,8 @@ public:
 		
 		m_lblType(getDFont(),"Type"),
 		m_lblColor(getDFont(), "Color"),
-		m_lblAttenuation(getDFont(), "attenuation"),
-		m_lblOrigin(getDFont(), "Origin"),
+		m_lblAttenuation(getDFont(), "Attenuation"),
+		m_lblOrigin(getDFont(), "Direction"),
 		m_lblX(getDFont(), "x"),
 		m_lblY(getDFont(), "y"),
 		m_lblZ(getDFont(), "z")
@@ -50,6 +50,32 @@ public:
 		setWallPadding(5.0f);
 		adjustToItems();
 		setFixedDim(true);
+
+		m_type.setOnValueCallback([this](IValueHolder<UniformBlockLight::LightSource::Type>* vh)
+		{
+			switch(vh->getValue())
+			{
+			case UniformBlockLight::LightSource::Directional:
+				m_lblOrigin.setText("Direction");
+				m_lblAttenuation.disable();
+				m_attenuation.disable();
+				break;
+			case UniformBlockLight::LightSource::PointLight: 
+				m_lblOrigin.setText("Origin");
+				m_lblAttenuation.enable();
+				m_attenuation.enable();
+				break;
+			}
+		});
+	}
+	UniformBlockLight::LightSource getLightSource() const
+	{
+		UniformBlockLight::LightSource s;
+		s.origin = glm::vec3(m_x.getValue(), m_y.getValue(), m_z.getValue());
+		s.attenuation = m_attenuation.getValue();
+		s.color = m_color.getValue().toVec3();
+		s.type = m_type.getValue();
+		return s;
 	}
 private:
 	static Font& getDFont()
