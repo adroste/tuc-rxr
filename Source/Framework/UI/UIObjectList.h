@@ -57,6 +57,13 @@ public:
 		obj->unregisterMe();
 	}
 
+	void clear()
+	{
+		for (auto& o : m_objs)
+			o->unregisterMe();
+		m_objs.clear();
+	}
+
 	virtual void draw(Drawing& draw) override
 	{
 		LockGuard g(m_muObjs);

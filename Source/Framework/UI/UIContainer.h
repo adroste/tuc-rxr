@@ -77,6 +77,10 @@ public:
 		m_matTransform = glm::translate(glm::vec3(p.x, p.y, 0.0f));
 	}
 
+	bool hasFixedDim() const
+	{
+		return m_fixedDim;
+	}
 protected:
 	virtual PointF transformMouse(PointF mpos) override
 	{

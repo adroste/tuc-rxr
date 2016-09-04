@@ -129,9 +129,9 @@ public:
 			sortReceivers();
 		}
 
-		void unregReceiver(Input::IReceiver* rec)
+		void unregReceiver(const Input::IReceiver* rec)
 		{
-			m_receivers.remove_if([rec](Input::IReceiver* curRec)
+			m_receivers.remove_if([rec](const Input::IReceiver* curRec)
 			{
 				return rec == curRec;
 			});
