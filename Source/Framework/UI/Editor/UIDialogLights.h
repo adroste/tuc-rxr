@@ -16,6 +16,7 @@ public:
 		m_lights.setOrigin(o);
 		m_lights.orderItems();
 
+		m_lights.setZIndex(1);
 		m_lights.registerMe(this);
 	}
 
