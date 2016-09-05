@@ -21,6 +21,7 @@ public:
 	virtual bool keyUp(SDL_Scancode s) override;
 
 	void setCurrentBlock(const CubeDesc& c);
+	void setMapdim(const Point3S& d);
 	void reset();
 
 	const Color& getAmbientColor() const;

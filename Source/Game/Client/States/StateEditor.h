@@ -8,17 +8,20 @@
 #include "../../../Framework/UI/UIMenuBar.h"
 #include "../../../Framework/UI/Editor/UIDialogLights.h"
 #include "../../../Framework/UI/UIWindowContainerHolder.h"
+#include "../../../Framework/UI/UIDialogContainerHolder.h"
+#include "../../../Framework/UI/Editor/UIContainerMapSetup.h"
 
 class StateEditor : public GameState
 {
 public:
 	StateEditor()
 		:
-		m_uiList({ &m_btnBack, &m_wndMaterial, &m_menu, &m_dlgLights }),
+		m_uiList({ &m_btnBack, &m_wndMaterial, &m_menu, &m_dlgLights, &m_dlgMapSetup }),
 		m_menu(Drawing::getFont(Font::Style::Headline,Font::Size::M)),
 		m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Back"),
 		m_dlgLights(m_editor),
-		m_wndMaterial(true)
+		m_wndMaterial(true),
+		m_dlgMapSetup(UIDialog::Buttons::OKCancel)
 	{
 		// TODO fix z index thing
 		m_menu.setZIndex(100);
@@ -45,6 +48,11 @@ public:
 		{
 			m_wndMaterial.show();
 		});
+		m_menu.addItem("Map", "Dimension", [this](const std::string&)
+		{
+			m_uiList.setFocusFor(&m_dlgMapSetup);
+			m_dlgMapSetup.show();
+		});
 
 		m_editor.registerMe(this);
 
@@ -58,6 +66,9 @@ public:
 		m_wndMaterial.setZIndex(2);
 		m_wndMaterial.adjustToContainer();
 		m_wndMaterial.setOrigin({ 800,100 });
+
+		m_dlgMapSetup.adjustToContainer();
+		m_dlgMapSetup.center();
 
 		m_uiList.registerAll(this);
 
@@ -80,6 +91,14 @@ public:
 				// set index 0
 				m_editor.setZIndex(0);
 				sortReceivers();
+			}
+		});
+
+		m_dlgMapSetup.setOnResultCallback([this](UIDialog* dlg)
+		{
+			if(dlg->getResult() == UIDialog::Result::OK)
+			{
+				m_editor.setMapdim(m_dlgMapSetup->getMapdim());
 			}
 		});
 	}
@@ -161,4 +180,5 @@ private:
 	UIMenuBar m_menu;
 	// material list
 	UIWindowContainerHolder<UIContainerMaterial> m_wndMaterial;
+	UIDialogContainerHolder<UIContainerMapSetup> m_dlgMapSetup;
 };

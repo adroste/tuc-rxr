@@ -251,6 +251,11 @@ void GameEditor::setCurrentBlock(const CubeDesc& c)
 	m_curCubeDesc = c;
 }
 
+void GameEditor::setMapdim(const Point3S& d)
+{
+	m_pMap->setDim(d);
+}
+
 void GameEditor::reset()
 {
 	LockGuard g(m_muMap);

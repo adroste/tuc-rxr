@@ -27,9 +27,9 @@ public:
 		m_pCon->setZIndex(1);
 		m_pCon->registerMe(this);
 	}
-	UIDialogContainerHolder(bool show = false)
+	UIDialogContainerHolder(Buttons btns = Buttons::None)
 		:
-		UIDialogContainerHolder(std::unique_ptr<T>(new T()), show)
+		UIDialogContainerHolder(std::unique_ptr<T>(new T()), btns)
 	{}
 
 	T& get()
@@ -58,7 +58,8 @@ public:
 	virtual void draw(Drawing& draw) override
 	{
 		if (!isVisible()) return;
-		UIWindow::draw(draw);
+
+		UIDialog::draw(draw);
 		pushDrawTransforms(draw, PointF(0.0f));
 		m_pCon->draw(draw);
 		popDrawTransforms(draw);

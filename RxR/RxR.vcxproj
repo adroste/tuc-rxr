@@ -232,6 +232,7 @@
     <ClInclude Include="..\Source\Framework\UI\Callback.h" />
     <ClInclude Include="..\Source\Framework\UI\Editor\UIContainerLightAdd.h" />
     <ClInclude Include="..\Source\Framework\UI\Editor\UIContainerLights.h" />
+    <ClInclude Include="..\Source\Framework\UI\Editor\UIContainerMapSetup.h" />
     <ClInclude Include="..\Source\Framework\UI\Editor\UIContainerMaterial.h" />
     <ClInclude Include="..\Source\Framework\UI\Editor\UIDialogLights.h" />
     <ClInclude Include="..\Source\Framework\UI\Editor\UIDialogLightsAdd.h" />
