@@ -51,6 +51,19 @@ public:
 		adjustToItems();
 		setFixedDim(true);
 
+		m_dlgColor.setZIndex(1);
+		m_dlgColor.registerMe(this);
+		m_color.setOnClickCallback([this](IClickable*)
+		{
+			m_dlgColor.setCenter(getRect().getMidpoint());
+			m_dlgColor.show(m_color.getValue());
+			m_dlgColor.setOnResultCallback([this](UIDialog* dlg)
+			{
+				if (dlg->getResult() == UIDialog::Result::OK)
+					m_color.setValue(m_dlgColor.getValue());
+			});
+		});
+
 		m_type.setOnValueCallback([this](IValueHolder<UniformBlockLight::LightSource::Type>* vh)
 		{
 			switch(vh->getValue())
@@ -77,6 +90,23 @@ public:
 		s.type = m_type.getValue();
 		return s;
 	}
+
+	virtual void draw(Drawing& draw) override
+	{
+		UIItemLister::draw(draw);
+		pushDrawTransforms(draw, PointF(0.0f, 0.0f));
+		m_dlgColor.draw(draw);
+		popDrawTransforms(draw);
+	}
+
+	void normalizeOrigin()
+	{
+		auto v = glm::vec3(m_x.getValue(), m_y.getValue(), m_z.getValue());
+		v = glm::normalize(v);
+		m_x.setValue(v.x);
+		m_y.setValue(v.y);
+		m_z.setValue(v.z);
+	}
 private:
 	static Font& getDFont()
 	{
@@ -97,4 +127,6 @@ public:
 	UILabel m_lblX;
 	UILabel m_lblY;
 	UILabel m_lblZ;
+
+	UIDialogColorPicker m_dlgColor;
 };

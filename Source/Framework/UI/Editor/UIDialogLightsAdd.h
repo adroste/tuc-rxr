@@ -30,6 +30,34 @@ public:
 		m_light.draw(draw);
 		popDrawTransforms(draw);
 	}
+	UniformBlockLight::LightSource getLightSource() const
+	{
+		return m_light.getLightSource();
+	}
+
+protected:
+	virtual void setResult(Result dlgResult) override
+	{
+		if (dlgResult == Result::OK)
+		{
+			// check if light source makes sense
+			auto l = getLightSource();
+			if(l.type == UniformBlockLight::LightSource::Directional)
+			{
+				if(glm::length(l.origin) > 0.0000001f)
+				{
+					m_light.normalizeOrigin();
+				}
+				else
+				{
+					System::messageBox("invalid direction", "direction may not be (0|0|0)", System::BoxIcon::Error);
+					return;
+				}
+			}
+		}
+		
+		UIDialog::setResult(dlgResult);
+	}
 private:
 	UIContainerLightAdd m_light;
 };

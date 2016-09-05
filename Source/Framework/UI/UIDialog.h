@@ -231,7 +231,7 @@ public:
 	}
 
 protected:
-	void setResult(Result dlgResult)
+	virtual void setResult(Result dlgResult)
 	{
 		m_dlgResult = dlgResult;
 		if (m_dlgResult != Result::None)

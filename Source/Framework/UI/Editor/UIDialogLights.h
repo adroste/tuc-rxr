@@ -22,10 +22,15 @@ public:
 		m_lights.orderItems();
 		m_list.setOrigin(m_lights.getRect().getBottomLeft());
 
-		m_lights.setZIndex(1);
+		m_lights.setZIndex(2);
 		m_lights.registerMe(this);
 		m_list.setZIndex(1);
 		m_list.registerMe(this);
+
+		m_lights.setOnLightAddCallback([this](UniformBlockLight::LightSource s)
+		{
+			m_list.add(s);
+		});
 	}
 
 	virtual void draw(Drawing& draw) override
@@ -35,8 +40,8 @@ public:
 		UIDialog::draw(draw);
 
 		pushDrawTransforms(draw);
-		m_lights.draw(draw);
 		m_list.draw(draw);
+		m_lights.draw(draw);
 		popDrawTransforms(draw);
 	}
 private:

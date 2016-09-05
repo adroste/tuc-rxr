@@ -8,23 +8,34 @@ class UILightLister : public UIContainerLister
 	class Item : public UIContainer
 	{
 	public:
-		Item(const UniformBlockLight::LightSource& l, UILightLister& parent)
+		Item(const UniformBlockLight::LightSource& l)
 			:
-			m_parent(parent),
+			UIContainer(true),
 			m_objs({&m_lblType, &m_btnClose, &m_lblOrigin}),
 			m_lblType(getFont(),getType(l.type)),
 			m_btnClose(UIButton::Style::Royal,getFont(),"X"),
 			m_lblOrigin(getFont(),getOriginText(l.type, l.origin)),
-			m_color(l.color.r, l.color.g, l.color.b),
-			m_extra(getFont(),getExtraText(l))
+			m_extra(getFont(),getExtraText(l)),
+			m_color(l.color.r, l.color.g, l.color.b)
 		{
 			m_btnClose.adjustToFontHeadline();
 			if (m_extra.getText().length())
 				m_objs.add(&m_extra);
 			m_objs.registerAll(this);
+
+			m_btnClose.setOnClickCallback([this](IClickable*)
+			{
+				m_plsDelete = true;
+			});
 		}
-
-
+		virtual ~Item()
+		{
+			IReceiver::unregisterMe();
+		}
+		bool plsErase() const
+		{
+			return m_plsDelete;
+		}
 		virtual void setDim(const PointF& d) override
 		{
 			// only width matters
@@ -84,13 +95,13 @@ class UILightLister : public UIContainerLister
 			return t;
 		}
 	private:
-		UILightLister& m_parent;
 		UIObjectList m_objs;
 		UILabel m_lblType;
 		UIButtonText m_btnClose;
 		UILabel m_lblOrigin;
 		UILabel m_extra;
 		const Color m_color;
+		bool m_plsDelete = false;
 	};
 public:
 	UILightLister()
@@ -99,6 +110,31 @@ public:
 	}
 	void add(const UniformBlockLight::LightSource& l)
 	{
-		addContainer(std::unique_ptr<UIContainer>(new Item(l, *this)));
+		addContainer(std::unique_ptr<UIContainer>(new Item(l)));
+	}
+
+	virtual bool mouseUp(const PointF& mpos, Input::Mouse button) override
+	{
+		bool h = UIContainer::mouseUp(mpos, button);
+		if(h)
+		{
+			// was some item deleted?
+			update();
+		}
+		return h;
+	}
+
+private:
+	void update()
+	{
+		for(auto& c : m_cons)
+		{
+			Item* pi = dynamic_cast<Item*>(c.get());
+			if(pi && pi->plsErase())
+			{
+				erase(pi);
+				break;
+			}
+		}
 	}
 };

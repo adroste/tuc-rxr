@@ -9,6 +9,7 @@
 
 class UIContainerLights : public UIItemLister
 {
+	CALLBACK(LightAdd, UniformBlockLight::LightSource);
 public:
 	UIContainerLights(GameEditor& editor)
 		:
@@ -49,9 +50,14 @@ public:
 		});
 		m_btnAddLight.setOnClickCallback([this](IClickable*)
 		{
-			m_dlgLightAdd.setCenter(getRect().getMidpoint());
+			m_dlgLightAdd.setOrigin(getDim() / 2.0f);
 			m_dlgLightAdd.show();
 
+		});
+		m_dlgLightAdd.setOnResultCallback([this](UIDialog* dlg)
+		{
+			if(dlg->getResult() == UIDialog::Result::OK)
+				m_onLightAdd(m_dlgLightAdd.getLightSource());
 		});
 	}
 
@@ -64,6 +70,7 @@ public:
 		m_dlgLightAdd.draw(draw);
 		popDrawTransforms(draw);
 	}
+
 private:
 	// font for description
 	static Font& getDFont()

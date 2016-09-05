@@ -82,8 +82,10 @@ public:
 		g.unlock();
 		popDrawTransforms(draw);
 	}
-private:
+protected:
 	std::vector<std::unique_ptr<UIContainer>> m_cons;
+
+private:
 	UIObjectList m_objList;
 	Mutex m_muCo;
 	float m_curY = 0.0f;
