@@ -13,7 +13,9 @@ public:
 	{
 		m_list.setDim({ m_lights.getDim().x,300.0f });
 		for (const auto& l : editor.getLights())
+		{
 			m_list.add(l);
+		}
 
 		auto o = UIDialog::setClientArea(m_lights.getDim() + PointF(0.0f,m_list.getDim().y));
 		setFixedDim(true);
@@ -30,6 +32,15 @@ public:
 		m_lights.setOnLightAddCallback([this](UniformBlockLight::LightSource s)
 		{
 			m_list.add(s);
+		});
+
+		setOnResultProtectedCallback([this, &editor](UIDialog* dlg)
+		{
+			if (dlg->getResult() == Result::OK)
+			{
+				// update lights in editor
+				editor.updateLights(m_lights.getAmbient(), m_list.getLights());
+			}
 		});
 	}
 

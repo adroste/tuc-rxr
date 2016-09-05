@@ -282,6 +282,11 @@ const std::vector<UniformBlockLight::LightSource>& GameEditor::getLights() const
 	return m_pLight->getLights();
 }
 
+void GameEditor::updateLights(const Color& ambient, const std::vector<UniformBlockLight::LightSource>& lights)
+{
+	m_pLight->init(ambient, lights);
+}
+
 void GameEditor::drawGrid(Drawing& draw) const
 {
 	draw.getTransform().pushModel(glm::translate(glm::vec3{ -0.5f, -0.5f, -0.5f }));

@@ -25,6 +25,7 @@ public:
 
 	const Color& getAmbientColor() const;
 	const std::vector<UniformBlockLight::LightSource>& getLights() const;
+	void updateLights(const Color& ambient, const std::vector<UniformBlockLight::LightSource>& lights);
 private:
 	void drawGrid(Drawing& draw) const;
 	void drawLineBox(Drawing& draw, const Point3F& p1, const Point3F& p2, const Color& c) const;

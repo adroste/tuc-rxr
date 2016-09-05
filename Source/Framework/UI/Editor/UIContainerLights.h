@@ -20,7 +20,7 @@ public:
 		m_btnAmbient(editor.getAmbientColor()),
 		m_btnAddLight(UIButton::Style::Royal,getDFont(),"add light")
 	{
-		m_btnAmbient.setValue(m_editor.getAmbientColor());
+		m_btnAmbient.setValue(m_editor.getAmbientColor().fromGamma());
 		// metrics
 		float fh = getDFont().getMaxHeight();
 		const PointF cdim = { 3.0f * fh,fh };
@@ -61,7 +61,10 @@ public:
 				m_onLightAdd(m_dlgLightAdd.getLightSource());
 		});
 	}
-
+	Color getAmbient() const
+	{
+		return m_btnAmbient.getValue().toGamma();
+	}
 
 	virtual void draw(Drawing& draw) override
 	{

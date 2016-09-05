@@ -16,7 +16,8 @@ class UILightLister : public UIContainerLister
 			m_btnClose(UIButton::Style::Royal,getFont(),"X"),
 			m_lblOrigin(getFont(),getOriginText(l.type, l.origin)),
 			m_extra(getFont(),getExtraText(l)),
-			m_color(l.color.r, l.color.g, l.color.b)
+			m_color(Color(l.color.r, l.color.g, l.color.b).fromGamma()),
+			m_light(l)
 		{
 			m_btnClose.adjustToFontHeadline();
 			if (m_extra.getText().length())
@@ -94,6 +95,10 @@ class UILightLister : public UIContainerLister
 			}
 			return t;
 		}
+		const UniformBlockLight::LightSource& getLight() const
+		{
+			return m_light;
+		}
 	private:
 		UIObjectList m_objs;
 		UILabel m_lblType;
@@ -102,6 +107,7 @@ class UILightLister : public UIContainerLister
 		UILabel m_extra;
 		const Color m_color;
 		bool m_plsDelete = false;
+		const UniformBlockLight::LightSource m_light;
 	};
 public:
 	UILightLister()
@@ -123,7 +129,19 @@ public:
 		}
 		return h;
 	}
-
+	std::vector<UniformBlockLight::LightSource> getLights() const
+	{
+		std::vector<UniformBlockLight::LightSource> s;
+		for(const auto& c : m_cons)
+		{
+			const Item* pi = dynamic_cast<const Item*>(c.get());
+			if(pi)
+			{
+				s.push_back(pi->getLight());
+			}
+		}
+		return s;
+	}
 private:
 	void update()
 	{

@@ -14,9 +14,9 @@ public:
 		m_type(getDFont(),UniformBlockLight::LightSource::Directional),
 		m_color(Color::White()),
 		m_attenuation(getDFont(),0.2f,0.00000000000001f,100.0f,0.01f),
-		m_x(getDFont(),0.0f,FLT_MIN,FLT_MAX,1.0f),
-		m_y(getDFont(),0.0f,FLT_MIN,FLT_MAX,1.0f),
-		m_z(getDFont(),0.0f,FLT_MIN,FLT_MAX,1.0f),
+		m_x(getDFont(),0.0f, -FLT_MAX,FLT_MAX,1.0f),
+		m_y(getDFont(),0.0f, -FLT_MAX,FLT_MAX,1.0f),
+		m_z(getDFont(),0.0f, -FLT_MAX,FLT_MAX,1.0f),
 		
 		m_lblType(getDFont(),"Type"),
 		m_lblColor(getDFont(), "Color"),
@@ -86,7 +86,7 @@ public:
 		UniformBlockLight::LightSource s;
 		s.origin = glm::vec3(m_x.getValue(), m_y.getValue(), m_z.getValue());
 		s.attenuation = m_attenuation.getValue();
-		s.color = m_color.getValue().toVec3();
+		s.color = m_color.getValue().toGamma().toVec3();
 		s.type = m_type.getValue();
 		return s;
 	}

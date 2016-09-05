@@ -10,7 +10,7 @@ void LightManager::init(const Color & ambient, std::vector<UniformBlockLight::Li
 {
 	m_ambient = ambient;
 	m_lights = std::move(lights);
-
+	m_isApplied = false;
 }
 
 void LightManager::apply(Drawing& draw)
