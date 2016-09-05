@@ -41,6 +41,10 @@ public:
 			m_dlgLights.center();
 			m_dlgLights.show();
 		});
+		m_menu.addItem("Map","Material",[this](const std::string&)
+		{
+			m_wndMaterial.show();
+		});
 
 		m_editor.registerMe(this);
 
