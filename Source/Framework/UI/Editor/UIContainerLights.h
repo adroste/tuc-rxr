@@ -20,6 +20,7 @@ public:
 		m_btnAmbient(editor.getAmbientColor()),
 		m_btnAddLight(UIButton::Style::Royal,getDFont(),"add light")
 	{
+		m_btnAmbient.setValue(m_editor.getAmbientColor());
 		// metrics
 		float fh = getDFont().getMaxHeight();
 		const PointF cdim = { 3.0f * fh,fh };

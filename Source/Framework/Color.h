@@ -96,6 +96,15 @@ public:
 		return (*this * getLuminanceConst()).getColorSum();
 	}
 
+	Color toGamma() const
+	{
+		return Color(std::pow(r, 2.2f), std::pow(g, 2.2f), std::pow(b, 2.2f), a);
+	}
+	Color fromGamma() const
+	{
+		return Color(std::pow(r, 1.0f / 2.2f), std::pow(g, 1.0f / 2.2f), std::pow(b, 1.0f / 2.2f), a);
+	}
+
 	static Color mix(Color c1, Color c2, float fac)
 	{
 		return tool::mix(c1, c2, fac);
