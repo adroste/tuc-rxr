@@ -16,10 +16,10 @@ public:
 		{
 			m_list.add(l);
 		}
+		m_list.adjustToContent();
 
 		auto o = UIDialog::setClientArea(m_lights.getDim() + PointF(0.0f,m_list.getDim().y));
-		setFixedDim(true);
-
+		
 		m_lights.setOrigin(o);
 		m_lights.orderItems();
 		m_list.setOrigin(m_lights.getRect().getBottomLeft());
@@ -32,6 +32,8 @@ public:
 		m_lights.setOnLightAddCallback([this](UniformBlockLight::LightSource s)
 		{
 			m_list.add(s);
+			m_list.adjustToContent();
+			UIDialog::setClientArea(m_lights.getDim() + PointF(0.0f, m_list.getDim().y));
 		});
 
 		setOnResultProtectedCallback([this, &editor](UIDialog* dlg)

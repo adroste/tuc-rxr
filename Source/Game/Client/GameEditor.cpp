@@ -54,7 +54,7 @@ void GameEditor::draw(Drawing& draw)
 	auto& f = draw.getFont(Font::Style::Text, Font::Size::S);
 	f.write(draw, std::to_string(m_blockPos.x)
 		+ " : " + std::to_string(m_blockPos.y)
-		+ " : " + std::to_string(m_blockPos.z), { 10,10 });
+		+ " : " + std::to_string(m_blockPos.z), { 10,300 });
 }
 
 bool GameEditor::mouseMove(const PointF& mpos, const PointF& mdiff, bool handled)

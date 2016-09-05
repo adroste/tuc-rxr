@@ -82,6 +82,11 @@ public:
 		g.unlock();
 		popDrawTransforms(draw);
 	}
+
+	void adjustToContent()
+	{
+		UIContainer::setDim({ m_dim.x, m_curY });
+	}
 protected:
 	std::vector<std::unique_ptr<UIContainer>> m_cons;
 
