@@ -7,16 +7,18 @@
 #include "../../../Framework/UI/Editor/UIContainerMaterial.h"
 #include "../../../Framework/UI/UIMenuBar.h"
 #include "../../../Framework/UI/Editor/UIDialogLights.h"
+#include "../../../Framework/UI/UIWindowContainerHolder.h"
 
 class StateEditor : public GameState
 {
 public:
 	StateEditor()
 		:
-		m_uiList({ &m_btnBack, &m_listMaterial, &m_menu, &m_dlgLights }),
+		m_uiList({ &m_btnBack, &m_wndMaterial, &m_menu, &m_dlgLights }),
 		m_menu(Drawing::getFont(Font::Style::Headline,Font::Size::M)),
 		m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Back"),
-		m_dlgLights(m_editor)
+		m_dlgLights(m_editor),
+		m_wndMaterial(true)
 	{
 		// TODO fix z index thing
 		m_menu.setZIndex(100);
@@ -47,18 +49,20 @@ public:
 		m_btnBack.setZIndex(1);
 
 		// material list
-		m_listMaterial.setOrigin({ 800,100 });
-		m_listMaterial.orderItems();
-		m_listMaterial.setZIndex(2);
+		m_wndMaterial->orderItems();
+		m_wndMaterial->adjustToItems();
+		m_wndMaterial.setZIndex(2);
+		m_wndMaterial.adjustToContainer();
+		m_wndMaterial.setOrigin({ 800,100 });
 
 		m_uiList.registerAll(this);
 
-		m_editor.setCurrentBlock(m_listMaterial.getCubeDesc());
-		m_listMaterial.setOnMaterialChangeCallback([this](CubeDesc d)
+		m_editor.setCurrentBlock(m_wndMaterial->getCubeDesc());
+		m_wndMaterial->setOnMaterialChangeCallback([this](CubeDesc d)
 		{
 			m_editor.setCurrentBlock(d);
 		});
-
+		
 		m_editor.setOnCaptureCallback([this](bool getCapture)
 		{
 			if(getCapture)
@@ -152,5 +156,5 @@ private:
 	UIDialogLights m_dlgLights;
 	UIMenuBar m_menu;
 	// material list
-	UIContainerMaterial m_listMaterial;
+	UIWindowContainerHolder<UIContainerMaterial> m_wndMaterial;
 };
