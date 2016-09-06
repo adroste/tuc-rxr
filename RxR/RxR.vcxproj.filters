@@ -534,6 +534,12 @@
     <ClInclude Include="..\Source\Framework\UI\Editor\UIContainerMapSetup.h">
       <Filter>Source\Framework\UI\Editor</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\Editor\UIWindowBuckets.h">
+      <Filter>Source\Framework\UI\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\Editor\UIContainerBucket.h">
+      <Filter>Source\Framework\UI\Editor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glew32.dll">

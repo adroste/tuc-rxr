@@ -10,13 +10,14 @@
 #include "../../../Framework/UI/UIWindowContainerHolder.h"
 #include "../../../Framework/UI/UIDialogContainerHolder.h"
 #include "../../../Framework/UI/Editor/UIContainerMapSetup.h"
+#include "../../../Framework/UI/Editor/UIWindowBuckets.h"
 
 class StateEditor : public GameState
 {
 public:
 	StateEditor()
 		:
-		m_uiList({ &m_btnBack, &m_wndMaterial, &m_menu, &m_dlgLights, &m_dlgMapSetup }),
+		m_uiList({ &m_btnBack, &m_wndMaterial, &m_menu, &m_dlgLights, &m_dlgMapSetup, &m_wndBucks}),
 		m_menu(Drawing::getFont(Font::Style::Headline,Font::Size::M)),
 		m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Back"),
 		m_dlgLights(m_editor),
@@ -66,6 +67,9 @@ public:
 		m_wndMaterial.setZIndex(2);
 		m_wndMaterial.adjustToContainer();
 		m_wndMaterial.setOrigin({ 800,100 });
+
+		m_wndBucks.setZIndex(3);
+		m_wndBucks.setOrigin({ 10,50 });
 
 		m_dlgMapSetup.adjustToContainer();
 		m_dlgMapSetup.center();
@@ -181,4 +185,5 @@ private:
 	// material list
 	UIWindowContainerHolder<UIContainerMaterial> m_wndMaterial;
 	UIDialogContainerHolder<UIContainerMapSetup> m_dlgMapSetup;
+	UIWindowBuckets m_wndBucks;
 };
