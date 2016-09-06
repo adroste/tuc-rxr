@@ -39,6 +39,27 @@ public:
 		LockGuard g(m_muCo);
 		m_cons.push_back(std::move(c));
 	}
+	// insert position -> 0 = start size() = end
+	void insert(size_t pos, std::unique_ptr<UIContainer> c)
+	{
+		assert(pos <= m_cons.size());
+		if(pos == m_cons.size())
+		{
+			addContainer(std::move(c));
+			return;
+		}
+
+		if (!hasFixedDim())
+			c->setWidth(m_dim.x);
+
+		assert(c->getDim().x <= m_dim.x);
+		// determine y
+		
+		m_objList.addAndReg(c.get(), this);
+		LockGuard g(m_muCo);
+		m_cons.insert(m_cons.begin() + pos, std::move(c));
+		reorder();
+	}
 	void clear()
 	{
 		LockGuard g(m_muCo);
@@ -61,12 +82,7 @@ public:
 			m_cons.erase(it);
 
 			// reorder items
-			m_curY = 0.0f;
-			for(auto& o : m_cons)
-			{
-				o->setOrigin({ 0.0f,m_curY });
-				m_curY += o->getDim().y;
-			}
+			reorder();
 		}
 	}
 
@@ -87,6 +103,26 @@ public:
 	{
 		UIContainer::setDim({ m_dim.x, m_curY });
 	}
+
+	size_t size() const
+	{
+		return m_cons.size();
+	}
+
+private:
+	// reorder origins
+	void reorder()
+	{
+		m_curY = 0.0f;
+		for(auto& c : m_cons)
+		{
+			PointF o = { 0.0f,m_curY };
+			if (c->getOrigin() != o)
+				c->setOrigin(o);
+			m_curY += c->getDim().y;
+		}
+	}
+
 protected:
 	std::vector<std::unique_ptr<UIContainer>> m_cons;
 
