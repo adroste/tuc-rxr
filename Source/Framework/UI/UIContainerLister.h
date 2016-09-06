@@ -26,7 +26,7 @@ public:
 		for (auto& i : m_cons)
 			i->setWidth(d.x);
 	}
-	void addContainer(std::unique_ptr<UIContainer> c)
+	void addContainer(std::unique_ptr<UIObject> c)
 	{
 		if(!hasFixedDim())
 			c->setWidth(m_dim.x);
@@ -40,7 +40,7 @@ public:
 		m_cons.push_back(std::move(c));
 	}
 	// insert position -> 0 = start size() = end
-	void insert(size_t pos, std::unique_ptr<UIContainer> c)
+	void insert(size_t pos, std::unique_ptr<UIObject> c)
 	{
 		assert(pos <= m_cons.size());
 		if(pos == m_cons.size())
@@ -124,7 +124,7 @@ private:
 	}
 
 protected:
-	std::vector<std::unique_ptr<UIContainer>> m_cons;
+	std::vector<std::unique_ptr<UIObject>> m_cons;
 
 private:
 	UIObjectList m_objList;
