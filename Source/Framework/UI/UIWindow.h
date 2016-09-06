@@ -112,6 +112,10 @@ protected:
 		setDim(dim + PointF(20.0f));
 		return PointF(10.0f);
 	}
+	RectF getClientArea() const
+	{
+		return RectF(PointF(10.0f), m_dim - PointF(10.0f));
+	}
 protected:	
 	UIButtonText m_btnCancel;
 
