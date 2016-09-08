@@ -45,7 +45,8 @@ public:
 			// use next row
 			m_curIns = PointF(PADD, m_curMaxY + PADD);
 		}
-		
+		o->setOrigin(m_curIns);
+		m_curIns.x += PADD + o->getDim().x;
 
 		m_objList.addAndReg(o.get(), this);
 		LockGuard g(m_muObj);
@@ -59,6 +60,50 @@ public:
 		m_curIns = PointF(PADD);
 		m_curMaxY = PADD;
 	}
+	void erase(UIObject* obj)
+	{
+		auto it = m_objs.begin();
+		while (it != m_objs.end() && it->get() != obj)
+			++it;
+
+		if(it != m_objs.end())
+		{
+			LockGuard g(m_muObj);
+			m_objList.remove(obj);
+			m_objs.erase(it);
+			reorder();
+		}
+	}
+
+	virtual void draw(Drawing& draw) override
+	{
+		if (!isVisible()) return;
+		UIContainer::draw(draw);
+		pushDrawTransforms(draw);
+		LockGuard g(m_muObj);
+		for (auto& o : m_objs)
+			o->draw(draw);
+		g.unlock();
+		popDrawTransforms(draw);
+	}
+private:
+	void reorder()
+	{
+		m_curIns == PointF(PADD);
+		for(auto& o : m_objs)
+		{
+			if (m_curIns.x + o->getDim().x > m_dim.x - PADD)
+			{
+				// use next row
+				m_curIns = PointF(PADD, m_curMaxY + PADD);
+			}
+			if (o->getOrigin() != m_curIns)
+				o->setOrigin(m_curIns);
+
+			m_curIns.x += PADD + o->getDim().x;
+		}
+	}
+
 private:
 	std::vector<std::unique_ptr<UIObject>> m_objs;
 	UIObjectList m_objList;
