@@ -5,6 +5,8 @@
 
 class UIWindowBuckets : public UIWindow
 {
+	CALLBACK(BucketChange, UIWindowBuckets*);
+
 	class UIAddButton : public UIButton
 	{
 	public:
@@ -131,9 +133,15 @@ public:
 
 		LockGuard g(m_muCon);
 		pBuck->registerMe(this);
+		pBuck->setOnBucketEraseCallback([this](UIContainerBucket*)
+		{
+			m_onBucketChange(this);
+		});
 		m_bucks.push_back(std::move(pBuck));
 
 		selectBucket(m_curID - 1);
+
+		m_onBucketChange(this);
 	}
 
 	void selectBucket(size_t id)
@@ -150,6 +158,8 @@ public:
 					p->deselect();
 			}
 		}
+
+		m_onBucketChange(this);
 	}
 	// adds material to current bucket
 	void addToBucket(const CubeDesc& c)
@@ -163,6 +173,24 @@ public:
 				break;
 			}
 		}
+
+		m_onBucketChange(this);
+	}
+
+	std::vector<CubeDesc> getCurDesc() const
+	{
+		std::vector<CubeDesc> v;
+		for (const auto& b : m_bucks)
+		{
+			if (b->isVisible())
+			{
+				// this is the current bucket
+				v = b->getCubeDesc();
+				break;
+			}
+		}
+
+		return v;
 	}
 private:
 	UIContainerLister m_listBucketPrev; // list of Bucket previews

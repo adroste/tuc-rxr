@@ -5,13 +5,13 @@
 #include "../../System/Input.h"
 #include "../../Framework/UI/Callback.h"
 
-class GameEditor : public IDrawable, public Input::IReceiver
+class GameEditor : public Input::IReceiver
 {
 	CALLBACK(Capture, bool);
 public:
 	GameEditor();
 	virtual ~GameEditor() override;
-	virtual void draw(Drawing& draw) override;
+	void draw(Drawing& draw, float dt);
 
 	virtual bool mouseMove(const PointF& mpos, const PointF& mdiff, bool handled) override;
 	virtual bool mouseDown(const PointF& mpos, Input::Mouse button) override;
@@ -20,7 +20,8 @@ public:
 	virtual bool keyDown(SDL_Scancode s) override;
 	virtual bool keyUp(SDL_Scancode s) override;
 
-	void setCurrentBlock(const CubeDesc& c);
+	//void setCurrentBlock(const CubeDesc& c);
+	void setCurrentBlocks(std::vector<CubeDesc> v);
 	void setMapdim(const Point3S& d);
 	void reset();
 
@@ -32,6 +33,8 @@ private:
 	void drawLineBox(Drawing& draw, const Point3F& p1, const Point3F& p2, const Color& c) const;
 	void releaseCapture();
 	void takeCapture();
+	const CubeDesc& getNextBlock() const;
+	bool hasBlock() const;
 private:
 	std::unique_ptr<Map> m_pMap;
 	Mutex m_muMap;
@@ -52,5 +55,5 @@ private:
 	Point3I m_blockPos;
 	Point3I m_downPos;
 
-	CubeDesc m_curCubeDesc;
+	std::vector<CubeDesc> m_curCubeDescs;
 };

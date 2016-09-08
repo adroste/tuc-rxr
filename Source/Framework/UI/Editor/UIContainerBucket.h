@@ -19,8 +19,8 @@ class UIContainerBucket : public UIObjectExplorer
 
 		virtual void draw(Drawing& draw) override
 		{
-			draw.rect(RectF(m_pos, m_pos + PointF(m_dim.x, m_dim.y / 2.0f)), Color(m_cd.diffuse));
-			draw.rect(RectF(m_pos + PointF(0.0f, m_dim.y / 2.0f), m_pos + m_dim), Color(m_cd.spec));
+			draw.rect(RectF(m_pos, m_pos + PointF(m_dim.x, m_dim.y / 2.0f)), Color(m_cd.diffuse).fromGamma());
+			draw.rect(RectF(m_pos + PointF(0.0f, m_dim.y / 2.0f), m_pos + m_dim), Color(m_cd.spec).fromGamma());
 		}
 
 		const CubeDesc& getCubeDesc() const
@@ -50,7 +50,7 @@ class UIContainerBucket : public UIObjectExplorer
 		const CubeDesc m_cd;
 		bool m_plsDelete = false;
 	};
-
+	CALLBACK(BucketErase, UIContainerBucket*);
 public:
 	UIContainerBucket()
 	{
@@ -62,7 +62,6 @@ public:
 		p->setDim(PointF(50.0f));
 		addObject(std::move(p));
 	}
-
 
 	virtual bool mouseDown(const PointF& mpos, Input::Mouse button) override
 	{
@@ -76,10 +75,25 @@ public:
 				if(b && b->deleteMe())
 				{
 					erase(b);
+					m_onBucketErase(this);
 					break;
 				}
 			}
 		}
 		return h;
+	}
+
+	std::vector<CubeDesc> getCubeDesc() const
+	{
+		std::vector<CubeDesc> v;
+		for (const auto& o : *this)
+		{
+			auto b = dynamic_cast<const DescBox*>(o.get());
+			if (b)
+			{
+				v.push_back(b->getCubeDesc());
+			}
+		}
+		return v;
 	}
 };

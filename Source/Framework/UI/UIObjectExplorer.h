@@ -135,4 +135,14 @@ public:
 	{
 		return m_objs.end();
 	}
+
+	decltype(m_objs)::const_iterator begin() const
+	{
+		return m_objs.cbegin();
+	}
+
+	decltype(m_objs)::const_iterator end() const
+	{
+		return m_objs.cend();
+	}
 };

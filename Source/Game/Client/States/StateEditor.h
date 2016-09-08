@@ -54,6 +54,11 @@ public:
 			m_uiList.setFocusFor(&m_dlgMapSetup);
 			m_dlgMapSetup.show();
 		});
+		m_menu.addItem("Map", "Buckets", [this](const std::string&)
+		{
+			m_uiList.setFocusFor(&m_wndBucks);
+			m_wndBucks.show();
+		});
 
 		m_editor.registerMe(this);
 
@@ -76,10 +81,9 @@ public:
 
 		m_uiList.registerAll(this);
 
-		m_editor.setCurrentBlock(m_wndMaterial->getCubeDesc());
-		m_wndMaterial->setOnMaterialChangeCallback([this](CubeDesc d)
+		m_wndBucks.setOnBucketChangeCallback([this](UIWindowBuckets* pb)
 		{
-			m_editor.setCurrentBlock(d);
+			m_editor.setCurrentBlocks(pb->getCurDesc());
 		});
 		
 		m_editor.setOnCaptureCallback([this](bool getCapture)
@@ -124,7 +128,7 @@ public:
 	}
 	virtual void composeFrame(Drawing& draw, float dt) override
 	{
-		m_editor.draw(draw);
+		m_editor.draw(draw, dt);
 		
 		m_uiList.draw(draw);
 	}

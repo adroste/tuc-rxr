@@ -5,8 +5,7 @@
 
 GameEditor::GameEditor()
 	:
-	m_prevClientMouse(Input::getMouse()),
-	m_curCubeDesc(Color::Green().toDWORD())
+	m_prevClientMouse(Input::getMouse())
 {
 	reset();
 }
@@ -16,7 +15,7 @@ GameEditor::~GameEditor()
 	releaseCapture();
 }
 
-void GameEditor::draw(Drawing& draw)
+void GameEditor::draw(Drawing& draw, float dt)
 {
 	LockGuard g(m_muMap);
 
@@ -31,8 +30,20 @@ void GameEditor::draw(Drawing& draw)
 		const Point3F off = Point3F(0.5f, 0.5f, 0.5f);
 		// draw block in mouse coordinates
 		glDepthFunc(GL_LEQUAL);
-		Cube curCube = Cube(m_curCubeDesc,m_blockPos.toGlmVec3(),false);
-		curCube.draw(draw);
+		if(hasBlock())
+		{
+			static size_t divider = 1;
+			static float sumdt = 0.0f;
+			sumdt += dt;
+			if (sumdt > 2.0f)
+			{
+				sumdt -= 2.0f;
+				divider++;
+			}
+
+			Cube curCube = Cube(m_curCubeDescs[divider % m_curCubeDescs.size()], m_blockPos.toGlmVec3(), false);
+			curCube.draw(draw);
+		}
 
 		glDepthFunc(GL_ALWAYS);
 		drawLineBox(draw, fpos - off, fpos + off, Color::Gray());
@@ -158,10 +169,13 @@ bool GameEditor::mouseUp(const PointF& mpos, Input::Mouse button)
 			if(m_setDown)
 			{
 				m_setDown = false;
-				forAllInBox(m_downPos,m_blockPos,[this](Point3S p)
+				if(hasBlock())
 				{
-					m_pMap->setCube(new Cube(m_curCubeDesc, p.toGlmVec3(), true), false, true);
-				});
+					forAllInBox(m_downPos, m_blockPos, [this](Point3S p)
+					{
+						m_pMap->setCube(new Cube(getNextBlock(), p.toGlmVec3(), true), false, true);
+					});
+				}
 			}
 			break;
 		case Input::Mouse::Middle: 
@@ -246,9 +260,9 @@ bool GameEditor::keyUp(SDL_Scancode s)
 	return true;
 }
 
-void GameEditor::setCurrentBlock(const CubeDesc& c)
+void GameEditor::setCurrentBlocks(std::vector<CubeDesc> v)
 {
-	m_curCubeDesc = c;
+	m_curCubeDescs = std::move(v);
 }
 
 void GameEditor::setMapdim(const Point3S& d)
@@ -369,4 +383,15 @@ void GameEditor::takeCapture()
 	//System::setTrapCursor(true);
 	Input::trapMouse();
 	m_onCapture(true);
+}
+
+const CubeDesc& GameEditor::getNextBlock() const
+{
+	assert(hasBlock());
+	return m_curCubeDescs[rand() % m_curCubeDescs.size()];
+}
+
+bool GameEditor::hasBlock() const
+{
+	return m_curCubeDescs.size() != 0;
 }
