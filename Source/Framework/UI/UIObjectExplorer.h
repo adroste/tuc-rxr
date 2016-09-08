@@ -23,6 +23,7 @@
 	1. set Dim for ObjectExplorer
 	2. add Items (dims must be valid)
 
+	call registerMe and setOrigin for the container
 */
 
 class UIObjectExplorer : public UIContainer
@@ -31,27 +32,30 @@ public:
 	UIObjectExplorer()
 		:
 		UIContainer(true),
-		m_curIns(PADD),
+		m_curIns(PointF(PADD)),
 		m_curMaxY(PADD)
-	{}
+	{
+	}
 
 	void addObject(std::unique_ptr<UIObject> o)
 	{
-		assert(o.get);
+		assert(o);
 
 		// search position
-		if(m_curIns.x + o->getDim().x > m_dim.x - PADD)
+		if (m_curIns.x + o->getDim().x > m_dim.x - PADD)
 		{
 			// use next row
 			m_curIns = PointF(PADD, m_curMaxY + PADD);
 		}
 		o->setOrigin(m_curIns);
 		m_curIns.x += PADD + o->getDim().x;
+		m_curMaxY = std::max(m_curMaxY, o->getDim().y + o->getOrigin().y);
 
 		m_objList.addAndReg(o.get(), this);
 		LockGuard g(m_muObj);
 		m_objs.push_back(std::move(o));
 	}
+
 	void clear()
 	{
 		LockGuard g(m_muObj);
@@ -60,13 +64,14 @@ public:
 		m_curIns = PointF(PADD);
 		m_curMaxY = PADD;
 	}
+
 	void erase(UIObject* obj)
 	{
 		auto it = m_objs.begin();
 		while (it != m_objs.end() && it->get() != obj)
 			++it;
 
-		if(it != m_objs.end())
+		if (it != m_objs.end())
 		{
 			LockGuard g(m_muObj);
 			m_objList.remove(obj);
@@ -86,11 +91,17 @@ public:
 		g.unlock();
 		popDrawTransforms(draw);
 	}
+
+	size_t size() const
+	{
+		return m_objs.size();
+	}
 private:
 	void reorder()
 	{
-		m_curIns == PointF(PADD);
-		for(auto& o : m_objs)
+		m_curIns = PointF(PADD);
+		m_curMaxY = PADD;
+		for (auto& o : m_objs)
 		{
 			if (m_curIns.x + o->getDim().x > m_dim.x - PADD)
 			{
@@ -101,23 +112,25 @@ private:
 				o->setOrigin(m_curIns);
 
 			m_curIns.x += PADD + o->getDim().x;
+			m_curMaxY = std::max(m_curMaxY, o->getDim().y + o->getOrigin().y);
 		}
 	}
 
+
 private:
+	const float PADD = 10.0f;
 	std::vector<std::unique_ptr<UIObject>> m_objs;
 	UIObjectList m_objList;
 	Mutex m_muObj;
 	PointF m_curIns = PointF(10.0f); // current insert position
 	float m_curMaxY = 10.0f; // max y of all objects
-
-	const float PADD = 10.0f;
 	// iterateable
 public:
 	decltype(m_objs)::iterator begin()
 	{
 		return m_objs.begin();
 	}
+
 	decltype(m_objs)::iterator end()
 	{
 		return m_objs.end();

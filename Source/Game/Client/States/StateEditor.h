@@ -105,6 +105,10 @@ public:
 				m_editor.setMapdim(m_dlgMapSetup->getMapdim());
 			}
 		});
+		m_wndMaterial->setOnToBucketCallback([this](CubeDesc c)
+		{
+			m_wndBucks.addToBucket(c);
+		});
 	}
 
 	virtual ~StateEditor() override

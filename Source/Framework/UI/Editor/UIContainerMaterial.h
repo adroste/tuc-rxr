@@ -11,6 +11,7 @@
 class UIContainerMaterial : public UIItemLister
 {     
 	CALLBACK(MaterialChange, CubeDesc);
+	CALLBACK(ToBucket, CubeDesc);
 public:
 	UIContainerMaterial()
 		:
@@ -22,20 +23,22 @@ public:
 		m_lblShader(getDFont(), "shader"),
 		m_lblBlockType(getDFont(), "type"),
 		m_lblGravity(getDFont(), "has gravity"),
-		m_lblHP(getDFont(),"HP"),
+		m_lblHP(getDFont(), "HP"),
 		m_btnDiffuse(Color::Green()),
 		m_btnSpecular(Color::White()),
 		m_numSpec(getDFont(), 100.0f, 1.0f, 100000.0f, 1.0f),
-		m_numShader(getDFont(), CubeShader::Default, CubeShader::Default, CubeShader(int(CubeShader::Size) - 1),CubeShader(1)),
-		m_numHealth(getDFont(),0,0,INT_MAX,10),
-		m_numBlockType(getDFont(),CubeDesc::Solid),
-		m_boxGravity(false)
+		m_numShader(getDFont(), CubeShader::Default, CubeShader::Default, CubeShader(int(CubeShader::Size) - 1), CubeShader(1)),
+		m_numHealth(getDFont(), 0, 0, INT_MAX, 10),
+		m_numBlockType(getDFont(), CubeDesc::Solid),
+		m_boxGravity(false),
+		m_btnAddBucket(UIButton::Style::Royal, getDFont(), "to bucket")
 	{
 		// metrics
 		float fh = getDFont().getMaxHeight();
 		const PointF cdim = { 5.0f * fh,fh };
 		m_btnDiffuse.setDim(cdim);
 		m_btnSpecular.setDim(cdim);
+		m_btnAddBucket.adjustToFontHeadline();
 
 		m_boxGravity.setDim({ fh,fh });
 
@@ -54,6 +57,7 @@ public:
 		addToList(&m_lblBlockType, &m_numBlockType);
 		addToList(&m_lblGravity, &m_boxGravity);
 		addToList(&m_lblHP, &m_numHealth);
+		addToList(&m_btnAddBucket, nullptr);
 
 		setCellPadding(8.0f);
 		setWallPadding(5.0f);
@@ -99,6 +103,10 @@ public:
 		m_numBlockType.setOnValueCallback([this](IValueHolder<CubeDesc::BlockType>*)
 		{
 			updateColor();
+		});
+		m_btnAddBucket.setOnClickCallback([this](IClickable*)
+		{
+			m_onToBucket(getCubeDesc());
 		});
 	}
 
@@ -155,4 +163,5 @@ private:
 	UICheckBox m_boxGravity;
 
 	UIDialogColorPicker m_colorPicker;
+	UIButtonText m_btnAddBucket;
 };

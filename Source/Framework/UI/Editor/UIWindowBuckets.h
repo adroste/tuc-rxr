@@ -130,6 +130,7 @@ public:
 		m_listBucketPrev.insert(m_listBucketPrev.size() - 1, std::unique_ptr<UIObject>(new UIBuckPreview(*this, *pBuck, m_curID++)));
 
 		LockGuard g(m_muCon);
+		pBuck->registerMe(this);
 		m_bucks.push_back(std::move(pBuck));
 
 		selectBucket(m_curID - 1);
@@ -147,6 +148,19 @@ public:
 					p->select();
 				else
 					p->deselect();
+			}
+		}
+	}
+	// adds material to current bucket
+	void addToBucket(const CubeDesc& c)
+	{
+		for(auto& b : m_bucks)
+		{
+			if(b->isVisible())
+			{
+				// this is the current bucket
+				b->addMaterial(c);
+				break;
 			}
 		}
 	}
