@@ -19,8 +19,10 @@ void BucketLoader::saveBucket(const std::string& filename, const std::vector<Cub
 		p.PushAttribute("gloss", std::to_string(c.gloss).c_str());
 		p.PushAttribute("shader", CubeShaderToString(c.shader).c_str());
 		p.PushAttribute("blockType",BlockTypeToString(BlockType(c.blockType)).c_str());
-		
-		p.CloseElement();
+		p.PushAttribute("gravity", (c.blockFlags & CubeDesc::Gravity) != 0);
+		p.PushAttribute("HP", c.blockHP);
+
+		p.CloseElement(); // cube
 	}
 
 	fclose(pFile);
