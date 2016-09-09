@@ -254,8 +254,19 @@ protected:
 	virtual PointF setClientArea(const PointF& dim) override
 	{
 		// TODO alex should check this
-		setDim(PointF(2.0f * BTN_PADD, 3.0f * BTN_PADD + m_btn1.getDim().y) + dim);
-		// TODO add minumum x for buttons
+		auto minDim = PointF(2.0f * BTN_PADD, 3.0f * BTN_PADD + m_btn1.getDim().y) + dim;
+		// add minumum x for buttons
+		float btnwi = BTN_PADD;
+		if (m_btn1.isVisible())
+			btnwi += m_btn1.getDim().x + BTN_PADD;
+		if (m_btn2.isVisible())
+			btnwi += m_btn2.getDim().x + BTN_PADD;
+		if (m_btn3.isVisible())
+			btnwi += m_btn3.getDim().x + BTN_PADD;
+
+		minDim.x = std::max(minDim.x, btnwi);
+		setDim(minDim);
+
 		return PointF(BTN_PADD);
 	}
 private:

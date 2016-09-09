@@ -3,6 +3,7 @@
 #include "../UIContainerLister.h"
 #include "UIContainerBucket.h"
 #include "../../../Game/Client/BucketLoader.h"
+#include "../UIDialogInput.h"
 
 class UIWindowBuckets : public UIWindow
 {
@@ -103,6 +104,8 @@ public:
 
 		m_listBucketPrev.registerMe(this);
 		m_btnSave.registerMe(this);
+		m_dlgInput.setZIndex(1);
+		m_dlgInput.registerMe(this);
 
 		m_btnSave.setOnClickCallback([this](IClickable*)
 			{
@@ -112,8 +115,20 @@ public:
 					if(b->isVisible())
 					{
 						// the selected one
-						// TODO open file dialog?
-						BucketLoader::saveBucket("test.xml", b->getCubeDesc());
+						m_dlgInput.setTitle("bucket name:");
+						m_dlgInput.show();
+
+						auto cubevec = b->getCubeDesc();
+						if(cubevec.size())
+						{
+							m_dlgInput.setOnResultCallback([this, cubevec](UIDialog*)
+							{
+								if (m_dlgInput.getResult() == UIDialog::Result::OK)
+								{
+									BucketLoader::saveBucket("saves/editor/buckets/" + m_dlgInput.getInput() + ".xml", cubevec);
+								}
+							});
+						}
 						break;
 					}
 				}
@@ -136,6 +151,7 @@ public:
 	{
 		UIWindow::draw(draw);
 		pushDrawTransforms(draw);
+		
 		m_listBucketPrev.draw(draw);
 		m_btnSave.draw(draw);
 		LockGuard g(m_muCon);
@@ -145,6 +161,8 @@ public:
 				c->draw(draw);
 		}
 		g.unlock();
+		m_dlgInput.draw(draw);
+
 		popDrawTransforms(draw);
 	}
 
@@ -228,5 +246,7 @@ private:
 	UIButtonText m_btnSave;
 	Mutex m_muCon;
 	size_t m_curID = 0; // ids to identify buckets
+
+	UIDialogInput m_dlgInput;
 };
 
