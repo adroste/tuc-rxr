@@ -269,6 +269,11 @@ protected:
 
 		return PointF(BTN_PADD);
 	}
+
+	virtual RectF getClientArea() const override
+	{
+		return RectF(PointF(BTN_PADD), PointF(m_dim.x - BTN_PADD, m_dim.y - 2.0f * BTN_PADD - m_btn1.getDim().y));
+	}
 private:
 	Result m_dlgResult = Result::None;
 	bool m_autoClose = true;

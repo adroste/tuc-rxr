@@ -53,6 +53,15 @@ public:
 	{
 		auto o = setClientArea(m_pCon->getDim());
 		m_pCon->setOrigin(o);
+		// check if client area is bigger than requested (because of dialog buttons)
+		if(!m_pCon->hasFixedDim())
+		{
+			auto d = getClientArea().getDim();
+			if(d != m_pCon->getDim())
+			{
+				m_pCon->setDim(d);
+			}
+		}
 	}
 
 	virtual void draw(Drawing& draw) override

@@ -72,7 +72,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <LibraryPath>..\Source\libs;$(LibraryPath)</LibraryPath>
-    <IncludePath>..\Source\freetype;$(IncludePath)</IncludePath>
+    <IncludePath>..\Source\dirent;..\Source\freetype;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -82,7 +82,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <LibraryPath>..\Source\libs;$(LibraryPath)</LibraryPath>
-    <IncludePath>..\Source\freetype;$(IncludePath)</IncludePath>
+    <IncludePath>..\Source\dirent;..\Source\freetype;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -198,9 +198,11 @@
     <ClCompile Include="..\Source\System\Log.cpp" />
     <ClCompile Include="..\Source\System\System.cpp" />
     <ClCompile Include="..\Source\System\TextFileAppender.cpp" />
+    <ClCompile Include="..\Source\Utility\Directory.cpp" />
     <ClCompile Include="..\Source\xml\tinyxml2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Source\dirent\dirent.h" />
     <ClInclude Include="..\Source\Framework\Color.h" />
     <ClInclude Include="..\Source\Framework\Framework.h" />
     <ClInclude Include="..\Source\Framework\GameState.h" />
@@ -234,6 +236,7 @@
     <ClInclude Include="..\Source\Framework\Sound\Sound.h" />
     <ClInclude Include="..\Source\Framework\UI\Callback.h" />
     <ClInclude Include="..\Source\Framework\UI\Editor\UIContainerBucket.h" />
+    <ClInclude Include="..\Source\Framework\UI\Editor\UIContainerBucketFiles.h" />
     <ClInclude Include="..\Source\Framework\UI\Editor\UIContainerLightAdd.h" />
     <ClInclude Include="..\Source\Framework\UI\Editor\UIContainerLights.h" />
     <ClInclude Include="..\Source\Framework\UI\Editor\UIContainerMapSetup.h" />
@@ -308,6 +311,7 @@
     <ClInclude Include="..\Source\System\System.h" />
     <ClInclude Include="..\Source\System\TextFileAppender.h" />
     <ClInclude Include="..\Source\Utility\Date.h" />
+    <ClInclude Include="..\Source\Utility\Directory.h" />
     <ClInclude Include="..\Source\Utility\EnumConverter.h" />
     <ClInclude Include="..\Source\Utility\Mutex.h" />
     <ClInclude Include="..\Source\Utility\Point.h" />

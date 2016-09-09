@@ -127,7 +127,7 @@ public:
 		setDim({PADDING + m_wallPadd + leftMaxX + 2.0f * PADDING + rightMaxX + m_wallPadd + PADDING, curY});
 		
 		if (leftMaxX > 0.0f)
-			setMidDivider((2.0f * PADDING + m_wallPadd + leftMaxX) / (m_dim.x));
+			setMidDivider((2.0f * PADDING + leftMaxX) / (m_dim.x));
 		else
 			setMidDivider(0.0f);
 	}

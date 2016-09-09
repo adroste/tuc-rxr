@@ -211,6 +211,9 @@
     <ClCompile Include="..\Source\Game\Shared\CubeDesc.cpp">
       <Filter>Source\Game\Shared</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Utility\Directory.cpp">
+      <Filter>Source\Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\Shader.h">
@@ -566,6 +569,15 @@
     </ClInclude>
     <ClInclude Include="..\Source\Framework\UI\UIDialogInput.h">
       <Filter>Source\Framework\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\Editor\UIContainerBucketFiles.h">
+      <Filter>Source\Framework\UI\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Utility\Directory.h">
+      <Filter>Source\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\dirent\dirent.h">
+      <Filter>Resources / Dependencies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

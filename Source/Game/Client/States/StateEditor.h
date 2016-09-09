@@ -11,13 +11,17 @@
 #include "../../../Framework/UI/UIDialogContainerHolder.h"
 #include "../../../Framework/UI/Editor/UIContainerMapSetup.h"
 #include "../../../Framework/UI/Editor/UIWindowBuckets.h"
+#include "../../../Framework/UI/Editor/UIContainerBucketFiles.h"
 
 class StateEditor : public GameState
 {
+	// dont want to write this every time...
+	using BucketImport = UIDialogContainerHolder<UIContainerBucketFiles>;
 public:
 	StateEditor()
 		:
-		m_uiList({ &m_btnBack, &m_wndMaterial, &m_menu, &m_dlgLights, &m_dlgMapSetup, &m_wndBucks}),
+		m_uiList({ &m_btnBack, &m_wndMaterial, &m_menu, &m_dlgLights, &m_dlgMapSetup,
+			&m_wndBucks}),
 		m_menu(Drawing::getFont(Font::Style::Headline,Font::Size::M)),
 		m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Back"),
 		m_dlgLights(m_editor),
@@ -32,6 +36,22 @@ public:
 		m_menu.addItem("File", "Open");
 		m_menu.addItem("File", "Save");
 		m_menu.addItem("File", "Save as");
+		m_menu.addItem("File", "Import Buckets",[this](const std::string&)
+		{
+			if (m_pDlgBuckImport.get()) return;
+			m_pDlgBuckImport = std::unique_ptr<BucketImport>(new BucketImport(UIDialog::Buttons::OKCancel));
+			m_uiList.add(m_pDlgBuckImport.get());
+			m_uiList.setFocusFor(m_pDlgBuckImport.get());
+			m_pDlgBuckImport->registerMe(this);
+			m_pDlgBuckImport->adjustToContainer();
+			m_pDlgBuckImport->center();
+
+			m_pDlgBuckImport->show();
+			m_pDlgBuckImport->setOnResultCallback([this](UIDialog*)
+			{
+				handleBucketImport();
+			});
+		});
 
 		m_menu.addSection("Edit");
 		m_menu.addItem("Edit", "Undo");
@@ -124,6 +144,14 @@ public:
 		if (m_btnBack.isClicked(true))
 			setNextState(TransitionState::Discard);
 
+		if(m_pDlgBuckImport && m_pDlgBuckImport->getResult() != UIDialog::Result::None)
+		{
+			// delete and unregister
+			m_uiList.remove(m_pDlgBuckImport.get());
+			m_pDlgBuckImport->unregisterMe();
+			m_pDlgBuckImport.reset();
+		}
+
 		return true;
 	}
 	virtual void composeFrame(Drawing& draw, float dt) override
@@ -182,6 +210,27 @@ public:
 		m_menu.orderItems();
 	}
 
+	void handleBucketImport()
+	{
+		if(m_pDlgBuckImport->getResult() == UIDialog::Result::OK)
+		{
+			// load buckets
+			for (const auto& n : (*m_pDlgBuckImport)->getSelectedNames())
+			{
+				// load buckets
+				BucketLoader l("saves/editor/buckets/" + n);
+				if(l.isOpen())
+				{
+					m_wndBucks.addBucket();
+					for(const auto& c : l.getCubes())
+					{
+						m_wndBucks.addToBucket(c);
+					}
+				}
+			}
+		}
+	}
+
 private:
 	UIObjectList m_uiList;
 
@@ -193,5 +242,6 @@ private:
 	// material list
 	UIWindowContainerHolder<UIContainerMaterial> m_wndMaterial;
 	UIDialogContainerHolder<UIContainerMapSetup> m_dlgMapSetup;
+	std::unique_ptr<BucketImport> m_pDlgBuckImport;
 	UIWindowBuckets m_wndBucks;
 };

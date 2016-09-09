@@ -13,5 +13,9 @@ public:
 	const std::vector<CubeDesc>& getCubes() const;
 private:
 	static std::string colToString(uint32_t c);
-
+	static uint32_t strToColor(const char* s);
+	static float getFloat(const char* s);
+private:
+	bool m_isValid = false;
+	std::vector<CubeDesc> m_cubes;
 };
