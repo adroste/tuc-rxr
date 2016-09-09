@@ -29,7 +29,7 @@ public:
 		m_numSpec(getDFont(), 100.0f, 1.0f, 100000.0f, 1.0f),
 		m_numShader(getDFont(), CubeShader::Default, CubeShader::Default, CubeShader(int(CubeShader::Size) - 1), CubeShader(1)),
 		m_numHealth(getDFont(), 0, 0, INT_MAX, 10),
-		m_numBlockType(getDFont(), CubeDesc::Solid),
+		m_numBlockType(getDFont(), BlockType::Solid),
 		m_boxGravity(false),
 		m_btnAddBucket(UIButton::Style::Royal, getDFont(), "to bucket")
 	{
@@ -100,7 +100,7 @@ public:
 		{
 			updateColor();
 		});
-		m_numBlockType.setOnValueCallback([this](IValueHolder<CubeDesc::BlockType>*)
+		m_numBlockType.setOnValueCallback([this](IValueHolder<BlockType>*)
 		{
 			updateColor();
 		});
@@ -129,7 +129,7 @@ public:
 		if (m_boxGravity.getValue()) d.blockFlags |= CubeDesc::Gravity;
 
 		d.blockHP = m_numHealth.getValue();
-		d.blockType = m_numBlockType.getValue();
+		d.blockType = uint8_t(m_numBlockType.getValue());
 		return d;
 	}
 private:

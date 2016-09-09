@@ -1,5 +1,7 @@
 #pragma once
 #include <cstdint>
+#include <string>
+#include "../../Utility/EnumConverter.h"
 
 enum class CubeShader
 {
@@ -7,6 +9,16 @@ enum class CubeShader
 	Special,
 	Size
 };
+enum class BlockType
+{
+	Immortal,
+	Transparent,
+	Solid,
+	Liquid
+};
+
+ENUM_CONVERT_FUNC(CubeShader);
+ENUM_CONVERT_FUNC(BlockType);
 
 struct CubeDesc
 {
@@ -28,14 +40,6 @@ struct CubeDesc
 	CubeShader shader;
 	float glowing;
 
-	// game part
-	enum BlockType
-	{
-		Immortal,
-		Transparent,
-		Solid,
-		Liquid
-	};
 	enum BlockFlag
 	{
 		Gravity = 1
@@ -44,3 +48,4 @@ struct CubeDesc
 	uint8_t blockFlags;
 	uint32_t blockHP; // 0 = not destroyable
 };
+

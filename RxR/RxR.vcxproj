@@ -185,10 +185,12 @@
     <ClCompile Include="..\Source\Framework\Sound\MusicFile.cpp" />
     <ClCompile Include="..\Source\Framework\Sound\Sound.cpp" />
     <ClCompile Include="..\Source\Framework\Window.cpp" />
+    <ClCompile Include="..\Source\Game\Client\BucketLoader.cpp" />
     <ClCompile Include="..\Source\Game\Client\GameEditor.cpp" />
     <ClCompile Include="..\Source\Game\Client\LightManager.cpp" />
     <ClCompile Include="..\Source\Game\Shared\CharNode.cpp" />
     <ClCompile Include="..\Source\Game\Shared\Cube.cpp" />
+    <ClCompile Include="..\Source\Game\Shared\CubeDesc.cpp" />
     <ClCompile Include="..\Source\Game\Shared\Game.cpp" />
     <ClCompile Include="..\Source\Game\Shared\Map.cpp" />
     <ClCompile Include="..\Source\main.cpp" />
@@ -196,6 +198,7 @@
     <ClCompile Include="..\Source\System\Log.cpp" />
     <ClCompile Include="..\Source\System\System.cpp" />
     <ClCompile Include="..\Source\System\TextFileAppender.cpp" />
+    <ClCompile Include="..\Source\xml\tinyxml2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Framework\Color.h" />
@@ -277,6 +280,7 @@
     <ClInclude Include="..\Source\Framework\UI\UIWindow.h" />
     <ClInclude Include="..\Source\Framework\UI\UIWindowContainerHolder.h" />
     <ClInclude Include="..\Source\Framework\Window.h" />
+    <ClInclude Include="..\Source\Game\Client\BucketLoader.h" />
     <ClInclude Include="..\Source\Game\Client\GameEditor.h" />
     <ClInclude Include="..\Source\Game\Client\LightManager.h" />
     <ClInclude Include="..\Source\Game\Client\States\StateDev.h" />
@@ -303,6 +307,7 @@
     <ClInclude Include="..\Source\System\System.h" />
     <ClInclude Include="..\Source\System\TextFileAppender.h" />
     <ClInclude Include="..\Source\Utility\Date.h" />
+    <ClInclude Include="..\Source\Utility\EnumConverter.h" />
     <ClInclude Include="..\Source\Utility\Mutex.h" />
     <ClInclude Include="..\Source\Utility\Point.h" />
     <ClInclude Include="..\Source\Utility\Point3.h" />
@@ -311,6 +316,7 @@
     <ClInclude Include="..\Source\Utility\Thread.h" />
     <ClInclude Include="..\Source\Utility\Timer.h" />
     <ClInclude Include="..\Source\Utility\Tools.h" />
+    <ClInclude Include="..\Source\xml\tinyxml2.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>

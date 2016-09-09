@@ -77,6 +77,9 @@
     <Filter Include="Source\Framework\UI\Editor">
       <UniqueIdentifier>{3312d835-a3e5-4d89-b815-238d603de878}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\xml">
+      <UniqueIdentifier>{4279b751-f559-4df7-ad4c-7f7337234e7c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\Shader.cpp">
@@ -198,6 +201,15 @@
     </ClCompile>
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderHSVPickerSquare.cpp">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\xml\tinyxml2.cpp">
+      <Filter>Source\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Game\Client\BucketLoader.cpp">
+      <Filter>Source\Game\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Game\Shared\CubeDesc.cpp">
+      <Filter>Source\Game\Shared</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -542,6 +554,15 @@
     </ClInclude>
     <ClInclude Include="..\Source\Framework\UI\UIObjectExplorer.h">
       <Filter>Source\Framework\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\xml\tinyxml2.h">
+      <Filter>Source\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Game\Client\BucketLoader.h">
+      <Filter>Source\Game\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Utility\EnumConverter.h">
+      <Filter>Source\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
