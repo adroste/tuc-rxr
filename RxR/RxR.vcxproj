@@ -313,6 +313,7 @@
     <ClInclude Include="..\Source\Utility\Date.h" />
     <ClInclude Include="..\Source\Utility\Directory.h" />
     <ClInclude Include="..\Source\Utility\EnumConverter.h" />
+    <ClInclude Include="..\Source\Utility\Exception.h" />
     <ClInclude Include="..\Source\Utility\Mutex.h" />
     <ClInclude Include="..\Source\Utility\Point.h" />
     <ClInclude Include="..\Source\Utility\Point3.h" />
