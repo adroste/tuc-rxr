@@ -32,6 +32,38 @@ private:
 
 MapLoader::MapLoader(const std::string & filename)
 {
+	// TODO reason
+	std::vector<CubeDesc> materials;
+
+	{
+		tinyxml2::XMLDocument doc;
+		auto err = doc.LoadFile(filename.c_str());
+		if (err != 0)
+			return;
+
+		// load xml document
+		auto node = doc.FirstChild();
+		while (node != nullptr)
+		{
+			if (node->Value() == "cube")
+			{
+				size_t id;
+				CubeDesc c;
+				if (MapLoader::parseXMLToCubeDesc(node, c, &id))
+				{
+					// TODO improve
+					assert(id != 0);
+					while (int(materials.size()) < id) materials.push_back(CubeDesc());
+					materials[id - 1] = c;
+				}
+			}
+			node = node->NextSibling();
+		}
+	}
+
+	// load binary file
+	// header
+
 }
 
 void MapLoader::save(const std::string& filename, const Point3S& dim, std::vector<std::pair<CubeDesc, Point3S>> cubes)
