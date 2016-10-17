@@ -588,6 +588,12 @@
     <ClInclude Include="..\Source\Game\Shared\MapLoader.h">
       <Filter>Source\Game\Shared</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Utility\Reader.h">
+      <Filter>Source\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Utility\FileReader.h">
+      <Filter>Source\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glew32.dll">

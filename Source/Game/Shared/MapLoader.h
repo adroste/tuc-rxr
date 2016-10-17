@@ -15,10 +15,17 @@ public:
 	static void save(const std::string& filename, const Point3S& dim, std::vector<std::pair<CubeDesc, Point3S>> cubes);
 	static void parseCubeDescToXML(tinyxml2::XMLPrinter& p, const CubeDesc& d, size_t id);
 	static bool parseXMLToCubeDesc(tinyxml2::XMLNode* node, CubeDesc& c, size_t* dstID = nullptr);
+
+	const std::vector<std::pair<CubeDesc, Point3S>>& getCubes() const;
+	const Point3S& getDim() const;
 private:
 	static std::string colToString(uint32_t c);
 	static uint32_t strToColor(const char* s);
 	static float getFloat(const char* s);
 
 	static const int s_Version = 1;
+private:
+	bool m_isValid = false;
+	std::vector<std::pair<CubeDesc, Point3S>> m_cubes;
+	Point3S m_dim;
 };

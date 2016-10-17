@@ -38,7 +38,10 @@ public:
 		               {
 			               m_editor.reset();
 		               });
-		m_menu.addItem("File", "Open");
+		m_menu.addItem("File", "Open", [this](const std::string&)
+		{
+			openMap();
+		});
 		m_menu.addItem("File", "Save");
 		m_menu.addItem("File", "Save as", [this](const std::string&)
 		               {
@@ -184,7 +187,9 @@ public:
 		MapLoader l(filename);
 		if(l.isOpen())
 		{
-			// 
+			m_editor.reset();
+			m_editor.setMapdim(l.getDim());
+			m_editor.loadCubes(l.getCubes());
 		}
 	}
 

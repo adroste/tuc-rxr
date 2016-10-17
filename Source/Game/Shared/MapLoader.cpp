@@ -1,6 +1,7 @@
 #include "MapLoader.h"
 #include "../../xml/tinyxml2.h"
 #include <set>
+#include "../../Utility/FileReader.h"
 
 template<class T>
 class IndexedSet
@@ -37,7 +38,7 @@ MapLoader::MapLoader(const std::string & filename)
 
 	{
 		tinyxml2::XMLDocument doc;
-		auto err = doc.LoadFile(filename.c_str());
+		auto err = doc.LoadFile((filename + ".xml").c_str());
 		if (err != 0)
 			return;
 
@@ -45,9 +46,9 @@ MapLoader::MapLoader(const std::string & filename)
 		auto node = doc.FirstChild();
 		while (node != nullptr)
 		{
-			if (node->Value() == "cube")
+			if (node->Value() == std::string("cube"))
 			{
-				size_t id;
+				size_t id = 1;
 				CubeDesc c;
 				if (MapLoader::parseXMLToCubeDesc(node, c, &id))
 				{
@@ -64,14 +65,48 @@ MapLoader::MapLoader(const std::string & filename)
 	// load binary file
 	// header
 
+	FileReader r(filename + ".dat");
+	
+	if (!r.isOpen())return;
+	
+	try
+	{
+		if (!(r.readChar() == 'R' && r.readChar() == 'X' && r.readChar() == 'R'))
+			return;
+
+		auto version = r.readInt();
+		if (version != s_Version) return;
+		r.readStruct(&m_dim);
+
+		auto len = m_dim.size();
+		for(size_t i = 0; i < len; i++)
+		{
+			size_t id = static_cast<size_t>(r.readShort());
+			if(id != 0)
+			{
+				// add block
+				m_cubes.push_back(std::make_pair(materials[id - 1], m_dim.fromIndex(i)));
+			}
+		}
+	}
+	catch(const std::out_of_range&)
+	{
+		return;
+	}
+	m_isValid = true;
+}
+
+bool MapLoader::isOpen() const
+{
+	return m_isValid;
 }
 
 void MapLoader::save(const std::string& filename, const Point3S& dim, std::vector<std::pair<CubeDesc, Point3S>> cubes)
 {
-	FILE* pXmlFile = fopen((filename + ".xml").c_str(), "w");
+	FILE* pXmlFile = fopen((filename + ".xml").c_str(), "wb");
 	if (!pXmlFile) return;
 
-	FILE* pBinFile = fopen((filename + ".bin").c_str(), "w");
+	FILE* pBinFile = fopen((filename + ".dat").c_str(), "wb");
 	if (!pBinFile) { fclose(pXmlFile); return; }
 
 	// Binary File Header
@@ -98,7 +133,7 @@ void MapLoader::save(const std::string& filename, const Point3S& dim, std::vecto
 		}
 
 		// add to map binary
-		mapCubes[dim.calcIndex(block.second)] = matIdx;
+		mapCubes[dim.calcIndex(block.second)] = short(matIdx);
 	}
 
 	// write map
@@ -114,9 +149,6 @@ void MapLoader::parseCubeDescToXML(tinyxml2::XMLPrinter& p, const CubeDesc& c, s
 {
 	p.OpenElement("cube");
 
-	if (id != 0)
-		p.PushAttribute("id", std::to_string(id).c_str());
-
 	p.PushAttribute("diffuse", colToString(c.diffuse).c_str());
 	p.PushAttribute("specular", colToString(c.spec).c_str());
 	p.PushAttribute("gloss", std::to_string(c.gloss).c_str());
@@ -124,6 +156,9 @@ void MapLoader::parseCubeDescToXML(tinyxml2::XMLPrinter& p, const CubeDesc& c, s
 	p.PushAttribute("blockType", BlockTypeToString(BlockType(c.blockType)).c_str());
 	p.PushAttribute("gravity", (c.blockFlags & CubeDesc::Gravity) != 0);
 	p.PushAttribute("HP", c.blockHP);
+
+	if (id != 0)
+		p.PushAttribute("id", std::to_string(id).c_str());
 
 	p.CloseElement(); // cube
 }
@@ -136,6 +171,9 @@ bool MapLoader::parseXMLToCubeDesc(tinyxml2::XMLNode* node, CubeDesc& c, size_t*
 	auto elm = node->ToElement();
 	const char* attr = nullptr;
 	// read attributes
+	if ((attr = elm->Attribute("id")))
+		*dstID = atoi(attr);
+
 	if ((attr = elm->Attribute("diffuse")))
 		c.diffuse = strToColor(attr);
 	else return false;
@@ -145,7 +183,7 @@ bool MapLoader::parseXMLToCubeDesc(tinyxml2::XMLNode* node, CubeDesc& c, size_t*
 	else return false;
 
 	if ((attr = elm->Attribute("gloss")))
-		c.gloss = atof(attr);
+		c.gloss = float(atof(attr));
 	else return false;
 
 	if ((attr = elm->Attribute("shader")))
@@ -192,5 +230,15 @@ uint32_t MapLoader::strToColor(const char* s)
 
 float MapLoader::getFloat(const char* s)
 {
-	return atof(s);
+	return float(atof(s));
+}
+
+const std::vector<std::pair<CubeDesc, Point3S>>& MapLoader::getCubes() const
+{
+	return m_cubes;
+}
+
+const Point3S& MapLoader::getDim() const
+{
+	return m_dim;
 }

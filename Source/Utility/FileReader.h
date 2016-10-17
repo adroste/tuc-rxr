@@ -11,6 +11,14 @@ public:
 	{
 		pFile = fopen(filename.c_str(), "rb");
 	}
+	virtual ~FileReader()
+	{
+		if(pFile)
+		{
+			fclose(pFile);
+			pFile = nullptr;
+		}
+	}
 	bool isOpen() const
 	{
 		return pFile != nullptr;

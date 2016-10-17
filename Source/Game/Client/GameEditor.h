@@ -31,6 +31,7 @@ public:
 
 	Point3S getMapSize() const;
 	std::vector<std::pair<CubeDesc, Point3S>> getCubeDescs();
+	void loadCubes(const std::vector<std::pair<CubeDesc, Point3S>>& c);
 private:
 	void drawGrid(Drawing& draw) const;
 	void drawLineBox(Drawing& draw, const Point3F& p1, const Point3F& p2, const Color& c) const;

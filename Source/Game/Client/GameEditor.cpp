@@ -316,6 +316,14 @@ std::vector<std::pair<CubeDesc, Point3S>> GameEditor::getCubeDescs()
 	return m_pMap->getCubeInfos();
 }
 
+void GameEditor::loadCubes(const std::vector<std::pair<CubeDesc, Point3S>>& c)
+{
+	for(const auto& o : c)
+	{
+		m_pMap->setCube(new Cube(o.first, o.second.toGlmVec3(), true),false,true);
+	}
+}
+
 void GameEditor::drawGrid(Drawing& draw) const
 {
 	draw.getTransform().pushModel(glm::translate(glm::vec3{ -0.5f, -0.5f, -0.5f }));
