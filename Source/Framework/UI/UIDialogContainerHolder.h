@@ -18,18 +18,18 @@ class UIDialogContainerHolder : public UIDialog
 	static_assert(std::is_base_of<UIContainer, T>::value, "type must derive from UIContainer");
 
 public:
-	UIDialogContainerHolder(std::unique_ptr<T> con, Buttons btn = Buttons::None)
+	UIDialogContainerHolder(std::unique_ptr<T> con, Buttons btn, bool show)
 		:
-		UIDialog(btn),
+		UIDialog(btn, show),
 		m_pCon(std::move(con))
 	{
 		assert(m_pCon.get());
 		m_pCon->setZIndex(1);
 		m_pCon->registerMe(this);
 	}
-	UIDialogContainerHolder(Buttons btns = Buttons::None)
+	UIDialogContainerHolder(Buttons btns, bool show)
 		:
-		UIDialogContainerHolder(std::unique_ptr<T>(new T()), btns)
+		UIDialogContainerHolder(std::unique_ptr<T>(new T(true)), btns, show)
 	{}
 
 	T& get()

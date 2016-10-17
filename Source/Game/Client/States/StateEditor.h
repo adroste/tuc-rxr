@@ -24,9 +24,10 @@ public:
 			&m_wndBucks}),
 		m_menu(Drawing::getFont(Font::Style::Headline,Font::Size::M)),
 		m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Back"),
-		m_dlgLights(m_editor),
+		m_dlgLights(m_editor, false),
 		m_wndMaterial(true),
-		m_dlgMapSetup(UIDialog::Buttons::OKCancel)
+		m_dlgMapSetup(UIDialog::Buttons::OKCancel, false),
+		m_wndBucks(true)
 	{
 		// TODO fix z index thing
 		m_menu.setZIndex(100);
@@ -39,7 +40,7 @@ public:
 		m_menu.addItem("File", "Import Buckets",[this](const std::string&)
 		{
 			if (m_pDlgBuckImport.get()) return;
-			m_pDlgBuckImport = std::unique_ptr<BucketImport>(new BucketImport(UIDialog::Buttons::OKCancel));
+			m_pDlgBuckImport = std::unique_ptr<BucketImport>(new BucketImport(UIDialog::Buttons::OKCancel, true));
 			m_uiList.add(m_pDlgBuckImport.get());
 			m_uiList.setFocusFor(m_pDlgBuckImport.get());
 			m_pDlgBuckImport->registerMe(this);

@@ -88,11 +88,12 @@ class UIWindowBuckets : public UIWindow
 	};
 
 public:
-	UIWindowBuckets()
+	UIWindowBuckets(bool show)
 		:
-		UIWindow(true),
-		m_listBucketPrev(),
-		m_btnSave(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "save")
+		UIWindow(show),
+		m_listBucketPrev(true),
+		m_btnSave(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "save"),
+		m_dlgInput(false)
 	{
 		m_btnSave.adjustToFontHeadline();
 		UIWindowBuckets::setDim({300,400});
@@ -169,7 +170,7 @@ public:
 	void addBucket()
 	{
 		// add bucket + new tab	
-		auto pBuck = std::unique_ptr<UIContainerBucket>(new UIContainerBucket());
+		auto pBuck = std::unique_ptr<UIContainerBucket>(new UIContainerBucket(true));
 		const auto cl = getClientArea();
 		pBuck->setOrigin(cl.getTopLeft());
 		pBuck->setDim({cl.getWidth() - 50.0f, cl.getHeight() - m_btnSave.getDim().y - 20.0f});

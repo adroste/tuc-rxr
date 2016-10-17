@@ -29,9 +29,9 @@
 class UIObjectExplorer : public UIContainer
 {
 public:
-	UIObjectExplorer()
+	UIObjectExplorer(bool show)
 		:
-		UIContainer(true),
+		UIContainer(show),
 		m_curIns(PointF(PADD)),
 		m_curMaxY(PADD)
 	{

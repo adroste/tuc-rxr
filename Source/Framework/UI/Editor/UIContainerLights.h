@@ -11,14 +11,16 @@ class UIContainerLights : public UIItemLister
 {
 	CALLBACK(LightAdd, UniformBlockLight::LightSource);
 public:
-	UIContainerLights(GameEditor& editor)
+	UIContainerLights(GameEditor& editor, bool show)
 		:
-		UIItemLister(),
+		UIItemLister(show),
 		m_editor(editor),
 		m_lblTitle(getDFont(),"Lights"),
 		m_lblAmbient(getDFont(),"ambient"),
 		m_btnAmbient(editor.getAmbientColor()),
-		m_btnAddLight(UIButton::Style::Royal,getDFont(),"add light")
+		m_btnAddLight(UIButton::Style::Royal,getDFont(),"add light"),
+		m_colorPicker(false),
+		m_dlgLightAdd(false)
 	{
 		m_btnAmbient.setValue(m_editor.getAmbientColor().fromGamma());
 		// metrics

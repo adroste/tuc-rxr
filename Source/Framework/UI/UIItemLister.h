@@ -31,9 +31,9 @@ public:
 	};
 
 public:
-	UIItemLister()
+	UIItemLister(bool show)
 		:
-		UIContainer(true),
+		UIContainer(show),
 		m_mode(Mode::Left)
 	{}
 	virtual ~UIItemLister()

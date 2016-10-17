@@ -61,7 +61,7 @@ BucketLoader::BucketLoader(const std::string& filename)
 			else continue;
 
 			if ((attr = elm->Attribute("gloss")))
-				c.gloss = atof(attr);
+				c.gloss = float(atof(attr));
 			else continue;
 
 			if ((attr = elm->Attribute("shader")))
@@ -125,5 +125,5 @@ uint32_t BucketLoader::strToColor(const char* s)
 
 float BucketLoader::getFloat(const char* s)
 {
-	return atof(s);
+	return float(atof(s));
 }
