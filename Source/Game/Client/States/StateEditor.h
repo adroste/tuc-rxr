@@ -177,7 +177,7 @@ public:
 	{
 		std::string filename = "sample_scene";
 
-		MapLoader::save(filename, m_editor.getMapSize(), m_editor.getCubeDescs());
+		MapLoader::save(filename, m_editor.getMapSize(), m_editor.getCubeDescs(), m_editor.getLights());
 	}
 
 	void openMap()

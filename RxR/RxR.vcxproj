@@ -192,6 +192,7 @@
     <ClCompile Include="..\Source\Game\Shared\Cube.cpp" />
     <ClCompile Include="..\Source\Game\Shared\CubeDesc.cpp" />
     <ClCompile Include="..\Source\Game\Shared\Game.cpp" />
+    <ClCompile Include="..\Source\Game\Shared\LightSource.cpp" />
     <ClCompile Include="..\Source\Game\Shared\Map.cpp" />
     <ClCompile Include="..\Source\Game\Shared\MapLoader.cpp" />
     <ClCompile Include="..\Source\main.cpp" />

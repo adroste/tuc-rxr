@@ -12,7 +12,7 @@ public:
 	UIContainerLightAdd(bool show)
 		:
 		UIItemLister(show),
-		m_type(getDFont(),LightSource::Directional),
+		m_type(getDFont(),LightType::Directional),
 		m_color(Color::White()),
 		m_attenuation(getDFont(),0.2f,0.00000000000001f,100.0f,0.01f),
 		m_x(getDFont(),0.0f, -FLT_MAX,FLT_MAX,1.0f),
@@ -67,16 +67,16 @@ public:
 			});
 		});
 
-		m_type.setOnValueCallback([this](IValueHolder<LightSource::Type>* vh)
+		m_type.setOnValueCallback([this](IValueHolder<LightType>* vh)
 		{
 			switch(vh->getValue())
 			{
-			case LightSource::Directional:
+			case LightType::Directional:
 				m_lblOrigin.setText("Direction");
 				m_lblAttenuation.disable();
 				m_attenuation.disable();
 				break;
-			case LightSource::PointLight: 
+			case LightType::PointLight: 
 				m_lblOrigin.setText("Origin");
 				m_lblAttenuation.enable();
 				m_attenuation.enable();

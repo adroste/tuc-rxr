@@ -69,19 +69,19 @@ class UILightLister : public UIContainerLister
 			return Drawing::getFont(Font::Style::Text, Font::Size::S);
 		}
 
-		static std::string getType(LightSource::Type t)
+		static std::string getType(LightType t)
 		{
 			switch (t)
 			{
-			case LightSource::Directional: return "Directional";
-			case LightSource::PointLight: return "Point";
+			case LightType::Directional: return "Directional";
+			case LightType::PointLight: return "Point";
 			}
 			return "ERROR";
 		}
 
-		static std::string getOriginText(LightSource::Type t, const glm::vec3& p)
+		static std::string getOriginText(LightType t, const glm::vec3& p)
 		{
-			std::string txt = t == LightSource::PointLight ? "Origin" : "Direction";
+			std::string txt = t == LightType::PointLight ? "Origin" : "Direction";
 			txt += ": ";
 			txt += std::to_string(p.x) + " | " + std::to_string(p.y) + " | " + std::to_string(p.z);
 			return txt;
@@ -89,7 +89,7 @@ class UILightLister : public UIContainerLister
 		static std::string getExtraText(const LightSource& l)
 		{
 			std::string t;
-			if(l.type == LightSource::PointLight)
+			if(l.type == LightType::PointLight)
 			{
 				t = "attenuation: " + std::to_string(l.attenuation);
 			}

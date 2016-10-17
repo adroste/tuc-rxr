@@ -1,34 +1,25 @@
 #pragma once
 #include "UINumUpDownEnum.h"
 
-class UINumUpDownLightSource : public UINumUpDownEnum<LightSource::Type>
+class UINumUpDownLightSource : public UINumUpDownEnum<LightType>
 {
 public:
 
-	UINumUpDownLightSource(Font& font, LightSource::Type start)
-		: UINumUpDownEnum<LightSource::Type>(font, start, LightSource::Type::Directional, LightSource::Type::PointLight)
+	UINumUpDownLightSource(Font& font, LightType start)
+		: UINumUpDownEnum<LightType>(font, start, LightType::Directional, LightType::PointLight)
 	{
-		UINumUpDown<LightSource::Type>::setValue(start);
+		UINumUpDown<LightType>::setValue(start);
 	}
 
 protected:
-	virtual std::string numToSting(LightSource::Type n) const override
+	virtual std::string numToSting(LightType n) const override
 	{
-		switch (n)
-		{
-		case LightSource::Directional: return "directional";
-		case LightSource::PointLight: return "point";
-		}
-		return "ERROR";
+		return LightTypeToString(n);
 	}
 
-	virtual LightSource::Type stringToNum(const std::string& s) const override
+	virtual LightType stringToNum(const std::string& s) const override
 	{
-		if (s == "directional")
-			return LightSource::Directional;
-		else if (s == "point")
-			return LightSource::PointLight;
-
-		return LightSource::Directional;
+		auto t = LightTypeFromString(s);
+		return t == LightType::Unknown ? LightType::Directional : t;
 	}
 };

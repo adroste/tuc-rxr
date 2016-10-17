@@ -281,7 +281,7 @@ void GameEditor::reset()
 	// add light sources
 	std::vector<LightSource> lights;
 	LightSource l;
-	l.type = LightSource::Directional;
+	l.type = LightType::Directional;
 	l.color = Color::White().toVec3();
 	l.origin = glm::normalize(glm::vec3(0.0f, 1.0f, 0.5f));
 	lights.push_back(l);

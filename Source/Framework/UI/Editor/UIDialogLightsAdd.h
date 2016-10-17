@@ -42,7 +42,7 @@ protected:
 		{
 			// check if light source makes sense
 			auto l = getLightSource();
-			if(l.type == LightSource::Directional)
+			if(l.type == LightType::Directional)
 			{
 				if(glm::length(l.origin) > 0.0000001f)
 				{

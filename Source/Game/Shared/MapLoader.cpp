@@ -101,7 +101,7 @@ bool MapLoader::isOpen() const
 	return m_isValid;
 }
 
-void MapLoader::save(const std::string& filename, const Point3S& dim, std::vector<std::pair<CubeDesc, Point3S>> cubes)
+void MapLoader::save(const std::string& filename, const Point3S& dim, std::vector<std::pair<CubeDesc, Point3S>> cubes, const std::vector<LightSource>& lights)
 {
 	FILE* pXmlFile = fopen((filename + ".xml").c_str(), "wb");
 	if (!pXmlFile) return;
@@ -138,6 +138,12 @@ void MapLoader::save(const std::string& filename, const Point3S& dim, std::vecto
 
 	// write map
 	fwrite(&mapCubes[0], sizeof(unsigned short), mapCubes.size(), pBinFile);
+
+	// write lights
+	for(const auto& l : lights)
+	{
+		
+	}
 
 	fclose(pBinFile);
 	pBinFile = nullptr;
@@ -203,6 +209,16 @@ bool MapLoader::parseXMLToCubeDesc(tinyxml2::XMLNode* node, CubeDesc& c, size_t*
 			c.blockFlags |= CubeDesc::Gravity;
 
 	return true;
+}
+
+void MapLoader::parseLightToXML(tinyxml2::XMLPrinter& p, const LightSource& l)
+{
+	p.OpenElement("light");
+
+	p.PushAttribute("type", LightTypeToString(l.type).c_str());
+
+
+	p.CloseElement();
 }
 
 std::string MapLoader::colToString(uint32_t c)
