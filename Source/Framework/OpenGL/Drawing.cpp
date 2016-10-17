@@ -159,6 +159,7 @@ void Drawing::buttonRoyal(const RectF& r, bool down)
 	}
 	glEndSafe();
 
+	m_texBtnSide.unbind();
 	m_texBtnMid.bind(0);
 	bumpMid.bind(1);
 
@@ -172,6 +173,7 @@ void Drawing::buttonRoyal(const RectF& r, bool down)
 	}
 	glEndSafe();
 
+	m_texBtnMid.unbind();
 	m_shButton.unbind();
 
 	glDisable(GL_BLEND);

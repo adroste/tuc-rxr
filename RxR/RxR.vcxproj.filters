@@ -214,6 +214,9 @@
     <ClCompile Include="..\Source\Utility\Directory.cpp">
       <Filter>Source\Utility</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Framework\UI\UIObject.cpp">
+      <Filter>Source\Framework\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\Shader.h">
@@ -581,6 +584,9 @@
     </ClInclude>
     <ClInclude Include="..\Source\Utility\Exception.h">
       <Filter>Source\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\UI\WindowManager.h">
+      <Filter>Source\Framework\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

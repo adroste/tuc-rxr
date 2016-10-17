@@ -53,6 +53,26 @@ public:
 		setDim({ m_dim.x, h });
 	}
 
+	virtual void setLeft(float l)
+	{
+		m_pos.x = Framework::getCamOrigin().x + l;
+	}
+
+	virtual void setRight(float r)
+	{
+		m_pos.x = Framework::getCamDim().x - r - getDim().x;
+	}
+
+	virtual void setTop(float t)
+	{
+		m_pos.y = Framework::getCamOrigin().y + t;
+	}
+
+	virtual void setBottom(float b)
+	{
+		m_pos.y = Framework::getCamDim().y - getDim().y;
+	}
+
 	PointF getMidpoint() const
 	{
 		return PointF(m_pos + (m_dim / 2.0f));

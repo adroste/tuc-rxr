@@ -21,7 +21,6 @@ public:
 		LockGuard g(m_muObjs);
 		m_objs.sort([](const UIObject* l, const UIObject* r)
 		{
-			// TODO check
 			return l->getZIndex() > r->getZIndex();
 		});
 	}
@@ -85,7 +84,19 @@ public:
 		sort();
 	}
 
+
 private:
 	std::list<UIObject*> m_objs;
 	Mutex m_muObjs;
+
+public:
+	decltype(m_objs)::const_iterator begin() const
+	{
+		return m_objs.cbegin();
+	}
+
+	decltype(m_objs)::const_iterator end() const
+	{
+		return m_objs.cend();
+	}
 };

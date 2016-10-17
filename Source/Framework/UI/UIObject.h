@@ -3,6 +3,8 @@
 #include "Interfaces/IMetrics.h"
 #include "../../System/Input.h"
 
+class WindowManager;
+
 class UIObject : public IDrawable, public IMetrics, public Input::IReceiver
 {
 public:
@@ -30,15 +32,7 @@ public:
 			Input::IReceiver::disable();
 	}
 
-	virtual void setVisibility(bool visible)
-	{
-		m_isVisible = visible;
-
-		if (m_isVisible)
-			m_isEnabled ? Input::IReceiver::enable() : Input::IReceiver::disable();
-		else
-			Input::IReceiver::disable();
-	}
+	void setVisibility(bool visible);
 
 	virtual void show()
 	{
@@ -55,8 +49,14 @@ public:
 		return m_isVisible;
 	}
 
+	void setWindowManager(WindowManager* state)
+	{
+		m_windowManager = state;
+	}
+
 private:
 	PointF m_padding;
 	bool m_isEnabled;
 	bool m_isVisible = true;
+	WindowManager* m_windowManager = nullptr;
 };

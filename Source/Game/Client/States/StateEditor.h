@@ -68,6 +68,7 @@ public:
 		});
 		m_menu.addItem("Map","Material",[this](const std::string&)
 		{
+			m_uiList.setFocusFor(&m_wndMaterial);
 			m_wndMaterial.show();
 		});
 		m_menu.addItem("Map", "Dimension", [this](const std::string&)

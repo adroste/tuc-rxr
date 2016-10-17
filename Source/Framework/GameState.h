@@ -4,8 +4,11 @@
 #include <list>
 #include <memory>
 #include "../System/Exceptions/ExceptionInvalidOperation.h"
+#include "UI/UIObject.h"
+#include "UI/UIObjectList.h"
+#include "UI/WindowManager.h"
 
-class GameState : public Input::IReceiver, public Input::IBroadcaster
+class GameState : public WindowManager, public Input::IReceiver, public Input::IBroadcaster
 {
 public:
 	enum class TransitionState
@@ -33,7 +36,12 @@ public:
 	}
 
 	virtual bool update(float dt) = 0;
-	virtual void composeFrame(Drawing& draw, float dt) = 0;
+
+	virtual void composeFrame(Drawing& draw, float dt)
+	{
+		//draw.rect(RectF(400.0f, 400.0f, 450.0f, 450.0f), Color::Cyan());
+		drawUIElements(draw);
+	}
 
 	// Input
 	virtual bool keyDown(SDL_Scancode s) override
@@ -69,6 +77,7 @@ public:
 	// Events
 	virtual void onResize()
 	{
+		updateUIElements();
 	}
 
 
