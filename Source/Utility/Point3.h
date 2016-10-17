@@ -198,6 +198,14 @@ public:
 		assert(pos.z < depth);
 		return width * (height * pos.z + pos.y) + pos.x;
 	}
+	Point3<T> fromIndex(T i) const
+	{
+		Point3 p;
+		p.z = i / (width * height);
+		p.y = (i % (width * height)) / width;
+		p.x = (i % (width * height)) % width;
+		return p;
+	}
 };
 
 // min max func 
