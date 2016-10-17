@@ -8,6 +8,7 @@
 #include <vector>
 #include <memory>
 #include "../../Utility/Tools.h"
+#include "../../Utility/Exception.h"
 
 static const float MUSIC_FADE = 3.0f;
 static std::unique_ptr<MusicFile> m_musicFiles[size_t(Sound::Music::Size)];

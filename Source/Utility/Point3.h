@@ -191,12 +191,20 @@ public:
 		return glm::vec3(float(x), float(y), float(z));
 	}
 
-	T calcIndex(Point3 pos)
+	T calcIndex(Point3 pos) const
 	{
 		assert(pos.x < width);
 		assert(pos.y < height);
 		assert(pos.z < depth);
 		return width * (height * pos.z + pos.y) + pos.x;
+	}
+	Point3<T> fromIndex(T i) const
+	{
+		Point3 p;
+		p.z = i / (width * height);
+		p.y = (i % (width * height)) / width;
+		p.x = (i % (width * height)) % width;
+		return p;
 	}
 };
 

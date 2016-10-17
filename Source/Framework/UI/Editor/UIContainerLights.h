@@ -9,7 +9,7 @@
 
 class UIContainerLights : public UIItemLister
 {
-	CALLBACK(LightAdd, UniformBlockLight::LightSource);
+	CALLBACK(LightAdd, LightSource);
 public:
 	UIContainerLights(GameEditor& editor, bool show)
 		:

@@ -30,7 +30,7 @@ public:
 		m_list.setZIndex(1);
 		m_list.registerMe(this);
 
-		m_lights.setOnLightAddCallback([this](UniformBlockLight::LightSource s)
+		m_lights.setOnLightAddCallback([this](LightSource s)
 		{
 			m_list.add(s);
 			m_list.adjustToContent();

@@ -4,6 +4,7 @@
 #include "Framework/Window.h"
 #include "System/Input.h"
 #include "Framework/Sound/Sound.h"
+#include "Utility/Exception.h"
 
 int main(int argc, char** argv)
 {

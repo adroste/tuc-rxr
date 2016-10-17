@@ -136,6 +136,19 @@ Point3S Map::getDim() const
 	return m_dim;
 }
 
+std::vector<std::pair<CubeDesc, Point3S>> Map::getCubeInfos()
+{
+	std::vector<std::pair<CubeDesc, Point3S>> c;
+	for (Cube** i = m_ppCubes, **end = m_ppCubes + m_dim.size(); i != end; ++i)
+	{
+		if (*i)
+		{
+			c.push_back(std::make_pair((*i)->getDesc(),Point3S((*i)->getPos())));
+		}
+	}
+	return c;
+}
+
 size_t Map::getIndex(Point3S pos) const
 {
 	assert(pos.x < m_dim.x);

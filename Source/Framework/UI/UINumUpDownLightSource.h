@@ -1,34 +1,25 @@
 #pragma once
 #include "UINumUpDownEnum.h"
 
-class UINumUpDownLightSource : public UINumUpDownEnum<UniformBlockLight::LightSource::Type>
+class UINumUpDownLightSource : public UINumUpDownEnum<LightType>
 {
 public:
 
-	UINumUpDownLightSource(Font& font, UniformBlockLight::LightSource::Type start)
-		: UINumUpDownEnum<UniformBlockLight::LightSource::Type>(font, start, UniformBlockLight::LightSource::Type::Directional, UniformBlockLight::LightSource::Type::PointLight)
+	UINumUpDownLightSource(Font& font, LightType start)
+		: UINumUpDownEnum<LightType>(font, start, LightType::Directional, LightType::PointLight)
 	{
-		UINumUpDown<UniformBlockLight::LightSource::Type>::setValue(start);
+		UINumUpDown<LightType>::setValue(start);
 	}
 
 protected:
-	virtual std::string numToSting(UniformBlockLight::LightSource::Type n) const override
+	virtual std::string numToSting(LightType n) const override
 	{
-		switch (n)
-		{
-		case UniformBlockLight::LightSource::Directional: return "directional";
-		case UniformBlockLight::LightSource::PointLight: return "point";
-		}
-		return "ERROR";
+		return LightTypeToString(n);
 	}
 
-	virtual UniformBlockLight::LightSource::Type stringToNum(const std::string& s) const override
+	virtual LightType stringToNum(const std::string& s) const override
 	{
-		if (s == "directional")
-			return UniformBlockLight::LightSource::Directional;
-		else if (s == "point")
-			return UniformBlockLight::LightSource::PointLight;
-
-		return UniformBlockLight::LightSource::Directional;
+		auto t = LightTypeFromString(s);
+		return t == LightType::Unknown ? LightType::Directional : t;
 	}
 };

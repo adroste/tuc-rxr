@@ -23,7 +23,7 @@ public:
 	virtual void draw(class Drawing& draw) override;
 	//void draw(class Drawing& draw, glm::mat4 t);
 #endif // _CLIENT
-
+	CubeDesc getDesc() const;
 private:
 	void recalcMatrix();
 
@@ -31,6 +31,7 @@ protected:
 	const bool m_isMapCube;
 private:
 	CubeDesc m_desc;
+
 	Color m_diffuse;
 	Color m_specular;
 

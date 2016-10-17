@@ -2,21 +2,10 @@
 #include "UniformBlock.h"
 #include "../../../glm/detail/type_vec3.hpp"
 #include <vector>
+#include "../../../Game/Shared/LightSource.h"
 
 class UniformBlockLight : public UniformBlock
 {
-public:
-	struct LightSource
-	{
-		enum Type
-		{
-			Directional,
-			PointLight
-		} type;
-		glm::vec3 color;
-		glm::vec3 origin;
-		float attenuation;
-	};
 public:
 	UniformBlockLight(std::initializer_list<Shader*> refShader, const std::string& blockName);
 	virtual ~UniformBlockLight();

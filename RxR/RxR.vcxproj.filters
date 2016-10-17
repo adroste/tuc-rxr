@@ -217,6 +217,12 @@
     <ClCompile Include="..\Source\Framework\UI\UIObject.cpp">
       <Filter>Source\Framework\UI</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Game\Shared\MapLoader.cpp">
+      <Filter>Source\Game\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Game\Shared\LightSource.cpp">
+      <Filter>Source\Game\Shared</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\Shader.h">
@@ -587,6 +593,18 @@
     </ClInclude>
     <ClInclude Include="..\Source\Framework\UI\WindowManager.h">
       <Filter>Source\Framework\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Game\Shared\MapLoader.h">
+      <Filter>Source\Game\Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Utility\Reader.h">
+      <Filter>Source\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Utility\FileReader.h">
+      <Filter>Source\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Game\Shared\LightSource.h">
+      <Filter>Source\Game\Shared</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

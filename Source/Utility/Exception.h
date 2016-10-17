@@ -14,4 +14,4 @@
 
 #define FUNC_EXACT_POS std::string(FUNC_NAME + std::string(" @line: ") + std::to_string(__LINE__))
 
-#define STD_EXCEPTION std::exception(FUNC_EXACT_POS)
+#define STD_EXCEPTION std::exception(FUNC_EXACT_POS.c_str())

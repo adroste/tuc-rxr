@@ -59,6 +59,11 @@ void Cube::draw(Drawing& draw)
 
 	draw.shaderedCube(m_matTrans, *shader);
 }
+
+CubeDesc Cube::getDesc() const
+{
+	return m_desc;
+}
 #endif // _CLIENT
 
 void Cube::recalcMatrix()
