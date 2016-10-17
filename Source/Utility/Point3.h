@@ -191,7 +191,7 @@ public:
 		return glm::vec3(float(x), float(y), float(z));
 	}
 
-	T calcIndex(Point3 pos)
+	T calcIndex(Point3 pos) const
 	{
 		assert(pos.x < width);
 		assert(pos.y < height);

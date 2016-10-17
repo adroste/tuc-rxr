@@ -47,5 +47,14 @@ struct CubeDesc
 	uint8_t blockType;
 	uint8_t blockFlags;
 	uint32_t blockHP; // 0 = not destroyable
+
+	bool operator==(const CubeDesc& r) const
+	{
+		return memcmp(this, &r, sizeof(this)) == 0;
+	}
+	bool operator!=(const CubeDesc& r) const
+	{
+		return !this->operator==(r);
+	}
 };
 

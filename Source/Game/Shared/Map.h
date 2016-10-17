@@ -21,7 +21,7 @@ public:
 #endif // _CLIENT
 
 	Point3S getDim() const;
-
+	std::vector<std::pair<CubeDesc, Point3S>> getCubeInfos();
 private:
 	size_t getIndex(Point3S pos) const;
 

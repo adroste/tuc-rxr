@@ -12,6 +12,7 @@
 #include "../../../Framework/UI/Editor/UIContainerMapSetup.h"
 #include "../../../Framework/UI/Editor/UIWindowBuckets.h"
 #include "../../../Framework/UI/Editor/UIContainerBucketFiles.h"
+#include "../../Shared/MapLoader.h"
 
 class StateEditor : public GameState
 {
@@ -22,9 +23,9 @@ public:
 		:
 		m_uiList({ &m_btnBack, &m_wndMaterial, &m_menu, &m_dlgLights, &m_dlgMapSetup,
 			&m_wndBucks}),
-		m_menu(Drawing::getFont(Font::Style::Headline,Font::Size::M)),
 		m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Back"),
 		m_dlgLights(m_editor),
+		m_menu(Drawing::getFont(Font::Style::Headline,Font::Size::M)),
 		m_wndMaterial(true),
 		m_dlgMapSetup(UIDialog::Buttons::OKCancel)
 	{
@@ -35,7 +36,7 @@ public:
 		m_menu.addItem("File", "New", [this](const std::string&) {m_editor.reset();});
 		m_menu.addItem("File", "Open");
 		m_menu.addItem("File", "Save");
-		m_menu.addItem("File", "Save as");
+		m_menu.addItem("File", "Save as", [this](const std::string&) {saveMap();});
 		m_menu.addItem("File", "Import Buckets",[this](const std::string&)
 		{
 			if (m_pDlgBuckImport.get()) return;
@@ -159,6 +160,13 @@ public:
 		m_editor.draw(draw, dt);
 		
 		m_uiList.draw(draw);
+	}
+
+	void saveMap()
+	{
+		std::string filename = "sample_scene";
+
+		MapLoader::save(filename, m_editor.getMapSize(), m_editor.getCubeDescs());
 	}
 
 	// Input handling

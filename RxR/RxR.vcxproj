@@ -193,6 +193,7 @@
     <ClCompile Include="..\Source\Game\Shared\CubeDesc.cpp" />
     <ClCompile Include="..\Source\Game\Shared\Game.cpp" />
     <ClCompile Include="..\Source\Game\Shared\Map.cpp" />
+    <ClCompile Include="..\Source\Game\Shared\MapLoader.cpp" />
     <ClCompile Include="..\Source\main.cpp" />
     <ClCompile Include="..\Source\System\Input.cpp" />
     <ClCompile Include="..\Source\System\Log.cpp" />
@@ -297,6 +298,7 @@
     <ClInclude Include="..\Source\Game\Shared\CubeDesc.h" />
     <ClInclude Include="..\Source\Game\Shared\Game.h" />
     <ClInclude Include="..\Source\Game\Shared\Map.h" />
+    <ClInclude Include="..\Source\Game\Shared\MapLoader.h" />
     <ClInclude Include="..\Source\System\Exceptions\Exception.h" />
     <ClInclude Include="..\Source\System\Exceptions\ExceptionArgument.h" />
     <ClInclude Include="..\Source\System\Exceptions\ExceptionInvalidFile.h" />

@@ -306,6 +306,16 @@ void GameEditor::updateLights(const Color& ambient, const std::vector<UniformBlo
 	m_pLight->init(ambient, lights);
 }
 
+Point3S GameEditor::getMapSize() const
+{
+	return m_pMap->getDim();
+}
+
+std::vector<std::pair<CubeDesc, Point3S>> GameEditor::getCubeDescs()
+{
+	return m_pMap->getCubeInfos();
+}
+
 void GameEditor::drawGrid(Drawing& draw) const
 {
 	draw.getTransform().pushModel(glm::translate(glm::vec3{ -0.5f, -0.5f, -0.5f }));
