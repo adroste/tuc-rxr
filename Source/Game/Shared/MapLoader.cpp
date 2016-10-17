@@ -2,6 +2,7 @@
 #include "../../xml/tinyxml2.h"
 #include <set>
 #include "../../Utility/FileReader.h"
+#include "../../Framework/Color.h"
 
 template<class T>
 class IndexedSet
@@ -56,6 +57,17 @@ MapLoader::MapLoader(const std::string & filename)
 					assert(id != 0);
 					while (int(materials.size()) < id) materials.push_back(CubeDesc());
 					materials[id - 1] = c;
+				}
+			}
+			else if(node->Value() == std::string("light"))
+			{
+				LightSource l;
+				if(parseXMLToLight(node,l))
+				{
+					if (l.type == LightType::Ambient)
+						m_ambient = Color(l.color.r, l.color.g, l.color.b);
+					else
+						m_lights.push_back(l);
 				}
 			}
 			node = node->NextSibling();
@@ -142,7 +154,7 @@ void MapLoader::save(const std::string& filename, const Point3S& dim, std::vecto
 	// write lights
 	for(const auto& l : lights)
 	{
-		
+		parseLightToXML(px, l);
 	}
 
 	fclose(pBinFile);
@@ -216,9 +228,57 @@ void MapLoader::parseLightToXML(tinyxml2::XMLPrinter& p, const LightSource& l)
 	p.OpenElement("light");
 
 	p.PushAttribute("type", LightTypeToString(l.type).c_str());
-
+	p.PushAttribute("color", colToString(l.color).c_str());
+	switch (l.type)
+	{
+	case LightType::Directional: 
+		p.PushAttribute("direction", vecToString(l.origin).c_str());
+		break;
+	case LightType::PointLight:
+		p.PushAttribute("origin", vecToString(l.origin).c_str());
+		p.PushAttribute("attenuation", std::to_string(l.attenuation).c_str());
+		break;
+	case LightType::Ambient: break;
+	default: break;
+	}
 
 	p.CloseElement();
+}
+
+bool MapLoader::parseXMLToLight(tinyxml2::XMLNode* node, LightSource& l)
+{
+	assert(node->Value() == std::string("light"));
+	memset(&l, 0, sizeof(l));
+	auto elm = node->ToElement();
+	const char* attr = nullptr;
+
+	if ((attr = elm->Attribute("type")))
+		l.type = LightTypeFromString(attr);
+	else return false;
+
+	if ((attr = elm->Attribute("color")))
+		l.color = Color(strToColor(attr)).toVec3();
+	else return false;
+
+	switch (l.type)
+	{
+	case LightType::Directional:
+		if ((attr = elm->Attribute("direction")))
+			l.origin = strToVec3(attr);
+		else return false;
+		break;
+	case LightType::PointLight:
+		if ((attr = elm->Attribute("origin")))
+			l.origin = strToVec3(attr);
+		else return false;
+		if ((attr = elm->Attribute("attenuation")))
+			l.attenuation = getFloat(attr);
+		else return false;
+		break;
+	default: break;
+	}
+
+	return true;
 }
 
 std::string MapLoader::colToString(uint32_t c)
@@ -226,6 +286,12 @@ std::string MapLoader::colToString(uint32_t c)
 	char buffer[16];
 	sprintf(buffer, "0x%08x", c);
 	return std::string(buffer);
+}
+
+std::string MapLoader::colToString(const glm::vec3& v)
+{
+	Color c = Color(v.r, v.g, v.b);
+	return colToString(c.toDWORD());
 }
 
 uint32_t MapLoader::strToColor(const char* s)
@@ -249,6 +315,18 @@ float MapLoader::getFloat(const char* s)
 	return float(atof(s));
 }
 
+std::string MapLoader::vecToString(const glm::vec3& v)
+{
+	return std::to_string(v.r) + " " + std::to_string(v.g) + " " + std::to_string(v.b);
+}
+
+glm::vec3 MapLoader::strToVec3(const char* s)
+{
+	glm::vec3 v;
+	sscanf(s, "%f %f %f", &v.r, &v.g, &v.b);
+	return v;
+}
+
 const std::vector<std::pair<CubeDesc, Point3S>>& MapLoader::getCubes() const
 {
 	return m_cubes;
@@ -257,4 +335,14 @@ const std::vector<std::pair<CubeDesc, Point3S>>& MapLoader::getCubes() const
 const Point3S& MapLoader::getDim() const
 {
 	return m_dim;
+}
+
+const std::vector<LightSource>& MapLoader::getLights() const
+{
+	return m_lights;
+}
+
+const Color& MapLoader::getAmbient() const
+{
+	return m_ambient;
 }

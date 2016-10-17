@@ -177,7 +177,12 @@ public:
 	{
 		std::string filename = "sample_scene";
 
-		MapLoader::save(filename, m_editor.getMapSize(), m_editor.getCubeDescs(), m_editor.getLights());
+		auto lights = m_editor.getLights();
+		LightSource ls;
+		ls.type = LightType::Ambient;
+		ls.color = m_editor.getAmbientColor().toVec3();
+		lights.push_back(ls);
+		MapLoader::save(filename, m_editor.getMapSize(), m_editor.getCubeDescs(), lights);
 	}
 
 	void openMap()
@@ -190,6 +195,7 @@ public:
 			m_editor.reset();
 			m_editor.setMapdim(l.getDim());
 			m_editor.loadCubes(l.getCubes());
+			m_editor.updateLights(l.getAmbient(), l.getLights());
 		}
 	}
 
