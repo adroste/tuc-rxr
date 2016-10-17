@@ -5,10 +5,10 @@
 class UIDialogLightsAdd : public UIDialog
 {
 public:
-	UIDialogLightsAdd()
+	UIDialogLightsAdd(bool show)
 		:
-		UIDialog(Buttons::OKCancel),
-		m_light()
+		UIDialog(Buttons::OKCancel, show),
+		m_light(true)
 	{
 		auto o = UIDialog::setClientArea(m_light.getDim());
 		setFixedDim(true);

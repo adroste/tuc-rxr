@@ -6,10 +6,11 @@
 class UIDialogLights : public UIDialog
 {
 public:
-	UIDialogLights(GameEditor& editor)
+	UIDialogLights(GameEditor& editor, bool show)
 		:
-		UIDialog(Buttons::OKCancel),
-		m_lights(editor)
+		UIDialog(Buttons::OKCancel, show),
+		m_lights(editor, true),
+		m_list(true)
 	{
 		m_list.setDim({ m_lights.getDim().x,300.0f });
 		for (const auto& l : editor.getLights())

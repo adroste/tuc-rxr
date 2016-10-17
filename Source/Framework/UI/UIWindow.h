@@ -5,7 +5,7 @@
 class UIWindow : public UIContainer
 {
 public:
-	UIWindow(bool show = false)
+	UIWindow(bool show)
 		:
 		UIContainer(show),
 		m_btnCancel(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "X")
@@ -40,46 +40,19 @@ public:
 	virtual bool mouseDown(const PointF& mpos, Input::Mouse button) override
 	{
 		bool handled = sendMouseDown(mpos, button);
-
-		if (!handled)
-		{
-			if (m_isMouseInside && button == Input::Mouse::Left)
-			{
-				// TODO drag window on top border, not everywhere (wait for window-design)
-				m_isDragged = true;
-				m_dragSpot = mpos;
-			}
-		}
-
 		return m_isMouseInside || handled;
 	}
 
 	virtual bool mouseUp(const PointF& mpos, Input::Mouse button) override
 	{
 		bool handled = sendMouseUp(mpos, button);
-
-		if (!handled)
-		{
-			if (button == Input::Mouse::Left)
-				m_isDragged = false;
-		}
-
 		return m_isMouseInside || handled;
 	}
 
 	virtual bool mouseMove(const PointF& mpos, const PointF& mdiff, bool handled) override
 	{
 		handled = sendMouseMove(mpos, mdiff, handled);
-
 		m_isMouseInside = getRect().isPointInside(mpos);
-
-		// drag window
-		if (m_isDragged)
-		{
-			setOrigin(getOrigin() + mpos - m_dragSpot);
-			m_dragSpot = mpos;
-		}
-
 		return m_isMouseInside || handled;
 	}
 
@@ -118,7 +91,4 @@ protected:
 	}
 protected:	
 	UIButtonText m_btnCancel;
-
-	bool m_isDragged = false;
-	PointF m_dragSpot;
 };

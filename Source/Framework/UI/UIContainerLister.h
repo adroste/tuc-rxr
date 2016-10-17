@@ -15,9 +15,9 @@
 class UIContainerLister : public UIContainer
 {
 public:
-	UIContainerLister()
+	UIContainerLister(bool show)
 		:
-		UIContainer(true)
+		UIContainer(show)
 	{}
 
 	virtual void setDim(const PointF& d) override

@@ -13,9 +13,9 @@ class UIContainerMaterial : public UIItemLister
 	CALLBACK(MaterialChange, CubeDesc);
 	CALLBACK(ToBucket, CubeDesc);
 public:
-	UIContainerMaterial()
+	UIContainerMaterial(bool show)
 		:
-		UIItemLister(),
+		UIItemLister(show),
 		m_lblTitle(Drawing::getFont(Font::Style::Headline, Font::Size::M), "Material"),
 		m_lblDiffuse(getDFont(), "diffuse"),
 		m_lblSpecular(getDFont(), "specular"),
@@ -31,7 +31,8 @@ public:
 		m_numHealth(getDFont(), 0, 0, INT_MAX, 10),
 		m_numBlockType(getDFont(), BlockType::Solid),
 		m_boxGravity(false),
-		m_btnAddBucket(UIButton::Style::Royal, getDFont(), "to bucket")
+		m_btnAddBucket(UIButton::Style::Royal, getDFont(), "to bucket"),
+		m_colorPicker(false)
 	{
 		// metrics
 		float fh = getDFont().getMaxHeight();

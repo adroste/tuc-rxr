@@ -8,9 +8,9 @@
 class UIDialogColorPicker : public UIDialog, public IValueHolder<Color>
 {
 public:
-	UIDialogColorPicker()
+	UIDialogColorPicker(bool show)
 		:
-		UIDialog(Buttons::OKCancel),
+		UIDialog(Buttons::OKCancel, show),
 		IValueHolder(Color::Red()),
 		m_uiObjects({ 
 		&m_colorPicker, &m_numR, &m_numG, &m_numB, &m_lblR, &m_lblG, &m_lblB

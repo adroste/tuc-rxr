@@ -52,7 +52,9 @@ class UIContainerBucket : public UIObjectExplorer
 	};
 	CALLBACK(BucketErase, UIContainerBucket*);
 public:
-	UIContainerBucket()
+	UIContainerBucket(bool show)
+		:
+		UIObjectExplorer(show)
 	{
 	}
 

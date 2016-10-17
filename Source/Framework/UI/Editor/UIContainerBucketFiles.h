@@ -7,9 +7,9 @@
 class UIContainerBucketFiles : public UIItemLister
 {
 public:
-	UIContainerBucketFiles()
+	UIContainerBucketFiles(bool show)
 		:
-		UIItemLister(),
+		UIItemLister(show),
 		m_lblTitle(getFont(),"Buckets:")
 	{
 		

@@ -6,7 +6,7 @@
 class UIContainer : public UIObject, public Input::IBroadcaster
 {
 public:
-	UIContainer(bool show = false)
+	UIContainer(bool show)
 	{
 		//setOrigin({ 0.0f, 0.0f });
 		show ? UIObject::show() : UIObject::hide();
@@ -23,8 +23,7 @@ public:
 		// just testing
 		pushDrawTransforms(draw, PointF(0.0f));
 		RectF rct(PointF(0.0f), getDim());
-		draw.rect(rct, Color::Gray());
-		draw.rect(rct.shrink(2.0f), Color::DarkGray());
+		draw.rect(rct, Color::DarkGray());
 		popDrawTransforms(draw);
 	}
 

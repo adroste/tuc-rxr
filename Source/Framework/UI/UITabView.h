@@ -23,8 +23,9 @@ public:
 	};
 
 public:
-	UITabView(UITabView::ControlPosition ctrlPos = ControlPosition::Top)
+	UITabView(UITabView::ControlPosition ctrlPos, bool show)
 		:
+		UIContainer(show),
 		m_ctrlPos(ctrlPos)
 	{}
 

@@ -6,9 +6,9 @@
 class UIContainerMapSetup : public UIItemLister 
 {
 public:
-	UIContainerMapSetup()
+	UIContainerMapSetup(bool show)
 		:
-		UIItemLister(),
+		UIItemLister(show),
 		m_lblTitle(getFont(),"Map Size"),
 		m_lblWi(getFont(),"width"),
 		m_lblHi(getFont(),"height"),

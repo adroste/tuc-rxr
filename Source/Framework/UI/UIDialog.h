@@ -29,8 +29,9 @@ public:
 	};
 
 public:
-	UIDialog(Buttons buttons = Buttons::None)
+	UIDialog(Buttons buttons, bool show)
 		:
+		UIWindow(show),
 		m_btn1(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S)),
 		m_btn2(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S)),
 		m_btn3(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S))

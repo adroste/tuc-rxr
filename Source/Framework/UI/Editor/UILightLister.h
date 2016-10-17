@@ -8,9 +8,9 @@ class UILightLister : public UIContainerLister
 	class Item : public UIContainer
 	{
 	public:
-		Item(const UniformBlockLight::LightSource& l)
+		Item(const UniformBlockLight::LightSource& l, bool show)
 			:
-			UIContainer(true),
+			UIContainer(show),
 			m_objs({&m_lblType, &m_btnClose, &m_lblOrigin}),
 			m_lblType(getFont(),getType(l.type)),
 			m_btnClose(UIButton::Style::Royal,getFont(),"X"),
@@ -110,13 +110,15 @@ class UILightLister : public UIContainerLister
 		const UniformBlockLight::LightSource m_light;
 	};
 public:
-	UILightLister()
+	UILightLister(bool show)
+		:
+		UIContainerLister(show)
 	{
 		
 	}
 	void add(const UniformBlockLight::LightSource& l)
 	{
-		addContainer(std::unique_ptr<UIContainer>(new Item(l)));
+		addContainer(std::unique_ptr<UIContainer>(new Item(l, true)));
 	}
 
 	virtual bool mouseUp(const PointF& mpos, Input::Mouse button) override

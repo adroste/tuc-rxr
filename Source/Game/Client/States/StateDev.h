@@ -26,11 +26,14 @@ public:
 		m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Back"),
 		m_btnDlg(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Dialog"),
 		m_btnMsgBox(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "MessageBox"),
-		m_dlgTest(),
-		m_msgBox("naaaanaanaaanaaaananananaaaananananaaaa hey jude ....", UIMessageBox::Buttons::AbortRetryIgnore),
+		m_dlgTest(UIDialog::Buttons::None, false),
+		m_msgBox("naaaanaanaaanaaaananananaaaananananaaaa hey jude ....", UIMessageBox::Buttons::AbortRetryIgnore, false),
 		m_txtBox(Drawing::getFont(Font::Style::Text, Font::Size::M)),
 		m_msgBoxResult(Drawing::getFont(Font::Style::Text, Font::Size::M), "MsgBox result: "),
-		m_tabView(UITabView::ControlPosition::Top)
+		m_tabView(UITabView::ControlPosition::Top, false),
+		m_hsvPicker(false),
+		m_containerMaterial(false),
+		m_containerMaterial2(false)
 	{
 		m_lblHeadS.setOrigin({ 50.0f, 50.0f });
 		m_lblHeadM.setOrigin({ 50.0f, m_lblHeadS.getRect().y2 + 10.0f });

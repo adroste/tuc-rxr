@@ -7,9 +7,9 @@
 class UIDialogInput : public UIDialog
 {
 public:
-	UIDialogInput()
+	UIDialogInput(bool show)
 		:
-		UIDialog(Buttons::OKCancel),
+		UIDialog(Buttons::OKCancel, show),
 		m_title(Drawing::getFont(Font::Style::Headline, Font::Size::M), ""),
 		m_inpBox(Drawing::getFont(Font::Style::Text, Font::Size::M), 128)
 	{
