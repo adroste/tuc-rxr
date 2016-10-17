@@ -51,7 +51,7 @@ public:
 	void shaderedCube(const glm::mat4& mat, Shader& shader);
 	void setCubeMaterial(const Color& diffuse, const Color& specular, float gloss);
 	void setMapInfo(const Point3S& dim);
-	void setLights(const Color& ambient, const std::vector<UniformBlockLight::LightSource>& lights, const glm::vec3& eye);
+	void setLights(const Color& ambient, const std::vector<LightSource>& lights, const glm::vec3& eye);
 
 	// camera
 	UniformBlockTransforms& getTransform();

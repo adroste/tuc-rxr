@@ -594,6 +594,9 @@
     <ClInclude Include="..\Source\Utility\FileReader.h">
       <Filter>Source\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Game\Shared\LightSource.h">
+      <Filter>Source\Game\Shared</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glew32.dll">

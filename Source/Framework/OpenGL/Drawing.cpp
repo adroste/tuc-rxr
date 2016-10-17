@@ -229,7 +229,7 @@ void Drawing::setMapInfo(const Point3S& dim)
 	m_mapInfo.setInfo({ float(dim.x), float(dim.y), float(dim.z) });
 }
 
-void Drawing::setLights(const Color& ambient, const std::vector<UniformBlockLight::LightSource>& lights, const glm::vec3& eye)
+void Drawing::setLights(const Color& ambient, const std::vector<LightSource>& lights, const glm::vec3& eye)
 {
 	m_lights.updateLights(ambient.toVec3(), eye, lights);
 }

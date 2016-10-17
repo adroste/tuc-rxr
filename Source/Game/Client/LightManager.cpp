@@ -6,7 +6,7 @@ LightManager::LightManager(const Camera& cam)
 {
 }
 
-void LightManager::init(const Color & ambient, std::vector<UniformBlockLight::LightSource> lights)
+void LightManager::init(const Color & ambient, std::vector<LightSource> lights)
 {
 	m_ambient = ambient;
 	m_lights = std::move(lights);
@@ -28,7 +28,7 @@ const Color& LightManager::getAmbient() const
 	return m_ambient;
 }
 
-const std::vector<UniformBlockLight::LightSource>& LightManager::getLights() const
+const std::vector<LightSource>& LightManager::getLights() const
 {
 	return m_lights;
 }

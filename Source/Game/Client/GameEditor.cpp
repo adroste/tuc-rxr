@@ -279,9 +279,9 @@ void GameEditor::reset()
 	m_pLight = std::unique_ptr<LightManager>(new LightManager(*m_pCam));
 
 	// add light sources
-	std::vector<UniformBlockLight::LightSource> lights;
-	UniformBlockLight::LightSource l;
-	l.type = UniformBlockLight::LightSource::Directional;
+	std::vector<LightSource> lights;
+	LightSource l;
+	l.type = LightSource::Directional;
 	l.color = Color::White().toVec3();
 	l.origin = glm::normalize(glm::vec3(0.0f, 1.0f, 0.5f));
 	lights.push_back(l);
@@ -296,12 +296,12 @@ const Color& GameEditor::getAmbientColor() const
 	return m_pLight->getAmbient();
 }
 
-const std::vector<UniformBlockLight::LightSource>& GameEditor::getLights() const
+const std::vector<LightSource>& GameEditor::getLights() const
 {
 	return m_pLight->getLights();
 }
 
-void GameEditor::updateLights(const Color& ambient, const std::vector<UniformBlockLight::LightSource>& lights)
+void GameEditor::updateLights(const Color& ambient, const std::vector<LightSource>& lights)
 {
 	m_pLight->init(ambient, lights);
 }

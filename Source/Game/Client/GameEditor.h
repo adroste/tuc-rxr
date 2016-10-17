@@ -26,8 +26,8 @@ public:
 	void reset();
 
 	const Color& getAmbientColor() const;
-	const std::vector<UniformBlockLight::LightSource>& getLights() const;
-	void updateLights(const Color& ambient, const std::vector<UniformBlockLight::LightSource>& lights);
+	const std::vector<LightSource>& getLights() const;
+	void updateLights(const Color& ambient, const std::vector<LightSource>& lights);
 
 	Point3S getMapSize() const;
 	std::vector<std::pair<CubeDesc, Point3S>> getCubeDescs();

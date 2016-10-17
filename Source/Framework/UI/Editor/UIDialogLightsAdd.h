@@ -30,7 +30,7 @@ public:
 		m_light.draw(draw);
 		popDrawTransforms(draw);
 	}
-	UniformBlockLight::LightSource getLightSource() const
+	LightSource getLightSource() const
 	{
 		return m_light.getLightSource();
 	}
@@ -42,7 +42,7 @@ protected:
 		{
 			// check if light source makes sense
 			auto l = getLightSource();
-			if(l.type == UniformBlockLight::LightSource::Directional)
+			if(l.type == LightSource::Directional)
 			{
 				if(glm::length(l.origin) > 0.0000001f)
 				{

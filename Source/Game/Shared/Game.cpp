@@ -91,14 +91,14 @@ Game::Game()
 	m_pLight = std::unique_ptr<LightManager>(new LightManager(*m_pCam));
 
 	// add light sources
-	std::vector<UniformBlockLight::LightSource> lights;
-	UniformBlockLight::LightSource l;
-	/*l.type = UniformBlockLight::LightSource::Directional;
+	std::vector<LightSource> lights;
+	LightSource l;
+	/*l.type = LightSource::Directional;
 	l.color = (Color::White() * 0.1f).toVec3();
 	l.origin = glm::normalize(glm::vec3(0.0f, 1.0f, 0.0f));
 	lights.push_back(l);
 	*/
-	l.type = UniformBlockLight::LightSource::PointLight;
+	l.type = LightSource::PointLight;
 	l.color = Color(1.0f, 0.8f, 0.4f).toVec3();
 	l.origin = glm::vec3(8, 24, dim.depth / 2);
 	l.attenuation = 0.00001f;

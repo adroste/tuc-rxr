@@ -8,7 +8,7 @@ class UILightLister : public UIContainerLister
 	class Item : public UIContainer
 	{
 	public:
-		Item(const UniformBlockLight::LightSource& l, bool show)
+		Item(const LightSource& l, bool show)
 			:
 			UIContainer(show),
 			m_objs({&m_lblType, &m_btnClose, &m_lblOrigin}),
@@ -69,33 +69,33 @@ class UILightLister : public UIContainerLister
 			return Drawing::getFont(Font::Style::Text, Font::Size::S);
 		}
 
-		static std::string getType(UniformBlockLight::LightSource::Type t)
+		static std::string getType(LightSource::Type t)
 		{
 			switch (t)
 			{
-			case UniformBlockLight::LightSource::Directional: return "Directional";
-			case UniformBlockLight::LightSource::PointLight: return "Point";
+			case LightSource::Directional: return "Directional";
+			case LightSource::PointLight: return "Point";
 			}
 			return "ERROR";
 		}
 
-		static std::string getOriginText(UniformBlockLight::LightSource::Type t, const glm::vec3& p)
+		static std::string getOriginText(LightSource::Type t, const glm::vec3& p)
 		{
-			std::string txt = t == UniformBlockLight::LightSource::PointLight ? "Origin" : "Direction";
+			std::string txt = t == LightSource::PointLight ? "Origin" : "Direction";
 			txt += ": ";
 			txt += std::to_string(p.x) + " | " + std::to_string(p.y) + " | " + std::to_string(p.z);
 			return txt;
 		}
-		static std::string getExtraText(const UniformBlockLight::LightSource& l)
+		static std::string getExtraText(const LightSource& l)
 		{
 			std::string t;
-			if(l.type == UniformBlockLight::LightSource::PointLight)
+			if(l.type == LightSource::PointLight)
 			{
 				t = "attenuation: " + std::to_string(l.attenuation);
 			}
 			return t;
 		}
-		const UniformBlockLight::LightSource& getLight() const
+		const LightSource& getLight() const
 		{
 			return m_light;
 		}
@@ -107,7 +107,7 @@ class UILightLister : public UIContainerLister
 		UILabel m_extra;
 		const Color m_color;
 		bool m_plsDelete = false;
-		const UniformBlockLight::LightSource m_light;
+		const LightSource m_light;
 	};
 public:
 	UILightLister(bool show)
@@ -116,7 +116,7 @@ public:
 	{
 		
 	}
-	void add(const UniformBlockLight::LightSource& l)
+	void add(const LightSource& l)
 	{
 		addContainer(std::unique_ptr<UIContainer>(new Item(l, true)));
 	}
@@ -131,9 +131,9 @@ public:
 		}
 		return h;
 	}
-	std::vector<UniformBlockLight::LightSource> getLights() const
+	std::vector<LightSource> getLights() const
 	{
-		std::vector<UniformBlockLight::LightSource> s;
+		std::vector<LightSource> s;
 		for(const auto& c : m_cons)
 		{
 			const Item* pi = dynamic_cast<const Item*>(c.get());
