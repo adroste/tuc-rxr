@@ -55,22 +55,30 @@ public:
 
 	virtual void setLeft(float l)
 	{
-		m_pos.x = Framework::getCamOrigin().x + l;
+		PointF p = getOrigin();
+		p.x = Framework::getCamOrigin().x + l;
+		setOrigin(p);
 	}
 
 	virtual void setRight(float r)
 	{
-		m_pos.x = Framework::getCamDim().x - r - getDim().x;
+		PointF p = getOrigin();
+		p.x = Framework::getCamOrigin().x + Framework::getCamDim().x - r - getDim().x;
+		setOrigin(p);
 	}
 
 	virtual void setTop(float t)
 	{
-		m_pos.y = Framework::getCamOrigin().y + t;
+		PointF p = getOrigin();
+		p.y = Framework::getCamOrigin().y + t;
+		setOrigin(p);
 	}
 
 	virtual void setBottom(float b)
 	{
-		m_pos.y = Framework::getCamDim().y - getDim().y;
+		PointF p = getOrigin();
+		p.y = Framework::getCamOrigin().y + Framework::getCamDim().y - b - getDim().y;
+		setOrigin(p);
 	}
 
 	PointF getMidpoint() const

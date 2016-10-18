@@ -9,7 +9,7 @@ public:
 	UIContainer(bool show)
 	{
 		//setOrigin({ 0.0f, 0.0f });
-		show ? UIObject::show() : UIObject::hide();
+		show ? UIContainer::show() : UIContainer::hide();
 	}
 
 	virtual ~UIContainer() override

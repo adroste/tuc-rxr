@@ -13,10 +13,14 @@ class StateDev : public GameState
 public:
 	StateDev()
 		:
-		m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Back")
+		m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Back"),
+		m_material(false),
+		m_material2(true)
 	{
 		m_btnBack.adjustToFontHeadline();
-		addUIElement(&m_btnBack, this, Anchor::Bottom | Anchor::Left);
+		addUIElement(&m_btnBack, this, Anchor::Left | Anchor::Bottom);
+		addUIElement(&m_material, this, Anchor::Right);
+		addUIElement(&m_material2, this, Anchor::Right | Anchor::Top);
 	}
 
 	virtual ~StateDev() override
@@ -25,7 +29,8 @@ public:
 	virtual bool update(float dt) override
 	{
 		if (m_btnBack.isClicked(true))
-			setNextState(TransitionState::Discard);
+			//setNextState(TransitionState::Discard);
+			m_material.show();
 
 		
 
@@ -77,4 +82,6 @@ public:
 
 private:
 	UIButtonText m_btnBack;
+	UIContainerMaterial m_material;
+	UIContainerMaterial m_material2;
 };

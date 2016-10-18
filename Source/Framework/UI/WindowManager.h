@@ -33,6 +33,7 @@ public:
 		obj->setWindowManager(this);
 		sortUIElements();
 		updateUIElementOrigin(obj, anchor, offset);
+		onUIElementShow(obj);
 	}
 
 	void removeUIElement(UIObject* obj)
@@ -50,9 +51,11 @@ public:
 	{
 		if (!obj->isVisible()) return;
 
+		setFocusForUIElement(obj);
 		RectF rct = obj->getRect();
 		for (const auto& o : m_uiElements)
 		{
+			if (o.first == obj) continue;
 			if (rct.isRectCutting(o.first->getRect()))
 				o.first->hide();
 		}
@@ -69,7 +72,6 @@ public:
 
 	void updateUIElements()
 	{
-		return;
 		for (const auto& e : m_uiElements)
 			updateUIElementOrigin(e.first, e.second.first, e.second.second);
 	}
@@ -84,6 +86,17 @@ private:
 		});
 	}
 
+	void setFocusForUIElement(UIObject* obj)
+	{
+		// get highest index
+		int maxZ = 0;
+		for (const auto& o : m_uiElements)
+			maxZ = std::max(maxZ, o.first->getZIndex());
+
+		obj->setZIndex(maxZ + 1);
+		sortUIElements();
+	}
+
 	static void updateUIElementOrigin(UIObject* obj, size_t anchor, PointF offset)
 	{
 		obj->setCenter(Framework::getScreenCenter());
@@ -93,9 +106,9 @@ private:
 		else if (anchor & Anchor::Right && !(anchor & Anchor::Left))
 			obj->setRight(offset.x);
 		if (anchor & Anchor::Top && !(anchor & Anchor::Bottom))
-			obj->setTop(offset.x);
+			obj->setTop(offset.y);
 		else if (anchor & Anchor::Bottom && !(anchor & Anchor::Top))
-			obj->setBottom(offset.x);
+			obj->setBottom(offset.y);
 	}
 
 private:
