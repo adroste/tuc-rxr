@@ -21,15 +21,21 @@ class StateEditor : public GameState
 public:
 	StateEditor()
 		:
-		m_uiList({&m_btnBack, &m_wndMaterial, &m_menu, &m_dlgLights, &m_dlgMapSetup,
-			&m_wndBucks}),
+		/*m_uiList({&m_btnBack, &m_wndMaterial, &m_menu, &m_dlgLights, &m_dlgMapSetup,
+			&m_wndBucks}),*/
 		m_menu(Drawing::getFont(Font::Style::Headline, Font::Size::M)),
 		m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Back"),
-		m_dlgLights(m_editor, false),
-		m_wndMaterial(true),
-		m_dlgMapSetup(UIDialog::Buttons::OKCancel, false),
-		m_wndBucks(true)
+		m_dlgLights(m_editor, false, *this),
+		m_wndMaterial(std::unique_ptr<UIContainerMaterial>(new UIContainerMaterial(true, *this)), false, *this),
+		m_dlgMapSetup(UIDialog::Buttons::OKCancel, false, *this),
+		m_wndBucks(false, *this)
 	{
+		addWindow(&m_btnBack, Anchor::Bottom | Anchor::Left);
+		//addWindow(&m_wndMaterial, Anchor::Right);
+		//addWindow(&m_wndBucks, Anchor::Left);
+		//addWindow(&m_dlgLights, Anchor::Center);
+		//addWindow(&m_dlgMapSetup, Anchor::Center);
+		addWindow(&m_menu, Anchor::Top);
 		// TODO fix z index thing
 		m_menu.setZIndex(100);
 
@@ -50,12 +56,11 @@ public:
 		m_menu.addItem("File", "Import Buckets", [this](const std::string&)
 		               {
 			               if (m_pDlgBuckImport.get()) return;
-			               m_pDlgBuckImport = std::unique_ptr<BucketImport>(new BucketImport(UIDialog::Buttons::OKCancel, true));
-			               m_uiList.add(m_pDlgBuckImport.get());
-			               m_uiList.setFocusFor(m_pDlgBuckImport.get());
+			               m_pDlgBuckImport = std::unique_ptr<BucketImport>(new BucketImport(UIDialog::Buttons::OKCancel, true, *this));
+			               addWindow(m_pDlgBuckImport.get(), Anchor::Center);
 			               m_pDlgBuckImport->registerMe(this);
 			               m_pDlgBuckImport->adjustToContainer();
-			               m_pDlgBuckImport->center();
+			               //m_pDlgBuckImport->center();
 
 			               m_pDlgBuckImport->show();
 			               m_pDlgBuckImport->setOnResultCallback([this](UIDialog*)
@@ -71,31 +76,27 @@ public:
 		m_menu.addSection("Map");
 		m_menu.addItem("Map", "Lights", [this](const std::string&)
 		{
-			m_uiList.setFocusFor(&m_dlgLights);
 			sortReceivers(); // TODO maybe add broadcaster reference to uilist? for better focus setting
-			m_dlgLights.center();
+			//m_dlgLights.center();
 			m_dlgLights.show();
 		});
 		m_menu.addItem("Map","Material",[this](const std::string&)
 		{
-			m_uiList.setFocusFor(&m_wndMaterial);
 			m_wndMaterial.show();
 		});
 		m_menu.addItem("Map", "Dimension", [this](const std::string&)
 		               {
-			               m_uiList.setFocusFor(&m_dlgMapSetup);
 			               m_dlgMapSetup.show();
 		               });
 		m_menu.addItem("Map", "Buckets", [this](const std::string&)
 		               {
-			               m_uiList.setFocusFor(&m_wndBucks);
 			               m_wndBucks.show();
 		               });
 
 		m_editor.registerMe(this);
 
 		m_btnBack.adjustToFontHeadline();
-		m_btnBack.setOrigin({10.0f, Framework::STD_DRAW_Y - (m_btnBack.getDim().y + 10.0f)});
+		//m_btnBack.setOrigin({10.0f, Framework::STD_DRAW_Y - (m_btnBack.getDim().y + 10.0f)});
 		m_btnBack.setZIndex(1);
 
 		// material list
@@ -103,15 +104,15 @@ public:
 		m_wndMaterial->adjustToItems();
 		m_wndMaterial.setZIndex(2);
 		m_wndMaterial.adjustToContainer();
-		m_wndMaterial.setOrigin({800,100});
+		//m_wndMaterial.setOrigin({800,100});
 
 		m_wndBucks.setZIndex(3);
-		m_wndBucks.setOrigin({10,50});
+		//m_wndBucks.setOrigin({10,50});
 
 		m_dlgMapSetup.adjustToContainer();
-		m_dlgMapSetup.center();
+		//m_dlgMapSetup.center();
 
-		m_uiList.registerAll(this);
+		//m_uiList.registerAll(this);
 
 		m_wndBucks.setOnBucketChangeCallback([this](UIWindowBuckets* pb)
 			{
@@ -159,7 +160,7 @@ public:
 		if (m_pDlgBuckImport && m_pDlgBuckImport->getResult() != UIDialog::Result::None)
 		{
 			// delete and unregister
-			m_uiList.remove(m_pDlgBuckImport.get());
+			removeWindow(m_pDlgBuckImport.get());
 			m_pDlgBuckImport->unregisterMe();
 			m_pDlgBuckImport.reset();
 		}
@@ -171,7 +172,8 @@ public:
 	{
 		m_editor.draw(draw, dt);
 
-		m_uiList.draw(draw);
+		//m_uiList.draw(draw);
+		drawWindows(draw);
 	}
 
 	void saveMap()
@@ -271,7 +273,7 @@ public:
 	}
 
 private:
-	UIObjectList m_uiList;
+	//UIObjectList m_uiList;
 
 	GameEditor m_editor;
 

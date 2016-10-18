@@ -1,16 +1,17 @@
 #pragma once
-#include "UIObject.h"
 #include "UIObjectList.h"
+#include "WindowDesc.h"
+#include "../../System/Input.h"
 
-class WindowManager
+class WindowManager : public Input::IBroadcaster
 {
-	using etype = std::pair<UIObject*, std::pair<size_t, PointF>>;
 public:
 	class Anchor
 	{
 	public:
-		enum 
+		enum
 		{
+			Center = 0,
 			Left = 1,
 			Top = 2,
 			Right = 4,
@@ -25,93 +26,70 @@ public:
 	virtual ~WindowManager()
 	{}
 
-	void addUIElement(UIObject* obj, Input::IBroadcaster* broadcaster, size_t anchor, PointF offset = PointF(0.0f))
+	void addWindow(UIObject* obj, size_t anchor = 0, PointF offset = PointF(0.0f))
 	{
-		LockGuard g(m_muUiElements);
-		obj->registerMe(broadcaster);
-		m_uiElements.push_back(std::make_pair(obj, std::make_pair(anchor, offset)));
-		obj->setWindowManager(this);
-		sortUIElements();
-		updateUIElementOrigin(obj, anchor, offset);
-		onUIElementShow(obj);
+		LockGuard g(m_muUiWindow);
+
+		std::unique_ptr<WindowDesc> pCd = std::unique_ptr<WindowDesc>(new WindowDesc(this, anchor, offset));
+		m_uiWindows.addAndReg(obj, this);
+		obj->setWindowDesc(std::move(pCd));
+		updateWindowOrigin(obj);
+		onWindowShow(obj);
 	}
 
-	void removeUIElement(UIObject* obj)
+	void removeWindow(UIObject* obj)
 	{
-		LockGuard g(m_muUiElements);
-		m_uiElements.remove_if([obj](const etype p)
-		{
-			return obj == p.first;
-		});
-		obj->unregisterMe();
-		obj->setWindowManager(nullptr);
+		LockGuard g(m_muUiWindow);
+		m_uiWindows.remove(obj);
+		obj->setWindowDesc(nullptr);
 	}
 
-	void onUIElementShow(UIObject* obj)
+	void onWindowShow(UIObject* obj)
 	{
 		if (!obj->isVisible()) return;
 
-		setFocusForUIElement(obj);
+		m_uiWindows.setFocusFor(obj);
 		RectF rct = obj->getRect();
-		for (const auto& o : m_uiElements)
+		for (const auto& o : m_uiWindows)
 		{
-			if (o.first == obj) continue;
-			if (rct.isRectCutting(o.first->getRect()))
-				o.first->hide();
+			if (o == obj) continue;
+			if (rct.isRectCutting(o->getRect()))
+				o->hide();
 		}
 	}
 
-	void drawUIElements(Drawing& draw)
+	void drawWindows(Drawing& draw)
 	{
-		LockGuard g(m_muUiElements);
-
-		for (auto it = m_uiElements.rbegin(); it != m_uiElements.rend(); ++it)
-			if ((*it).first->isVisible())
-				(*it).first->draw(draw);
+		LockGuard g(m_muUiWindow);
+		m_uiWindows.draw(draw);
 	}
 
-	void updateUIElements()
+	void updateWindows()
 	{
-		for (const auto& e : m_uiElements)
-			updateUIElementOrigin(e.first, e.second.first, e.second.second);
+		for (const auto& o : m_uiWindows)
+			updateWindowOrigin(o);
 	}
 
 private:
-	void sortUIElements()
+	static void updateWindowOrigin(UIObject* obj)
 	{
-		LockGuard g(m_muUiElements);
-		m_uiElements.sort([](const etype l, const etype r)
-		{
-			return l.first->getZIndex() > r.first->getZIndex();
-		});
-	}
+		// check if .get() will work if windowDesc is nullptr ?
+		WindowDesc* desc = obj->getWindowDesc().get();
+		if (!desc) return;
 
-	void setFocusForUIElement(UIObject* obj)
-	{
-		// get highest index
-		int maxZ = 0;
-		for (const auto& o : m_uiElements)
-			maxZ = std::max(maxZ, o.first->getZIndex());
-
-		obj->setZIndex(maxZ + 1);
-		sortUIElements();
-	}
-
-	static void updateUIElementOrigin(UIObject* obj, size_t anchor, PointF offset)
-	{
 		obj->setCenter(Framework::getScreenCenter());
 
-		if (anchor & Anchor::Left && !(anchor & Anchor::Right))
-			obj->setLeft(offset.x);
-		else if (anchor & Anchor::Right && !(anchor & Anchor::Left))
-			obj->setRight(offset.x);
-		if (anchor & Anchor::Top && !(anchor & Anchor::Bottom))
-			obj->setTop(offset.y);
-		else if (anchor & Anchor::Bottom && !(anchor & Anchor::Top))
-			obj->setBottom(offset.y);
+		if (desc->m_anchor & Anchor::Left && !(desc->m_anchor & Anchor::Right))
+			obj->setLeft(desc->m_offset.x);
+		else if (desc->m_anchor & Anchor::Right && !(desc->m_anchor & Anchor::Left))
+			obj->setRight(desc->m_offset.x);
+		if (desc->m_anchor & Anchor::Top && !(desc->m_anchor & Anchor::Bottom))
+			obj->setTop(desc->m_offset.y);
+		else if (desc->m_anchor & Anchor::Bottom && !(desc->m_anchor & Anchor::Top))
+			obj->setBottom(desc->m_offset.y);
 	}
 
 private:
-	std::list<etype> m_uiElements;
-	Mutex m_muUiElements;
+	UIObjectList m_uiWindows;
+	Mutex m_muUiWindow;
 };

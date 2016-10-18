@@ -8,7 +8,7 @@
 #include "UI/UIObjectList.h"
 #include "UI/WindowManager.h"
 
-class GameState : public WindowManager, public Input::IReceiver, public Input::IBroadcaster
+class GameState : public WindowManager, public Input::IReceiver
 {
 public:
 	enum class TransitionState
@@ -40,7 +40,7 @@ public:
 	virtual void composeFrame(Drawing& draw, float dt)
 	{
 		//draw.rect(RectF(400.0f, 400.0f, 450.0f, 450.0f), Color::Cyan());
-		drawUIElements(draw);
+		drawWindows(draw);
 	}
 
 	// Input
@@ -77,7 +77,7 @@ public:
 	// Events
 	virtual void onResize()
 	{
-		updateUIElements();
+		updateWindows();
 	}
 
 

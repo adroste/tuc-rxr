@@ -2,6 +2,7 @@
 #include "../OpenGL/IDrawable.h"
 #include "Interfaces/IMetrics.h"
 #include "../../System/Input.h"
+#include "WindowDesc.h"
 
 class WindowManager;
 
@@ -32,7 +33,7 @@ public:
 			Input::IReceiver::disable();
 	}
 
-	void setVisibility(bool visible);
+	virtual void setVisibility(bool visible);
 
 	virtual void show()
 	{
@@ -49,14 +50,15 @@ public:
 		return m_isVisible;
 	}
 
-	void setWindowManager(WindowManager* state)
-	{
-		m_windowManager = state;
-	}
+	void setWindowDesc(std::unique_ptr<WindowDesc> wd);
+
+	std::unique_ptr<WindowDesc>& getWindowDesc();
+
+	WindowManager* getWindowManager() const;
 
 private:
 	PointF m_padding;
 	bool m_isEnabled;
 	bool m_isVisible = true;
-	WindowManager* m_windowManager = nullptr;
+	std::unique_ptr<WindowDesc> m_pWindowDesc = nullptr;
 };

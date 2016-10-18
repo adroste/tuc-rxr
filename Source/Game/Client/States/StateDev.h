@@ -14,13 +14,13 @@ public:
 	StateDev()
 		:
 		m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Back"),
-		m_material(false),
-		m_material2(true)
+		m_material(false, *this),
+		m_material2(true, *this)
 	{
 		m_btnBack.adjustToFontHeadline();
-		addUIElement(&m_btnBack, this, Anchor::Left | Anchor::Bottom);
-		addUIElement(&m_material, this, Anchor::Right);
-		addUIElement(&m_material2, this, Anchor::Right | Anchor::Top);
+		addWindow(&m_btnBack, Anchor::Left | Anchor::Bottom);
+		addWindow(&m_material, Anchor::Right);
+		addWindow(&m_material2, Anchor::Right | Anchor::Top);
 	}
 
 	virtual ~StateDev() override

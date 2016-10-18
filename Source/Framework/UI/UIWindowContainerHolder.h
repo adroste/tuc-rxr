@@ -18,18 +18,18 @@ class UIWindowContainerHolder : public UIWindow
 	static_assert(std::is_base_of<UIContainer, T>::value, "type must derive from UIContainer");
 
 public:
-	UIWindowContainerHolder(std::unique_ptr<T> con, bool show)
+	UIWindowContainerHolder(std::unique_ptr<T> con, bool show, WindowManager& wm, size_t anchor = 0, PointF offset = PointF(0.0f))
 		:
-		UIWindow(show),
+		UIWindow(show, wm, anchor, offset),
 		m_pCon(std::move(con))
 	{
 		assert(m_pCon.get());
 		m_pCon->setZIndex(1);
 		m_pCon->registerMe(this);
 	}
-	UIWindowContainerHolder(bool show)
+	UIWindowContainerHolder(bool show, WindowManager& wm, size_t anchor = 0, PointF offset = PointF(0.0f))
 		:
-		UIWindowContainerHolder(std::unique_ptr<T>(new T(true)),show)
+		UIWindowContainerHolder(std::unique_ptr<T>(new T(true)), show, wm, anchor, offset)
 	{}
 
 	T& get()
