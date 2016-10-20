@@ -42,7 +42,7 @@ public:
 		assert(o);
 
 		// search position
-		if (m_curIns.x + o->getDim().x > m_dim.x - PADD)
+		if (m_curIns.x + o->getDim().x > getDim().x - PADD)
 		{
 			// use next row
 			m_curIns = PointF(PADD, m_curMaxY + PADD);
@@ -103,7 +103,7 @@ private:
 		m_curMaxY = PADD;
 		for (auto& o : m_objs)
 		{
-			if (m_curIns.x + o->getDim().x > m_dim.x - PADD)
+			if (m_curIns.x + o->getDim().x > getDim().x - PADD)
 			{
 				// use next row
 				m_curIns = PointF(PADD, m_curMaxY + PADD);

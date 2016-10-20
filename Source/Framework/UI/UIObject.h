@@ -5,6 +5,7 @@
 #include "WindowDesc.h"
 
 class WindowManager;
+class WindowLayer;
 
 class UIObject : public IDrawable, public IMetrics, public Input::IReceiver
 {
@@ -50,9 +51,15 @@ public:
 		return m_isVisible;
 	}
 
+	virtual void setOrigin(const PointF& p) override;
+
+	virtual void setDim(const PointF& d) override;
+
 	void setWindowDesc(std::unique_ptr<WindowDesc> wd);
 
 	std::unique_ptr<WindowDesc>& getWindowDesc();
+
+	WindowLayer* getWindowLayer() const;
 
 	WindowManager* getWindowManager() const;
 

@@ -98,7 +98,7 @@ public:
 		setOrigin(getOrigin() + pad);
 	}
 
-protected:
+private:
 	PointF m_pos;
 	PointF m_dim;
 };

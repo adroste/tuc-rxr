@@ -26,7 +26,7 @@ public:
 		m_menu(Drawing::getFont(Font::Style::Headline, Font::Size::M)),
 		m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Back"),
 		m_dlgLights(m_editor, false, *this),
-		m_wndMaterial(std::unique_ptr<UIContainerMaterial>(new UIContainerMaterial(true, *this)), false, *this),
+		m_wndMaterial(std::unique_ptr<UIContainerMaterial>(new UIContainerMaterial(true, *this)), true, *this),
 		m_dlgMapSetup(UIDialog::Buttons::OKCancel, false, *this),
 		m_wndBucks(false, *this)
 	{

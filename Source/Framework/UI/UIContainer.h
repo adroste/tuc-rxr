@@ -72,7 +72,7 @@ public:
 
 	virtual void setOrigin(const PointF& p) override
 	{
-		IMetrics::setOrigin(p);
+		UIObject::setOrigin(p);
 		m_matTransform = glm::translate(glm::vec3(p.x, p.y, 0.0f));
 	}
 
@@ -83,7 +83,7 @@ public:
 protected:
 	virtual PointF transformMouse(PointF mpos) override
 	{
-		return mpos - m_pos;
+		return mpos - getOrigin();
 	}
 
 	/*

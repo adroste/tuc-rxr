@@ -1,6 +1,7 @@
 #include "UIObject.h"
 #include "../../System/Input.h"
 #include "WindowManager.h"
+#include "WindowLayer.h"
 
 void UIObject::setVisibility(bool visible)
 {
@@ -19,6 +20,22 @@ void UIObject::setVisibility(bool visible)
 	}
 }
 
+void UIObject::setOrigin(const PointF& p)
+{
+	IMetrics::setOrigin(p);
+	WindowManager* wm = getWindowManager();
+	if (wm)
+		wm->updateWindows();
+}
+
+void UIObject::setDim(const PointF& d)
+{
+	IMetrics::setDim(d);
+	WindowManager* wm = getWindowManager();
+	if (wm)
+		wm->updateWindows();
+}
+
 void UIObject::setWindowDesc(std::unique_ptr<WindowDesc> wd)
 {
 	m_pWindowDesc = std::move(wd);
@@ -29,9 +46,17 @@ std::unique_ptr<WindowDesc>& UIObject::getWindowDesc()
 	return m_pWindowDesc;
 }
 
-WindowManager* UIObject::getWindowManager() const
+WindowLayer* UIObject::getWindowLayer() const
 {
 	if (!m_pWindowDesc)
 		return nullptr;
-	return m_pWindowDesc->getWindowManager();
+	return m_pWindowDesc->getWindowLayer();
+}
+
+WindowManager* UIObject::getWindowManager() const
+{
+	WindowLayer* wl = getWindowLayer();
+	if (!wl)
+		return nullptr;
+	return wl->getWindowManager();
 }

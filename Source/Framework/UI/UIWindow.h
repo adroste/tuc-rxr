@@ -90,7 +90,7 @@ protected:
 	}
 	virtual RectF getClientArea() const
 	{
-		return RectF(PointF(10.0f), m_dim - PointF(10.0f));
+		return RectF(PointF(10.0f), getDim() - PointF(10.0f));
 	}
 protected:	
 	UIButtonText m_btnCancel;

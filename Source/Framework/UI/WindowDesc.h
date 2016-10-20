@@ -4,10 +4,11 @@
 class WindowDesc
 {
 	friend class WindowManager;
+	friend class WindowLayer;
 private:
-	WindowDesc(WindowManager* wm, size_t anchor, PointF offset)
+	WindowDesc(WindowLayer* wl, size_t anchor, PointF offset)
 		:
-		m_windowManager(wm),
+		m_windowLayer(wl),
 		m_anchor(anchor),
 		m_offset(offset)
 	{}
@@ -17,13 +18,13 @@ public:
 	{}
 
 public:
-	WindowManager* getWindowManager() const
+	WindowLayer* getWindowLayer() const
 	{
-		return m_windowManager;
+		return m_windowLayer;
 	}
 
 private:
-	WindowManager* m_windowManager = nullptr;
+	WindowLayer* m_windowLayer = nullptr;
 	size_t m_anchor = 0;
 	PointF m_offset;
 };

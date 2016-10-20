@@ -19,8 +19,10 @@ class UIContainerBucket : public UIObjectExplorer
 
 		virtual void draw(Drawing& draw) override
 		{
-			draw.rect(RectF(m_pos, m_pos + PointF(m_dim.x, m_dim.y / 2.0f)), Color(m_cd.diffuse).fromGamma());
-			draw.rect(RectF(m_pos + PointF(0.0f, m_dim.y / 2.0f), m_pos + m_dim), Color(m_cd.spec).fromGamma());
+			PointF pos = getOrigin();
+			PointF dim = getDim();
+			draw.rect(RectF(pos, pos + PointF(dim.x, dim.y / 2.0f)), Color(m_cd.diffuse).fromGamma());
+			draw.rect(RectF(pos + PointF(0.0f, dim.y / 2.0f), pos + dim), Color(m_cd.spec).fromGamma());
 		}
 
 		const CubeDesc& getCubeDesc() const

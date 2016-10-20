@@ -2,8 +2,9 @@
 #include "UIObjectList.h"
 #include "WindowDesc.h"
 #include "../../System/Input.h"
+#include "WindowLayer.h"
 
-class WindowManager : public Input::IBroadcaster
+class WindowManager : public Input::IReceiver, Input::IBroadcaster
 {
 public:
 	class Anchor
@@ -26,54 +27,79 @@ public:
 	virtual ~WindowManager()
 	{}
 
-	void addWindow(UIObject* obj, size_t anchor = 0, PointF offset = PointF(0.0f))
+	void addLayer(WindowLayer* layer)
 	{
-		LockGuard g(m_muUiWindow);
+		LockGuard g(m_muWindowManager);
 
-		std::unique_ptr<WindowDesc> pCd = std::unique_ptr<WindowDesc>(new WindowDesc(this, anchor, offset));
-		m_uiWindows.addAndReg(obj, this);
-		obj->setWindowDesc(std::move(pCd));
-		updateWindowOrigin(obj);
-		onWindowShow(obj);
+		m_layers.push_back(layer);
+		layer->registerMe(this);
 	}
 
-	void removeWindow(UIObject* obj)
+	void addLayer(WindowLayer* layer, size_t pos)
 	{
-		LockGuard g(m_muUiWindow);
-		m_uiWindows.remove(obj);
-		obj->setWindowDesc(nullptr);
-	}
+		LockGuard g(m_muWindowManager);
 
-	void onWindowShow(UIObject* obj)
-	{
-		if (!obj->isVisible()) return;
-
-		m_uiWindows.setFocusFor(obj);
-		RectF rct = obj->getRect();
-		for (const auto& o : m_uiWindows)
+		if (pos >= m_layers.size())
 		{
-			if (o == obj) continue;
-			if (rct.isRectCutting(o->getRect()))
-				o->hide();
+			m_layers.push_back(layer);
 		}
+		else
+		{
+			auto it = m_layers.begin();
+			for (size_t i = 0; i < pos; ++i) ++it;
+			m_layers.insert(it, layer);
+		}
+
+		layer->registerMe(this);
 	}
 
-	void drawWindows(Drawing& draw)
+	void removeLayer(WindowLayer* layer)
+	{
+		LockGuard g(m_muWindowManager);
+
+		m_layers.remove_if([layer](const WindowLayer* wl)
+		{
+			return layer == wl;
+		});
+		layer->unregisterMe();
+	}
+
+	void removeLayer()
+	{
+		LockGuard g(m_muWindowManager);
+		auto l = m_layers.back();
+		m_layers.pop_back();
+		l->unregisterMe();
+	}
+
+	void removeLayer(size_t pos)
+	{
+		if (pos >= m_layers.size())
+			return;
+
+
+	}
+
+	void drawLayer(Drawing& draw)
 	{
 		LockGuard g(m_muUiWindow);
 		m_uiWindows.draw(draw);
 	}
 
-	void updateWindows()
+	void updateLayer()
 	{
+		if (m_suppressUpdate) return;
+		m_suppressUpdate = true;
+
 		for (const auto& o : m_uiWindows)
 			updateWindowOrigin(o);
+
+		m_suppressUpdate = false;
 	}
 
 private:
 	static void updateWindowOrigin(UIObject* obj)
 	{
-		// check if .get() will work if windowDesc is nullptr ?
 		WindowDesc* desc = obj->getWindowDesc().get();
 		if (!desc) return;
 
@@ -90,6 +116,6 @@ private:
 	}
 
 private:
-	UIObjectList m_uiWindows;
-	Mutex m_muUiWindow;
+	std::list<WindowLayer*> m_layers;
+	Mutex m_muWindowManager;
 };

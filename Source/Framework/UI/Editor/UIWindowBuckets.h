@@ -29,8 +29,9 @@ class UIWindowBuckets : public UIWindow
 		virtual void draw(Drawing& draw) override
 		{
 			draw.rect(getRect(), Color::Black());
-			PointF dx = PointF(m_dim.x / 3.0f, 0.0f);
-			PointF dy = PointF(0.0f, m_dim.y / 3.0f);
+			PointF dim = getDim();
+			PointF dx = PointF(dim.x / 3.0f, 0.0f);
+			PointF dy = PointF(0.0f, dim.y / 3.0f);
 			draw.line(getMidpoint() + dx, getMidpoint() - dx, 3.0f, Color::White());
 			draw.line(getMidpoint() + dy, getMidpoint() - dy, 3.0f, Color::White());
 		}

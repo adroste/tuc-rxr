@@ -34,13 +34,13 @@ class UIMenuBar : public UIContainer
 				m_name(name),
 				m_onPress(onPress)
 			{
-				IMetrics::setDim(font.getDim(name));
+				Item::setDim(font.getDim(name));
 				setOnClickCallback([this,&parent](IClickable*)
 				{
 					m_onPress(m_name);
 					parent.close();
 				});
-				IReceiver::setZIndex(2);
+				Item::setZIndex(2);
 			}
 
 			virtual void draw(Drawing& draw) override
@@ -61,12 +61,12 @@ class UIMenuBar : public UIContainer
 			m_font(font),
 			m_name(name)
 		{
-			IMetrics::setDim(font.getDim(name));
+			Section::setDim(font.getDim(name));
 			setOnClickCallback([this](IClickable*)
 			{
 				open();
 			});
-			IReceiver::setZIndex(1);
+			Section::setZIndex(1);
 		}
 
 		virtual bool mouseDown(const PointF& mpos, Input::Mouse button) override
@@ -128,7 +128,7 @@ class UIMenuBar : public UIContainer
 			for(const auto& o : m_itms)
 			{
 				o->setWidth(maxWi);
-				o->setOrigin({ m_pos.x,curY });
+				o->setOrigin({ getOrigin().x,curY });
 				curY += o->getDim().y;
 			}
 		}
