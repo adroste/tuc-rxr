@@ -10,9 +10,9 @@ void UIObject::setVisibility(bool visible)
 	if (m_isVisible)
 	{
 		m_isEnabled ? Input::IReceiver::enable() : Input::IReceiver::disable();
-		WindowManager* wm = getWindowManager();
-		if (wm)
-			wm->onWindowShow(this);
+		auto wl = getWindowLayer();
+		if (wl)
+			wl->onWindowShow(this);
 	}
 	else
 	{
@@ -23,17 +23,17 @@ void UIObject::setVisibility(bool visible)
 void UIObject::setOrigin(const PointF& p)
 {
 	IMetrics::setOrigin(p);
-	WindowManager* wm = getWindowManager();
-	if (wm)
-		wm->updateWindows();
+	auto wl = getWindowLayer();
+	if (wl)
+		wl->updateWindows();
 }
 
 void UIObject::setDim(const PointF& d)
 {
 	IMetrics::setDim(d);
-	WindowManager* wm = getWindowManager();
-	if (wm)
-		wm->updateWindows();
+	auto wl = getWindowLayer();
+	if (wl)
+		wl->updateWindows();
 }
 
 void UIObject::setWindowDesc(std::unique_ptr<WindowDesc> wd)

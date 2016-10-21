@@ -29,9 +29,9 @@ public:
 	};
 
 public:
-	UIDialog(Buttons buttons, bool show, WindowManager& wm, size_t anchor = 0, PointF offset = PointF(0.0f))
+	UIDialog(Buttons buttons, bool show, WindowLayer& wl, size_t anchor = 0, PointF offset = PointF(0.0f))
 		:
-		UIWindow(show, wm, anchor, offset),
+		UIWindow(show, wl, anchor, offset),
 		m_btn1(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S)),
 		m_btn2(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S)),
 		m_btn3(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S))

@@ -6,7 +6,7 @@
 
 static PointF m_mousePos;
 static PointF m_mouseDiff;
-static std::list<GameState*> m_listener;
+static std::list<Input::IReceiver*> m_listener;
 static Window* m_pWnd = nullptr;
 static bool m_isMouseTrapped = false;
 
@@ -46,16 +46,16 @@ bool Input::isMouseTrapped()
 	return m_isMouseTrapped;
 }
 
-void Input::registerState(GameState* pState)
+void Input::registerListener(Input::IReceiver* pListener)
 {
-	m_listener.push_front(pState);
+	m_listener.push_front(pListener);
 }
 
-void Input::unregisterState(GameState* pState)
+void Input::unregisterListener(Input::IReceiver* pListener)
 {
-	m_listener.remove_if([pState](GameState* src)
+	m_listener.remove_if([pListener](Input::IReceiver* src)
 	{
-		return pState == src;
+		return pListener == src;
 	});
 }
 

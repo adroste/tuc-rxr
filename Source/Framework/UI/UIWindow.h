@@ -5,13 +5,13 @@
 class UIWindow : public UIContainer
 {
 public:
-	UIWindow(bool show, WindowManager& wm, size_t anchor = 0, PointF offset = PointF(0.0f))
+	UIWindow(bool show, WindowLayer& wl, size_t anchor = 0, PointF offset = PointF(0.0f))
 		:
 		UIContainer(show),
 		m_btnCancel(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "X")
 	{
 		// register to window manager
-		wm.addWindow(this, anchor, offset);
+		wl.addWindow(this, anchor, offset);
 
 		//m_btnCancel.setZIndex(getZIndex() + 1);
 		m_btnCancel.adjustToFontHeadline();

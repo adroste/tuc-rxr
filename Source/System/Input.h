@@ -80,13 +80,17 @@ public:
 			return m_zIndex;
 		}
 
-		virtual void setZIndex(int z)
+		void setZIndex(int z)
 		{
 			m_zIndex = z;
+			if (m_broadcaster)
+				m_broadcaster->sortReceivers();
 		}
 
 		virtual void registerMe(IBroadcaster* broadcaster)
 		{
+			assert(broadcaster);
+			assert(!m_broadcaster);
 			m_broadcaster = broadcaster;
 			if (!m_broadcaster)
 				throw ExceptionArgument("Input::IReceiver::registerMe", "nullptr");
@@ -94,9 +98,11 @@ public:
 		}
 		virtual void unregisterMe()
 		{
+			assert(m_broadcaster);
 			if (!m_broadcaster)
 				throw ExceptionInvalidOperation("Input::IReceiver::unregisterMe receiver not registered", "m_broadcaster = nullptr");
 			m_broadcaster->unregReceiver(this);
+			m_broadcaster = nullptr;
 		}
 	private:
 		bool m_enabled = true;
@@ -244,8 +250,8 @@ public:
 	static void freeMouse();
 	static bool isMouseTrapped();
 
-	static void registerState(class GameState* pState);
-	static void unregisterState(class GameState* pState);
+	static void registerListener(Input::IReceiver* pListener);
+	static void unregisterListener(Input::IReceiver* pListener);
 private:
 	static void keyDown(SDL_Scancode s);
 	static void keyUp(SDL_Scancode s);

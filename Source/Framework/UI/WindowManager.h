@@ -4,7 +4,7 @@
 #include "../../System/Input.h"
 #include "WindowLayer.h"
 
-class WindowManager : public Input::IReceiver, Input::IBroadcaster
+class WindowManager : public Input::IReceiver, public Input::IBroadcaster
 {
 public:
 	class Anchor
@@ -22,10 +22,33 @@ public:
 
 public:
 	WindowManager()
-	{}
+	{
+		Input::registerListener(this);
+	}
 
 	virtual ~WindowManager()
-	{}
+	{
+		Input::unregisterListener(this);
+	}
+
+	WindowLayer* getLayerTop()
+	{
+		return m_layers.back();
+	}
+
+	WindowLayer* getLayerBottom()
+	{
+		return m_layers.front();
+	}
+
+	WindowLayer* getLayer(size_t pos)
+	{
+		if (pos >= m_layers.size())
+			return nullptr;
+		auto it = m_layers.begin();
+		for (size_t i = 0; i < pos; ++i) ++it;
+		return *it;
+	}
 
 	void addLayer(WindowLayer* layer)
 	{
@@ -33,6 +56,7 @@ public:
 
 		m_layers.push_back(layer);
 		layer->registerMe(this);
+		updateZIndices();
 	}
 
 	void addLayer(WindowLayer* layer, size_t pos)
@@ -51,10 +75,13 @@ public:
 		}
 
 		layer->registerMe(this);
+		updateZIndices();
 	}
 
 	void removeLayer(WindowLayer* layer)
 	{
+		// TODO delete layers ?
+		
 		LockGuard g(m_muWindowManager);
 
 		m_layers.remove_if([layer](const WindowLayer* wl)
@@ -62,6 +89,7 @@ public:
 			return layer == wl;
 		});
 		layer->unregisterMe();
+		updateZIndices();
 	}
 
 	void removeLayer()
@@ -70,49 +98,81 @@ public:
 		auto l = m_layers.back();
 		m_layers.pop_back();
 		l->unregisterMe();
+		updateZIndices();
 	}
 
 	void removeLayer(size_t pos)
 	{
+		LockGuard g(m_muWindowManager);
+
 		if (pos >= m_layers.size())
 			return;
-
-
+		auto it = m_layers.begin();
+		for (size_t i = 0; i < pos; ++i) ++it;
+		removeLayer(*it);
 	}
 
 	void drawLayer(Drawing& draw)
 	{
-		LockGuard g(m_muUiWindow);
-		m_uiWindows.draw(draw);
+		LockGuard g(m_muWindowManager);
+		for (auto& l : m_layers)
+			l->drawWindows(draw);
 	}
 
 	void updateLayer()
 	{
-		if (m_suppressUpdate) return;
-		m_suppressUpdate = true;
+		LockGuard g(m_muWindowManager);
+		for (const auto& l : m_layers)
+			l->updateWindows();
+	}
 
-		for (const auto& o : m_uiWindows)
-			updateWindowOrigin(o);
 
-		m_suppressUpdate = false;
+	// Input
+	virtual bool keyDown(SDL_Scancode s) override
+	{
+		sendKeyDown(s);
+		return true;
+	}
+	virtual bool keyUp(SDL_Scancode s) override
+	{
+		sendKeyUp(s);
+		return true;
+	}
+	virtual bool charDown(char c) override
+	{
+		sendCharDown(c);
+		return true;
+	}
+	virtual bool mouseMove(const PointF& mpos, const PointF& mdiff, bool handled) override
+	{
+		sendMouseMove(mpos, mdiff, handled);
+		return true;
+	}
+	virtual bool mouseDown(const PointF& mpos, Input::Mouse button) override
+	{
+		sendMouseDown(mpos, button);
+		return true;
+	}
+	virtual bool mouseUp(const PointF& mpos, Input::Mouse button) override
+	{
+		sendMouseUp(mpos, button);
+		return true;
+	}
+	virtual bool wheel(const PointF& mpos, float amount) override
+	{
+		sendWheel(mpos, amount);
+		return true;
 	}
 
 private:
-	static void updateWindowOrigin(UIObject* obj)
+	void updateZIndices()
 	{
-		WindowDesc* desc = obj->getWindowDesc().get();
-		if (!desc) return;
-
-		obj->setCenter(Framework::getScreenCenter());
-
-		if (desc->m_anchor & Anchor::Left && !(desc->m_anchor & Anchor::Right))
-			obj->setLeft(desc->m_offset.x);
-		else if (desc->m_anchor & Anchor::Right && !(desc->m_anchor & Anchor::Left))
-			obj->setRight(desc->m_offset.x);
-		if (desc->m_anchor & Anchor::Top && !(desc->m_anchor & Anchor::Bottom))
-			obj->setTop(desc->m_offset.y);
-		else if (desc->m_anchor & Anchor::Bottom && !(desc->m_anchor & Anchor::Top))
-			obj->setBottom(desc->m_offset.y);
+		auto it = m_layers.begin();
+		for (size_t i = 1; i <= m_layers.size(); ++i)
+		{
+			(*it)->setZIndex(i);
+			++it;
+		}
 	}
 
 private:

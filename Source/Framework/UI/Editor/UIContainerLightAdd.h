@@ -9,7 +9,7 @@
 class UIContainerLightAdd : public UIItemLister 
 {
 public:
-	UIContainerLightAdd(bool show, WindowManager& wm)
+	UIContainerLightAdd(bool show, WindowLayer& wl)
 		:
 		UIItemLister(show),
 		m_type(getDFont(),LightType::Directional),
@@ -27,7 +27,7 @@ public:
 		m_lblY(getDFont(), "y"),
 		m_lblZ(getDFont(), "z"),
 
-		m_dlgColor(false, wm)
+		m_dlgColor(false, wl)
 	{
 		// metrics
 		float fh = getDFont().getMaxHeight();
@@ -55,7 +55,7 @@ public:
 		setFixedDim(true);
 
 		m_dlgColor.setZIndex(1);
-		m_dlgColor.registerMe(this);
+		//m_dlgColor.registerMe(this);
 		m_color.setOnClickCallback([this](IClickable*)
 		{
 			m_dlgColor.setCenter(getRect().getMidpoint());

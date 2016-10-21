@@ -13,14 +13,16 @@ class StateDev : public GameState
 public:
 	StateDev()
 		:
+		m_pUiLayer1(new WindowLayer()),
 		m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Back"),
-		m_material(false, *this),
-		m_material2(true, *this)
+		m_material(false, *m_pUiLayer1),
+		m_material2(true, *m_pUiLayer1)
 	{
 		m_btnBack.adjustToFontHeadline();
-		addWindow(&m_btnBack, Anchor::Left | Anchor::Bottom);
-		addWindow(&m_material, Anchor::Right);
-		addWindow(&m_material2, Anchor::Right | Anchor::Top);
+		m_pUiLayer1->addWindow(&m_btnBack, Anchor::Left | Anchor::Bottom);
+		m_pUiLayer1->addWindow(&m_material, Anchor::Right);
+		m_pUiLayer1->addWindow(&m_material2, Anchor::Right | Anchor::Top);
+		addLayer(m_pUiLayer1);
 	}
 
 	virtual ~StateDev() override
@@ -81,6 +83,7 @@ public:
 	}
 
 private:
+	WindowLayer* m_pUiLayer1;
 	UIButtonText m_btnBack;
 	UIContainerMaterial m_material;
 	UIContainerMaterial m_material2;
