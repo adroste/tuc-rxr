@@ -5,9 +5,9 @@
 class UIMessageBox : public UIDialog, public ILabelable
 {
 public:
-	UIMessageBox(const std::string& txt, UIDialog::Buttons buttons, bool show)
+	UIMessageBox(const std::string& txt, UIDialog::Buttons buttons, bool show, WindowLayer& wl, size_t anchor = 0, PointF offset = PointF(0.0f))
 		:
-		UIDialog(buttons, show),
+		UIDialog(buttons, show, wl, anchor, offset),
 		m_txtBox(Drawing::getFont(Font::Style::Text, Font::Size::M))
 	{
 		UIMessageBox::setText(txt);

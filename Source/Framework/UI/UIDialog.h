@@ -29,9 +29,9 @@ public:
 	};
 
 public:
-	UIDialog(Buttons buttons, bool show)
+	UIDialog(Buttons buttons, bool show, WindowLayer& wl, size_t anchor = 0, PointF offset = PointF(0.0f))
 		:
-		UIWindow(show),
+		UIWindow(show, wl, anchor, offset),
 		m_btn1(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S)),
 		m_btn2(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S)),
 		m_btn3(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S))
@@ -273,7 +273,8 @@ protected:
 
 	virtual RectF getClientArea() const override
 	{
-		return RectF(PointF(BTN_PADD), PointF(m_dim.x - BTN_PADD, m_dim.y - 2.0f * BTN_PADD - m_btn1.getDim().y));
+		PointF dim = getDim();
+		return RectF(PointF(BTN_PADD), PointF(dim.x - BTN_PADD, dim.y - 2.0f * BTN_PADD - m_btn1.getDim().y));
 	}
 private:
 	Result m_dlgResult = Result::None;

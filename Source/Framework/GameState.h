@@ -8,7 +8,7 @@
 #include "UI/UIObjectList.h"
 #include "UI/WindowManager.h"
 
-class GameState : public WindowManager, public Input::IReceiver, public Input::IBroadcaster
+class GameState : public WindowManager
 {
 public:
 	enum class TransitionState
@@ -27,57 +27,21 @@ public:
 	GameState(bool drawPrevState = false)
 		:
 		m_drawPrev(drawPrevState)
-	{
-		Input::registerState(this);
-	}
+	{}
 	virtual ~GameState() override
-	{
-		Input::unregisterState(this);
-	}
+	{}
 
 	virtual bool update(float dt) = 0;
 
 	virtual void composeFrame(Drawing& draw, float dt)
 	{
-		//draw.rect(RectF(400.0f, 400.0f, 450.0f, 450.0f), Color::Cyan());
-		drawUIElements(draw);
+		drawLayer(draw);
 	}
-
-	// Input
-	virtual bool keyDown(SDL_Scancode s) override
-	{
-		return sendKeyDown(s);
-	}
-	virtual bool keyUp(SDL_Scancode s) override
-	{
-		return sendKeyUp(s);
-	}
-	virtual bool charDown(char c) override
-	{
-		return sendCharDown(c);
-	}
-	virtual bool mouseMove(const PointF& mpos, const PointF& mdiff, bool handled) override
-	{
-		return sendMouseMove(mpos, mdiff, handled);
-	}
-	virtual bool mouseDown(const PointF& mpos, Input::Mouse button) override
-	{
-		return sendMouseDown(mpos, button);
-	}
-	virtual bool mouseUp(const PointF& mpos, Input::Mouse button) override
-	{
-		return sendMouseUp(mpos, button);
-	}
-	virtual bool wheel(const PointF& mpos, float amount) override
-	{
-		return sendWheel(mpos, amount);
-	}
-
 
 	// Events
 	virtual void onResize()
 	{
-		updateUIElements();
+		updateLayer();
 	}
 
 

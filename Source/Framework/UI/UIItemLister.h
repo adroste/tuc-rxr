@@ -63,15 +63,17 @@ public:
 	}
 	void orderItems()
 	{
+		PointF dim = getDim();
+
 		float curY = PADDING + m_wallPadd;
 
-		float widthLeft = m_dim.x * m_midDivider;
-		float widthRight = m_dim.x - widthLeft;
+		float widthLeft = dim.x * m_midDivider;
+		float widthRight = dim.x - widthLeft;
 
 		float leftStart = PADDING;
 		float leftEnd = widthLeft - PADDING;
 		float rightStart = widthLeft + PADDING;
-		float rightEnd = m_dim.x - PADDING;
+		float rightEnd = dim.x - PADDING;
 
 		auto clipFunc = &UIItemLister::clipToRectMid;
 		if (m_mode == Mode::Left)
@@ -127,7 +129,7 @@ public:
 		setDim({PADDING + m_wallPadd + leftMaxX + 2.0f * PADDING + rightMaxX + m_wallPadd + PADDING, curY});
 		
 		if (leftMaxX > 0.0f)
-			setMidDivider((2.0f * PADDING + leftMaxX) / (m_dim.x));
+			setMidDivider((2.0f * PADDING + leftMaxX) / (getDim().x));
 		else
 			setMidDivider(0.0f);
 	}

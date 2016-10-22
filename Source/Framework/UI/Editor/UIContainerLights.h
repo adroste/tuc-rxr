@@ -11,7 +11,7 @@ class UIContainerLights : public UIItemLister
 {
 	CALLBACK(LightAdd, LightSource);
 public:
-	UIContainerLights(GameEditor& editor, bool show)
+	UIContainerLights(GameEditor& editor, bool show, WindowLayer& wl)
 		:
 		UIItemLister(show),
 		m_editor(editor),
@@ -19,8 +19,8 @@ public:
 		m_lblAmbient(getDFont(),"ambient"),
 		m_btnAmbient(editor.getAmbientColor()),
 		m_btnAddLight(UIButton::Style::Royal,getDFont(),"add light"),
-		m_colorPicker(false),
-		m_dlgLightAdd(false)
+		m_colorPicker(false, wl),
+		m_dlgLightAdd(false, wl)
 	{
 		m_btnAmbient.setValue(m_editor.getAmbientColor().fromGamma());
 		// metrics
@@ -39,9 +39,9 @@ public:
 		setFixedDim(true);
 
 		m_colorPicker.setZIndex(1);
-		m_colorPicker.registerMe(this);
+		//m_colorPicker.registerMe(this);
 		m_dlgLightAdd.setZIndex(1);
-		m_dlgLightAdd.registerMe(this);
+		//m_dlgLightAdd.registerMe(this);
 
 		m_btnAmbient.setOnClickCallback([this](IClickable*)
 		{
@@ -71,10 +71,6 @@ public:
 	virtual void draw(Drawing& draw) override
 	{
 		UIItemLister::draw(draw);
-		pushDrawTransforms(draw);
-		m_colorPicker.draw(draw);
-		m_dlgLightAdd.draw(draw);
-		popDrawTransforms(draw);
 	}
 
 private:

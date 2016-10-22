@@ -118,10 +118,7 @@ public:
 	}
 	inline bool isRectCutting(const  Rect<T>& re) const
 	{
-		if (isPointInside(re.getTopLeft()) || isPointInside(re.getTopRight()) ||
-			isPointInside(re.getTopRight()) || isPointInside(re.getBottomLeft()))
-			return true;
-		return false;
+		return x1 < re.x2 && x2 > re.x1 && y1 < re.y2 && y2 > re.y1;
 	}
 	//clip this rect into another
 	inline Rect<T> clipTo(const Rect<T>& o) const

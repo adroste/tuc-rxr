@@ -286,6 +286,8 @@
     <ClInclude Include="..\Source\Framework\UI\UITrackbar.h" />
     <ClInclude Include="..\Source\Framework\UI\UIWindow.h" />
     <ClInclude Include="..\Source\Framework\UI\UIWindowContainerHolder.h" />
+    <ClInclude Include="..\Source\Framework\UI\WindowDesc.h" />
+    <ClInclude Include="..\Source\Framework\UI\WindowLayer.h" />
     <ClInclude Include="..\Source\Framework\UI\WindowManager.h" />
     <ClInclude Include="..\Source\Framework\Window.h" />
     <ClInclude Include="..\Source\Game\Client\BucketLoader.h" />

@@ -21,14 +21,16 @@ class StateEditor : public GameState
 public:
 	StateEditor()
 		:
-		m_uiList({&m_btnBack, &m_wndMaterial, &m_menu, &m_dlgLights, &m_dlgMapSetup,
-			&m_wndBucks}),
-		m_menu(Drawing::getFont(Font::Style::Headline, Font::Size::M)),
+		m_pUiLayer1(new WindowLayer()),
+		m_pUiLayer2(new WindowLayer()),
+		/*m_uiList({&m_btnBack, &m_wndMaterial, &m_menu, &m_dlgLights, &m_dlgMapSetup,
+			&m_wndBucks}),*/
 		m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Back"),
-		m_dlgLights(m_editor, false),
-		m_wndMaterial(true),
-		m_dlgMapSetup(UIDialog::Buttons::OKCancel, false),
-		m_wndBucks(true)
+		m_dlgLights(m_editor, false, *m_pUiLayer1),
+		m_menu(Drawing::getFont(Font::Style::Headline, Font::Size::M)),
+		m_wndMaterial(std::unique_ptr<UIContainerMaterial>(new UIContainerMaterial(true, *m_pUiLayer1)), true, *m_pUiLayer1, Anchor::Right),
+		m_dlgMapSetup(UIDialog::Buttons::OKCancel, false, *m_pUiLayer1),
+		m_wndBucks(false, *m_pUiLayer1, Anchor::Left)
 	{
 		// TODO fix z index thing
 		m_menu.setZIndex(100);
@@ -50,12 +52,10 @@ public:
 		m_menu.addItem("File", "Import Buckets", [this](const std::string&)
 		               {
 			               if (m_pDlgBuckImport.get()) return;
-			               m_pDlgBuckImport = std::unique_ptr<BucketImport>(new BucketImport(UIDialog::Buttons::OKCancel, true));
-			               m_uiList.add(m_pDlgBuckImport.get());
-			               m_uiList.setFocusFor(m_pDlgBuckImport.get());
-			               m_pDlgBuckImport->registerMe(this);
+						   m_pDlgBuckImport = std::unique_ptr<BucketImport>(new BucketImport(UIDialog::Buttons::OKCancel, true, *m_pUiLayer1));
+			               //m_pDlgBuckImport->registerMe(this);
 			               m_pDlgBuckImport->adjustToContainer();
-			               m_pDlgBuckImport->center();
+			               //m_pDlgBuckImport->center();
 
 			               m_pDlgBuckImport->show();
 			               m_pDlgBuckImport->setOnResultCallback([this](UIDialog*)
@@ -71,31 +71,27 @@ public:
 		m_menu.addSection("Map");
 		m_menu.addItem("Map", "Lights", [this](const std::string&)
 		{
-			m_uiList.setFocusFor(&m_dlgLights);
-			sortReceivers(); // TODO maybe add broadcaster reference to uilist? for better focus setting
-			m_dlgLights.center();
+			//sortReceivers(); // TODO maybe add broadcaster reference to uilist? for better focus setting
+			//m_dlgLights.center();
 			m_dlgLights.show();
 		});
 		m_menu.addItem("Map","Material",[this](const std::string&)
 		{
-			m_uiList.setFocusFor(&m_wndMaterial);
 			m_wndMaterial.show();
 		});
 		m_menu.addItem("Map", "Dimension", [this](const std::string&)
 		               {
-			               m_uiList.setFocusFor(&m_dlgMapSetup);
 			               m_dlgMapSetup.show();
 		               });
 		m_menu.addItem("Map", "Buckets", [this](const std::string&)
 		               {
-			               m_uiList.setFocusFor(&m_wndBucks);
 			               m_wndBucks.show();
 		               });
 
 		m_editor.registerMe(this);
 
 		m_btnBack.adjustToFontHeadline();
-		m_btnBack.setOrigin({10.0f, Framework::STD_DRAW_Y - (m_btnBack.getDim().y + 10.0f)});
+		//m_btnBack.setOrigin({10.0f, Framework::STD_DRAW_Y - (m_btnBack.getDim().y + 10.0f)});
 		m_btnBack.setZIndex(1);
 
 		// material list
@@ -103,15 +99,15 @@ public:
 		m_wndMaterial->adjustToItems();
 		m_wndMaterial.setZIndex(2);
 		m_wndMaterial.adjustToContainer();
-		m_wndMaterial.setOrigin({800,100});
+		//m_wndMaterial.setOrigin({800,100});
 
 		m_wndBucks.setZIndex(3);
-		m_wndBucks.setOrigin({10,50});
+		//m_wndBucks.setOrigin({10,50});
 
 		m_dlgMapSetup.adjustToContainer();
-		m_dlgMapSetup.center();
+		//m_dlgMapSetup.center();
 
-		m_uiList.registerAll(this);
+		//m_uiList.registerAll(this);
 
 		m_wndBucks.setOnBucketChangeCallback([this](UIWindowBuckets* pb)
 			{
@@ -124,13 +120,13 @@ public:
 				{
 					// set highest z index
 					m_editor.setZIndex(INT_MAX);
-					sortReceivers();
+					//sortReceivers();
 				}
 				else
 				{
 					// set index 0
 					m_editor.setZIndex(0);
-					sortReceivers();
+					//sortReceivers();
 				}
 			});
 
@@ -145,6 +141,11 @@ public:
 			{
 				m_wndBucks.addToBucket(c);
 			});
+
+		m_pUiLayer1->addWindow(&m_btnBack, Anchor::Bottom | Anchor::Left);
+		m_pUiLayer2->addWindow(&m_menu, Anchor::Top);
+		addLayer(m_pUiLayer1);
+		addLayer(m_pUiLayer2);		
 	}
 
 	virtual ~StateEditor() override
@@ -159,8 +160,7 @@ public:
 		if (m_pDlgBuckImport && m_pDlgBuckImport->getResult() != UIDialog::Result::None)
 		{
 			// delete and unregister
-			m_uiList.remove(m_pDlgBuckImport.get());
-			m_pDlgBuckImport->unregisterMe();
+			m_pUiLayer1->removeWindow(m_pDlgBuckImport.get());
 			m_pDlgBuckImport.reset();
 		}
 
@@ -171,7 +171,8 @@ public:
 	{
 		m_editor.draw(draw, dt);
 
-		m_uiList.draw(draw);
+		//m_uiList.draw(draw);
+		drawLayer(draw);
 	}
 
 	void saveMap()
@@ -246,6 +247,7 @@ public:
 	// Events
 	virtual void onResize() override
 	{
+		GameState::onResize();
 		m_menu.orderItems();
 	}
 
@@ -271,7 +273,9 @@ public:
 	}
 
 private:
-	UIObjectList m_uiList;
+	WindowLayer* m_pUiLayer1;
+	WindowLayer* m_pUiLayer2;
+	//UIObjectList m_uiList;
 
 	GameEditor m_editor;
 

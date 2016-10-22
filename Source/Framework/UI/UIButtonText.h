@@ -52,7 +52,7 @@ public:
 
 	virtual void setDim(const PointF& d) override
 	{
-		IMetrics::setDim(d);
+		UIButton::setDim(d);
 		calcTextPosition();
 	}
 

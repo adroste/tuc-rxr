@@ -29,9 +29,9 @@ public:
 	void addContainer(std::unique_ptr<UIObject> c)
 	{
 		if(!hasFixedDim())
-			c->setWidth(m_dim.x);
+			c->setWidth(getDim().x);
 
-		assert(c->getDim().x <= m_dim.x);
+		assert(c->getDim().x <= getDim().x);
 		c->setOrigin({ 0.0f,m_curY });
 		m_curY += c->getDim().y;
 
@@ -50,9 +50,9 @@ public:
 		}
 
 		if (!hasFixedDim())
-			c->setWidth(m_dim.x);
+			c->setWidth(getDim().x);
 
-		assert(c->getDim().x <= m_dim.x);
+		assert(c->getDim().x <= getDim().x);
 		// determine y
 		
 		m_objList.addAndReg(c.get(), this);
@@ -101,7 +101,7 @@ public:
 
 	void adjustToContent()
 	{
-		UIContainer::setDim({ m_dim.x, m_curY });
+		UIContainer::setDim({ getDim().x, m_curY });
 	}
 
 	size_t size() const

@@ -19,12 +19,12 @@ public:
 	{
 		if (!isVisible()) return;
 
-		m_font.write(draw, getText(), m_pos);
+		m_font.write(draw, getText(), getOrigin());
 	}
 
 	virtual void setText(const std::string& text) override
 	{
-		m_dim = m_font.getDim(text);
+		setDim(m_font.getDim(text));
 		ILabelable::setText(text);
 	}
 private:

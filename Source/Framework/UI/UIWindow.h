@@ -5,11 +5,14 @@
 class UIWindow : public UIContainer
 {
 public:
-	UIWindow(bool show)
+	UIWindow(bool show, WindowLayer& wl, size_t anchor = 0, PointF offset = PointF(0.0f))
 		:
 		UIContainer(show),
 		m_btnCancel(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "X")
 	{
+		// register to window manager
+		wl.addWindow(this, anchor, offset);
+
 		//m_btnCancel.setZIndex(getZIndex() + 1);
 		m_btnCancel.adjustToFontHeadline();
 		m_btnCancel.registerMe(this);
@@ -87,7 +90,7 @@ protected:
 	}
 	virtual RectF getClientArea() const
 	{
-		return RectF(PointF(10.0f), m_dim - PointF(10.0f));
+		return RectF(PointF(10.0f), getDim() - PointF(10.0f));
 	}
 protected:	
 	UIButtonText m_btnCancel;
