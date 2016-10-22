@@ -95,7 +95,7 @@ protected:
 	*				y - top / bottom padding
 	*	default value = border size
 	*/
-	virtual void pushDrawTransforms(Drawing& draw, PointF clipPadding = PointF(2.0f))
+	virtual void pushDrawTransforms(Drawing& draw, PointF clipPadding = PointF(0.0f))
 	{
 		draw.getTransform().pushModel(m_matTransform);
 		draw.pushIgnoreRect();
