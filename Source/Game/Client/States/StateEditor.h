@@ -22,6 +22,7 @@ public:
 	StateEditor()
 		:
 		m_pUiLayer1(new WindowLayer()),
+		m_pUiLayer2(new WindowLayer()),
 		/*m_uiList({&m_btnBack, &m_wndMaterial, &m_menu, &m_dlgLights, &m_dlgMapSetup,
 			&m_wndBucks}),*/
 		m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Back"),
@@ -142,8 +143,9 @@ public:
 			});
 
 		m_pUiLayer1->addWindow(&m_btnBack, Anchor::Bottom | Anchor::Left);
-		m_pUiLayer1->addWindow(&m_menu, Anchor::Top);
+		m_pUiLayer2->addWindow(&m_menu, Anchor::Top);
 		addLayer(m_pUiLayer1);
+		addLayer(m_pUiLayer2);		
 	}
 
 	virtual ~StateEditor() override
@@ -272,6 +274,7 @@ public:
 
 private:
 	WindowLayer* m_pUiLayer1;
+	WindowLayer* m_pUiLayer2;
 	//UIObjectList m_uiList;
 
 	GameEditor m_editor;

@@ -98,9 +98,7 @@ public:
 		}
 		virtual void unregisterMe()
 		{
-			assert(m_broadcaster);
-			if (!m_broadcaster)
-				throw ExceptionInvalidOperation("Input::IReceiver::unregisterMe receiver not registered", "m_broadcaster = nullptr");
+			if (!m_broadcaster) return;
 			m_broadcaster->unregReceiver(this);
 			m_broadcaster = nullptr;
 		}

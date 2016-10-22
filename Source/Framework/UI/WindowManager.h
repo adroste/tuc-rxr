@@ -50,6 +50,22 @@ public:
 		return *it;
 	}
 
+	size_t getLayerPosition(WindowLayer* layer)
+	{
+		assert(layer);
+		if (!layer)
+			return SIZE_MAX; // TODO throw nullptrexception
+		auto it = m_layers.begin();
+		for (size_t i = 0; i < m_layers.size(); ++i)
+		{
+			if (*it == layer)
+				return i;
+		}
+		// no layer found
+		assert(false); // TODO throw indexoutofrangexception
+		return SIZE_MAX;
+	}
+
 	void addLayer(WindowLayer* layer)
 	{
 		LockGuard g(m_muWindowManager);
