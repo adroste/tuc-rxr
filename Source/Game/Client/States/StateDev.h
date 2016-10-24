@@ -13,13 +13,13 @@ class StateDev : public GameState
 public:
 	StateDev()
 		:
-		//m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Back"),
-		//m_material(false, *m_pUiLayer1),
+		m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Back"),
+		m_material(false, *this),
 		m_material2(true, *this)
 	{
-		//m_btnBack.adjustToFontHeadline();
-		//m_pUiLayer1->addWindow(&m_btnBack, Anchor::Left | Anchor::Bottom);
-		//m_pUiLayer1->addWindow(&m_material, Anchor::Right);
+		m_btnBack.adjustToFontHeadline();
+		addWindow(&m_btnBack, Anchor::Left | Anchor::Bottom);
+		addWindow(&m_material, Anchor::Right);
 		addWindow(&m_material2, Anchor::Right | Anchor::Top);
 	}
 
@@ -28,9 +28,9 @@ public:
 
 	virtual bool update(float dt) override
 	{
-		//if (m_btnBack.isClicked(true))
-		//	//setNextState(TransitionState::Discard);
-		//	m_material.show();
+		if (m_btnBack.isClicked(true))
+			//setNextState(TransitionState::Discard);
+			m_material.show();
 
 		
 
@@ -81,7 +81,7 @@ public:
 	}
 
 private:
-	//UIButtonText m_btnBack;
-	//UIContainerMaterial m_material;
+	UIButtonText m_btnBack;
+	UIContainerMaterial m_material;
 	UIContainerMaterial m_material2;
 };
