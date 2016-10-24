@@ -35,13 +35,13 @@ public:
 
 	virtual void composeFrame(Drawing& draw, float dt)
 	{
-		drawLayer(draw);
+		drawWindows(draw);
 	}
 
 	// Events
 	virtual void onResize()
 	{
-		updateLayer();
+		updateWindows();
 	}
 
 

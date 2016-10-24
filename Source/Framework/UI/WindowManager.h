@@ -2,7 +2,6 @@
 #include "UIObjectList.h"
 #include "WindowDesc.h"
 #include "../../System/Input.h"
-#include "WindowLayer.h"
 
 class WindowManager : public Input::IReceiver, public Input::IBroadcaster
 {
@@ -31,167 +30,145 @@ public:
 		Input::unregisterListener(this);
 	}
 
-	WindowLayer* getLayerTop()
+	void addWindow(UIObject* obj, size_t anchor = 0, PointF offset = PointF(0.0f), bool isDialog = false)
 	{
-		return m_layers.back();
+		LockGuard g(m_muWiMa);
+
+		// if already registered somewhere
+		auto wm = obj->getWindowManager();
+		if (wm)
+			wm->removeWindow(obj);
+
+		std::unique_ptr<WindowDesc> pCd = std::unique_ptr<WindowDesc>(new WindowDesc(this, anchor, offset, isDialog));
+		m_objs.addAndReg(obj, this);
+		obj->setWindowDesc(std::move(pCd));
+		m_suppressUpdate = true;
+		updateWindowOrigin(obj);
+		m_suppressUpdate = false;
+		onWindowShow(obj);
 	}
 
-	WindowLayer* getLayerBottom()
+	void removeWindow(UIObject* obj)
 	{
-		return m_layers.front();
+		LockGuard g(m_muWiMa);
+		m_objs.remove(obj);
+		obj->setWindowDesc(nullptr);
 	}
 
-	WindowLayer* getLayer(size_t pos)
+	void onWindowShow(UIObject* obj)
 	{
-		if (pos >= m_layers.size())
-			return nullptr;
-		auto it = m_layers.begin();
-		for (size_t i = 0; i < pos; ++i) ++it;
-		return *it;
+		if (!obj->isVisible()) return;
+		LockGuard g(m_muWiMa);
+		m_suppressUpdate = true;
+		// sets Focus if obj is Dialog		
+		setFocusForDialog(obj);
+		m_suppressUpdate = false;
+		hideCuttingWindows(obj);
 	}
 
-	size_t getLayerPosition(WindowLayer* layer)
+	void hideCuttingWindows(UIObject* obj)
 	{
-		assert(layer);
-		if (!layer)
-			return SIZE_MAX; // TODO throw nullptrexception
-		auto it = m_layers.begin();
-		for (size_t i = 0; i < m_layers.size(); ++i)
-		{
-			if (*it == layer)
-				return i;
-		}
-		// no layer found
-		assert(false); // TODO throw indexoutofrangexception
-		return SIZE_MAX;
-	}
-
-	void addLayer(WindowLayer* layer)
-	{
-		LockGuard g(m_muWindowManager);
-
-		m_layers.push_back(layer);
-		layer->registerMe(this);
-		updateZIndices();
-	}
-
-	void addLayer(WindowLayer* layer, size_t pos)
-	{
-		LockGuard g(m_muWindowManager);
-
-		if (pos >= m_layers.size())
-		{
-			m_layers.push_back(layer);
-		}
-		else
-		{
-			auto it = m_layers.begin();
-			for (size_t i = 0; i < pos; ++i) ++it;
-			m_layers.insert(it, layer);
-		}
-
-		layer->registerMe(this);
-		updateZIndices();
-	}
-
-	void removeLayer(WindowLayer* layer)
-	{
-		// TODO delete layers ?
-		
-		LockGuard g(m_muWindowManager);
-
-		m_layers.remove_if([layer](const WindowLayer* wl)
-		{
-			return layer == wl;
-		});
-		layer->unregisterMe();
-		updateZIndices();
-	}
-
-	void removeLayer()
-	{
-		LockGuard g(m_muWindowManager);
-		auto l = m_layers.back();
-		m_layers.pop_back();
-		l->unregisterMe();
-		updateZIndices();
-	}
-
-	void removeLayer(size_t pos)
-	{
-		LockGuard g(m_muWindowManager);
-
-		if (pos >= m_layers.size())
+		if (!obj->isVisible() || obj->getWindowDesc()->isDialog())
 			return;
-		auto it = m_layers.begin();
-		for (size_t i = 0; i < pos; ++i) ++it;
-		removeLayer(*it);
+
+		LockGuard g(m_muWiMa);
+
+		RectF rct = obj->getRect();
+		for (const auto& o : m_objs)
+		{
+			if (o->getZIndex() != obj->getZIndex() || o == obj || !o->isVisible()) continue;
+			if (rct.isRectCutting(o->getRect()))
+				o->hide();
+		}
 	}
 
-	void drawLayer(Drawing& draw)
+	void drawWindows(Drawing& draw)
 	{
-		LockGuard g(m_muWindowManager);
-		for (auto& l : m_layers)
-			l->drawWindows(draw);
+		LockGuard g(m_muWiMa);
+		m_objs.draw(draw);
 	}
 
-	void updateLayer()
+	void updateWindows()
 	{
-		LockGuard g(m_muWindowManager);
-		for (const auto& l : m_layers)
-			l->updateWindows();
-	}
+		if (m_suppressUpdate) return;
 
+		LockGuard g(m_muWiMa);
+
+		m_objs.sort();
+
+		m_suppressUpdate = true;
+		for (const auto& o : m_objs)
+			updateWindowOrigin(o);
+		m_suppressUpdate = false;
+
+		for (const auto& w : m_objs)
+			hideCuttingWindows(w);
+	}
 
 	// Input
 	virtual bool keyDown(SDL_Scancode s) override
 	{
-		sendKeyDown(s);
-		return true;
+		return sendKeyDown(s);
 	}
 	virtual bool keyUp(SDL_Scancode s) override
 	{
-		sendKeyUp(s);
-		return true;
+		return sendKeyUp(s);
 	}
 	virtual bool charDown(char c) override
 	{
-		sendCharDown(c);
-		return true;
+		return sendCharDown(c);
 	}
 	virtual bool mouseMove(const PointF& mpos, const PointF& mdiff, bool handled) override
 	{
-		sendMouseMove(mpos, mdiff, handled);
-		return true;
+		return sendMouseMove(mpos, mdiff, handled);
 	}
 	virtual bool mouseDown(const PointF& mpos, Input::Mouse button) override
 	{
-		sendMouseDown(mpos, button);
-		return true;
+		return sendMouseDown(mpos, button);
 	}
 	virtual bool mouseUp(const PointF& mpos, Input::Mouse button) override
 	{
-		sendMouseUp(mpos, button);
-		return true;
+		return sendMouseUp(mpos, button);
 	}
 	virtual bool wheel(const PointF& mpos, float amount) override
 	{
-		sendWheel(mpos, amount);
-		return true;
+		return sendWheel(mpos, amount);
 	}
 
 private:
-	void updateZIndices()
+	void setFocusForDialog(UIObject* obj)
 	{
-		auto it = m_layers.begin();
-		for (size_t i = 1; i <= m_layers.size(); ++i)
-		{
-			(*it)->setZIndex(i);
-			++it;
-		}
+		if (!obj->getWindowDesc()->isDialog()) return;
+
+		// get highest index
+		int maxZ = 0;
+		for (const auto& o : m_objs)
+				maxZ = std::max(maxZ, o->getZIndex());
+
+		obj->setZIndex(maxZ + 1);
+		m_objs.sort();
+	}
+
+	static void updateWindowOrigin(UIObject* obj)
+	{
+		WindowDesc* desc = obj->getWindowDesc().get();
+		if (!desc) return;
+
+		obj->setCenter(Framework::getScreenCenter());
+
+		if (desc->m_anchor & Anchor::Left && !(desc->m_anchor & Anchor::Right))
+			obj->setLeft(desc->m_offset.x);
+		else if (desc->m_anchor & Anchor::Right && !(desc->m_anchor & Anchor::Left))
+			obj->setRight(desc->m_offset.x);
+		if (desc->m_anchor & Anchor::Top && !(desc->m_anchor & Anchor::Bottom))
+			obj->setTop(desc->m_offset.y);
+		else if (desc->m_anchor & Anchor::Bottom && !(desc->m_anchor & Anchor::Top))
+			obj->setBottom(desc->m_offset.y);
 	}
 
 private:
-	std::list<WindowLayer*> m_layers;
-	Mutex m_muWindowManager;
+	UIObjectList m_objs;
+	Mutex m_muWiMa;
+
+	bool m_suppressUpdate = false;
 };

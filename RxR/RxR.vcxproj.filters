@@ -609,9 +609,6 @@
     <ClInclude Include="..\Source\Framework\UI\WindowDesc.h">
       <Filter>Source\Framework\UI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Framework\UI\WindowLayer.h">
-      <Filter>Source\Framework\UI</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glew32.dll">

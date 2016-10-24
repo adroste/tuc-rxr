@@ -5,10 +5,10 @@
 class UIDialogLightsAdd : public UIDialog
 {
 public:
-	UIDialogLightsAdd(bool show, WindowLayer& wl, size_t anchor = 0, PointF offset = PointF(0.0f))
+	UIDialogLightsAdd(bool show, WindowManager& wm, size_t anchor = 0, PointF offset = PointF(0.0f))
 		:
-		UIDialog(Buttons::OKCancel, show, wl, anchor, offset),
-		m_light(true, wl)
+		UIDialog(Buttons::OKCancel, show, wm, anchor, offset),
+		m_light(true, wm)
 	{
 		auto o = UIDialog::setClientArea(m_light.getDim());
 		setFixedDim(true);

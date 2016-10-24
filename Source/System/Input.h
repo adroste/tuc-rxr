@@ -80,7 +80,7 @@ public:
 			return m_zIndex;
 		}
 
-		void setZIndex(int z)
+		virtual void setZIndex(int z)
 		{
 			m_zIndex = z;
 			if (m_broadcaster)

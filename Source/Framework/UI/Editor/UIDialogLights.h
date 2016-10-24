@@ -6,10 +6,10 @@
 class UIDialogLights : public UIDialog
 {
 public:
-	UIDialogLights(GameEditor& editor, bool show, WindowLayer& wl, size_t anchor = 0, PointF offset = PointF(0.0f))
+	UIDialogLights(GameEditor& editor, bool show, WindowManager& wm, size_t anchor = 0, PointF offset = PointF(0.0f))
 		:
-		UIDialog(Buttons::OKCancel, show, wl, anchor, offset),
-		m_lights(editor, true, wl),
+		UIDialog(Buttons::OKCancel, show, wm, anchor, offset),
+		m_lights(editor, true, wm),
 		m_list(true)
 	{
 		m_list.setDim({ m_lights.getDim().x,300.0f });

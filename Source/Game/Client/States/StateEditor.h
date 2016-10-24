@@ -21,16 +21,14 @@ class StateEditor : public GameState
 public:
 	StateEditor()
 		:
-		m_pUiLayer1(new WindowLayer()),
-		m_pUiLayer2(new WindowLayer()),
 		/*m_uiList({&m_btnBack, &m_wndMaterial, &m_menu, &m_dlgLights, &m_dlgMapSetup,
 			&m_wndBucks}),*/
 		m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Back"),
-		m_dlgLights(m_editor, false, *m_pUiLayer1),
+		m_dlgLights(m_editor, false, *this),
 		m_menu(Drawing::getFont(Font::Style::Headline, Font::Size::M)),
-		m_wndMaterial(std::unique_ptr<UIContainerMaterial>(new UIContainerMaterial(true, *m_pUiLayer1)), true, *m_pUiLayer1, Anchor::Right),
-		m_dlgMapSetup(UIDialog::Buttons::OKCancel, false, *m_pUiLayer1),
-		m_wndBucks(false, *m_pUiLayer1, Anchor::Left)
+		m_wndMaterial(std::unique_ptr<UIContainerMaterial>(new UIContainerMaterial(true, *this)), true, *this, Anchor::Right),
+		m_dlgMapSetup(UIDialog::Buttons::OKCancel, false, *this),
+		m_wndBucks(false, *this, Anchor::Left)
 	{
 		// TODO fix z index thing
 		m_menu.setZIndex(100);
@@ -52,7 +50,7 @@ public:
 		m_menu.addItem("File", "Import Buckets", [this](const std::string&)
 		               {
 			               if (m_pDlgBuckImport.get()) return;
-						   m_pDlgBuckImport = std::unique_ptr<BucketImport>(new BucketImport(UIDialog::Buttons::OKCancel, true, *m_pUiLayer1));
+						   m_pDlgBuckImport = std::unique_ptr<BucketImport>(new BucketImport(UIDialog::Buttons::OKCancel, true, *this));
 			               //m_pDlgBuckImport->registerMe(this);
 			               m_pDlgBuckImport->adjustToContainer();
 			               //m_pDlgBuckImport->center();
@@ -142,10 +140,8 @@ public:
 				m_wndBucks.addToBucket(c);
 			});
 
-		m_pUiLayer1->addWindow(&m_btnBack, Anchor::Bottom | Anchor::Left);
-		m_pUiLayer2->addWindow(&m_menu, Anchor::Top);
-		addLayer(m_pUiLayer1);
-		addLayer(m_pUiLayer2);		
+		addWindow(&m_btnBack, Anchor::Bottom | Anchor::Left);
+		addWindow(&m_menu, Anchor::Top);	
 	}
 
 	virtual ~StateEditor() override
@@ -160,7 +156,7 @@ public:
 		if (m_pDlgBuckImport && m_pDlgBuckImport->getResult() != UIDialog::Result::None)
 		{
 			// delete and unregister
-			m_pUiLayer1->removeWindow(m_pDlgBuckImport.get());
+			removeWindow(m_pDlgBuckImport.get());
 			m_pDlgBuckImport.reset();
 		}
 
@@ -172,7 +168,7 @@ public:
 		m_editor.draw(draw, dt);
 
 		//m_uiList.draw(draw);
-		drawLayer(draw);
+		drawWindows(draw);
 	}
 
 	void saveMap()
@@ -273,8 +269,6 @@ public:
 	}
 
 private:
-	WindowLayer* m_pUiLayer1;
-	WindowLayer* m_pUiLayer2;
 	//UIObjectList m_uiList;
 
 	GameEditor m_editor;

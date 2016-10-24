@@ -72,17 +72,17 @@ public:
 				(*it)->draw(draw);
 	}
 
-	void setFocusFor(UIObject* obj)
-	{
-		// get highest index
-		int maxZ = 0;
-		for (const auto& o : m_objs)
-			maxZ = std::max(maxZ, o->getZIndex());
+	//void setFocusFor(UIObject* obj)
+	//{
+	//	// get highest index
+	//	int maxZ = 0;
+	//	for (const auto& o : m_objs)
+	//		maxZ = std::max(maxZ, o->getZIndex());
 
-		obj->setZIndex(maxZ + 1);
+	//	obj->setZIndex(maxZ + 1);
 
-		sort();
-	}
+	//	sort();
+	//}
 
 
 private:

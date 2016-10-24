@@ -4,13 +4,13 @@
 class WindowDesc
 {
 	friend class WindowManager;
-	friend class WindowLayer;
 private:
-	WindowDesc(WindowLayer* wl, size_t anchor, PointF offset)
+	WindowDesc(WindowManager* wm, size_t anchor, PointF offset, bool isDialog)
 		:
-		m_windowLayer(wl),
+		m_windowManager(wm),
 		m_anchor(anchor),
-		m_offset(offset)
+		m_offset(offset),
+		m_isDialog(isDialog)
 	{}
 
 public:
@@ -18,13 +18,19 @@ public:
 	{}
 
 public:
-	WindowLayer* getWindowLayer() const
+	WindowManager* getWindowManager() const
 	{
-		return m_windowLayer;
+		return m_windowManager;
+	}
+
+	bool isDialog() const
+	{
+		return m_isDialog;
 	}
 
 private:
-	WindowLayer* m_windowLayer = nullptr;
+	WindowManager* m_windowManager = nullptr;
 	size_t m_anchor = 0;
 	PointF m_offset;
+	bool m_isDialog;
 };

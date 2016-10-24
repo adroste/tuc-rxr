@@ -5,7 +5,6 @@
 #include "WindowDesc.h"
 
 class WindowManager;
-class WindowLayer;
 
 class UIObject : public IDrawable, public IMetrics, public Input::IReceiver
 {
@@ -36,6 +35,8 @@ public:
 
 	virtual void setVisibility(bool visible);
 
+	virtual void setZIndex(int z) override;
+
 	virtual void show()
 	{
 		setVisibility(true);
@@ -58,8 +59,6 @@ public:
 	void setWindowDesc(std::unique_ptr<WindowDesc> wd);
 
 	std::unique_ptr<WindowDesc>& getWindowDesc();
-
-	WindowLayer* getWindowLayer() const;
 
 	WindowManager* getWindowManager() const;
 

@@ -7,9 +7,9 @@
 class UIDialogInput : public UIDialog
 {
 public:
-	UIDialogInput(bool show, WindowLayer& wl, size_t anchor = 0, PointF offset = PointF(0.0f))
+	UIDialogInput(bool show, WindowManager& wm, size_t anchor = 0, PointF offset = PointF(0.0f))
 		:
-		UIDialog(Buttons::OKCancel, show, wl, anchor, offset),
+		UIDialog(Buttons::OKCancel, show, wm, anchor, offset),
 		m_title(Drawing::getFont(Font::Style::Headline, Font::Size::M), ""),
 		m_inpBox(Drawing::getFont(Font::Style::Text, Font::Size::M), 128)
 	{

@@ -11,7 +11,7 @@ class UIContainerLights : public UIItemLister
 {
 	CALLBACK(LightAdd, LightSource);
 public:
-	UIContainerLights(GameEditor& editor, bool show, WindowLayer& wl)
+	UIContainerLights(GameEditor& editor, bool show, WindowManager& wm)
 		:
 		UIItemLister(show),
 		m_editor(editor),
@@ -19,8 +19,8 @@ public:
 		m_lblAmbient(getDFont(),"ambient"),
 		m_btnAmbient(editor.getAmbientColor()),
 		m_btnAddLight(UIButton::Style::Royal,getDFont(),"add light"),
-		m_colorPicker(false, wl),
-		m_dlgLightAdd(false, wl)
+		m_colorPicker(false, wm),
+		m_dlgLightAdd(false, wm)
 	{
 		m_btnAmbient.setValue(m_editor.getAmbientColor().fromGamma());
 		// metrics
