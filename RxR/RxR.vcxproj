@@ -323,6 +323,7 @@
     <ClInclude Include="..\Source\Utility\Exception.h" />
     <ClInclude Include="..\Source\Utility\FileReader.h" />
     <ClInclude Include="..\Source\Utility\Mutex.h" />
+    <ClInclude Include="..\Source\Utility\owner_ptr.h" />
     <ClInclude Include="..\Source\Utility\Point.h" />
     <ClInclude Include="..\Source\Utility\Point3.h" />
     <ClInclude Include="..\Source\Utility\Reader.h" />
