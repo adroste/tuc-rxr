@@ -61,8 +61,6 @@ void Graphics::init(SDL_Window* wnd, PointI dim)
 	m_draw.create();
 
 	m_isInit = true;
-
-	m_curGfx = this;
 }
 
 void Graphics::close()

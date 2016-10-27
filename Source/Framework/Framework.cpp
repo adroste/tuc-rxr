@@ -13,7 +13,6 @@ void Framework::setStdDraw(const PointI& sd)
 	if (sd.x == 0 || sd.y == 0)
 		throw new ExceptionArgument("Framework::setStdDraw stdDraw values can't be zero", "sd.x == 0 | sd.y == 0");
 	m_stdDraw = sd;
-	Graphics::getCurrentGfx()->resize(m_clientDim);
 }
 
 PointI Framework::getStdDraw()
