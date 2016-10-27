@@ -48,8 +48,9 @@ public:
 	{
 		if (m_isDragged)
 		{
-			float newVal = mpos.x / getDim().x;
-			setValue(tool::clamp(newVal, 0.0f, 1.0f));
+			float newVal = tool::clamp((mpos.x - getOrigin().x) / getDim().x, 0.0f, 1.0f);
+			if (newVal != getValue())
+				setValue(newVal);
 		}
 		return false;
 	}
