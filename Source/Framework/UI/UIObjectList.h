@@ -1,17 +1,12 @@
 #pragma once
 #include "UIObject.h"
+#include "../../Utility/owner_ptr.h"
 
 class UIObjectList : public IDrawable
 {
 public:
 	UIObjectList()
 	{}
-	UIObjectList(std::initializer_list<UIObject*> objs)
-		:
-		m_objs(objs)
-	{
-		sort();
-	}
 
 	virtual ~UIObjectList()
 	{}
@@ -19,7 +14,7 @@ public:
 	void sort()
 	{
 		LockGuard g(m_muObjs);
-		m_objs.sort([](const UIObject* l, const UIObject* r)
+		m_objs.sort([](const ref_ptr<UIObject> l, const ref_ptr<UIObject> r)
 		{
 			return l->getZIndex() > r->getZIndex();
 		});
@@ -27,18 +22,19 @@ public:
 
 	void registerAll(Input::IBroadcaster* broadcaster)
 	{
+		// TODO set callback for delete
 		LockGuard g(m_muObjs);
 		for (auto o : m_objs)
 			o->registerMe(broadcaster);
 	}
 
-	void add(UIObject* obj)
+	void add(ref_ptr<UIObject> obj)
 	{
 		LockGuard g(m_muObjs);
 		m_objs.push_back(obj);
 		sort();
 	}
-	void addAndReg(UIObject* obj, Input::IBroadcaster* broadcaster)
+	void addAndReg(ref_ptr<UIObject> obj, Input::IBroadcaster* broadcaster)
 	{
 		LockGuard g(m_muObjs);
 		obj->registerMe(broadcaster);
@@ -46,10 +42,10 @@ public:
 		sort();
 	}
 
-	void remove(UIObject* obj)
+	void remove(ref_ptr<UIObject> obj)
 	{
 		LockGuard g(m_muObjs);
-		m_objs.remove_if([obj](const UIObject* o)
+		m_objs.remove_if([obj](const ref_ptr<UIObject>& o)
 		{
 			return obj == o;
 		});
@@ -72,21 +68,9 @@ public:
 				(*it)->draw(draw);
 	}
 
-	//void setFocusFor(UIObject* obj)
-	//{
-	//	// get highest index
-	//	int maxZ = 0;
-	//	for (const auto& o : m_objs)
-	//		maxZ = std::max(maxZ, o->getZIndex());
-
-	//	obj->setZIndex(maxZ + 1);
-
-	//	sort();
-	//}
-
 
 private:
-	std::list<UIObject*> m_objs;
+	std::list<ref_ptr<UIObject>> m_objs;
 	Mutex m_muObjs;
 
 public:
@@ -98,5 +82,15 @@ public:
 	decltype(m_objs)::const_iterator end() const
 	{
 		return m_objs.cend();
+	}
+
+	decltype(m_objs)::iterator begin() 
+	{
+		return m_objs.begin();
+	}
+
+	decltype(m_objs)::iterator end() 
+	{
+		return m_objs.end();
 	}
 };

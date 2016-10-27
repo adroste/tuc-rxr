@@ -152,7 +152,7 @@ private:
 			Item* pi = dynamic_cast<Item*>(c.get());
 			if(pi && pi->plsErase())
 			{
-				erase(pi);
+				erase(c.getRef());
 				break;
 			}
 		}

@@ -105,8 +105,8 @@ class UIMenuBar : public UIContainer
 
 		void addItem(const std::string& name, callFunc func, UIObjectList& olist)
 		{
-			m_itms.push_back(std::unique_ptr<Item>(new Item(name, func, m_font,*this)));
-			olist.add(m_itms.back().get());
+			m_itms.push_back(owner_ptr<Item>(new Item(name, func, m_font,*this)));
+			olist.add(m_itms.back().getRef());
 			m_itms.back()->disable();
 		}
 
@@ -135,7 +135,7 @@ class UIMenuBar : public UIContainer
 	private:
 		Font& m_font;
 		const std::string m_name;
-		std::vector<std::unique_ptr<Item>> m_itms;
+		std::vector<owner_ptr<Item>> m_itms;
 		bool m_open = false;
 	};
 
@@ -162,8 +162,8 @@ public:
 
 	void addSection(const std::string& name)
 	{
-		m_secs.push_back(std::unique_ptr<Section>(new Section(name, m_font)));
-		m_objList.add(m_secs.back().get());
+		m_secs.push_back(owner_ptr<Section>(new Section(name, m_font)));
+		m_objList.add(m_secs.back().getRef());
 	}
 
 	void addItem(const std::string& section, const std::string& name, callFunc onPress = [](const std::string&)
@@ -205,6 +205,6 @@ public:
 	}
 private:
 	Font& m_font;
-	std::vector<std::unique_ptr<Section>> m_secs;
+	std::vector<owner_ptr<Section>> m_secs;
 	UIObjectList m_objList;
 };

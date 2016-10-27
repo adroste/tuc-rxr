@@ -63,6 +63,7 @@ class ref_ptr
 	ref_ptr(refable_ptr<T>*);
 public:
 	ref_ptr();
+	ref_ptr(nullptr_t);
 	ref_ptr(const ref_ptr&);
 	ref_ptr& operator=(const ref_ptr&);
 	ref_ptr(ref_ptr&&);
@@ -81,6 +82,19 @@ public:
 	// callback will be called BEFORE owner is destructed and BEFORE reference to owner ist deleted. Locking a mutex would be possible
 	void setAbandonCallback(std::function<void(ref_ptr<T>&)> func);
 	void resetCallback();
+
+	bool operator==(const ref_ptr<T>& o) const;
+	bool operator==(const T* o) const;
+	bool operator!=(const ref_ptr<T>& o) const;
+	bool operator!=(const T* o) const;
+
+	// assignement for different type
+	template<class T2>
+	ref_ptr(const ref_ptr<T2>&);
+	template<class T2>
+	ref_ptr<T>& operator=(const ref_ptr<T2>&);
+	template<class T2>
+	void copy(const ref_ptr<T2>&);
 private:
 	void abandon();
 	void notify();
@@ -360,6 +374,13 @@ ref_ptr<T>::ref_ptr()
 }
 
 template <class T>
+ref_ptr<T>::ref_ptr(nullptr_t)
+	:
+	m_owner(nullptr)
+{
+}
+
+template <class T>
 ref_ptr<T>::ref_ptr(const ref_ptr& c)
 {
 	copy(c);
@@ -436,17 +457,6 @@ const T& ref_ptr<T>::operator*() const
 }
 
 template <class T>
-void ref_ptr<T>::copy(const ref_ptr& c)
-{
-	// release old
-	release();
-	m_owner = c.m_owner;
-	m_reset_callback = c.m_reset_callback;
-	if (m_owner)
-		m_owner->reg(this);
-}
-
-template <class T>
 void ref_ptr<T>::swap(ref_ptr& o)
 {
 	// unregister
@@ -496,6 +506,66 @@ void ref_ptr<T>::resetCallback()
 {
 	decltype(m_reset_callback) emptyFunc;
 	m_reset_callback.swap(emptyFunc);
+}
+
+template <class T>
+bool ref_ptr<T>::operator==(const T* o) const
+{
+	if (m_owner)
+		return m_owner->get() == o;
+	return o == nullptr;
+}
+
+template <class T>
+bool ref_ptr<T>::operator!=(const ref_ptr<T>& o) const
+{
+	return !(*this == o);
+}
+
+template <class T>
+bool ref_ptr<T>::operator!=(const T* o) const
+{
+	return !(*this == o);
+}
+
+template <class T>
+template <class T2>
+ref_ptr<T>::ref_ptr(const ref_ptr<T2>& o)
+{
+	copy(o);
+}
+
+template <class T>
+template <class T2>
+ref_ptr<T>& ref_ptr<T>::operator=(const ref_ptr<T2>& o)
+{
+	copy(o);
+	return *this;
+}
+
+template <class T>
+bool ref_ptr<T>::operator==(const ref_ptr<T>& o) const
+{
+	return o.m_owner == m_owner;
+}
+
+template <class T>
+void ref_ptr<T>::copy(const ref_ptr& c)
+{
+	// release old
+	release();
+	m_owner = c.m_owner;
+	m_reset_callback = c.m_reset_callback;
+	if (m_owner)
+		m_owner->reg(this);
+}
+
+template <class T>
+template <class T2>
+void ref_ptr<T>::copy(const ref_ptr<T2>& o)
+{
+	static_assert(std::is_base_of<T, T2>::value, "cannot convert between different ref_ptr types");
+	copy(*(const ref_ptr<T>*)(void*)(&o));
 }
 
 template <class T>

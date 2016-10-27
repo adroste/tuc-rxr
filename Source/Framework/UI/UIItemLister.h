@@ -19,8 +19,8 @@ class UIItemLister : public UIContainer
 {
 	struct Item
 	{
-		UIObject* left = nullptr;
-		UIObject* right = nullptr;
+		ref_ptr<UIObject> left;
+		ref_ptr<UIObject> right;
 	};
 public:
 	enum class Mode
@@ -39,7 +39,7 @@ public:
 	virtual ~UIItemLister()
 	{}
 	// arguments may be nullptr
-	void addToList(UIObject* left, UIObject* right)
+	void addToList(ref_ptr<UIObject> left, ref_ptr<UIObject> right)
 	{
 		Item i;
 		i.left = left;
@@ -90,10 +90,10 @@ public:
 				maxHei = std::max(maxHei, i.right->getDim().y);
 
 			if (i.left)
-				(this->*clipFunc)(i.left, RectF(leftStart, curY, leftEnd, curY + maxHei));
+				(this->*clipFunc)(i.left.get(), RectF(leftStart, curY, leftEnd, curY + maxHei));
 
 			if (i.right)
-				(this->*clipFunc)(i.right, RectF(rightStart, curY, rightEnd, curY + maxHei));
+				(this->*clipFunc)(i.right.get(), RectF(rightStart, curY, rightEnd, curY + maxHei));
 
 			curY += maxHei + m_cellPadd;
 		}

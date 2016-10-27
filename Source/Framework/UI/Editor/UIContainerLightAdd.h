@@ -33,21 +33,21 @@ public:
 		float fh = getDFont().getMaxHeight();
 		const PointF cdim = { 5.0f * fh,fh };
 
-		m_color.setDim(cdim);
+		m_color->setDim(cdim);
 
-		m_attenuation.setDim(cdim + PointF(10, 10));
-		m_x.setDim(m_attenuation.getDim());
-		m_y.setDim(m_attenuation.getDim());
-		m_z.setDim(m_attenuation.getDim());
-		m_type.setDim(m_attenuation.getDim());
+		m_attenuation->setDim(cdim + PointF(10, 10));
+		m_x->setDim(m_attenuation->getDim());
+		m_y->setDim(m_attenuation->getDim());
+		m_z->setDim(m_attenuation->getDim());
+		m_type->setDim(m_attenuation->getDim());
 
-		addToList(&m_lblType, &m_type);
-		addToList(&m_lblColor, &m_color);
-		addToList(&m_lblOrigin, nullptr);
-		addToList(&m_lblX, &m_x);
-		addToList(&m_lblY, &m_y);
-		addToList(&m_lblZ, &m_z);
-		addToList(&m_lblAttenuation, &m_attenuation);
+		addToList(m_lblType.getRef(), m_type.getRef());
+		addToList(m_lblColor.getRef(), m_color.getRef());
+		addToList(m_lblOrigin.getRef(), nullptr);
+		addToList(m_lblX.getRef(), m_x.getRef());
+		addToList(m_lblY.getRef(), m_y.getRef());
+		addToList(m_lblZ.getRef(), m_z.getRef());
+		addToList(m_lblAttenuation.getRef(), m_attenuation.getRef());
 
 		setCellPadding(8.0f);
 		setWallPadding(5.0f);
@@ -56,30 +56,30 @@ public:
 
 		m_dlgColor.setZIndex(1);
 		//m_dlgColor.registerMe(this);
-		m_color.setOnClickCallback([this](IClickable*)
+		m_color->setOnClickCallback([this](IClickable*)
 		{
 			m_dlgColor.setCenter(getRect().getMidpoint());
-			m_dlgColor.show(m_color.getValue());
+			m_dlgColor.show(m_color->getValue());
 			m_dlgColor.setOnResultCallback([this](UIDialog* dlg)
 			{
 				if (dlg->getResult() == UIDialog::Result::OK)
-					m_color.setValue(m_dlgColor.getValue());
+					m_color->setValue(m_dlgColor.getValue());
 			});
 		});
 
-		m_type.setOnValueCallback([this](IValueHolder<LightType>* vh)
+		m_type->setOnValueCallback([this](IValueHolder<LightType>* vh)
 		{
 			switch(vh->getValue())
 			{
 			case LightType::Directional:
-				m_lblOrigin.setText("Direction");
-				m_lblAttenuation.disable();
-				m_attenuation.disable();
+				m_lblOrigin->setText("Direction");
+				m_lblAttenuation->disable();
+				m_attenuation->disable();
 				break;
 			case LightType::PointLight: 
-				m_lblOrigin.setText("Origin");
-				m_lblAttenuation.enable();
-				m_attenuation.enable();
+				m_lblOrigin->setText("Origin");
+				m_lblAttenuation->enable();
+				m_attenuation->enable();
 				break;
 			}
 		});
@@ -87,10 +87,10 @@ public:
 	LightSource getLightSource() const
 	{
 		LightSource s;
-		s.origin = glm::vec3(m_x.getValue(), m_y.getValue(), m_z.getValue());
-		s.attenuation = m_attenuation.getValue();
-		s.color = m_color.getValue().toGamma().toVec3();
-		s.type = m_type.getValue();
+		s.origin = glm::vec3(m_x->getValue(), m_y->getValue(), m_z->getValue());
+		s.attenuation = m_attenuation->getValue();
+		s.color = m_color->getValue().toGamma().toVec3();
+		s.type = m_type->getValue();
 		return s;
 	}
 
@@ -104,11 +104,11 @@ public:
 
 	void normalizeOrigin()
 	{
-		auto v = glm::vec3(m_x.getValue(), m_y.getValue(), m_z.getValue());
+		auto v = glm::vec3(m_x->getValue(), m_y->getValue(), m_z->getValue());
 		v = glm::normalize(v);
-		m_x.setValue(v.x);
-		m_y.setValue(v.y);
-		m_z.setValue(v.z);
+		m_x->setValue(v.x);
+		m_y->setValue(v.y);
+		m_z->setValue(v.z);
 	}
 private:
 	static Font& getDFont()
@@ -116,20 +116,20 @@ private:
 		return Drawing::getFont(Font::Style::Headline, Font::Size::M);
 	}
 public:
-	UINumUpDownLightSource m_type;
-	UIButtonColor m_color;
-	UINumUpDownFloat m_attenuation;
-	UINumUpDownFloat m_x;
-	UINumUpDownFloat m_y;
-	UINumUpDownFloat m_z;
+	refable<UINumUpDownLightSource> m_type;
+	refable<UIButtonColor> m_color;
+	refable<UINumUpDownFloat> m_attenuation;
+	refable<UINumUpDownFloat> m_x;
+	refable<UINumUpDownFloat> m_y;
+	refable<UINumUpDownFloat> m_z;
 
-	UILabel m_lblType;
-	UILabel m_lblColor;
-	UILabel m_lblAttenuation;
-	UILabel m_lblOrigin;
-	UILabel m_lblX;
-	UILabel m_lblY;
-	UILabel m_lblZ;
+	refable<UILabel> m_lblType;
+	refable<UILabel> m_lblColor;
+	refable<UILabel> m_lblAttenuation;
+	refable<UILabel> m_lblOrigin;
+	refable<UILabel> m_lblX;
+	refable<UILabel> m_lblY;
+	refable<UILabel> m_lblZ;
 
 	UIDialogColorPicker m_dlgColor;
 };

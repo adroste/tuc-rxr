@@ -62,7 +62,7 @@ public:
 
 	void addMaterial(const CubeDesc& c)
 	{
-		auto p = std::unique_ptr<DescBox>(new DescBox(c));
+		auto p = owner_ptr<DescBox>(new DescBox(c));
 		p->setDim(PointF(50.0f));
 		addObject(std::move(p));
 	}

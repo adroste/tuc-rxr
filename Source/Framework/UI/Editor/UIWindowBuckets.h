@@ -100,7 +100,7 @@ public:
 		UIWindowBuckets::setDim({300,400});
 
 		// add the add button
-		m_listBucketPrev.addContainer(std::unique_ptr<UIObject>(new UIAddButton(*this)));
+		m_listBucketPrev.addContainer(owner_ptr<UIObject>(new UIAddButton(*this)));
 
 		addBucket();
 
@@ -177,7 +177,7 @@ public:
 		pBuck->setDim({cl.getWidth() - 50.0f, cl.getHeight() - m_btnSave.getDim().y - 20.0f});
 
 		assert(m_listBucketPrev.size());
-		m_listBucketPrev.insert(m_listBucketPrev.size() - 1, std::unique_ptr<UIObject>(new UIBuckPreview(*this, *pBuck, m_curID++)));
+		m_listBucketPrev.insert(m_listBucketPrev.size() - 1, owner_ptr<UIObject>(new UIBuckPreview(*this, *pBuck, m_curID++)));
 
 		LockGuard g(m_muCon);
 		pBuck->registerMe(this);

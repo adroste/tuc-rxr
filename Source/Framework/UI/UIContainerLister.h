@@ -26,7 +26,7 @@ public:
 		for (auto& i : m_cons)
 			i->setWidth(d.x);
 	}
-	void addContainer(std::unique_ptr<UIObject> c)
+	void addContainer(owner_ptr<UIObject> c)
 	{
 		if(!hasFixedDim())
 			c->setWidth(getDim().x);
@@ -35,12 +35,12 @@ public:
 		c->setOrigin({ 0.0f,m_curY });
 		m_curY += c->getDim().y;
 
-		m_objList.addAndReg(c.get(), this);
+		m_objList.addAndReg(c.getRef(), this);
 		LockGuard g(m_muCo);
 		m_cons.push_back(std::move(c));
 	}
 	// insert position -> 0 = start size() = end
-	void insert(size_t pos, std::unique_ptr<UIObject> c)
+	void insert(size_t pos, owner_ptr<UIObject> c)
 	{
 		assert(pos <= m_cons.size());
 		if(pos == m_cons.size())
@@ -55,7 +55,7 @@ public:
 		assert(c->getDim().x <= getDim().x);
 		// determine y
 		
-		m_objList.addAndReg(c.get(), this);
+		m_objList.addAndReg(c.getRef(), this);
 		LockGuard g(m_muCo);
 		m_cons.insert(m_cons.begin() + pos, std::move(c));
 		reorder();
@@ -67,11 +67,11 @@ public:
 		m_cons.clear();
 		m_curY = 0.0f;
 	}
-	void erase(UIContainer* c)
+	void erase(ref_ptr<UIObject> c)
 	{
 		auto it = m_cons.begin();
 		for (; it != m_cons.end(); ++it)
-			if (it->get() == c)
+			if (it->get() == c.get())
 				break;
 
 		if(it != m_cons.end())
@@ -124,7 +124,7 @@ private:
 	}
 
 protected:
-	std::vector<std::unique_ptr<UIObject>> m_cons;
+	std::vector<owner_ptr<UIObject>> m_cons;
 
 private:
 	UIObjectList m_objList;

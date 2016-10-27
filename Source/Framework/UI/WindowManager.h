@@ -30,7 +30,7 @@ public:
 		Input::unregisterListener(this);
 	}
 
-	void addWindow(UIObject* obj, size_t anchor = 0, PointF offset = PointF(0.0f), bool isDialog = false)
+	void addWindow(ref_ptr<UIObject> obj, size_t anchor = 0, PointF offset = PointF(0.0f), bool isDialog = false)
 	{
 		LockGuard g(m_muWiMa);
 
@@ -43,21 +43,21 @@ public:
 		m_objs.addAndReg(obj, this);
 		obj->setWindowDesc(std::move(pCd));
 		m_suppressUpdate = true;
-		updateWindowOrigin(obj);
+		updateWindowOrigin(*obj);
 		m_suppressUpdate = false;
-		onWindowShow(obj);
+		onWindowShow(*obj);
 	}
 
-	void removeWindow(UIObject* obj)
+	void removeWindow(ref_ptr<UIObject> obj)
 	{
 		LockGuard g(m_muWiMa);
 		m_objs.remove(obj);
 		obj->setWindowDesc(nullptr);
 	}
 
-	void onWindowShow(UIObject* obj)
+	void onWindowShow(UIObject& obj)
 	{
-		if (!obj->isVisible()) return;
+		if (!obj.isVisible()) return;
 		LockGuard g(m_muWiMa);
 		m_suppressUpdate = true;
 		// sets Focus if obj is Dialog		
@@ -66,17 +66,17 @@ public:
 		hideCuttingWindows(obj);
 	}
 
-	void hideCuttingWindows(UIObject* obj)
+	void hideCuttingWindows(UIObject& obj)
 	{
-		if (!obj->isVisible() || obj->getWindowDesc()->isDialog())
+		if (!obj.isVisible() || obj.getWindowDesc()->isDialog())
 			return;
 
 		LockGuard g(m_muWiMa);
 
-		RectF rct = obj->getRect();
-		for (const auto& o : m_objs)
+		RectF rct = obj.getRect();
+		for (auto& o : m_objs)
 		{
-			if (o->getZIndex() != obj->getZIndex() || o == obj || !o->isVisible()) continue;
+			if (o->getZIndex() != obj.getZIndex() ||  o == &obj || !o->isVisible()) continue;
 			if (rct.isRectCutting(o->getRect()))
 				o->hide();
 		}
@@ -97,12 +97,12 @@ public:
 		m_objs.sort();
 
 		m_suppressUpdate = true;
-		for (const auto& o : m_objs)
-			updateWindowOrigin(o);
+		for (auto& o : m_objs)
+			updateWindowOrigin(*o);
 		m_suppressUpdate = false;
 
-		for (const auto& w : m_objs)
-			hideCuttingWindows(w);
+		for (auto& w : m_objs)
+			hideCuttingWindows(*w);
 	}
 
 	// Input
@@ -136,34 +136,34 @@ public:
 	}
 
 private:
-	void setFocusForDialog(UIObject* obj)
+	void setFocusForDialog(UIObject& obj)
 	{
-		if (!obj->getWindowDesc()->isDialog()) return;
+		if (!obj.getWindowDesc()->isDialog()) return;
 
 		// get highest index
 		int maxZ = 0;
 		for (const auto& o : m_objs)
 				maxZ = std::max(maxZ, o->getZIndex());
 
-		obj->setZIndex(maxZ + 1);
+		obj.setZIndex(maxZ + 1);
 		m_objs.sort();
 	}
 
-	static void updateWindowOrigin(UIObject* obj)
+	static void updateWindowOrigin(UIObject& obj)
 	{
-		WindowDesc* desc = obj->getWindowDesc().get();
+		WindowDesc* desc = obj.getWindowDesc().get();
 		if (!desc) return;
 
-		obj->setCenter(Framework::getScreenCenter() + desc->m_offset);
+		obj.setCenter(Framework::getScreenCenter() + desc->m_offset);
 
 		if (desc->m_anchor & Anchor::Left && !(desc->m_anchor & Anchor::Right))
-			obj->setLeft(desc->m_offset.x);
+			obj.setLeft(desc->m_offset.x);
 		else if (desc->m_anchor & Anchor::Right && !(desc->m_anchor & Anchor::Left))
-			obj->setRight(desc->m_offset.x);
+			obj.setRight(desc->m_offset.x);
 		if (desc->m_anchor & Anchor::Top && !(desc->m_anchor & Anchor::Bottom))
-			obj->setTop(desc->m_offset.y);
+			obj.setTop(desc->m_offset.y);
 		else if (desc->m_anchor & Anchor::Bottom && !(desc->m_anchor & Anchor::Top))
-			obj->setBottom(desc->m_offset.y);
+			obj.setBottom(desc->m_offset.y);
 	}
 
 private:
