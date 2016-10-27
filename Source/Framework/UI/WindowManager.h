@@ -154,7 +154,7 @@ private:
 		WindowDesc* desc = obj->getWindowDesc().get();
 		if (!desc) return;
 
-		obj->setCenter(Framework::getScreenCenter());
+		obj->setCenter(Framework::getScreenCenter() + desc->m_offset);
 
 		if (desc->m_anchor & Anchor::Left && !(desc->m_anchor & Anchor::Right))
 			obj->setLeft(desc->m_offset.x);
