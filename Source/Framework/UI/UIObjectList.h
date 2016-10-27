@@ -34,6 +34,11 @@ public:
 		m_objs.push_back(obj);
 		sort();
 	}
+	void add(ref_ptr<UIObject> first, ref_ptr<UIObject> args...)
+	{
+		add(first);
+		add(args);
+	}
 	void addAndReg(ref_ptr<UIObject> obj, Input::IBroadcaster* broadcaster)
 	{
 		LockGuard g(m_muObjs);
@@ -41,6 +46,7 @@ public:
 		m_objs.push_back(obj);
 		sort();
 	}
+	
 
 	void remove(ref_ptr<UIObject> obj)
 	{

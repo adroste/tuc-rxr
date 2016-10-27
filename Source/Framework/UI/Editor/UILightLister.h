@@ -11,7 +11,6 @@ class UILightLister : public UIContainerLister
 		Item(const LightSource& l, bool show)
 			:
 			UIContainer(show),
-			m_objs({&m_lblType, &m_btnClose, &m_lblOrigin}),
 			m_lblType(getFont(),getType(l.type)),
 			m_btnClose(UIButton::Style::Royal,getFont(),"X"),
 			m_lblOrigin(getFont(),getOriginText(l.type, l.origin)),
@@ -19,12 +18,15 @@ class UILightLister : public UIContainerLister
 			m_color(Color(l.color.r, l.color.g, l.color.b).fromGamma()),
 			m_light(l)
 		{
-			m_btnClose.adjustToFontHeadline();
-			if (m_extra.getText().length())
-				m_objs.add(&m_extra);
+			m_objs.add(m_lblType.getRef());
+			m_objs.add(m_btnClose.getRef());
+			m_objs.add(m_lblOrigin.getRef());
+			m_btnClose->adjustToFontHeadline();
+			if (m_extra->getText().length())
+				m_objs.add(m_extra.getRef());
 			m_objs.registerAll(this);
 
-			m_btnClose.setOnClickCallback([this](IClickable*)
+			m_btnClose->setOnClickCallback([this](IClickable*)
 			{
 				m_plsDelete = true;
 			});
@@ -42,16 +44,16 @@ class UILightLister : public UIContainerLister
 			// only width matters
 			float w = d.x;
 
-			m_lblType.setOrigin({ 10,10 });
-			m_lblOrigin.setOrigin(m_lblType.getRect().getBottomLeft() + PointF(0.0f, 10.0f));
-			m_btnClose.setOrigin({ w - 10.0f - m_btnClose.getDim().x,10 });
+			m_lblType->setOrigin({ 10,10 });
+			m_lblOrigin->setOrigin(m_lblType->getRect().getBottomLeft() + PointF(0.0f, 10.0f));
+			m_btnClose->setOrigin({ w - 10.0f - m_btnClose->getDim().x,10 });
 
-			float y = m_btnClose.getRect().getBottomRight().y + 10.0f;
+			float y = m_btnClose->getRect().getBottomRight().y + 10.0f;
 
-			if (m_extra.getText().length())
+			if (m_extra->getText().length())
 			{
-				m_extra.setOrigin(m_lblOrigin.getRect().getBottomLeft() + PointF(0.0f, 10.0f));
-				y = m_extra.getRect().getBottomRight().y + 10.0f;
+				m_extra->setOrigin(m_lblOrigin->getRect().getBottomLeft() + PointF(0.0f, 10.0f));
+				y = m_extra->getRect().getBottomRight().y + 10.0f;
 			}
 			UIContainer::setDim({ w,y });
 		}
@@ -101,10 +103,10 @@ class UILightLister : public UIContainerLister
 		}
 	private:
 		UIObjectList m_objs;
-		UILabel m_lblType;
-		UIButtonText m_btnClose;
-		UILabel m_lblOrigin;
-		UILabel m_extra;
+		refable<UILabel> m_lblType;
+		refable<UIButtonText> m_btnClose;
+		refable<UILabel> m_lblOrigin;
+		refable<UILabel> m_extra;
 		const Color m_color;
 		bool m_plsDelete = false;
 		const LightSource m_light;
@@ -118,7 +120,7 @@ public:
 	}
 	void add(const LightSource& l)
 	{
-		addContainer(std::unique_ptr<UIContainer>(new Item(l, true)));
+		addContainer(owner_ptr<UIObject>(new Item(l, true)));
 	}
 
 	virtual bool mouseUp(const PointF& mpos, Input::Mouse button) override

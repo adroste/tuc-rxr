@@ -125,7 +125,7 @@ class UIMenuBar : public UIContainer
 				maxWi = std::max(maxWi, o->getDim().x);
 
 			float curY = getOrigin().y + getDim().y;
-			for(const auto& o : m_itms)
+			for(auto& o : m_itms)
 			{
 				o->setWidth(maxWi);
 				o->setOrigin({ getOrigin().x,curY });
