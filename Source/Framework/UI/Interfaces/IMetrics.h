@@ -30,13 +30,14 @@ public:
 	virtual void centerX(float y)
 	{
 		m_pos.y = y;
-		m_pos.x = (float(Framework::STD_DRAW_X) / 2.0f) - (m_dim.x / 2.0f);
+		m_pos.x = (float(Framework::getStdDraw().x) / 2.0f) - (m_dim.x / 2.0f);
 		setOrigin(m_pos);
 	}
 	virtual void center()
 	{
-		m_pos.y = (float(Framework::STD_DRAW_Y) / 2.0f) - (m_dim.y / 2.0f);
-		m_pos.x = (float(Framework::STD_DRAW_X) / 2.0f) - (m_dim.x / 2.0f);
+		auto sd = Framework::getStdDraw();
+		m_pos.y = (float(sd.y) / 2.0f) - (m_dim.y / 2.0f);
+		m_pos.x = (float(sd.x) / 2.0f) - (m_dim.x / 2.0f);
 		setOrigin(m_pos);
 	}
 

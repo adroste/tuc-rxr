@@ -61,6 +61,8 @@ void Graphics::init(SDL_Window* wnd, PointI dim)
 	m_draw.create();
 
 	m_isInit = true;
+
+	m_curGfx = this;
 }
 
 void Graphics::close()
@@ -104,8 +106,9 @@ void Graphics::resize(PointI dim)
 {
 	m_wndSize = dim;
 
-	float scaleX = float(dim.x) / float(Framework::STD_DRAW_X);
-	float scaleY = float(dim.y) / float(Framework::STD_DRAW_Y);
+	auto sd = Framework::getStdDraw();
+	float scaleX = float(dim.x) / float(sd.x);
+	float scaleY = float(dim.y) / float(sd.y);
 
 	float scale = std::min(scaleX, scaleY);
 
@@ -120,8 +123,8 @@ void Graphics::resize(PointI dim)
 		scaleY = 1.0f;
 	}
 
-	float newWidth = float(Framework::STD_DRAW_X) * scaleX;
-	float newHeight = float(Framework::STD_DRAW_Y) * scaleY;
+	float newWidth = float(sd.x) * scaleX;
+	float newHeight = float(sd.y) * scaleY;
 
 	Framework::setWindowSize(dim, { newWidth, newHeight }, scale);
 

@@ -8,34 +8,41 @@
 #include "../../../Framework/UI/UIInputField.h"
 #include "../../../Framework/UI/UILabel.h"
 #include "StateEditor.h"
+#include "../../../Framework/UI/UITrackbar.h"
 
 class StateMenu : public GameState
 {
 public:
 	StateMenu()
 		:
-		m_title(Drawing::getFont(Font::Style::Headline,Font::Size::L),"MainWindow"),
+		m_title(Drawing::getFont(Font::Style::Headline, Font::Size::L), "MainWindow"),
 		m_btnSingle(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::M), "Can't Touch This"),
 		m_btnEdit(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::M), "Editor"),
-		m_btnDev(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Dev")
+		m_btnDev(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Dev"),
+		m_tbUiSize(0.0f)
 	{
-		//m_btnSingle.setDim({ 350, 80 });
 		m_btnSingle.adjustToFontHeadline();
-		m_btnSingle.centerX(200.0f);
 		m_btnEdit.adjustToFontHeadline();
 		m_btnEdit.setWidth(m_btnSingle.getDim().x);
-		m_btnEdit.centerX(300.0f);
 		m_btnDev.adjustToFontHeadline();
-		m_btnDev.setOrigin({ Framework::STD_DRAW_X - (m_btnDev.getDim().x + 10.0f), Framework::STD_DRAW_Y - (m_btnDev.getDim().y + 10.0f) });
-		m_btnDev.registerMe(this);
 
-		m_title.centerX(50.0f);
-
-		m_btnSingle.registerMe(this);
-		m_btnEdit.registerMe(this);
+		m_tbUiSize.setDim(PointF(400.0f, 25.0f));
+		m_tbUiSize.setOnValueCallback([this](IValueHolder<float>* o)
+		{
+			// 50% slider = def std draw
+			PointF sd = PointF(Framework::getDefStdDraw()) * (o->getValue() + 1.0f);
+			Framework::setStdDraw(PointI(sd));
+			updateWindows();
+		});
 
 		m_mpos = { 500,500 };
 		//Sound::playMusic(Sound::Music::Hey);
+
+		addWindow(&m_title, 0, PointF(0.0f, -250.0f));
+		addWindow(&m_btnSingle, 0, PointF(0.0f, -50.0f));
+		addWindow(&m_btnEdit, 0, PointF(0.0f, +50.0f));
+		addWindow(&m_btnDev, Anchor::Right | Anchor::Bottom, PointF(10.0f));
+		addWindow(&m_tbUiSize, Anchor::Bottom);
 	}
 	virtual ~StateMenu()
 	{}
@@ -62,15 +69,8 @@ public:
 
 	virtual void composeFrame(Drawing& draw, float dt) override
 	{
-	
-		//m_colorPicker.draw(draw);
-		m_title.draw(draw);
-
 		draw.line(m_mpos, Framework::getScreenCenter(), 10.0f, Color::Red());
-
-		m_btnSingle.draw(draw);
-		m_btnEdit.draw(draw);
-		m_btnDev.draw(draw);
+		drawWindows(draw);
 	}
 
 
@@ -126,6 +126,7 @@ private:
 	UIButtonText m_btnSingle;
 	UIButtonText m_btnEdit;
 	UIButtonText m_btnDev;
+	UITrackbar m_tbUiSize;
 
 	//UIDialogColorPicker m_colorPicker;
 };

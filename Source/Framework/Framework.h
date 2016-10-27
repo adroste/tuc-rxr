@@ -4,10 +4,10 @@
 class Framework
 {
 public:
-	static const int STD_DRAW_X = 1280;
-	static const int STD_DRAW_Y = 720;
+	static void setStdDraw(const PointI& sd);
+	static PointI getStdDraw();
+	static PointI getDefStdDraw();
 
-public:
 	static PointF convertClientPoint(const PointI& p);
 	static PointI convertCamPoint(PointF p);
 	static void setWindowSize(const PointI& clientDim, const PointI& camDim, float scale);
@@ -16,4 +16,6 @@ public:
 	static PointF getCamOrigin();
 	static PointF getScreenCenter();
 	static float getScalar();
+
+
 };

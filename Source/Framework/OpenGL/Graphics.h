@@ -18,6 +18,7 @@ public:
 	// calculations for resizing
 	void resize(PointI dim);
 	Drawing& getDraw();
+
 private:
 	// actual resize
 	void doResize();

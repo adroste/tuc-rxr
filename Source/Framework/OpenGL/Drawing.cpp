@@ -9,7 +9,7 @@ static size_t m_drawThreadID = 0;
 
 Drawing::Drawing()
 	:
-	m_uiCam({ Framework::STD_DRAW_X / 2, Framework::STD_DRAW_Y / 2 }, 1.0f, 1000.0f),
+	m_uiCam(Framework::getScreenCenter(), 1.0f, 1000.0f),
 	m_trans({ &m_shCubeMap, &m_shCube,
 		&m_fontHeadS, &m_fontHeadM, &m_fontHeadL,
 		&m_fontTextS, &m_fontTextM, &m_fontTextL,

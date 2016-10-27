@@ -33,7 +33,7 @@ public:
 		addWindow(&m_btnBack, Anchor::Left | Anchor::Bottom);
 		addWindow(&m_material, Anchor::Right);
 		addWindow(&m_material2, Anchor::Right | Anchor::Top);
-		addWindow(&m_trackbar, Anchor::Left);
+		addWindow(&m_trackbar, Anchor::Bottom);
 		addWindow(&m_label, Anchor::Left, PointF(10.0f, 40.0f));
 	}
 
