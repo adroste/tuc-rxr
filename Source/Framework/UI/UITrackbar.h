@@ -6,6 +6,8 @@
 
 class UITrackbar : public UIObject, public ISelectable, public IValueHolder<float>
 {
+	static const int THICK_BAR = 4;
+	static const int THICK_SLIDER = 8;
 public:
 	UITrackbar(float val = 0.0f)
 		:
@@ -18,26 +20,70 @@ public:
 	void draw(Drawing& draw) override
 	{
 		// TODO add proper trackbar
+		//draw.rect(getRect(), Color::Cyan());
+		draw.rect(getRectBar(), Color::Gray(0.6f));
+		draw.rect(getRectSlider(), Color::Gray(0.8f));
+	}
+
+	RectF getRectBar() const
+	{
 		PointF dim = getDim();
-		float thickness = 2.0f; // thickness / 2
-		draw.rect(RectF(0.0f, dim.y / 2 - thickness, 0.0f, dim.y / 2 + thickness), Color::Gray(0.6f));
-		float width = dim.x * getValue();
-		draw.rect(RectF(width - thickness, 0.0f, width + thickness, 0.0f), Color::Gray(0.8f));
+		return RectF(0.0f, dim.y / 2 - float(THICK_BAR) / 2, dim.x, dim.y / 2 + float(THICK_BAR) / 2) + getOrigin();
+	}
+
+	RectF getRectSlider() const
+	{
+		PointF dim = getDim();
+		float posSlider = (dim.x - float(THICK_SLIDER)) * getValue();
+		return RectF(posSlider, 0.0f, posSlider + THICK_SLIDER, dim.y) + getOrigin();
 	}
 
 	// Input
-	virtual bool keyUp(SDL_Scancode s) override;
+	virtual bool keyUp(SDL_Scancode s) override
+	{
+		return false;
+	}
 
-	virtual bool mouseMove(const PointF& mpos, const PointF& mdiff, bool handled) override;
+	virtual bool mouseMove(const PointF& mpos, const PointF& mdiff, bool handled) override
+	{
+		if (m_isDragged)
+		{
+			float newVal = mpos.x / getDim().x;
+			setValue(tool::clamp(newVal, 0.0f, 1.0f));
+		}
+		return false;
+	}
 
-	virtual bool mouseDown(const PointF& mpos, Input::Mouse button) override;
+	virtual bool mouseDown(const PointF& mpos, Input::Mouse button) override
+	{
+		if (button == Input::Mouse::Left && getRectSlider().isPointInside(mpos))
+		{
+			m_isDragged = true;
+			return true;
+		}
+		return false;
+	}
 
-	virtual bool mouseUp(const PointF& mpos, Input::Mouse button) override;
+	virtual bool mouseUp(const PointF& mpos, Input::Mouse button) override
+	{
+		if (m_isDragged && button == Input::Mouse::Left)
+		{
+			m_isDragged = false;
+			return true;
+		}
+		return false;
+	}
 
-	virtual bool wheel(const PointF& mpos, float amount) override;
+	virtual bool wheel(const PointF& mpos, float amount) override
+	{
+		return false;
+	}
 
 	virtual void setValue(const float& value) override
 	{
-		setValue(tool::clamp(value, 0.0f, 1.0f));
+		IValueHolder::setValue(tool::clamp(value, 0.0f, 1.0f));
 	}
+
+private:
+	bool m_isDragged = false;
 };
