@@ -29,18 +29,15 @@ public:
 	};
 
 public:
-	UIDialog(Buttons buttons, bool show, WindowManager& wm, size_t anchor = 0, PointF offset = PointF(0.0f))
+	UIDialog(Buttons buttons, bool show)
 		:
 		// UIWindow get initialized with show = false
 		// this prevents the windowmanager from hiding cutting windows
-		UIWindow(false, wm, anchor, offset),
+		UIWindow(false),
 		m_btn1(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S)),
 		m_btn2(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S)),
 		m_btn3(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S))
 	{
-		// window will be removed from windowmanager and readded with isDialog = true
-		wm.removeWindow(this);
-		wm.addWindow(this, anchor, offset, true);
 		// show will be triggered correctly in order to update Windows in windowmanager
 		if (show) 
 			UIDialog::show();

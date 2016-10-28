@@ -19,8 +19,8 @@ public:
 		m_lblAmbient(getDFont(),"ambient"),
 		m_btnAmbient(editor.getAmbientColor()),
 		m_btnAddLight(UIButton::Style::Royal,getDFont(),"add light"),
-		m_colorPicker(false, wm),
-		m_dlgLightAdd(false, wm)
+		m_colorPicker(false),
+		m_dlgLightAdd(false)
 	{
 		m_btnAmbient->setValue(m_editor.getAmbientColor().fromGamma());
 		// metrics

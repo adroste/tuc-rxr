@@ -15,26 +15,26 @@ public:
 	StateDev()
 		:
 		m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Back"),
-		m_material(false, *this),
-		m_material2(false, *this),
+		m_material(false),
+		m_material2(false),
 		m_trackbar(),
 		m_label(Drawing::getFont(Font::Style::Text, Font::Size::M), "-1.0")
 	{
-		m_btnBack.adjustToFontHeadline();
+		m_btnBack->adjustToFontHeadline();
 
-		m_trackbar.setDim(PointF(100.0f));
-		m_trackbar.setOnValueCallback([this](IValueHolder<float>* o)
+		m_trackbar->setDim(PointF(100.0f));
+		m_trackbar->setOnValueCallback([this](IValueHolder<float>* o)
 		{
-			m_label.setText(std::to_string(o->getValue()));
+			m_label->setText(std::to_string(o->getValue()));
 		});
 
-		m_label.setZIndex(10);
+		m_label->setZIndex(10);
 
-		addWindow(&m_btnBack, Anchor::Left | Anchor::Bottom);
-		addWindow(&m_material, Anchor::Right);
-		addWindow(&m_material2, Anchor::Right | Anchor::Top);
-		addWindow(&m_trackbar, Anchor::Bottom);
-		addWindow(&m_label, Anchor::Left, PointF(10.0f, 40.0f));
+		addWindow(m_btnBack.getRef(), Anchor::Left | Anchor::Bottom);
+		addWindow(m_material.getRef(), Anchor::Right);
+		addWindow(m_material2.getRef(), Anchor::Right | Anchor::Top);
+		addWindow(m_trackbar.getRef(), Anchor::Bottom);
+		addWindow(m_label.getRef(), Anchor::Left, PointF(10.0f, 40.0f));
 	}
 
 	virtual ~StateDev() override
@@ -42,7 +42,7 @@ public:
 
 	virtual bool update(float dt) override
 	{
-		if (m_btnBack.isClicked(true))
+		if (m_btnBack->isClicked(true))
 			setNextState(TransitionState::Discard);
 
 		
@@ -94,9 +94,9 @@ public:
 	}
 
 private:
-	UIButtonText m_btnBack;
-	UIContainerMaterial m_material;
-	UIContainerMaterial m_material2;
-	UITrackbar m_trackbar;
-	UILabel m_label;
+	refable<UIButtonText> m_btnBack;
+	refable<UIContainerMaterial> m_material;
+	refable<UIContainerMaterial> m_material2;
+	refable<UITrackbar> m_trackbar;
+	refable<UILabel> m_label;
 };

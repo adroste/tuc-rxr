@@ -40,6 +40,11 @@ public:
 			wm->removeWindow(obj);
 
 		std::unique_ptr<WindowDesc> pCd = std::unique_ptr<WindowDesc>(new WindowDesc(this, anchor, offset, isDialog));
+		
+		obj.setAbandonCallback([this](ref_ptr<UIObject>& r)
+		{
+			removeWindow(r);
+		});
 		m_objs.addAndReg(obj, this);
 		obj->setWindowDesc(std::move(pCd));
 		m_suppressUpdate = true;

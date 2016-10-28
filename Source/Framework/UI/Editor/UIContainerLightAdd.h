@@ -9,7 +9,7 @@
 class UIContainerLightAdd : public UIItemLister 
 {
 public:
-	UIContainerLightAdd(bool show, WindowManager& wm)
+	UIContainerLightAdd(bool show)
 		:
 		UIItemLister(show),
 		m_type(getDFont(),LightType::Directional),
@@ -27,7 +27,7 @@ public:
 		m_lblY(getDFont(), "y"),
 		m_lblZ(getDFont(), "z"),
 
-		m_dlgColor(false, wm)
+		m_dlgColor(false)
 	{
 		// metrics
 		float fh = getDFont().getMaxHeight();

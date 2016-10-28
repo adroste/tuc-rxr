@@ -89,12 +89,12 @@ class UIWindowBuckets : public UIWindow
 	};
 
 public:
-	UIWindowBuckets(bool show, WindowManager& wm, size_t anchor = 0, PointF offset = PointF(0.0f))
+	UIWindowBuckets(bool show)
 		:
-		UIWindow(show, wm, anchor, offset),
+		UIWindow(show),
 		m_listBucketPrev(true),
 		m_btnSave(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "save"),
-		m_dlgInput(false, wm)
+		m_dlgInput(false)
 	{
 		m_btnSave.adjustToFontHeadline();
 		UIWindowBuckets::setDim({300,400});

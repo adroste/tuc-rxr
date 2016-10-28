@@ -26,31 +26,33 @@ public:
 		m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Back"),
 		m_dlgLights(m_editor, false, *this),
 		m_menu(Drawing::getFont(Font::Style::Headline, Font::Size::M)),
-		m_wndMaterial(std::unique_ptr<UIContainerMaterial>(new UIContainerMaterial(true, *this)), true, *this, Anchor::Right),
+		m_wndMaterial(std::unique_ptr<UIContainerMaterial>(new UIContainerMaterial(true)), true),
 		m_dlgMapSetup(UIDialog::Buttons::OKCancel, false, *this),
-		m_wndBucks(false, *this, Anchor::Left)
+		m_wndBucks(false)
 	{
-		// TODO fix z index thing
-		m_menu.setZIndex(100);
+		this->addWindow(m_wndBucks.getRef(), Anchor::Left);
 
-		m_menu.addSection("File");
-		m_menu.addItem("File", "New", [this](const std::string&)
+		// TODO fix z index thing
+		m_menu->setZIndex(100);
+
+		m_menu->addSection("File");
+		m_menu->addItem("File", "New", [this](const std::string&)
 		               {
 			               m_editor.reset();
 		               });
-		m_menu.addItem("File", "Open", [this](const std::string&)
+		m_menu->addItem("File", "Open", [this](const std::string&)
 		{
 			openMap();
 		});
-		m_menu.addItem("File", "Save");
-		m_menu.addItem("File", "Save as", [this](const std::string&)
+		m_menu->addItem("File", "Save");
+		m_menu->addItem("File", "Save as", [this](const std::string&)
 		               {
 			               saveMap();
 		               });
-		m_menu.addItem("File", "Import Buckets", [this](const std::string&)
+		m_menu->addItem("File", "Import Buckets", [this](const std::string&)
 		               {
 			               if (m_pDlgBuckImport.get()) return;
-						   m_pDlgBuckImport = std::unique_ptr<BucketImport>(new BucketImport(UIDialog::Buttons::OKCancel, true, *this));
+						   m_pDlgBuckImport = owner_ptr<BucketImport>(new BucketImport(UIDialog::Buttons::OKCancel, true, *this));
 			               //m_pDlgBuckImport->registerMe(this);
 			               m_pDlgBuckImport->adjustToContainer();
 			               //m_pDlgBuckImport->center();
@@ -62,35 +64,35 @@ public:
 				               });
 		               });
 
-		m_menu.addSection("Edit");
-		m_menu.addItem("Edit", "Undo");
-		m_menu.addItem("Edit", "Redo");
+		m_menu->addSection("Edit");
+		m_menu->addItem("Edit", "Undo");
+		m_menu->addItem("Edit", "Redo");
 
-		m_menu.addSection("Map");
-		m_menu.addItem("Map", "Lights", [this](const std::string&)
+		m_menu->addSection("Map");
+		m_menu->addItem("Map", "Lights", [this](const std::string&)
 		{
 			//sortReceivers(); // TODO maybe add broadcaster reference to uilist? for better focus setting
 			//m_dlgLights.center();
 			m_dlgLights.show();
 		});
-		m_menu.addItem("Map","Material",[this](const std::string&)
+		m_menu->addItem("Map","Material",[this](const std::string&)
 		{
 			m_wndMaterial.show();
 		});
-		m_menu.addItem("Map", "Dimension", [this](const std::string&)
+		m_menu->addItem("Map", "Dimension", [this](const std::string&)
 		               {
 			               m_dlgMapSetup.show();
 		               });
-		m_menu.addItem("Map", "Buckets", [this](const std::string&)
+		m_menu->addItem("Map", "Buckets", [this](const std::string&)
 		               {
-			               m_wndBucks.show();
+			               m_wndBucks->show();
 		               });
 
 		m_editor.registerMe(this);
 
-		m_btnBack.adjustToFontHeadline();
+		m_btnBack->adjustToFontHeadline();
 		//m_btnBack.setOrigin({10.0f, Framework::STD_DRAW_Y - (m_btnBack.getDim().y + 10.0f)});
-		m_btnBack.setZIndex(1);
+		m_btnBack->setZIndex(1);
 
 		// material list
 		m_wndMaterial->orderItems();
@@ -99,7 +101,7 @@ public:
 		m_wndMaterial.adjustToContainer();
 		//m_wndMaterial.setOrigin({800,100});
 
-		m_wndBucks.setZIndex(3);
+		m_wndBucks->setZIndex(3);
 		//m_wndBucks.setOrigin({10,50});
 
 		m_dlgMapSetup.adjustToContainer();
@@ -107,7 +109,7 @@ public:
 
 		//m_uiList.registerAll(this);
 
-		m_wndBucks.setOnBucketChangeCallback([this](UIWindowBuckets* pb)
+		m_wndBucks->setOnBucketChangeCallback([this](UIWindowBuckets* pb)
 			{
 				m_editor.setCurrentBlocks(pb->getCurDesc());
 			});
@@ -137,11 +139,11 @@ public:
 			});
 		m_wndMaterial->setOnToBucketCallback([this](CubeDesc c)
 			{
-				m_wndBucks.addToBucket(c);
+				m_wndBucks->addToBucket(c);
 			});
 
-		addWindow(&m_btnBack, Anchor::Bottom | Anchor::Left);
-		addWindow(&m_menu, Anchor::Top);	
+		addWindow(m_btnBack.getRef(), Anchor::Bottom | Anchor::Left);
+		addWindow(m_menu.getRef(), Anchor::Top);	
 	}
 
 	virtual ~StateEditor() override
@@ -150,13 +152,13 @@ public:
 
 	virtual bool update(float dt) override
 	{
-		if (m_btnBack.isClicked(true))
+		if (m_btnBack->isClicked(true))
 			setNextState(TransitionState::Discard);
 
 		if (m_pDlgBuckImport && m_pDlgBuckImport->getResult() != UIDialog::Result::None)
 		{
 			// delete and unregister
-			removeWindow(m_pDlgBuckImport.get());
+			removeWindow(m_pDlgBuckImport.getRef());
 			m_pDlgBuckImport.reset();
 		}
 
@@ -244,7 +246,7 @@ public:
 	virtual void onResize() override
 	{
 		GameState::onResize();
-		m_menu.orderItems();
+		m_menu->orderItems();
 	}
 
 	void handleBucketImport()
@@ -258,10 +260,10 @@ public:
 				BucketLoader l("saves/editor/buckets/" + n);
 				if (l.isOpen())
 				{
-					m_wndBucks.addBucket();
+					m_wndBucks->addBucket();
 					for (const auto& c : l.getCubes())
 					{
-						m_wndBucks.addToBucket(c);
+						m_wndBucks->addToBucket(c);
 					}
 				}
 			}
@@ -273,12 +275,12 @@ private:
 
 	GameEditor m_editor;
 
-	UIButtonText m_btnBack;
+	refable<UIButtonText> m_btnBack;
 	UIDialogLights m_dlgLights;
-	UIMenuBar m_menu;
+	refable<UIMenuBar> m_menu;
 	// material list
 	UIWindowContainerHolder<UIContainerMaterial> m_wndMaterial;
 	UIDialogContainerHolder<UIContainerMapSetup> m_dlgMapSetup;
-	std::unique_ptr<BucketImport> m_pDlgBuckImport;
-	UIWindowBuckets m_wndBucks;
+	owner_ptr<BucketImport> m_pDlgBuckImport;
+	refable<UIWindowBuckets> m_wndBucks;
 };

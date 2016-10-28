@@ -8,9 +8,9 @@
 class UIDialogColorPicker : public UIDialog, public IValueHolder<Color>
 {
 public:
-	UIDialogColorPicker(bool show, WindowManager& wm, size_t anchor = 0, PointF offset = PointF(0.0f))
+	UIDialogColorPicker(bool show)
 		:
-		UIDialog(Buttons::OKCancel, show, wm, anchor, offset),
+		UIDialog(Buttons::OKCancel, show),
 		IValueHolder(Color::Red()),
 		m_numR(Drawing::getFont(Font::Style::Text, Font::Size::M), 0, 0, 255, 1),
 		m_numG(Drawing::getFont(Font::Style::Text, Font::Size::M), 0, 0, 255, 1),

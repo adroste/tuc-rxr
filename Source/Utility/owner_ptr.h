@@ -120,15 +120,21 @@ public:
 protected:
 	void resetRefs()
 	{
-		for (auto ptr : m_refs)
-			ptr->abandon();
+		while(m_refs.size())
+		{
+			size_t sz = m_refs.size();
+			m_refs.back()->abandon();
+			// do this in case ref_ptr calls remove in abandon callback
+			if (sz == m_refs.size())
+				m_refs.pop_back();
+		}
 		m_refs.clear();
 	}
 	bool hasRefs() const
 	{
 		return m_refs.size() != 0;
 	}
-	void swap(ref_ptr<T>& o)
+	void swap(refable_ptr<T>& o) noexcept
 	{
 		std::swap(m_refs, o.m_refs);
 		// update pointers in m_refs
@@ -291,14 +297,14 @@ public:
 	owner_ptr(const owner_ptr&) = delete;
 	owner_ptr& operator=(const owner_ptr&) = delete;
 
-	owner_ptr(owner_ptr&& m)
+	owner_ptr(owner_ptr&& m) noexcept
 		:
 		m_ptr(nullptr)
 	{
 		swap(m);
 	}
 
-	owner_ptr& operator=(owner_ptr&& m)
+	owner_ptr& operator=(owner_ptr&& m) noexcept
 	{
 		swap(m);
 		return *this;
@@ -344,10 +350,10 @@ public:
 		m_ptr = nullptr;
 	}
 
-	void swap(owner_ptr& o)
+	void swap(owner_ptr& o) noexcept
 	{
 		std::swap(m_ptr, o.m_ptr);
-		ref_ptr<T>::swap(o);
+		refable_ptr<T>::swap(o);
 	}
 
 	operator bool() const
