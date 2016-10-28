@@ -157,8 +157,7 @@ public:
 
 		if (m_pDlgBuckImport && m_pDlgBuckImport->getResult() != UIDialog::Result::None)
 		{
-			// delete and unregister
-			removeWindow(m_pDlgBuckImport.getRef());
+			// delete and unregister (unregister will be automatically with owner_ptr)
 			m_pDlgBuckImport.reset();
 		}
 

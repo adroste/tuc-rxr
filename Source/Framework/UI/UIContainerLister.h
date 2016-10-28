@@ -78,7 +78,6 @@ public:
 		{
 			// remove element
 			LockGuard g(m_muCo);
-			m_objList.remove(c);
 			m_cons.erase(it);
 
 			// reorder items

@@ -72,7 +72,8 @@ void Window::run()
 	Log::info("Window::run starting game");
 	{
 		LockGuard g(m_muGfx);
-		m_states.push_front(std::unique_ptr<GameState>(new StateMenu()));
+		m_states.push_front(owner_ptr<GameState>(new StateMenu()));
+		Input::registerListener(m_states.front().getRef());
 		g.unlock();
 	}
 
@@ -114,7 +115,10 @@ void Window::run()
 			}
 
 			if (pNext)
+			{
+				Input::registerListener(pNext.getRef());
 				m_states.push_front(std::move(pNext));
+			}
 			g.unlock();
 		}
 

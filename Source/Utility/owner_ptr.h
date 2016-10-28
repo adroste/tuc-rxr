@@ -2,6 +2,7 @@
 #include <memory>
 #include <cassert>
 #include <functional>
+#include <vector>
 
 /*
 USAGE:

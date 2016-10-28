@@ -74,7 +74,6 @@ public:
 		if (it != m_objs.end())
 		{
 			LockGuard g(m_muObj);
-			m_objList.remove(obj);
 			m_objs.erase(it);
 			reorder();
 		}

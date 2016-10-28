@@ -31,6 +31,10 @@ public:
 	void add(ref_ptr<UIObject> obj)
 	{
 		LockGuard g(m_muObjs);
+		obj.setAbandonCallback([this](ref_ptr<UIObject>& o)
+		{
+			remove(o);
+		});
 		m_objs.push_back(obj);
 		sort();
 	}
@@ -43,19 +47,7 @@ public:
 	{
 		LockGuard g(m_muObjs);
 		obj->registerMe(broadcaster);
-		m_objs.push_back(obj);
-		sort();
-	}
-	
-
-	void remove(ref_ptr<UIObject> obj)
-	{
-		LockGuard g(m_muObjs);
-		m_objs.remove_if([obj](const ref_ptr<UIObject>& o)
-		{
-			return obj == o;
-		});
-		obj->unregisterMe();
+		add(obj);
 	}
 
 	void clear()
@@ -74,6 +66,17 @@ public:
 				(*it)->draw(draw);
 	}
 
+
+private:
+	void remove(ref_ptr<UIObject> obj)
+	{
+		LockGuard g(m_muObjs);
+		m_objs.remove_if([obj](const ref_ptr<UIObject>& o)
+		{
+			return obj == o;
+		});
+		obj->unregisterMe();
+	}
 
 private:
 	std::list<ref_ptr<UIObject>> m_objs;

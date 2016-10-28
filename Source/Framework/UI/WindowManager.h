@@ -22,12 +22,12 @@ public:
 public:
 	WindowManager()
 	{
-		Input::registerListener(this);
+		
 	}
 
 	virtual ~WindowManager()
 	{
-		Input::unregisterListener(this);
+		
 	}
 
 	void addWindow(ref_ptr<UIObject> obj, size_t anchor = 0, PointF offset = PointF(0.0f), bool isDialog = false)
@@ -53,12 +53,7 @@ public:
 		onWindowShow(*obj);
 	}
 
-	void removeWindow(ref_ptr<UIObject> obj)
-	{
-		LockGuard g(m_muWiMa);
-		m_objs.remove(obj);
-		obj->setWindowDesc(nullptr);
-	}
+	
 
 	void onWindowShow(UIObject& obj)
 	{
@@ -152,6 +147,12 @@ private:
 
 		obj.setZIndex(maxZ + 1);
 		m_objs.sort();
+	}
+
+	void removeWindow(ref_ptr<UIObject> obj) const
+	{
+		LockGuard g(m_muWiMa);
+		obj->setWindowDesc(nullptr);
 	}
 
 	static void updateWindowOrigin(UIObject& obj)
