@@ -232,6 +232,9 @@
     <ClCompile Include="..\Source\Game\Shared\CubeDefault.cpp">
       <Filter>Source\Game\Shared</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Framework\OpenGL\Shader\InstancingArray.cpp">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\Shader.h">
@@ -638,6 +641,9 @@
     </ClInclude>
     <ClInclude Include="..\Source\Game\Shared\CubeDefault.h">
       <Filter>Source\Game\Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\InstancingArray.h">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
