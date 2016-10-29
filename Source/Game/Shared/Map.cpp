@@ -1,6 +1,7 @@
 #include "Map.h"
 #include <assert.h>
 #include "../../System/Exceptions/Exception.h"
+#include "CubeDefault.h"
 
 Map::Map(Point3S dim)
 	:
@@ -12,6 +13,15 @@ Map::Map(Point3S dim)
 Map::~Map()
 {
 	
+}
+
+void Map::setCube(Point3S pos, const CubeDesc& cd)
+{
+	// construct cube
+	// at the moment just default cubes
+	auto mat = CubeMaterial::fromDesc(cd);
+	auto matInfo = addMaterial(mat);
+	setCube(pos, std::unique_ptr<CubeBase>(new CubeDefault(cd, matInfo)));
 }
 
 void Map::setCube(Point3S pos, std::unique_ptr<CubeBase> c)
@@ -60,6 +70,8 @@ void Map::setDim(Point3S dim)
 		while (nNeededChunks > m_chunks.size())
 			m_chunks.push_back(MapChunk(chSize));
 	}
+
+	m_dim = dim;
 }
 
 Point3S Map::getDim() const
@@ -72,7 +84,7 @@ std::vector<std::pair<CubeDesc, Point3S>> Map::getCubeInfos()
 	return{};
 }
 
-std::shared_ptr<Map::MaterialInfo> Map::addMaterial(const CubeMaterial& m)
+std::shared_ptr<const MaterialInfo> Map::addMaterial(const CubeMaterial& m)
 {
-
+	return m_materialHolder.getMaterialInfo(m);
 }

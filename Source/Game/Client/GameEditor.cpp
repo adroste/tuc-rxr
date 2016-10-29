@@ -173,7 +173,7 @@ bool GameEditor::mouseUp(const PointF& mpos, Input::Mouse button)
 				{
 					forAllInBox(m_downPos, m_blockPos, [this](Point3S p)
 					{
-						m_pMap->setCube(new Cube(getNextBlock(), p.toGlmVec3(), true), false, true);
+						m_pMap->setCube(p, getNextBlock());
 					});
 				}
 			}
@@ -320,7 +320,7 @@ void GameEditor::loadCubes(const std::vector<std::pair<CubeDesc, Point3S>>& c)
 {
 	for(const auto& o : c)
 	{
-		m_pMap->setCube(new Cube(o.first, o.second.toGlmVec3(), true),false,true);
+		m_pMap->setCube(o.second, o.first);
 	}
 }
 

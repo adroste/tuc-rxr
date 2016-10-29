@@ -31,7 +31,7 @@ void loadCaveScene(std::unique_ptr<Map>& m)
 	{
 		for(size_t z = 0; z < d.depth; z++)
 		{
-			m->setCube(new Cube(getStoneDesc(), glm::vec3(x, d.height - 1, z), true));
+			m->setCube({ x, d.height - 1, z }, getStoneDesc());
 		}
 	}
 
@@ -40,7 +40,7 @@ void loadCaveScene(std::unique_ptr<Map>& m)
 	{
 		for (size_t y = d.height - 6; y < d.height - 1; y++)
 		{
-			m->setCube(new Cube(getStoneDesc(), glm::vec3(x, y, d.depth - 1),true));
+			m->setCube({ x, y, d.depth - 1 },getStoneDesc());
 		}
 	}
 
@@ -52,7 +52,7 @@ void loadCaveScene(std::unique_ptr<Map>& m)
 		for (size_t z = 0; z < d.depth; z++)
 		{
 			for(size_t y = d.height - 8; y < d.height - 6; y++)
-			m->setCube(new Cube(getDirtStone(), glm::vec3(x, y, z), true));
+				m->setCube({ x, y, z },getDirtStone());
 		}
 	}
 
@@ -63,17 +63,17 @@ void loadCaveScene(std::unique_ptr<Map>& m)
 			continue;
 		for (size_t z = 0; z < d.depth; z++)
 		{
-			m->setCube(new Cube(getGrassDesc(), glm::vec3(x, d.height - 9, z), true));
+			m->setCube({ x, d.height - 9, z },getGrassDesc());
 		}
 	}
 
 	for(size_t z = 0; z < d.depth; z++)
 	{
-		m->setCube(new Cube(getGrassDesc(), glm::vec3(10, d.height - 10, z), true));
+		m->setCube({ 10, d.height - 10, z },getGrassDesc());
 	}
 	for (size_t z = 0; z < d.depth; z++)
 	{
-		m->setCube(new Cube(getGrassDesc(), glm::vec3(12, d.height - 10, z), true));
+		m->setCube({ 12, d.height - 10, z },getGrassDesc());
 	}
 }
 
@@ -103,24 +103,24 @@ Game::Game()
 	l.origin = glm::vec3(8, 24, dim.depth / 2);
 	l.attenuation = 0.00001f;
 	lights.push_back(l);
-	m_pMap->setCube(new Cube(CubeDesc(Color::White().toDWORD()), l.origin, false, 0.5f), true, true);
+	//m_pMap->setCube(new Cube(CubeDesc(Color::White().toDWORD()), l.origin, false, 0.5f), true, true);
 
 	// torch
 	l.color = Color(1.0f, 0.2f, 0.1f).toVec3();
 	l.origin = glm::vec3(30, 31, dim.depth - 2);
 	l.attenuation = 0.2f;
 	lights.push_back(l);
-	m_pMap->setCube(new Cube(CubeDesc(Color::Red().toDWORD()), l.origin, false, 0.5f), true, true);
+	//m_pMap->setCube(new Cube(CubeDesc(Color::Red().toDWORD()), l.origin, false, 0.5f), true, true);
 
 	l.color = Color(0.0f, 1.0f, 0.0f).toVec3();
 	l.origin = glm::vec3(25, 31, dim.depth - 2);
 	lights.push_back(l);
-	m_pMap->setCube(new Cube(CubeDesc(Color::Green().toDWORD()), l.origin, false, 0.5f), true, true);
+	//m_pMap->setCube(new Cube(CubeDesc(Color::Green().toDWORD()), l.origin, false, 0.5f), true, true);
 
 	l.color = Color(0.0f, 0.0f, 1.0f).toVec3();
 	l.origin = glm::vec3(20, 31, dim.depth - 2);
 	lights.push_back(l);
-	m_pMap->setCube(new Cube(CubeDesc(Color::Blue().toDWORD()), l.origin, false, 0.5f), true, true);
+	//m_pMap->setCube(new Cube(CubeDesc(Color::Blue().toDWORD()), l.origin, false, 0.5f), true, true);
 
 	m_pLight->init(Color::Gray(0.001f), std::move(lights));
 #endif // _CLIENT

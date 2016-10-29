@@ -190,8 +190,10 @@
     <ClCompile Include="..\Source\Game\Client\GameEditor.cpp" />
     <ClCompile Include="..\Source\Game\Client\LightManager.cpp" />
     <ClCompile Include="..\Source\Game\Client\MapChunk.cpp" />
+    <ClCompile Include="..\Source\Game\Client\ShaderMaterialHolder.cpp" />
     <ClCompile Include="..\Source\Game\Shared\CharNode.cpp" />
     <ClCompile Include="..\Source\Game\Shared\Cube.cpp" />
+    <ClCompile Include="..\Source\Game\Shared\CubeDefault.cpp" />
     <ClCompile Include="..\Source\Game\Shared\CubeDesc.cpp" />
     <ClCompile Include="..\Source\Game\Shared\Game.cpp" />
     <ClCompile Include="..\Source\Game\Shared\LightSource.cpp" />
@@ -291,9 +293,11 @@
     <ClInclude Include="..\Source\Framework\UI\WindowManager.h" />
     <ClInclude Include="..\Source\Framework\Window.h" />
     <ClInclude Include="..\Source\Game\Client\BucketLoader.h" />
+    <ClInclude Include="..\Source\Game\Client\CubeMaterial.h" />
     <ClInclude Include="..\Source\Game\Client\GameEditor.h" />
     <ClInclude Include="..\Source\Game\Client\LightManager.h" />
     <ClInclude Include="..\Source\Game\Client\MapChunk.h" />
+    <ClInclude Include="..\Source\Game\Client\ShaderMaterialHolder.h" />
     <ClInclude Include="..\Source\Game\Client\States\StateDev.h" />
     <ClInclude Include="..\Source\Game\Client\States\StateEditor.h" />
     <ClInclude Include="..\Source\Game\Client\States\StateGame.h" />
@@ -302,6 +306,7 @@
     <ClInclude Include="..\Source\Game\Shared\CharNode.h" />
     <ClInclude Include="..\Source\Game\Shared\Cube.h" />
     <ClInclude Include="..\Source\Game\Shared\CubeBase.h" />
+    <ClInclude Include="..\Source\Game\Shared\CubeDefault.h" />
     <ClInclude Include="..\Source\Game\Shared\CubeDesc.h" />
     <ClInclude Include="..\Source\Game\Shared\Game.h" />
     <ClInclude Include="..\Source\Game\Shared\LightSource.h" />
@@ -325,6 +330,7 @@
     <ClInclude Include="..\Source\Utility\EnumConverter.h" />
     <ClInclude Include="..\Source\Utility\Exception.h" />
     <ClInclude Include="..\Source\Utility\FileReader.h" />
+    <ClInclude Include="..\Source\Utility\move_util.h" />
     <ClInclude Include="..\Source\Utility\Mutex.h" />
     <ClInclude Include="..\Source\Utility\owner_ptr.h" />
     <ClInclude Include="..\Source\Utility\Point.h" />
