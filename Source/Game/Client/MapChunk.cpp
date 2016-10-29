@@ -19,6 +19,24 @@ MapChunk::~MapChunk()
 {
 }
 
+void MapChunk::draw(Drawing& draw)
+{
+	// create array or reupload if data changed
+	m_iArray.flush();
+
+	// draw instanced
+	// TODO shadow map bound?
+	// TODO cube bound?
+	// TODO shader bound?
+	m_iArray.bind(2);
+
+	/*
+	 *glBindVertexArray(quadVAO); 
+	 *glDrawArraysInstanced(GL_TRIANGLES, 0, 6, 100); 
+	 *glBindVertexArray(0);
+	 */
+}
+
 void MapChunk::setCube(Point3S pos, std::unique_ptr<CubeBase> c)
 {
 	auto index = m_dim.calcIndex(pos);
@@ -31,8 +49,8 @@ void MapChunk::updateGpuArray()
 	if (!m_hasChanged)
 		return;
 
-	m_gpuArray.clear();
-	m_gpuArray.reserve(m_cubes.size());
+	std::vector<glm::ivec4> gpuArray;
+	gpuArray.reserve(m_cubes.size());
 
 	size_t idx = 0;
 	for (const auto& pCube : m_cubes)
@@ -54,13 +72,13 @@ void MapChunk::updateGpuArray()
 			v.x = idx & 0xFF;
 			v.y = idx & 0xFF00;
 
-			m_gpuArray.push_back(v);
+			gpuArray.push_back(v);
 		}
 
 		idx++;
 	}
 
-	// TODO update gpu
+	m_iArray.setData(move(gpuArray));
 }
 
 void MapChunk::resize(size_t height, size_t depth)
