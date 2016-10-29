@@ -189,6 +189,7 @@
     <ClCompile Include="..\Source\Game\Client\BucketLoader.cpp" />
     <ClCompile Include="..\Source\Game\Client\GameEditor.cpp" />
     <ClCompile Include="..\Source\Game\Client\LightManager.cpp" />
+    <ClCompile Include="..\Source\Game\Client\MapChunk.cpp" />
     <ClCompile Include="..\Source\Game\Shared\CharNode.cpp" />
     <ClCompile Include="..\Source\Game\Shared\Cube.cpp" />
     <ClCompile Include="..\Source\Game\Shared\CubeDesc.cpp" />
@@ -292,6 +293,7 @@
     <ClInclude Include="..\Source\Game\Client\BucketLoader.h" />
     <ClInclude Include="..\Source\Game\Client\GameEditor.h" />
     <ClInclude Include="..\Source\Game\Client\LightManager.h" />
+    <ClInclude Include="..\Source\Game\Client\MapChunk.h" />
     <ClInclude Include="..\Source\Game\Client\States\StateDev.h" />
     <ClInclude Include="..\Source\Game\Client\States\StateEditor.h" />
     <ClInclude Include="..\Source\Game\Client\States\StateGame.h" />
@@ -299,6 +301,7 @@
     <ClInclude Include="..\Source\Game\Shared\Character.h" />
     <ClInclude Include="..\Source\Game\Shared\CharNode.h" />
     <ClInclude Include="..\Source\Game\Shared\Cube.h" />
+    <ClInclude Include="..\Source\Game\Shared\CubeBase.h" />
     <ClInclude Include="..\Source\Game\Shared\CubeDesc.h" />
     <ClInclude Include="..\Source\Game\Shared\Game.h" />
     <ClInclude Include="..\Source\Game\Shared\LightSource.h" />
