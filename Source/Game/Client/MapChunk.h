@@ -6,14 +6,14 @@
 #include "../../Utility/move_util.h"
 #include "../../Framework/OpenGL/Shader/InstancingArray.h"
 
-class MapChunk : public IDrawable
+class MapChunk
 {
 public:
 	MapChunk(Point3S dim);
 	~MapChunk();
 	MOVE_ONLY(MapChunk);
 
-	void draw(Drawing& draw) override;
+	void draw(Drawing& draw, Mesh& cube);
 	void setCube(Point3S pos, std::unique_ptr<CubeBase> c);
 	void updateGpuArray();
 	void resize(size_t height, size_t depth);
@@ -23,5 +23,5 @@ private:
 
 	// GPU stuff
 	bool m_hasChanged = true;
-	InstacingArray<glm::ivec4, 4, GL_INT> m_iArray;
+	InstacingArray<unsigned int, 1, GL_INT> m_iArray;
 };

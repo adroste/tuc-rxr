@@ -64,6 +64,7 @@ public:
 	// shader
 	ShaderCubeMap& getShaderCubeMap();
 	ShaderCube& getShaderCubeDefault();
+	MeshCube& getCubeMesh();
 
 	// static
 	static Font& getFont(Font::Style style, Font::Size size);

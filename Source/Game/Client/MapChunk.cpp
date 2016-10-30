@@ -19,22 +19,18 @@ MapChunk::~MapChunk()
 {
 }
 
-void MapChunk::draw(Drawing& draw)
+void MapChunk::draw(Drawing& draw, Mesh& cube)
 {
+	updateGpuArray(); // TODO move this function somewhere else?
+	if (m_iArray.getDataCount() == 0)
+		return;
 	// create array or reupload if data changed
 	m_iArray.flush();
 
 	// draw instanced
-	// TODO shadow map bound?
-	// TODO cube bound?
-	// TODO shader bound?
 	m_iArray.bind(2);
 
-	/*
-	 *glBindVertexArray(quadVAO); 
-	 *glDrawArraysInstanced(GL_TRIANGLES, 0, 6, 100); 
-	 *glBindVertexArray(0);
-	 */
+	cube.drawInstanced(m_iArray.getDataCount(), m_iArray);
 }
 
 void MapChunk::setCube(Point3S pos, std::unique_ptr<CubeBase> c)
@@ -49,7 +45,7 @@ void MapChunk::updateGpuArray()
 	if (!m_hasChanged)
 		return;
 
-	std::vector<glm::ivec4> gpuArray;
+	std::vector<unsigned int> gpuArray;
 	gpuArray.reserve(m_cubes.size());
 
 	size_t idx = 0;
@@ -63,14 +59,13 @@ void MapChunk::updateGpuArray()
 			if (!matIndex)
 				continue; // ignore block (not standart drawn)
 
-			glm::ivec4 v;
-			v.z = matIndex & 0xFF;
-			v.w = matIndex & 0xFF00;
+			unsigned int v = 0;
+			v |= (matIndex & 0xFFFF) << 16;
 			assert((matIndex & ~size_t(0xFFFF)) == 0);
 
 			// split index
-			v.x = idx & 0xFF;
-			v.y = idx & 0xFF00;
+			v |= idx & 0xFFFF;
+			assert((idx & 0xFFFF0000) == 0);
 
 			gpuArray.push_back(v);
 		}

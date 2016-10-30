@@ -11,21 +11,8 @@ VolumeTextureMap::~VolumeTextureMap()
 {
 }
 
-void VolumeTextureMap::init(Point3S dim)
-{
-	LockGuard g(m_muTex);
-
-	m_dim = dim;
-	// generate emtpy array on cpu side
-	m_pData = std::unique_ptr<unsigned char[]>(new unsigned char[dim.x * dim.y * dim.z]);
-	memset(m_pData.get(), 0, dim.x * dim.y * dim.z * sizeof(char));
-
-	m_changed = true;
-}
-
 void VolumeTextureMap::resize(Point3S dim)
 {
-	assert(m_pData);
 	auto newDim = std::unique_ptr<unsigned char[]>(new unsigned char[dim.size()]);
 	memset(newDim.get(), 0, dim.size() * sizeof(char));
 
@@ -38,7 +25,7 @@ void VolumeTextureMap::resize(Point3S dim)
 				newDim[dim.calcIndex({ x,y,z })] = m_pData[m_dim.calcIndex({ x,y,z })];
 			}
 
-	m_pData = std::move(newDim);
+	m_pData = move(newDim);
 	m_dim = dim;
 
 	m_changed = true;
@@ -72,6 +59,11 @@ void VolumeTextureMap::dispose()
 		glDeleteTextures(1, &m_texture);
 		m_texture = 0;
 	}
+}
+
+bool VolumeTextureMap::isCreated() const
+{
+	return m_texture != 0;
 }
 
 void VolumeTextureMap::updateGPU()

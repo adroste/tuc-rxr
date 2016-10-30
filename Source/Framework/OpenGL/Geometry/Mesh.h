@@ -2,6 +2,8 @@
 #include "../GLObject.h"
 #include "../../../glm/glm.hpp"
 #include <vector>
+#include "../Shader/InstancingArray.h"
+#include "../../../System/Exceptions/GL_Exception.h"
 
 class Mesh : public GLObject
 {
@@ -31,6 +33,9 @@ public:
 
 	void draw();
 
+	template <class vecType, size_t count, size_t enumType>
+	void drawInstanced(size_t num, InstacingArray<vecType, count, enumType>& ia);
+
 	void create() override;
 	void dispose() override;
 
@@ -44,3 +49,16 @@ private:
 	GLuint m_vertexArrayObject = 0;
 	GLuint m_vertexArrayBuffers[NUM_BUFFERS];
 };
+
+template <class vecType, size_t count, size_t enumType>
+void Mesh::drawInstanced(size_t num, InstacingArray<vecType, count, enumType>& ia)
+{
+	glBindVertexArray(m_vertexArrayObject);
+
+	ia.bind(2);
+
+	glDrawElementsInstanced(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, nullptr, num);
+	glCheck("Mesh::drawInstaced");
+
+	glBindVertexArray(0);
+}

@@ -21,6 +21,7 @@ void Map::setCube(Point3S pos, const CubeDesc& cd)
 	// at the moment just default cubes
 	auto mat = CubeMaterial::fromDesc(cd);
 	auto matInfo = addMaterial(mat);
+	m_volumeTextureMap.setValue(pos, 1.0f);
 	setCube(pos, std::unique_ptr<CubeBase>(new CubeDefault(cd, matInfo)));
 }
 
@@ -37,11 +38,32 @@ void Map::setCube(Point3S pos, std::unique_ptr<CubeBase> c)
 void Map::destroyBlock(const Point3S& pos)
 {
 	setCube(pos, nullptr);
+	m_volumeTextureMap.setValue(pos, 0.0f);
 }
 
 void Map::draw(Drawing& draw)
 {
-	
+	// enable volume map
+	if (!m_volumeTextureMap.isCreated())
+		m_volumeTextureMap.create();
+
+	m_volumeTextureMap.bind(0);
+	auto& shader = draw.getShaderCubeMap();
+	shader.setChunkHeight(m_dim.height);
+
+	auto& meshCube = draw.getCubeMesh();
+
+	glm::mat4 transform;
+	shader.bind();
+	for(auto& c : m_chunks)
+	{
+		draw.getTransform().pushModel(transform);
+		draw.getTransform().flush();
+		c.draw(draw, meshCube);
+		draw.getTransform().popModel();
+		transform = glm::translate(transform, glm::vec3(16.0f, 0.0f, 0.0f));
+	}
+	shader.unbind();
 }
 
 void Map::setDim(Point3S dim)
@@ -71,6 +93,7 @@ void Map::setDim(Point3S dim)
 			m_chunks.push_back(MapChunk(chSize));
 	}
 
+	m_volumeTextureMap.resize(dim);
 	m_dim = dim;
 }
 

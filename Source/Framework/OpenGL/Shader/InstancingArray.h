@@ -13,6 +13,7 @@ public:
 	void bind(int slot);
 	void setData(std::vector<vecType> data);
 	void flush();
+	size_t getDataCount() const; 
 private:
 	bool m_changed = true;
 	GLuint m_vbo = 0;
@@ -46,7 +47,7 @@ void InstacingArray<vecType, count, enumType>::bind(int slot)
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 	glVertexAttribPointer(slot, count, enumType,
 		GL_FALSE, sizeof(vecType), nullptr);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glVertexAttribDivisor(slot, 1);
 }
 
@@ -73,4 +74,10 @@ void InstacingArray<vecType, count, enumType>::flush()
 		}
 		else create();
 	}
+}
+
+template <class vecType, size_t count, size_t enumType>
+size_t InstacingArray<vecType, count, enumType>::getDataCount() const
+{
+	return m_data.size();
 }

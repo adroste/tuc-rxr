@@ -300,6 +300,11 @@ ShaderCube& Drawing::getShaderCubeDefault()
 	return m_shCube;
 }
 
+MeshCube& Drawing::getCubeMesh()
+{
+	return m_meshCube;
+}
+
 Drawing& Drawing::get()
 {
 	assert(m_curInstance);

@@ -4,25 +4,17 @@
 #include <memory>
 #include "../../Utility/Mutex.h"
 
-/*
-	Game Usage:
-	1. call init which creates an empty map
-
-	Editor Usage:
-	1. init
-	2. resize instead of init
-*/
 class VolumeTextureMap : public GLObject
 {
 public:
 	VolumeTextureMap();
 	virtual ~VolumeTextureMap();
-	void init(Point3S dim);
 	void resize(Point3S dim);
 
 	virtual void create() override;
 	virtual void dispose() override;
 
+	bool isCreated() const;
 	void bind(unsigned int id);
 	static void unbind();
 	void setValue(const Point3S& idx, float val);

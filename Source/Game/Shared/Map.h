@@ -31,4 +31,5 @@ private:
 	std::vector<MapChunk> m_chunks;
 	Point3S m_dim;
 	ShaderMaterialHolder m_materialHolder;
+	VolumeTextureMap m_volumeTextureMap;
 };
