@@ -43,11 +43,11 @@ void Map::destroyBlock(const Point3S& pos)
 
 void Map::draw(Drawing& draw)
 {
+	draw.setMapInfo(m_dim);
 	// enable volume map
 	if (!m_volumeTextureMap.isCreated())
 		m_volumeTextureMap.create();
 
-	m_volumeTextureMap.bind(0);
 	auto& shader = draw.getShaderCubeMap();
 	shader.setChunkHeight(m_dim.height);
 
@@ -55,6 +55,8 @@ void Map::draw(Drawing& draw)
 
 	glm::mat4 transform;
 	shader.bind();
+	m_volumeTextureMap.bind(0);
+
 	for(auto& c : m_chunks)
 	{
 		draw.getTransform().pushModel(transform);

@@ -370,6 +370,10 @@ void Drawing::dispose()
 
 void Drawing::init(FT_Library ftlib)
 {
+	GLint bs = 0;
+	glGetIntegerv(GL_MAX_UNIFORM_BLOCK_SIZE, &bs);
+
+
 	for(auto& s : m_shaders)
 	{
 		auto l = dynamic_cast<Shader::ILoadable*>(s);

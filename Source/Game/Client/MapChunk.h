@@ -23,5 +23,6 @@ private:
 
 	// GPU stuff
 	bool m_hasChanged = true;
+	// pretend that this is a float because opengl would convert it otherwise...
 	InstacingArray<uint32_t, 1, GL_FLOAT> m_iArray;
 };
