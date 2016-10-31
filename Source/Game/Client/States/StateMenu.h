@@ -21,13 +21,13 @@ public:
 		m_btnDev(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Dev"),
 		m_tbUiSize(0.0f)
 	{
-		m_btnSingle.adjustToFontHeadline();
-		m_btnEdit.adjustToFontHeadline();
-		m_btnEdit.setWidth(m_btnSingle.getDim().x);
-		m_btnDev.adjustToFontHeadline();
+		m_btnSingle->adjustToFontHeadline();
+		m_btnEdit->adjustToFontHeadline();
+		m_btnEdit->setWidth(m_btnSingle->getDim().x);
+		m_btnDev->adjustToFontHeadline();
 
-		m_tbUiSize.setDim(PointF(400.0f, 25.0f));
-		m_tbUiSize.setOnValueCallback([this](IValueHolder<float>* o)
+		m_tbUiSize->setDim(PointF(400.0f, 25.0f));
+		m_tbUiSize->setOnValueCallback([this](IValueHolder<float>* o)
 		{
 			// 50% slider = def std draw
 			PointF sd = PointF(Framework::getDefStdDraw()) * (o->getValue() + 1.0f);
@@ -38,30 +38,30 @@ public:
 		m_mpos = { 500,500 };
 		//Sound::playMusic(Sound::Music::Hey);
 
-		addWindow(&m_title, 0, PointF(0.0f, -250.0f));
-		addWindow(&m_btnSingle, 0, PointF(0.0f, -50.0f));
-		addWindow(&m_btnEdit, 0, PointF(0.0f, +50.0f));
-		addWindow(&m_btnDev, Anchor::Right | Anchor::Bottom, PointF(10.0f));
-		addWindow(&m_tbUiSize, Anchor::Bottom);
+		addWindow(m_title.getRef(), 0, PointF(0.0f, -250.0f));
+		addWindow(m_btnSingle.getRef(), 0, PointF(0.0f, -50.0f));
+		addWindow(m_btnEdit.getRef(), 0, PointF(0.0f, +50.0f));
+		addWindow(m_btnDev.getRef(), Anchor::Right | Anchor::Bottom, PointF(10.0f));
+		addWindow(m_tbUiSize.getRef(), Anchor::Bottom);
 	}
 	virtual ~StateMenu()
 	{}
 
 	virtual bool update(float dt) override
 	{
-		if (m_btnSingle.isClicked(true))
+		if (m_btnSingle->isClicked(true))
 		{	
 			Sound::playMusic(Sound::Music::Theme);
 			//Sound::playSound(Sound::Sfx::Plop);
 			setNextState(TransitionState::ForcePreserve, std::unique_ptr<GameState>(new StateGame()));
 		}
 
-		if (m_btnEdit.isClicked(true))
+		if (m_btnEdit->isClicked(true))
 		{
 			setNextState(TransitionState::ForcePreserve, std::unique_ptr<GameState>(new StateEditor()));
 		}
 
-		if (m_btnDev.isClicked(true))
+		if (m_btnDev->isClicked(true))
 			setNextState(TransitionState::Preserve, std::unique_ptr<GameState>(new StateDev()));
 
 		return false;
@@ -120,13 +120,13 @@ public:
 	}
 
 private:
-	UILabel	m_title;
+	refable<UILabel>	m_title;
 
 	PointF m_mpos;
-	UIButtonText m_btnSingle;
-	UIButtonText m_btnEdit;
-	UIButtonText m_btnDev;
-	UITrackbar m_tbUiSize;
+	refable<UIButtonText> m_btnSingle;
+	refable<UIButtonText> m_btnEdit;
+	refable<UIButtonText> m_btnDev;
+	refable<UITrackbar> m_tbUiSize;
 
 	//UIDialogColorPicker m_colorPicker;
 };

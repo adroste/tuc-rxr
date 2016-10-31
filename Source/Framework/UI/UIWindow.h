@@ -5,14 +5,11 @@
 class UIWindow : public UIContainer
 {
 public:
-	UIWindow(bool show, WindowManager& wm, size_t anchor = 0, PointF offset = PointF(0.0f))
+	UIWindow(bool show)
 		:
 		UIContainer(show),
 		m_btnCancel(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "X")
 	{
-		// register to window manager
-		wm.addWindow(this, anchor, offset);
-
 		//m_btnCancel.setZIndex(getZIndex() + 1);
 		m_btnCancel.adjustToFontHeadline();
 		m_btnCancel.registerMe(this);
@@ -26,10 +23,7 @@ public:
 	virtual ~UIWindow() override
 	{
 		m_btnCancel.unregisterMe();
-
-		auto wm = getWindowManager();
-		if (wm)
-			wm->removeWindow(this);
+		// window will unregister automatically
 	}
 
 	virtual void draw(Drawing& draw) override

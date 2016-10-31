@@ -57,7 +57,7 @@ public:
 	}
 
 	// nullptr if next state is previous state
-	std::unique_ptr<GameState> popNextState()
+	owner_ptr<GameState> popNextState()
 	{
 		m_isFinished = false;
 		return std::move(m_pNextState);
@@ -73,7 +73,7 @@ protected:
 	void setNextState(TransitionState transitionState, std::unique_ptr<GameState> nextState = nullptr)
 	{
 		assert(!m_pNextState);
-		m_pNextState = std::move(nextState);
+		m_pNextState = owner_ptr<GameState>(nextState.release());
 		m_transitionState = transitionState;
 		m_isFinished = true;
 	}
@@ -81,6 +81,6 @@ protected:
 private:
 	TransitionState m_transitionState = TransitionState::Undefined;
 	const bool m_drawPrev;
-	std::unique_ptr<GameState> m_pNextState;
+	owner_ptr<GameState> m_pNextState;
 	bool m_isFinished = false;
 };

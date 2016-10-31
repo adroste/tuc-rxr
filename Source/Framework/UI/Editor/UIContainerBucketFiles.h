@@ -13,13 +13,13 @@ public:
 		m_lblTitle(getFont(),"Buckets:")
 	{
 		
-		addToList(&m_lblTitle, nullptr);
+		addToList(m_lblTitle.getRef(), nullptr);
 		auto names = GetDirectoryFilenames("saves/editor/buckets/");
 		for(const auto& n : names)
 		{
-			auto lbl = std::unique_ptr<UILabel>(new UILabel(getFont(), n));
-			auto box = std::unique_ptr<UICheckBox>(new UICheckBox(false));
-			addToList(lbl.get(), box.get());
+			auto lbl = owner_ptr<UILabel>(new UILabel(getFont(), n));
+			auto box = owner_ptr<UICheckBox>(new UICheckBox(false));
+			addToList(lbl.getRef(), box.getRef());
 			m_filenames.push_back(std::move(lbl));
 			m_checks.push_back(std::move(box));
 		}
@@ -47,7 +47,7 @@ private:
 		return Drawing::getFont(Font::Style::Text, Font::Size::M);
 	}
 private:
-	UILabel m_lblTitle;
-	std::vector<std::unique_ptr<UILabel>> m_filenames;
-	std::vector<std::unique_ptr<UICheckBox>> m_checks;
+	refable<UILabel> m_lblTitle;
+	std::vector<owner_ptr<UILabel>> m_filenames;
+	std::vector<owner_ptr<UICheckBox>> m_checks;
 };

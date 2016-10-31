@@ -8,7 +8,7 @@ class UIDialogLights : public UIDialog
 public:
 	UIDialogLights(GameEditor& editor, bool show, WindowManager& wm, size_t anchor = 0, PointF offset = PointF(0.0f))
 		:
-		UIDialog(Buttons::OKCancel, show, wm, anchor, offset),
+		UIDialog(Buttons::OKCancel, show),
 		m_lights(editor, true, wm),
 		m_list(true)
 	{

@@ -5,6 +5,7 @@
 #include <list>
 #include "Exceptions/ExceptionInvalidOperation.h"
 #include "Exceptions/ExceptionArgument.h"
+#include "../Utility/owner_ptr.h"
 
 class Input
 {
@@ -248,9 +249,9 @@ public:
 	static void freeMouse();
 	static bool isMouseTrapped();
 
-	static void registerListener(Input::IReceiver* pListener);
-	static void unregisterListener(Input::IReceiver* pListener);
+	static void registerListener(ref_ptr<IReceiver> pListener);
 private:
+	static void unregisterListener(ref_ptr<IReceiver> pListener);
 	static void keyDown(SDL_Scancode s);
 	static void keyUp(SDL_Scancode s);
 	static void charDown(char c);

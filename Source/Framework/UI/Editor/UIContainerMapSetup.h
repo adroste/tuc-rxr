@@ -21,15 +21,15 @@ public:
 		float fh = getFont().getMaxHeight();
 		const PointF cdim = { 5.0f * fh,fh };
 
-		m_numX.setDim(cdim + PointF(10.0f));
-		m_numY.setDim(m_numX.getDim());
-		m_numZ.setDim(m_numX.getDim());
+		m_numX->setDim(cdim + PointF(10.0f));
+		m_numY->setDim(m_numX->getDim());
+		m_numZ->setDim(m_numX->getDim());
 
-		addToList(&m_lblTitle, nullptr);
+		addToList(m_lblTitle.getRef(), nullptr);
 
-		addToList(&m_lblWi, &m_numX);
-		addToList(&m_lblHi, &m_numY);
-		addToList(&m_lblDe, &m_numZ);
+		addToList(m_lblWi.getRef(), m_numX.getRef());
+		addToList(m_lblHi.getRef(), m_numY.getRef());
+		addToList(m_lblDe.getRef(), m_numZ.getRef());
 
 		setCellPadding(8.0f);
 		setWallPadding(5.0f);
@@ -37,7 +37,7 @@ public:
 	}
 	Point3S getMapdim() const
 	{
-		return Point3S(size_t(m_numX.getValue()), size_t(m_numY.getValue()), size_t(m_numZ.getValue()));
+		return Point3S(size_t(m_numX->getValue()), size_t(m_numY->getValue()), size_t(m_numZ->getValue()));
 	}
 private:
 	static Font& getFont()
@@ -45,12 +45,12 @@ private:
 		return Drawing::getFont(Font::Style::Headline, Font::Size::M);
 	}
 private:
-	UILabel m_lblTitle;
-	UILabel m_lblWi;
-	UILabel m_lblHi;
-	UILabel m_lblDe;
-
-	UINumUpDownInt m_numX;
-	UINumUpDownInt m_numY;
-	UINumUpDownInt m_numZ;
+	refable<UILabel> m_lblTitle;
+	refable<UILabel> m_lblWi;
+	refable<UILabel> m_lblHi;
+	refable<UILabel> m_lblDe;
+	
+	refable<UINumUpDownInt> m_numX;
+	refable<UINumUpDownInt> m_numY;
+	refable<UINumUpDownInt> m_numZ;
 };

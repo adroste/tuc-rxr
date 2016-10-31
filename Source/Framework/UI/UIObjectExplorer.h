@@ -37,7 +37,7 @@ public:
 	{
 	}
 
-	void addObject(std::unique_ptr<UIObject> o)
+	void addObject(owner_ptr<UIObject> o)
 	{
 		assert(o);
 
@@ -51,7 +51,7 @@ public:
 		m_curIns.x += PADD + o->getDim().x;
 		m_curMaxY = std::max(m_curMaxY, o->getDim().y + o->getOrigin().y);
 
-		m_objList.addAndReg(o.get(), this);
+		m_objList.addAndReg(o.getRef(), this);
 		LockGuard g(m_muObj);
 		m_objs.push_back(std::move(o));
 	}
@@ -65,16 +65,15 @@ public:
 		m_curMaxY = PADD;
 	}
 
-	void erase(UIObject* obj)
+	void erase(ref_ptr<UIObject> obj)
 	{
 		auto it = m_objs.begin();
-		while (it != m_objs.end() && it->get() != obj)
+		while (it != m_objs.end() && *it != obj)
 			++it;
 
 		if (it != m_objs.end())
 		{
 			LockGuard g(m_muObj);
-			m_objList.remove(obj);
 			m_objs.erase(it);
 			reorder();
 		}
@@ -119,7 +118,7 @@ private:
 
 private:
 	const float PADD = 10.0f;
-	std::vector<std::unique_ptr<UIObject>> m_objs;
+	std::vector<owner_ptr<UIObject>> m_objs;
 	UIObjectList m_objList;
 	Mutex m_muObj;
 	PointF m_curIns = PointF(10.0f); // current insert position

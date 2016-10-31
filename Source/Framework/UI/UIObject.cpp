@@ -11,7 +11,7 @@ void UIObject::setVisibility(bool visible)
 		m_isEnabled ? Input::IReceiver::enable() : Input::IReceiver::disable();
 		auto wm = getWindowManager();
 		if (wm)
-			wm->onWindowShow(this);
+			wm->onWindowShow(*this);
 	}
 	else
 	{

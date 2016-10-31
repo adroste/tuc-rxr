@@ -20,7 +20,7 @@ class UIDialogContainerHolder : public UIDialog
 public:
 	UIDialogContainerHolder(std::unique_ptr<T> con, Buttons btn, bool show, WindowManager& wm, size_t anchor = 0, PointF offset = PointF(0.0f))
 		:
-		UIDialog(btn, show, wm, anchor, offset),
+		UIDialog(btn, show),
 		m_pCon(std::move(con))
 	{
 		assert(m_pCon.get());

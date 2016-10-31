@@ -42,5 +42,5 @@ private:
 	Mutex m_muGfx;
 	
 	std::unique_ptr<Graphics> m_pGfx;
-	std::list<std::unique_ptr<GameState>> m_states;
+	std::list<owner_ptr<GameState>> m_states;
 };
