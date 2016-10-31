@@ -23,5 +23,5 @@ private:
 
 	// GPU stuff
 	bool m_hasChanged = true;
-	InstacingArray<unsigned int, 1, GL_INT> m_iArray;
+	InstacingArray<glm::ivec4, 4, GL_FLOAT> m_iArray;
 };

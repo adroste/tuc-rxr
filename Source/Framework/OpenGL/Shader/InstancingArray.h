@@ -46,7 +46,7 @@ void InstacingArray<vecType, count, enumType>::bind(int slot)
 	glEnableVertexAttribArray(slot);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 	glVertexAttribPointer(slot, count, enumType,
-		GL_FALSE, sizeof(vecType), nullptr);
+		GL_FALSE, 0, nullptr);
 	//glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glVertexAttribDivisor(slot, 1);
 }

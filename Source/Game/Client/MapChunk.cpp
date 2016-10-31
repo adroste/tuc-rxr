@@ -45,7 +45,7 @@ void MapChunk::updateGpuArray()
 	if (!m_hasChanged)
 		return;
 
-	std::vector<unsigned int> gpuArray;
+	std::vector<glm::ivec4> gpuArray;
 	gpuArray.reserve(m_cubes.size());
 
 	size_t idx = 0;
@@ -59,13 +59,13 @@ void MapChunk::updateGpuArray()
 			if (!matIndex)
 				continue; // ignore block (not standart drawn)
 
-			unsigned int v = 0;
-			v |= (matIndex & 0xFFFF) << 16;
-			assert((matIndex & ~size_t(0xFFFF)) == 0);
-
-			// split index
-			v |= idx & 0xFFFF;
-			assert((idx & 0xFFFF0000) == 0);
+			glm::ivec4 v;
+			v.w = matIndex;
+			
+			auto p = m_dim.fromIndex(idx);
+			v.x = p.x;
+			v.y = p.y;
+			v.z = p.z;
 
 			gpuArray.push_back(v);
 		}
