@@ -79,6 +79,13 @@ void Graphics::close()
 
 void Graphics::beginFrame()
 {
+	static PointI oldStdDraw = Framework::getStdDraw();
+	if (oldStdDraw != Framework::getStdDraw())
+	{
+		oldStdDraw = Framework::getStdDraw();
+		resize(m_wndSize);
+	}
+
 	if (m_needsResize)
 		doResize();
 
@@ -139,6 +146,7 @@ void Graphics::doResize()
 {
 	Log::info("Graphics::doResize");
 	glViewport(0, 0, GLsizei(m_wndSize.x), GLsizei(m_wndSize.y));
+	m_draw.getUiCam().setLookAt(Framework::getScreenCenter());
 	m_draw.getUiCam().setHeight(Framework::getCamDim().y);
 	m_needsResize = false;
 	glCheck("Graphics::doResize");

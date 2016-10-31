@@ -58,6 +58,7 @@ const PointF& Camera::getLookAt() const
 
 void Camera::setLookAt(const PointF& lookAt)
 {
+	if (m_lookAt == lookAt) return;
 	m_lookAt = lookAt;
 	recalcCam();
 }
