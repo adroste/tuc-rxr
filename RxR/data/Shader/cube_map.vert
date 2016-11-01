@@ -8,7 +8,7 @@ layout(location = 2) in ivec3 in_iinfo;
 
 out vec4 normal;
 out vec3 mapPos;
-flat out vec3 cubeMidpoint;
+//flat out vec3 cubeMidpoint;
 flat out vec3 diffColor;
 flat out vec4 specColor;
 
@@ -41,6 +41,6 @@ void main()
 	
 	normal = matModel * vec4(in_normal,0.0);
 	mapPos = (matModel * vec4(in_position * 0.5 + chOffset, 1.0)).xyz;
-	cubeMidpoint = (matModel * vec4(chOffset, 1.0)).xyz;
+	//cubeMidpoint = (matModel * vec4(chOffset, 1.0)).xyz;
 	gl_Position = matProjection * matCamera * matModel * vec4(in_position * 0.5 + chOffset, 1.0);
 }
