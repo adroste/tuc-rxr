@@ -12,16 +12,13 @@ out vec3 mapPos;
 flat out vec3 diffColor;
 flat out vec4 specColor;
 
-// matModel -> origin of chunk
-uniform uint chunkHeight;
-
 void main()
 {
 	uint chIndex = (uint(in_iinfo.x) & uint(0xFFFF));
 	uvec3 chPos;
-	chPos.z = chIndex / (uint(16) * chunkHeight);
-	chPos.y = (chIndex % (uint(16) * chunkHeight)) / uint(16);
-	chPos.x = (chIndex % (uint(16) * chunkHeight)) % uint(16);
+	chPos.z = chIndex / (uint(32) * uint(32));
+	chPos.y = (chIndex % (uint(32) * uint(32))) / uint(32);
+	chPos.x = (chIndex % (uint(32) * uint(32))) % uint(32);
 	
 	vec3 chOffset = vec3(chPos);//vec3(float(in_iinfo.x), float(in_iinfo.y), float(in_iinfo.z));
 	

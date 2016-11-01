@@ -9,16 +9,15 @@
 class MapChunk
 {
 public:
-	MapChunk(Point3S dim);
+	MapChunk();
 	~MapChunk();
 	MOVE_ONLY(MapChunk);
 
 	void draw(Drawing& draw, Mesh& cube);
 	void setCube(Point3S pos, std::unique_ptr<CubeBase> c);
 	void updateGpuArray();
-	void resize(size_t height, size_t depth);
 private:
-	Point3S m_dim;
+	static const Point3S m_dim;
 	std::vector<std::unique_ptr<CubeBase>> m_cubes;
 
 	// GPU stuff

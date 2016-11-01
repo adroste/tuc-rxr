@@ -25,7 +25,7 @@ CubeDesc getGrassDesc()
 void loadCaveScene(std::unique_ptr<Map>& m)
 {
 	// floor
-	m = std::unique_ptr<Map>(new Map(Point3S(50, 35, 4)));
+	m = std::unique_ptr<Map>(new Map(Point3S(50, 35, 32)));
 	Point3S d = m->getDim();
 	for(size_t x = 0; x < d.width; x++)
 	{
