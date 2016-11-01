@@ -17,7 +17,7 @@ public:
 		m_btnBack(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Back"),
 		m_material(false),
 		m_material2(false),
-		m_trackbar(),
+		m_trackbar(0.0f, 0.1f),
 		m_label(Drawing::getFont(Font::Style::Text, Font::Size::M), "-1.0")
 	{
 		m_btnBack->adjustToFontHeadline();

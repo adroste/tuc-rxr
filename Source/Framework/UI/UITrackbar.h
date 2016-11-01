@@ -9,9 +9,11 @@ class UITrackbar : public UIObject, public ISelectable, public IValueHolder<floa
 	static const int THICK_BAR = 4;
 	static const int THICK_SLIDER = 8;
 public:
-	UITrackbar(float val = 0.0f)
+	// step = 0.0f means fluent
+	UITrackbar(float val = 0.0f, float step = 0.0f)
 		:
-		IValueHolder(val)
+		IValueHolder(val),
+		m_step(tool::clamp(step, 0.0f, 1.0f))
 	{}
 
 	virtual ~UITrackbar() override
@@ -49,6 +51,8 @@ public:
 		if (m_isDragged)
 		{
 			float newVal = tool::clamp((mpos.x - getOrigin().x) / getDim().x, 0.0f, 1.0f);
+			if (m_step != 0.0f)
+				newVal = m_step * int((newVal / m_step) + 0.5f);
 			if (newVal != getValue())
 				setValue(newVal);
 		}
@@ -86,5 +90,6 @@ public:
 	}
 
 private:
+	float m_step;
 	bool m_isDragged = false;
 };
