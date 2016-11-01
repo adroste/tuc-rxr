@@ -79,13 +79,6 @@ void Graphics::close()
 
 void Graphics::beginFrame()
 {
-	static PointI oldStdDraw = Framework::getStdDraw();
-	if (oldStdDraw != Framework::getStdDraw())
-	{
-		oldStdDraw = Framework::getStdDraw();
-		resize(m_wndSize);
-	}
-
 	if (m_needsResize)
 		doResize();
 

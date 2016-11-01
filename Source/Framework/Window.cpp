@@ -80,11 +80,24 @@ void Window::run()
 	Timer t;
 	t.startWatch();
 
+	PointI oldStdDraw = Framework::getStdDraw();
+
 	while (m_isRunning)
 	{
 		assert(m_states.size());
 
 		handleEvents();
+
+		// handle stdDraw change
+		if (oldStdDraw != Framework::getStdDraw())
+		{
+			oldStdDraw = Framework::getStdDraw();
+			LockGuard g(m_muGfx);
+			m_pGfx->resize(m_dim);
+			g.unlock();
+			for (auto& s : m_states)
+				s->onResize();
+		}
 
 		float dt = t.lapSecond();
 		updateState(dt);
