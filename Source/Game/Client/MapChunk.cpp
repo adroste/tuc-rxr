@@ -45,7 +45,7 @@ void MapChunk::updateGpuArray()
 	if (!m_hasChanged)
 		return;
 
-	std::vector<uint32_t> gpuArray;
+	std::vector<glm::ivec3> gpuArray;
 	gpuArray.reserve(m_cubes.size());
 
 	size_t idx = 0;
@@ -53,18 +53,30 @@ void MapChunk::updateGpuArray()
 	{
 		if (pCube)
 		{
-			// add to gpuArray
-			// set material index
-			auto matIndex = pCube->getMaterialIndex();
-			if (!matIndex)
-				continue; // ignore block (not standart drawn)
+			glm::ivec3 v = {0,0,0};
 
-			uint32_t v;
-			v = (matIndex & 0xFFFF) << 16;
-			assert((matIndex & 0xFFFF0000) == 0);
+			/*
+			* x:	0-15 chunk position
+			*		16-31 diffuse r+g
+			*
+			*	y:	0-7 diffuse b
+			*		8-31 specular rgb
+			*
+			*	z:	0-15 gloss (int)
+			*
+			*/
+			v.x = idx & 0xFFFF;
+			assert((idx & ~0xFFFF) == 0);
 
-			v |= (idx & 0xFFFF);
-			assert((idx & 0xFFFF0000) == 0);
+			const auto& cd = pCube->getDesc();
+			// Color : argb 
+			v.x |= (cd.diffuse & 0xFFFF00) << 8; // 16 free bits from right
+			v.y = (cd.diffuse & 0xFF);
+
+			v.y |= (cd.spec & 0xFFFFFF) << 8;
+
+			uint32_t gint = uint32_t(cd.gloss);
+			v.z = gint;
 
 			gpuArray.push_back(v);
 		}

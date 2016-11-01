@@ -1,21 +1,19 @@
 #pragma once
+#include "CubeDesc.h"
 // Base class of Cube
 
 class CubeBase
 {
 public:
-	virtual ~CubeBase()
-	{
-	}
+	CubeBase(const CubeDesc& cd);
+	virtual ~CubeBase();
 
-	// return 0 for no material
-	virtual size_t getMaterialIndex()
-	{
-		return 0;
-	}
+	const CubeDesc& getDesc() const;
 	// 0.0f = translucent block | 1.0f = solid block
 	virtual float getShadow()
 	{
 		return 1.0f;
 	}
+private:
+	CubeDesc m_cd;
 };
