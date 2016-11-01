@@ -26,11 +26,11 @@ void Map::setCube(Point3S pos, std::unique_ptr<CubeBase> c)
 {
 	// TODO lock mutex
 	// find chunk
-	PointS chunk = PointS(pos.x, pos.y) / 32;
-	assert(chunk.x * chunk.y < m_chunks.size());
-	pos.x -= chunk.x * 32;
-	pos.y -= chunk.y * 32;
-	m_chunks[chunk.y * (m_dim.x / 32) + chunk.x].setCube(pos, move(c));
+	PointS chunk = PointS(pos.x, pos.y) / MapChunk::SIZE;
+	assert(chunk.y * m_cdim.x + chunk.x < m_chunks.size());
+	pos.x -= chunk.x * MapChunk::SIZE;
+	pos.y -= chunk.y * MapChunk::SIZE;
+	m_chunks[chunk.y * m_cdim.x + chunk.x].setCube(pos, move(c));
 }
 
 void Map::destroyBlock(const Point3S& pos)
@@ -50,51 +50,59 @@ void Map::draw(Drawing& draw)
 
 	auto& meshCube = draw.getCubeMesh();
 
-	glm::mat4 transform;
 	shader.bind();
 	m_volumeTextureMap.bind(0);
 
-	for (auto& c : m_chunks)
+	glm::mat4 transform;
+	// TODO optimize draw range
+	for(size_t y = 0; y < m_cdim.y; y++)
 	{
-		draw.getTransform().pushModel(transform);
-		draw.getTransform().flush();
-		c.draw(draw, meshCube);
-		draw.getTransform().popModel();
-		transform = glm::translate(transform, glm::vec3(16.0f, 0.0f, 0.0f));
+		for(size_t x = 0; x < m_cdim.x; x++)
+		{
+			draw.getTransform().pushModel(transform);
+			draw.getTransform().flush();
+			m_chunks[y * m_cdim.x + x].draw(draw, meshCube);
+			draw.getTransform().popModel();
+			transform = glm::translate(transform,glm::vec3(float(MapChunk::SIZE), 0.0f, 0.0f));
+		}
+		transform = glm::translate(glm::vec3(0.0f, float(MapChunk::SIZE * y), 0.0f));
 	}
+
 	shader.unbind();
 }
 
 void Map::setDim(Point3S dim)
 {
-	assert(dim.z == 32);
+	assert(dim.z == MapChunk::SIZE);
 	// TODO lock mutex
 	// allocate / deallocate chunks
-	size_t nx = (dim.x + 31) / 32;
-	size_t ny = (dim.y + 31) / 32;
+	size_t nx = (dim.x + MapChunk::SIZE - 1) / MapChunk::SIZE;
+	size_t ny = (dim.y + MapChunk::SIZE - 1) / MapChunk::SIZE;
 
-	if (nx * 32 == m_dim.x && ny * 32== m_dim.y)
+	if (nx == m_cdim.x && ny == m_cdim.y)
 		return;
 
 	std::vector<MapChunk> newChunks;
 	newChunks.reserve(nx * ny);
 
-	for (size_t x = 0; x < nx; x++)
+	for (size_t y = 0; y < ny; y++)
 	{
-		for (size_t y = 0; y < ny; y++)
+		for (size_t x = 0; x < nx; x++)
 		{
-			if(x < m_dim.x / 32 && y < m_dim.y / 32)
+			if(x < m_cdim.x && y < m_cdim.y)
 			{
 				// use old chunk
-				newChunks.push_back(std::move(m_chunks.at(y * (m_dim.x / 32) + x)));
+				newChunks.push_back(std::move(m_chunks.at(y * m_cdim.x + x)));
 			}
 			else newChunks.emplace_back();
 		}
 	}
 
-	dim.x = nx * 32;
-	dim.y = nx * 32;
-	dim.z = 32;
+	m_cdim.x = nx;
+	m_cdim.y = ny;
+	dim.x = nx * MapChunk::SIZE;
+	dim.y = ny * MapChunk::SIZE;
+	dim.z = MapChunk::SIZE;
 	m_chunks = move(newChunks);
 	m_volumeTextureMap.resize(dim);
 	m_dim = dim;

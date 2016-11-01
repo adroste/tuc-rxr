@@ -1,7 +1,7 @@
 #include "MapChunk.h"
 #include <bitset>
 
-const Point3S MapChunk::m_dim = { 32,32,32 };
+const Point3S MapChunk::m_dim = { SIZE,SIZE,SIZE };
 
 MapChunk::MapChunk()
 {

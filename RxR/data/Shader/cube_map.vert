@@ -5,6 +5,7 @@
 layout(location = 0) in vec3 in_position;
 layout(location = 1) in vec3 in_normal;
 layout(location = 2) in ivec3 in_iinfo;
+#define CHUNK_SIZE 32
 
 out vec4 normal;
 out vec3 mapPos;
@@ -16,9 +17,9 @@ void main()
 {
 	uint chIndex = (uint(in_iinfo.x) & uint(0xFFFF));
 	uvec3 chPos;
-	chPos.z = chIndex / (uint(32) * uint(32));
-	chPos.y = (chIndex % (uint(32) * uint(32))) / uint(32);
-	chPos.x = (chIndex % (uint(32) * uint(32))) % uint(32);
+	chPos.z = chIndex / (uint(CHUNK_SIZE) * uint(CHUNK_SIZE));
+	chPos.y = (chIndex % (uint(CHUNK_SIZE) * uint(CHUNK_SIZE))) / uint(CHUNK_SIZE);
+	chPos.x = (chIndex % (uint(CHUNK_SIZE) * uint(CHUNK_SIZE))) % uint(CHUNK_SIZE);
 	
 	vec3 chOffset = vec3(chPos);//vec3(float(in_iinfo.x), float(in_iinfo.y), float(in_iinfo.z));
 	

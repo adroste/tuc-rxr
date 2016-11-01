@@ -25,7 +25,7 @@ CubeDesc getGrassDesc()
 void loadCaveScene(std::unique_ptr<Map>& m)
 {
 	// floor
-	m = std::unique_ptr<Map>(new Map(Point3S(50, 35, 32)));
+	m = std::unique_ptr<Map>(new Map(Point3S(256, 32, 32)));
 	Point3S d = m->getDim();
 	for(size_t x = 0; x < d.width; x++)
 	{
@@ -33,6 +33,8 @@ void loadCaveScene(std::unique_ptr<Map>& m)
 		{
 			m->setCube({ x, d.height - 1, z }, getStoneDesc());
 		}
+		if(x % 32 == 0)
+			m->setCube({ x,0,0 }, CubeDesc(Color::Red().toDWORD()));
 	}
 
 	// cave wall
@@ -96,11 +98,11 @@ Game::Game()
 	l.type = LightType::Directional;
 	l.color = (Color::White() * 0.1f).toVec3();
 	l.origin = glm::normalize(glm::vec3(0.0f, 1.0f, 0.0f));
-	lights.push_back(l);
+	//lights.push_back(l);
 	
 	l.type = LightType::PointLight;
 	l.color = Color(1.0f, 0.8f, 0.4f).toVec3();
-	l.origin = glm::vec3(8, 24, dim.depth / 2);
+	l.origin = glm::vec3(8, 16, dim.depth / 2);
 	l.attenuation = 0.00001f;
 	lights.push_back(l);
 	//m_pMap->setCube(new Cube(CubeDesc(Color::White().toDWORD()), l.origin, false, 0.5f), true, true);
@@ -109,20 +111,20 @@ Game::Game()
 	l.color = Color(1.0f, 0.2f, 0.1f).toVec3();
 	l.origin = glm::vec3(30, 31, dim.depth - 2);
 	l.attenuation = 0.2f;
-	lights.push_back(l);
+	//lights.push_back(l);
 	//m_pMap->setCube(new Cube(CubeDesc(Color::Red().toDWORD()), l.origin, false, 0.5f), true, true);
 
 	l.color = Color(0.0f, 1.0f, 0.0f).toVec3();
 	l.origin = glm::vec3(25, 31, dim.depth - 2);
-	lights.push_back(l);
+	//lights.push_back(l);
 	//m_pMap->setCube(new Cube(CubeDesc(Color::Green().toDWORD()), l.origin, false, 0.5f), true, true);
 
 	l.color = Color(0.0f, 0.0f, 1.0f).toVec3();
 	l.origin = glm::vec3(20, 31, dim.depth - 2);
-	lights.push_back(l);
+	//lights.push_back(l);
 	//m_pMap->setCube(new Cube(CubeDesc(Color::Blue().toDWORD()), l.origin, false, 0.5f), true, true);
 
-	m_pLight->init(Color::Gray(0.001f), std::move(lights));
+	m_pLight->init(Color::Gray(0.01f), std::move(lights));
 #endif // _CLIENT
 
 	auto nodeArmLeft = std::unique_ptr <CharNode>(new CharNode(glm::vec3(1.0f, -2.0f, 0.0f)));
@@ -201,6 +203,6 @@ bool Game::keyDown(SDL_Scancode s)
 
 std::unique_ptr<Camera> Game::makeCamera()
 {
-	return std::unique_ptr<Camera>(new Camera({ 24.5f, 15.0f }, 30.0f, 30.0f, 5.0f, false));
+	return std::unique_ptr<Camera>(new Camera({ 24.5f, 15.0f }, 30.0f, 70.0f, 5.0f, false));
 }
 #endif // _CLIENT

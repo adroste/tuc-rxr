@@ -25,6 +25,7 @@ private:
 	void setCube(Point3S pos, std::unique_ptr<CubeBase> c);
 private:
 	std::vector<MapChunk> m_chunks;
-	Point3S m_dim;
+	Point3S m_dim; // complete map dim
+	PointS m_cdim; // dim in chunks
 	VolumeTextureMap m_volumeTextureMap;
 };
