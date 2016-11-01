@@ -93,11 +93,11 @@ Game::Game()
 	// add light sources
 	std::vector<LightSource> lights;
 	LightSource l;
-	/*l.type = LightType::Directional;
+	l.type = LightType::Directional;
 	l.color = (Color::White() * 0.1f).toVec3();
 	l.origin = glm::normalize(glm::vec3(0.0f, 1.0f, 0.0f));
 	lights.push_back(l);
-	*/
+	
 	l.type = LightType::PointLight;
 	l.color = Color(1.0f, 0.8f, 0.4f).toVec3();
 	l.origin = glm::vec3(8, 24, dim.depth / 2);

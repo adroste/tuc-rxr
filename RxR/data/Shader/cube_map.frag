@@ -15,8 +15,8 @@ void main()
 	vec3 normNormal = normalize(normal.xyz);
 	vec3 neighbourBlock = cubeMidpoint + normNormal;
 	
-	//if(isInMap(neighbourBlock) && getMapVolumeValue(neighbourBlock) >= 0.5)
-		//discard;
+	if(isInMap(neighbourBlock) && getMapVolumeValue(neighbourBlock) >= 0.5)
+		discard;
 	
 	vec3 color = renderMapBlock(mapPos, normNormal, diffColor, specColor.rgb, specColor.w);
 	
