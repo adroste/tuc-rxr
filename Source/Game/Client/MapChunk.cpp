@@ -85,3 +85,16 @@ void MapChunk::updateGpuArray()
 
 	m_iArray.setData(move(gpuArray));
 }
+
+void MapChunk::appendCubeDescs(std::vector<std::pair<CubeDesc, Point3S>>& d) const
+{
+	size_t idx = 0;
+	for(const auto& c : m_cubes)
+	{
+		if(c)
+		{
+			d.push_back(std::make_pair<CubeDesc, Point3S>(CubeDesc(c->getDesc()), m_dim.fromIndex(idx)));
+		}
+		idx++;
+	}
+}

@@ -117,5 +117,10 @@ Point3S Map::getDim() const
 
 std::vector<std::pair<CubeDesc, Point3S>> Map::getCubeInfos()
 {
-	return {};
+	std::vector<std::pair<CubeDesc, Point3S>> d;
+	for(const auto& c : m_chunks)
+	{
+		c.appendCubeDescs(d);
+	}
+	return d;
 }

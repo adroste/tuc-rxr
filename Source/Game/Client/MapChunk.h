@@ -18,6 +18,7 @@ public:
 	void draw(Drawing& draw, Mesh& cube);
 	void setCube(Point3S pos, std::unique_ptr<CubeBase> c);
 	void updateGpuArray();
+	void appendCubeDescs(std::vector<std::pair<CubeDesc, Point3S>>& d) const;
 private:
 	static const Point3S m_dim;
 	std::vector<std::unique_ptr<CubeBase>> m_cubes;

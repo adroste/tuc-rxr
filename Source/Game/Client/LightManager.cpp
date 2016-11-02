@@ -8,6 +8,7 @@ LightManager::LightManager(const Camera& cam)
 
 void LightManager::init(const Color & ambient, std::vector<LightSource> lights)
 {
+	LockGuard g(m_muLight);
 	m_ambient = ambient;
 	m_lights = std::move(lights);
 	m_isApplied = false;
@@ -17,6 +18,7 @@ void LightManager::apply(Drawing& draw)
 {
 	if(!m_isApplied)
 	{
+		LockGuard g(m_muLight);
 		draw.setLights(m_ambient, m_lights, m_cam.getEye());
 		m_isApplied = true;
 	}
