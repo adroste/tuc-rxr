@@ -25,8 +25,11 @@ CubeDesc getGrassDesc()
 void loadCaveScene(std::unique_ptr<Map>& m)
 {
 	// floor
-	m = std::unique_ptr<Map>(new Map(Point3S(256, 32, 32)));
+	m = std::unique_ptr<Map>(new Map(Point3S(64, 64, 32)));
 	Point3S d = m->getDim();
+	for (size_t i = 0; i < std::max(d.width, d.height); i++)
+		m->setCube({ i % d.width, i % d.height, 0 }, CubeDesc(Color::Blue().toDWORD()));
+
 	for(size_t x = 0; x < d.width; x++)
 	{
 		for(size_t z = 0; z < d.depth; z++)

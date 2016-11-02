@@ -65,7 +65,7 @@ void Map::draw(Drawing& draw)
 			draw.getTransform().popModel();
 			transform = glm::translate(transform,glm::vec3(float(MapChunk::SIZE), 0.0f, 0.0f));
 		}
-		transform = glm::translate(glm::vec3(0.0f, float(MapChunk::SIZE * y), 0.0f));
+		transform = glm::translate(glm::vec3(0.0f, float(MapChunk::SIZE * (y+1)), 0.0f));
 	}
 
 	shader.unbind();
