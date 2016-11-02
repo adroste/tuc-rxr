@@ -36,4 +36,5 @@ private:
 	 *	z:	0-15 gloss (int)
 	 *
 	 */
+	Mutex m_muCubes;
 };

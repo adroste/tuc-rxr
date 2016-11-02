@@ -28,4 +28,6 @@ private:
 	Point3S m_dim; // complete map dim
 	PointS m_cdim; // dim in chunks
 	VolumeTextureMap m_volumeTextureMap;
+
+	Mutex m_muMap;
 };

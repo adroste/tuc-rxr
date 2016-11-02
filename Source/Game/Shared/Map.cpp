@@ -41,6 +41,7 @@ void Map::destroyBlock(const Point3S& pos)
 
 void Map::draw(Drawing& draw)
 {
+	LockGuard g(m_muMap);
 	draw.setMapInfo(m_dim);
 	// enable volume map
 	if (!m_volumeTextureMap.isCreated())
@@ -67,7 +68,7 @@ void Map::draw(Drawing& draw)
 		}
 		transform = glm::translate(glm::vec3(0.0f, float(MapChunk::SIZE * (y+1)), 0.0f));
 	}
-
+	g.unlock();
 	shader.unbind();
 }
 
@@ -85,6 +86,7 @@ void Map::setDim(Point3S dim)
 	std::vector<MapChunk> newChunks;
 	newChunks.reserve(nx * ny);
 
+	LockGuard g(m_muMap);
 	for (size_t y = 0; y < ny; y++)
 	{
 		for (size_t x = 0; x < nx; x++)
@@ -106,6 +108,7 @@ void Map::setDim(Point3S dim)
 	m_chunks = move(newChunks);
 	m_volumeTextureMap.resize(dim);
 	m_dim = dim;
+	g.unlock();
 }
 
 Point3S Map::getDim() const

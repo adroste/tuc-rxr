@@ -33,6 +33,7 @@ void MapChunk::draw(Drawing& draw, Mesh& cube)
 void MapChunk::setCube(Point3S pos, std::unique_ptr<CubeBase> c)
 {
 	auto index = m_dim.calcIndex(pos);
+	LockGuard g(m_muCubes);
 	m_cubes[index] = move(c);
 	m_hasChanged = true;
 }
@@ -45,6 +46,7 @@ void MapChunk::updateGpuArray()
 	std::vector<glm::ivec3> gpuArray;
 	gpuArray.reserve(m_cubes.size());
 
+	LockGuard g(m_muCubes);
 	size_t idx = 0;
 	for (const auto& pCube : m_cubes)
 	{
