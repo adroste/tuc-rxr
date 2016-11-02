@@ -15,22 +15,14 @@ public:
 protected:
 	virtual std::string numToSting(CubeShader n) const override
 	{
-		switch (n)
-		{
-		case CubeShader::Default: return "default";
-		case CubeShader::Special: return "special";
-		default:
+		auto s = CubeShaderToString(n);
+		if (s.size() == 0)
 			return "invalid";
-		}
+		return s;
 	}
 
 	virtual CubeShader stringToNum(const std::string& s) const override
 	{
-		if (s == "default")
-			return CubeShader::Default;
-		if (s == "special")
-			return CubeShader::Special;
-
-		return CubeShader::Default;
+		return CubeShaderFromString(s);
 	}
 };

@@ -6,7 +6,8 @@
 enum class CubeShader
 {
 	Default,
-	Special,
+	Transparent,
+	Water,
 	Size
 };
 enum class BlockType
