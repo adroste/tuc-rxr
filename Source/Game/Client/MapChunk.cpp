@@ -62,6 +62,7 @@ void MapChunk::updateGpuArray()
 			*		8-31 specular rgb
 			*
 			*	z:	0-15 gloss (int)
+			*		16-23 shader type: 0 = default, 1 = transparent, 2 = water
 			*
 			*/
 			v.x = idx & 0xFFFF;
@@ -75,7 +76,9 @@ void MapChunk::updateGpuArray()
 			v.y |= (cd.spec & 0xFFFFFF) << 8;
 
 			uint32_t gint = uint32_t(cd.gloss);
-			v.z = gint;
+			v.z = gint & 0xFFFF;
+
+			v.z |= (size_t(cd.shader) & 0xFF) << 16;
 
 			gpuArray.push_back(v);
 		}

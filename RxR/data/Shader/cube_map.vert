@@ -12,6 +12,7 @@ out vec3 mapPos;
 //flat out vec3 cubeMidpoint;
 flat out vec3 diffColor;
 flat out vec4 specColor;
+flat out uint shaderType;
 
 void main()
 {
@@ -36,6 +37,8 @@ void main()
 	uint igloss = uint(in_iinfo.z);
 	
 	specColor = vec4(float(r) / 255.0, float(g) / 255.0, float(b) / 255.0, float(igloss));
+	
+	shaderType = (uint(in_iinfo.z) & uint(0xFF0000)) >> 16;
 	
 	normal = matModel * vec4(in_normal,0.0);
 	mapPos = (matModel * vec4(in_position * 0.5 + chOffset, 1.0)).xyz;

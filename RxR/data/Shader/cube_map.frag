@@ -9,6 +9,7 @@ in vec3 mapPos;
 //flat in vec3 cubeMidpoint;
 flat in vec3 diffColor;
 flat in vec4 specColor;
+flat in uint shaderType;
 
 void main()
 {
@@ -20,5 +21,12 @@ void main()
 	
 	vec3 color = renderMapBlock(mapPos, normNormal, diffColor, specColor.rgb, specColor.w);
 	
-	gl_FragColor = vec4(correctGamma(color),1.0);
+	if(shaderType == uint(0))
+	{
+		gl_FragColor = vec4(correctGamma(color),1.0);
+	}
+	else
+	{
+		gl_FragColor = vec4(correctGamma(color),0.2);
+	}
 }

@@ -40,6 +40,8 @@ void Map::destroyBlock(const Point3S& pos)
 
 void Map::draw(Drawing& draw)
 {
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	LockGuard g(m_muMap);
 	draw.setMapInfo(m_dim);
 	// enable volume map
@@ -69,6 +71,7 @@ void Map::draw(Drawing& draw)
 	}
 	g.unlock();
 	shader.unbind();
+	glDisable(GL_BLEND);
 }
 
 void Map::setDim(Point3S dim)

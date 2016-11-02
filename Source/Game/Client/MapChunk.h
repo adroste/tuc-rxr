@@ -35,6 +35,7 @@ private:
 	 *		8-31 specular rgb
 	 *	
 	 *	z:	0-15 gloss (int)
+	 *		16-23 shader type: 0 = default, 1 = transparent, 2 = water
 	 *
 	 */
 	Mutex m_muCubes;
