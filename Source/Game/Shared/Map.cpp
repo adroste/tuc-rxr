@@ -24,7 +24,6 @@ void Map::setCube(Point3S pos, const CubeDesc& cd)
 
 void Map::setCube(Point3S pos, std::unique_ptr<CubeBase> c)
 {
-	// TODO lock mutex
 	// find chunk
 	PointS chunk = PointS(pos.x, pos.y) / MapChunk::SIZE;
 	assert(chunk.y * m_cdim.x + chunk.x < m_chunks.size());

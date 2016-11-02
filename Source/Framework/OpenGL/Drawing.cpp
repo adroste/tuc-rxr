@@ -280,11 +280,6 @@ size_t Drawing::getThreadID()
 	return m_drawThreadID;
 }
 
-VolumeTextureMap& Drawing::getVolumeTextureMap()
-{
-	return get().m_volTexMap;
-}
-
 Camera& Drawing::getUiCam()
 {
 	return m_uiCam;
@@ -338,8 +333,6 @@ void Drawing::create()
 	m_texBtnBumpLeft.create();
 	m_texBtnBumpRight.create();
 	m_texBtnBumpMidDown.create();
-
-	m_volTexMap.create();
 }
 
 void Drawing::dispose()
@@ -364,8 +357,6 @@ void Drawing::dispose()
 	m_texBtnBumpLeft.dispose();
 	m_texBtnBumpRight.dispose();
 	m_texBtnBumpMidDown.dispose();
-
-	m_volTexMap.dispose();
 }
 
 void Drawing::init(FT_Library ftlib)
