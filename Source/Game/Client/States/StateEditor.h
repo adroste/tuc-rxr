@@ -30,8 +30,6 @@ public:
 		m_dlgMapSetup(UIDialog::Buttons::OKCancel, false, *this),
 		m_wndBucks(false)
 	{
-		this->addWindow(m_wndBucks.getRef(), Anchor::Left);
-
 		// TODO fix z index thing
 		m_menu->setZIndex(100);
 
@@ -58,6 +56,9 @@ public:
 			               //m_pDlgBuckImport->center();
 
 			               m_pDlgBuckImport->show();
+
+						   addWindow(m_pDlgBuckImport.getRef());
+
 			               m_pDlgBuckImport->setOnResultCallback([this](UIDialog*)
 				               {
 					               handleBucketImport();
@@ -73,15 +74,15 @@ public:
 		{
 			//sortReceivers(); // TODO maybe add broadcaster reference to uilist? for better focus setting
 			//m_dlgLights.center();
-			m_dlgLights.show();
+			m_dlgLights->show();
 		});
 		m_menu->addItem("Map","Material",[this](const std::string&)
 		{
-			m_wndMaterial.show();
+			m_wndMaterial->show();
 		});
 		m_menu->addItem("Map", "Dimension", [this](const std::string&)
 		               {
-			               m_dlgMapSetup.show();
+			               m_dlgMapSetup->show();
 		               });
 		m_menu->addItem("Map", "Buckets", [this](const std::string&)
 		               {
@@ -95,16 +96,16 @@ public:
 		m_btnBack->setZIndex(1);
 
 		// material list
-		m_wndMaterial->orderItems();
-		m_wndMaterial->adjustToItems();
-		m_wndMaterial.setZIndex(2);
-		m_wndMaterial.adjustToContainer();
+		(*m_wndMaterial)->orderItems();
+		(*m_wndMaterial)->adjustToItems();
+		m_wndMaterial->setZIndex(2);
+		m_wndMaterial->adjustToContainer();
 		//m_wndMaterial.setOrigin({800,100});
 
 		m_wndBucks->setZIndex(3);
 		//m_wndBucks.setOrigin({10,50});
 
-		m_dlgMapSetup.adjustToContainer();
+		m_dlgMapSetup->adjustToContainer();
 		//m_dlgMapSetup.center();
 
 		//m_uiList.registerAll(this);
@@ -130,20 +131,24 @@ public:
 				}
 			});
 
-		m_dlgMapSetup.setOnResultCallback([this](UIDialog* dlg)
+		m_dlgMapSetup->setOnResultCallback([this](UIDialog* dlg)
 			{
 				if (dlg->getResult() == UIDialog::Result::OK)
 				{
-					m_editor.setMapdim(m_dlgMapSetup->getMapdim());
+					m_editor.setMapdim((*m_dlgMapSetup)->getMapdim());
 				}
 			});
-		m_wndMaterial->setOnToBucketCallback([this](CubeDesc c)
+		(*m_wndMaterial)->setOnToBucketCallback([this](CubeDesc c)
 			{
 				m_wndBucks->addToBucket(c);
 			});
 
 		addWindow(m_btnBack.getRef(), Anchor::Bottom | Anchor::Left);
 		addWindow(m_menu.getRef(), Anchor::Top);	
+		addWindow(m_wndBucks.getRef(), Anchor::Left);
+		addWindow(m_wndMaterial.getRef(), Anchor::Right);
+		addWindow(m_dlgLights.getRef(), 0, PointF(0.0f), true);
+		addWindow(m_dlgMapSetup.getRef(), 0, PointF(0.0f), true);
 	}
 
 	virtual ~StateEditor() override
@@ -275,11 +280,11 @@ private:
 	GameEditor m_editor;
 
 	refable<UIButtonText> m_btnBack;
-	UIDialogLights m_dlgLights;
+	refable<UIDialogLights> m_dlgLights;
 	refable<UIMenuBar> m_menu;
 	// material list
-	UIWindowContainerHolder<UIContainerMaterial> m_wndMaterial;
-	UIDialogContainerHolder<UIContainerMapSetup> m_dlgMapSetup;
+	refable<UIWindowContainerHolder<UIContainerMaterial>> m_wndMaterial;
+	refable<UIDialogContainerHolder<UIContainerMapSetup>> m_dlgMapSetup;
 	owner_ptr<BucketImport> m_pDlgBuckImport;
 	refable<UIWindowBuckets> m_wndBucks;
 };
