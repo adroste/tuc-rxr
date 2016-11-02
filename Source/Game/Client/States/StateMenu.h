@@ -19,7 +19,7 @@ public:
 		m_btnSingle(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::M), "Can't Touch This"),
 		m_btnEdit(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::M), "Editor"),
 		m_btnDev(UIButton::Style::Royal, Drawing::getFont(Font::Style::Headline, Font::Size::S), "Dev"),
-		m_tbUiSize(0.0f, 0.25f)
+		m_tbUiSize(0.0f, 0.5f)
 	{
 		m_btnSingle->adjustToFontHeadline();
 		m_btnEdit->adjustToFontHeadline();

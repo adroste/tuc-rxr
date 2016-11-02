@@ -29,8 +29,11 @@ public:
 		draw.getUiCam().apply(draw);
 		Font& f = draw.getFont(Font::Style::Text, Font::Size::M);
 
+		static float maxt = 0.0f;
+		maxt = std::max(maxt, t.getTimeMilli());
 		f.setColor(Color::White());
 		f.write(draw, "draw time: " + std::to_string(t.getTimeMilli()), { 10,10 });
+		f.write(draw, "draw max: " + std::to_string(maxt), { 10,50 });
 	}
 
 	// Input handling
