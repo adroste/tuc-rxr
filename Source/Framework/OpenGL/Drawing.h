@@ -64,6 +64,7 @@ public:
 	// shader
 	ShaderCubeMap& getShaderCubeMap();
 	ShaderCube& getShaderCubeDefault();
+	MeshCube& getCubeMesh();
 
 	// static
 	static Font& getFont(Font::Style style, Font::Size size);
@@ -92,8 +93,6 @@ private:
 	UniformBlockMapInfo m_mapInfo;
 	UniformBlockFramework m_blockFramework;
 
-	VolumeTextureMap m_volumeTextureMap;
-
 	// fonts
 	Font m_fontHeadS;
 	Font m_fontHeadM;
@@ -112,7 +111,6 @@ private:
 	Texture m_texBtnBumpRightDown;
 	Texture m_texBtnBumpMidDown;
 
-	VolumeTextureMap m_volTexMap;
 	// init speedup
 	const std::vector<Shader*> m_shaders;
 };

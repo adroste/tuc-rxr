@@ -6,17 +6,19 @@
 
 in vec4 normal;
 in vec3 mapPos;
-flat in vec3 cubeMidpoint;
+//flat in vec3 cubeMidpoint;
+flat in vec3 diffColor;
+flat in vec4 specColor;
 
 void main()
 {
 	vec3 normNormal = normalize(normal.xyz);
-	vec3 neighbourBlock = cubeMidpoint + normNormal;
+	//vec3 neighbourBlock = cubeMidpoint + normNormal;
 	
-	if(isInMap(neighbourBlock) && getMapVolumeValue(neighbourBlock) >= 0.5)
-		discard;
+	//if(isInMap(neighbourBlock) && getMapVolumeValue(neighbourBlock) >= 0.5)
+		//discard;
 	
-	vec3 color = renderMapBlock(mapPos, normNormal, MaterialDiffuse, MaterialSpecular.rgb, MaterialSpecular.w);
+	vec3 color = renderMapBlock(mapPos, normNormal, diffColor, specColor.rgb, specColor.w);
 	
 	gl_FragColor = vec4(correctGamma(color),1.0);
 }

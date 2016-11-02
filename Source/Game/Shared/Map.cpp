@@ -2,134 +2,113 @@
 #include <assert.h>
 #include "../../System/Exceptions/Exception.h"
 
-#ifdef _CLIENT
-#define CLIENTLOCK LockGuard g(m_muMap)
-#else
-#define CLIENTLOCK
-#endif
-
 Map::Map(Point3S dim)
 	:
-	m_dim(dim)
-#ifdef _CLIENT
-	,m_volMap(Drawing::getVolumeTextureMap())
-#endif
+	m_dim(Point3S(0, 0, 0))
 {
-	m_ppCubes = new Cube * [m_dim.size()];
-	memset(m_ppCubes, 0, sizeof(Cube*) * m_dim.size());
-
-#ifdef _CLIENT
-	m_volMap.init(dim);
-#endif
+	setDim(dim);
 }
 
 Map::~Map()
 {
-	if (!m_ppCubes) return;
-
-	for (size_t i = 0; i < m_dim.size(); ++i)
-	{
-		if(m_ppCubes[i])
-		{
-			delete m_ppCubes[i];
-			m_ppCubes[i] = nullptr;
-		}
-	}
-	delete[] m_ppCubes;
-	m_ppCubes = nullptr;
 }
 
-void Map::setCube(Cube* cube, bool isLight, bool overwrite)
+void Map::setCube(Point3S pos, const CubeDesc& cd)
 {
-	CLIENTLOCK;
+	// construct cube
+	// at the moment just default cubes
+	auto pCube = std::unique_ptr<CubeBase>(new CubeBase(cd));
+	m_volumeTextureMap.setValue(pos, pCube->getShadow());
+	setCube(pos, move(pCube));
+}
 
-	size_t idx = getIndex(Point3S(cube->getPos()));
-	if(overwrite && m_ppCubes[idx])
-	{
-		delete m_ppCubes[idx];
-		m_ppCubes[idx] = nullptr;
-	}
-	assert(m_ppCubes[idx] == nullptr);
-	if (m_ppCubes[idx])
-		throw Exception("Map::setCube array position not empty");
-	m_ppCubes[idx] = cube;
-
-#ifdef _CLIENT
-	m_volMap.setValue(Point3S(cube->getPos()),isLight? 0.0f : 1.0f);
-#endif
+void Map::setCube(Point3S pos, std::unique_ptr<CubeBase> c)
+{
+	// find chunk
+	PointS chunk = PointS(pos.x, pos.y) / MapChunk::SIZE;
+	assert(chunk.y * m_cdim.x + chunk.x < m_chunks.size());
+	pos.x -= chunk.x * MapChunk::SIZE;
+	pos.y -= chunk.y * MapChunk::SIZE;
+	m_chunks[chunk.y * m_cdim.x + chunk.x].setCube(pos, move(c));
 }
 
 void Map::destroyBlock(const Point3S& pos)
 {
-	CLIENTLOCK;
-
-	size_t idx = getIndex(pos);
-	if(m_ppCubes[idx])
-	{
-		delete m_ppCubes[idx];
-		m_ppCubes[idx] = nullptr;
-#ifdef _CLIENT
-		m_volMap.setValue(pos, 0.0f);
-#endif
-	}
+	setCube(pos, nullptr);
+	m_volumeTextureMap.setValue(pos, 0.0f);
 }
-#ifdef _CLIENT
+
 void Map::draw(Drawing& draw)
 {
-	CLIENTLOCK;
+	LockGuard g(m_muMap);
+	draw.setMapInfo(m_dim);
+	// enable volume map
+	if (!m_volumeTextureMap.isCreated())
+		m_volumeTextureMap.create();
 
-	if(!m_texCreated)
-	{
-		// TODO resolve this
-		draw.setMapInfo(m_dim);
-		m_texCreated = true;
-	}
-	m_volMap.bind(0);
+	auto& shader = draw.getShaderCubeMap();
 
-	for (Cube** i = m_ppCubes, **end = m_ppCubes + m_dim.size(); i != end; ++i)
+	auto& meshCube = draw.getCubeMesh();
+
+	shader.bind();
+	m_volumeTextureMap.bind(0);
+
+	glm::mat4 transform;
+	// TODO optimize draw range
+	for(size_t y = 0; y < m_cdim.y; y++)
 	{
-		if (*i)
+		for(size_t x = 0; x < m_cdim.x; x++)
 		{
-			(*i)->draw(draw);
+			draw.getTransform().pushModel(transform);
+			draw.getTransform().flush();
+			m_chunks[y * m_cdim.x + x].draw(draw, meshCube);
+			draw.getTransform().popModel();
+			transform = glm::translate(transform,glm::vec3(float(MapChunk::SIZE), 0.0f, 0.0f));
 		}
+		transform = glm::translate(glm::vec3(0.0f, float(MapChunk::SIZE * (y+1)), 0.0f));
 	}
+	g.unlock();
+	shader.unbind();
 }
 
 void Map::setDim(Point3S dim)
 {
-	if (dim == m_dim)
+	assert(dim.z == MapChunk::SIZE);
+	// TODO lock mutex
+	// allocate / deallocate chunks
+	size_t nx = (dim.x + MapChunk::SIZE - 1) / MapChunk::SIZE;
+	size_t ny = (dim.y + MapChunk::SIZE - 1) / MapChunk::SIZE;
+
+	if (nx == m_cdim.x && ny == m_cdim.y)
 		return;
 
-	CLIENTLOCK;
-	
-	Cube** newCubes = new Cube*[dim.size()];
-	memset(newCubes, 0, dim.size() * sizeof(Cube*));
+	std::vector<MapChunk> newChunks;
+	newChunks.reserve(nx * ny);
 
-	// move prev cubes
-	for(size_t x = 0; x < std::min(dim.x,m_dim.x); x++)
-		for (size_t y = 0; y < std::min(dim.y, m_dim.y); y++)
-			for (size_t z = 0; z < std::min(dim.z, m_dim.z); z++)
-			{
-				auto idx = getIndex({ x,y,z });
-				newCubes[dim.width * (y + z * dim.height) + x] = m_ppCubes[idx];
-				m_ppCubes[idx] = nullptr;
-			}
-
-	// remove unused cubes if map is smaller
-	for(size_t i = 0; i < m_dim.size(); i++)
+	LockGuard g(m_muMap);
+	for (size_t y = 0; y < ny; y++)
 	{
-		delete m_ppCubes[i];
-		m_ppCubes[i] = nullptr;
+		for (size_t x = 0; x < nx; x++)
+		{
+			if(x < m_cdim.x && y < m_cdim.y)
+			{
+				// use old chunk
+				newChunks.push_back(std::move(m_chunks.at(y * m_cdim.x + x)));
+			}
+			else newChunks.emplace_back();
+		}
 	}
 
-	delete[] m_ppCubes;
-	m_ppCubes = newCubes;
+	m_cdim.x = nx;
+	m_cdim.y = ny;
+	dim.x = nx * MapChunk::SIZE;
+	dim.y = ny * MapChunk::SIZE;
+	dim.z = MapChunk::SIZE;
+	m_chunks = move(newChunks);
+	m_volumeTextureMap.resize(dim);
 	m_dim = dim;
-
-	m_volMap.resize(m_dim);
-	m_texCreated = false;
+	g.unlock();
 }
-#endif // _CLIENT
 
 Point3S Map::getDim() const
 {
@@ -138,21 +117,10 @@ Point3S Map::getDim() const
 
 std::vector<std::pair<CubeDesc, Point3S>> Map::getCubeInfos()
 {
-	std::vector<std::pair<CubeDesc, Point3S>> c;
-	for (Cube** i = m_ppCubes, **end = m_ppCubes + m_dim.size(); i != end; ++i)
+	std::vector<std::pair<CubeDesc, Point3S>> d;
+	for(const auto& c : m_chunks)
 	{
-		if (*i)
-		{
-			c.push_back(std::make_pair((*i)->getDesc(),Point3S((*i)->getPos())));
-		}
+		c.appendCubeDescs(d);
 	}
-	return c;
-}
-
-size_t Map::getIndex(Point3S pos) const
-{
-	assert(pos.x < m_dim.x);
-	assert(pos.y < m_dim.y);
-	assert(pos.z < m_dim.z);
-	return m_dim.width * (pos.y + pos.z * m_dim.height) + pos.x;
+	return d;
 }

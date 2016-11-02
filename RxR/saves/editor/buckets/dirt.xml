@@ -1,0 +1,13 @@
+<cube diffuse="0xff2f0900" specular="0xff000000" gloss="100.000000" shader="default" blockType="solid" gravity="false" HP="20"/>
+
+<cube diffuse="0xff400f01" specular="0xff000000" gloss="100.000000" shader="default" blockType="solid" gravity="false" HP="20"/>
+
+<cube diffuse="0xff4c0e00" specular="0xff000000" gloss="100.000000" shader="default" blockType="solid" gravity="false" HP="20"/>
+
+<cube diffuse="0xff391204" specular="0xff000000" gloss="100.000000" shader="default" blockType="solid" gravity="false" HP="20"/>
+
+<cube diffuse="0xff350d01" specular="0xff000000" gloss="100.000000" shader="default" blockType="solid" gravity="false" HP="20"/>
+
+<cube diffuse="0xff1b1612" specular="0xff000000" gloss="100.000000" shader="default" blockType="solid" gravity="false" HP="30"/>
+
+<cube diffuse="0xff2a1c14" specular="0xff000000" gloss="100.000000" shader="default" blockType="solid" gravity="false" HP="30"/>

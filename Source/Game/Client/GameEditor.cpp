@@ -173,7 +173,7 @@ bool GameEditor::mouseUp(const PointF& mpos, Input::Mouse button)
 				{
 					forAllInBox(m_downPos, m_blockPos, [this](Point3S p)
 					{
-						m_pMap->setCube(new Cube(getNextBlock(), p.toGlmVec3(), true), false, true);
+						m_pMap->setCube(p, getNextBlock());
 					});
 				}
 			}
@@ -273,7 +273,7 @@ void GameEditor::setMapdim(const Point3S& d)
 void GameEditor::reset()
 {
 	LockGuard g(m_muMap);
-	m_pMap = std::unique_ptr<Map>(new Map({ 10,8,4 }));
+	m_pMap = std::unique_ptr<Map>(new Map({ 32,32,32 }));
 	m_pCam = Game::makeCamera();
 
 	m_pLight = std::unique_ptr<LightManager>(new LightManager(*m_pCam));
@@ -320,7 +320,7 @@ void GameEditor::loadCubes(const std::vector<std::pair<CubeDesc, Point3S>>& c)
 {
 	for(const auto& o : c)
 	{
-		m_pMap->setCube(new Cube(o.first, o.second.toGlmVec3(), true),false,true);
+		m_pMap->setCube(o.second, o.first);
 	}
 }
 

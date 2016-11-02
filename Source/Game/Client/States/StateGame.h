@@ -1,6 +1,7 @@
 #pragma once
 #include "../../../Framework/GameState.h"
 #include "../../Shared/Game.h"
+#include "../../../Utility/Timer.h"
 
 class StateGame : public GameState
 {
@@ -20,13 +21,16 @@ public:
 
 	virtual void composeFrame(Drawing& draw, float dt) override
 	{
+		Timer t;
+		t.startWatch();
 		m_game.draw(draw);
+		t.stopWatch();
 
 		draw.getUiCam().apply(draw);
 		Font& f = draw.getFont(Font::Style::Text, Font::Size::M);
 
 		f.setColor(Color::White());
-		f.write(draw, "hello", { 10,10 });
+		f.write(draw, "draw time: " + std::to_string(t.getTimeMilli()), { 10,10 });
 	}
 
 	// Input handling

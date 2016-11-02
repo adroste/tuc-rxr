@@ -223,6 +223,15 @@
     <ClCompile Include="..\Source\Framework\UI\UIObject.cpp">
       <Filter>Source\Framework\UI</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Game\Client\MapChunk.cpp">
+      <Filter>Source\Game\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Framework\OpenGL\Shader\InstancingArray.cpp">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Game\Shared\CubeBase.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\Shader.h">
@@ -611,6 +620,18 @@
     </ClInclude>
     <ClInclude Include="..\Source\Utility\owner_ptr.h">
       <Filter>Source\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Game\Client\MapChunk.h">
+      <Filter>Source\Game\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Game\Shared\CubeBase.h">
+      <Filter>Source\Game\Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Utility\move_util.h">
+      <Filter>Source\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\InstancingArray.h">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -18,4 +18,5 @@ private:
 	std::vector<LightSource> m_lights;
 	Color m_ambient;
 	bool m_isApplied = false;
+	Mutex m_muLight;
 };

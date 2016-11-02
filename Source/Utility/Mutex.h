@@ -20,7 +20,16 @@ public:
 	}
 	Mutex(const Mutex&) = delete;
 	Mutex& operator=(const Mutex&) = delete;	
-
+	Mutex(Mutex&& m)
+		: Mutex()
+	{
+		swap(m);
+	}
+	Mutex& operator=(Mutex&& o) noexcept
+	{
+		swap(o);
+		return *this;
+	}
 private:
 	void lock() const
 	{
@@ -32,7 +41,10 @@ private:
 		if (SDL_UnlockMutex(m_pMutex) != 0)
 			throw SDL_Exception("Mutex::unlock failed");
 	}
-
+	void swap(Mutex& o) noexcept
+	{
+		std::swap(m_pMutex, o.m_pMutex);
+	}
 private:
 	SDL_mutex* m_pMutex;
 };

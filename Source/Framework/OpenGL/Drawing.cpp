@@ -280,11 +280,6 @@ size_t Drawing::getThreadID()
 	return m_drawThreadID;
 }
 
-VolumeTextureMap& Drawing::getVolumeTextureMap()
-{
-	return get().m_volTexMap;
-}
-
 Camera& Drawing::getUiCam()
 {
 	return m_uiCam;
@@ -298,6 +293,11 @@ ShaderCubeMap& Drawing::getShaderCubeMap()
 ShaderCube& Drawing::getShaderCubeDefault()
 {
 	return m_shCube;
+}
+
+MeshCube& Drawing::getCubeMesh()
+{
+	return m_meshCube;
 }
 
 Drawing& Drawing::get()
@@ -333,8 +333,6 @@ void Drawing::create()
 	m_texBtnBumpLeft.create();
 	m_texBtnBumpRight.create();
 	m_texBtnBumpMidDown.create();
-
-	m_volTexMap.create();
 }
 
 void Drawing::dispose()
@@ -359,12 +357,14 @@ void Drawing::dispose()
 	m_texBtnBumpLeft.dispose();
 	m_texBtnBumpRight.dispose();
 	m_texBtnBumpMidDown.dispose();
-
-	m_volTexMap.dispose();
 }
 
 void Drawing::init(FT_Library ftlib)
 {
+	GLint bs = 0;
+	glGetIntegerv(GL_MAX_UNIFORM_BLOCK_SIZE, &bs);
+
+
 	for(auto& s : m_shaders)
 	{
 		auto l = dynamic_cast<Shader::ILoadable*>(s);

@@ -28,6 +28,9 @@ void Mesh::draw()
 	glBindVertexArray(0);
 }
 
+
+
+
 void Mesh::create()
 {
 	glGenVertexArrays(1, &m_vertexArrayObject);
