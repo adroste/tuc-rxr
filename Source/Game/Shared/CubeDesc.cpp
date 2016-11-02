@@ -1,9 +1,10 @@
 #include "CubeDesc.h"
 #include <map>
 
-ENUM_CONVERT(CubeShader,CubeShader::Size, 
+ENUM_CONVERT(CubeShader,CubeShader::Default, 
 { CubeShader::Default,"default" },
-{ CubeShader::Special,"special" }
+{ CubeShader::Transparent,"transparent" },
+{ CubeShader::Water,"water" }
 )
 
 ENUM_CONVERT(BlockType, BlockType::Solid,
