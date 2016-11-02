@@ -142,11 +142,12 @@ public:
 			{
 				m_wndBucks->addToBucket(c);
 			});
-
+		
 		addWindow(m_btnBack.getRef(), Anchor::Bottom | Anchor::Left);
 		addWindow(m_menu.getRef(), Anchor::Top);	
 		addWindow(m_wndBucks.getRef(), Anchor::Left);
 		addWindow(m_wndMaterial.getRef(), Anchor::Right);
+		(*m_wndMaterial)->quickFickAddColorPickerDialogToWindowManager(*this);
 		addWindow(m_dlgLights.getRef(), 0, PointF(0.0f), true);
 		addWindow(m_dlgMapSetup.getRef(), 0, PointF(0.0f), true);
 	}

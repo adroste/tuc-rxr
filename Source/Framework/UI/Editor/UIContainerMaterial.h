@@ -64,24 +64,24 @@ public:
 		setWallPadding(5.0f);
 		adjustToItems();
 
-		m_colorPicker.setZIndex(1);
+		m_colorPicker->setZIndex(1);
 		//m_colorPicker.registerMe(this);
 
 		m_btnDiffuse->setOnClickCallback([this](IClickable*)
 		{
-			m_colorPicker.show(m_btnDiffuse->getValue());
-			m_colorPicker.setOnResultCallback([this](UIDialog*)
+			m_colorPicker->show(m_btnDiffuse->getValue());
+			m_colorPicker->setOnResultCallback([this](UIDialog*)
 			{
-				m_btnDiffuse->setValue(m_colorPicker.getValue());
+				m_btnDiffuse->setValue(m_colorPicker->getValue());
 				this->updateColor();
 			});
 		});
 		m_btnSpecular->setOnClickCallback([this](IClickable*)
 		{
-			m_colorPicker.show(m_btnSpecular->getValue());
-			m_colorPicker.setOnResultCallback([this](UIDialog*)
+			m_colorPicker->show(m_btnSpecular->getValue());
+			m_colorPicker->setOnResultCallback([this](UIDialog*)
 			{
-				m_btnSpecular->setValue(m_colorPicker.getValue());
+				m_btnSpecular->setValue(m_colorPicker->getValue());
 				this->updateColor();
 			});
 		});
@@ -118,6 +118,11 @@ public:
 		m_colorPicker.draw(draw);
 		popDrawTransforms(draw);
 	}*/
+	void quickFickAddColorPickerDialogToWindowManager(WindowManager& wm)
+	{
+		wm.addWindow(m_colorPicker.getRef(), 0, PointF(0.0f), true);
+	}
+
 	CubeDesc getCubeDesc() const
 	{
 		CubeDesc d;
@@ -163,6 +168,6 @@ private:
 
 	refable<UICheckBox> m_boxGravity;
 
-	UIDialogColorPicker m_colorPicker;
+	refable<UIDialogColorPicker> m_colorPicker;
 	refable<UIButtonText> m_btnAddBucket;
 };
