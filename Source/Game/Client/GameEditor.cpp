@@ -273,7 +273,7 @@ void GameEditor::setMapdim(const Point3S& d)
 void GameEditor::reset()
 {
 	LockGuard g(m_muMap);
-	m_pMap = std::unique_ptr<Map>(new Map({ 32,32,32 }));
+	m_pMap = std::unique_ptr<Map>(new Map({ MapChunk::SIZE, MapChunk::SIZE, MapChunk::SIZE }));
 	m_pCam = Game::makeCamera();
 
 	m_pLight = std::unique_ptr<LightManager>(new LightManager(*m_pCam));

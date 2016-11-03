@@ -5,7 +5,7 @@
 layout(location = 0) in vec3 in_position;
 layout(location = 1) in vec3 in_normal;
 layout(location = 2) in ivec3 in_iinfo;
-#define CHUNK_SIZE 32
+#define CHUNK_SIZE 16
 
 out vec4 normal;
 out vec3 mapPos;
