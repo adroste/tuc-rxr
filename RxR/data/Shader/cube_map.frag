@@ -23,10 +23,13 @@ void main()
 	
 	if(shaderType == uint(0))
 	{
-		gl_FragColor = vec4(correctGamma(color),1.0);
+		gl_FragColor = vec4(correctGamma(color),0.0);
+		gl_FragDepth = gl_FragCoord.z;
 	}
 	else
 	{
-		gl_FragColor = vec4(correctGamma(color),0.2);
+		gl_FragDepth = 0.99;
+		
+		gl_FragColor = vec4(correctGamma(color) * 0.8, 0.2);
 	}
 }

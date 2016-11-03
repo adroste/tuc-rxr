@@ -41,7 +41,7 @@ void Map::destroyBlock(const Point3S& pos)
 void Map::draw(Drawing& draw)
 {
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glBlendFuncSeparate(GL_DST_ALPHA, GL_ONE, GL_DST_ALPHA, GL_ZERO);
 	LockGuard g(m_muMap);
 	draw.setMapInfo(m_dim);
 	// enable volume map
@@ -54,7 +54,7 @@ void Map::draw(Drawing& draw)
 
 	shader.bind();
 	m_volumeTextureMap.bind(0);
-
+	//glTexSubImage3D()
 	glm::mat4 transform;
 	// TODO optimize draw range
 	for(size_t y = 0; y < m_cdim.y; y++)
