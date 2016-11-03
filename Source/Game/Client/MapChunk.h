@@ -20,6 +20,10 @@ public:
 	void updateGpuArray();
 	void appendCubeDescs(std::vector<std::pair<CubeDesc, Point3S>>& d) const;
 private:
+	std::unique_ptr<CubeBase>& getCube(const Point3S& p);
+	void updateNeighborFlags(const Point3S& pos, bool isOpaque, bool isBlock);
+	bool isOpaque(const Point3S& p) const;
+private:
 	static const Point3S m_dim;
 	std::vector<std::unique_ptr<CubeBase>> m_cubes;
 

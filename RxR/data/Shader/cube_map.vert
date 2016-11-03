@@ -9,10 +9,12 @@ layout(location = 2) in ivec3 in_iinfo;
 
 out vec4 normal;
 out vec3 mapPos;
-//flat out vec3 cubeMidpoint;
 flat out vec3 diffColor;
 flat out vec4 specColor;
 flat out uint shaderType;
+flat out uint plsDiscard;
+flat out uint cubeSide;
+flat out uint cubeNeighbors;
 
 void main()
 {
@@ -22,7 +24,7 @@ void main()
 	chPos.y = (chIndex % (uint(CHUNK_SIZE) * uint(CHUNK_SIZE))) / uint(CHUNK_SIZE);
 	chPos.x = (chIndex % (uint(CHUNK_SIZE) * uint(CHUNK_SIZE))) % uint(CHUNK_SIZE);
 	
-	vec3 chOffset = vec3(chPos);//vec3(float(in_iinfo.x), float(in_iinfo.y), float(in_iinfo.z));
+	vec3 chOffset = vec3(chPos);
 	
 	// extract color
 	uint r = (uint(in_iinfo.x) & uint(0xFF000000)) >> 24;
@@ -39,9 +41,34 @@ void main()
 	specColor = vec4(float(r) / 255.0, float(g) / 255.0, float(b) / 255.0, float(igloss));
 	
 	shaderType = (uint(in_iinfo.z) & uint(0xFF0000)) >> 16;
+	uint neighbors  = (uint(in_iinfo.z) & uint(0xFC000000)) >> 26;
+	cubeNeighbors = neighbors;
+	uint side = uint(0);
+	if(in_normal.x != 0.0)
+	{
+		if(in_normal.x > 0.0) // right
+			side = uint(2);
+		else
+			side = uint(1);
+	}
+	else if(in_normal.y != 0.0)
+	{
+		if(in_normal.y > 0.0) // top
+			side = uint(4);
+		else
+			side = uint(8);
+	}
+	else // z != 0
+	{
+		if(in_normal.z > 0.0) // front
+			side = uint(16);
+		else
+			side = uint(32);
+	}
+	cubeSide = side;
+	plsDiscard = neighbors & cubeSide;
 	
 	normal = matModel * vec4(in_normal,0.0);
 	mapPos = (matModel * vec4(in_position * 0.5 + chOffset, 1.0)).xyz;
-	//cubeMidpoint = (matModel * vec4(chOffset, 1.0)).xyz;
 	gl_Position = matProjection * matCamera * matModel * vec4(in_position * 0.5 + chOffset, 1.0);
 }

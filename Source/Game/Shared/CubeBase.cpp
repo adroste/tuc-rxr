@@ -13,3 +13,8 @@ const CubeDesc& CubeBase::getDesc() const
 {
 	return m_cd;
 }
+
+bool CubeBase::isOpaque() const
+{
+	return m_cd.shader == CubeShader::Default;
+}

@@ -6,18 +6,19 @@
 
 in vec4 normal;
 in vec3 mapPos;
-//flat in vec3 cubeMidpoint;
 flat in vec3 diffColor;
 flat in vec4 specColor;
 flat in uint shaderType;
+flat in uint plsDiscard;
+flat in uint cubeSide;
+flat in uint cubeNeighbors;
 
 void main()
 {
+	if(plsDiscard != uint(0))
+		discard;
+
 	vec3 normNormal = normalize(normal.xyz);
-	//vec3 neighbourBlock = cubeMidpoint + normNormal;
-	
-	//if(isInMap(neighbourBlock) && getMapVolumeValue(neighbourBlock) >= 0.5)
-		//discard;
 	
 	vec3 color = renderMapBlock(mapPos, normNormal, diffColor, specColor.rgb, specColor.w);
 	
@@ -28,8 +29,15 @@ void main()
 	}
 	else
 	{
-		gl_FragDepth = 0.99;
+		float depth = 0.99;
+		if((cubeNeighbors & uint(1)) != uint(0))
+		{
+			// has left neighbor
+			
+		}
 		
+		
+		gl_FragDepth = depth;
 		gl_FragColor = vec4(correctGamma(color) * 0.8, 0.2);
 	}
 }
