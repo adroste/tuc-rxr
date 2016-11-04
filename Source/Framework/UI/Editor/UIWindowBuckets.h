@@ -2,7 +2,7 @@
 #include "../UIWindow.h"
 #include "../UIContainerLister.h"
 #include "UIContainerBucket.h"
-#include "../../../Game/Client/BucketLoader.h"
+#include "../../../Game/Shared/MaterialLoader.h"
 #include "../UIDialogInput.h"
 
 class UIWindowBuckets : public UIWindow
@@ -127,7 +127,7 @@ public:
 							{
 								if (m_dlgInput.getResult() == UIDialog::Result::OK)
 								{
-									BucketLoader::saveBucket("saves/editor/buckets/" + m_dlgInput.getInput() + ".xml", cubevec);
+									MaterialLoader::save("saves/editor/buckets/" + m_dlgInput.getInput() + ".cd", cubevec);
 								}
 							});
 						}

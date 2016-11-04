@@ -262,11 +262,11 @@ public:
 			for (const auto& n : (*m_pDlgBuckImport)->getSelectedNames())
 			{
 				// load buckets
-				BucketLoader l("saves/editor/buckets/" + n);
+				MaterialLoader l("saves/editor/buckets/" + n);
 				if (l.isOpen())
 				{
 					m_wndBucks->addBucket();
-					for (const auto& c : l.getCubes())
+					for (const auto& c : l.getDesc())
 					{
 						m_wndBucks->addToBucket(c);
 					}

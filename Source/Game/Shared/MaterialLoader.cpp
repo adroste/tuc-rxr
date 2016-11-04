@@ -100,6 +100,23 @@ void MaterialLoader::save(const std::string& filename, const std::vector<std::pa
 	pFile = nullptr;
 }
 
+void MaterialLoader::save(const std::string& filename, const std::vector<CubeDesc>& descs)
+{
+	FILE* pFile = fopen(filename.c_str(), "wb");
+	if (!pFile)
+		return;
+
+	tinyxml2::XMLPrinter px(pFile);
+
+	for (const auto& e : descs)
+	{
+		writeCubeDesc(px, e, 0);
+	}
+
+	fclose(pFile);
+	pFile = nullptr;
+}
+
 std::map<size_t, CubeDesc> MaterialLoader::getMappedDesc() const
 {
 	// multimap to map

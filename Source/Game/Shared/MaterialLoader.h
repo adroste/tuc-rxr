@@ -11,6 +11,7 @@ public:
 	MaterialLoader(const std::string& filename);
 	bool isOpen() const;
 	static void save(const std::string& filename, const std::vector<std::pair<size_t, CubeDesc>>& descs);
+	static void save(const std::string& filename, const std::vector<CubeDesc>& descs);
 	std::map<size_t, CubeDesc> getMappedDesc() const;
 	std::vector<CubeDesc> getDesc() const;
 private:

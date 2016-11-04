@@ -205,9 +205,6 @@
     <ClCompile Include="..\Source\xml\tinyxml2.cpp">
       <Filter>Source\xml</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Game\Client\BucketLoader.cpp">
-      <Filter>Source\Game\Client</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Game\Shared\CubeDesc.cpp">
       <Filter>Source\Game\Shared</Filter>
     </ClCompile>
@@ -584,9 +581,6 @@
     </ClInclude>
     <ClInclude Include="..\Source\xml\tinyxml2.h">
       <Filter>Source\xml</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Game\Client\BucketLoader.h">
-      <Filter>Source\Game\Client</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Utility\EnumConverter.h">
       <Filter>Source\Utility</Filter>
