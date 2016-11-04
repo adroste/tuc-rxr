@@ -15,6 +15,9 @@ Map::~Map()
 
 void Map::setCube(Point3S pos, const CubeDesc& cd)
 {
+	assert(pos.z < DEPTH);
+	if (pos.z >= DEPTH)
+		return;
 	// construct cube
 	// at the moment just default cubes
 	auto pCube = std::unique_ptr<CubeBase>(new CubeBase(cd));
@@ -76,7 +79,7 @@ void Map::draw(Drawing& draw)
 
 void Map::setDim(Point3S dim)
 {
-	assert(dim.z == MapChunk::SIZE);
+	assert(dim.z == DEPTH);
 	// TODO lock mutex
 	// allocate / deallocate chunks
 	size_t nx = (dim.x + MapChunk::SIZE - 1) / MapChunk::SIZE;
@@ -106,8 +109,8 @@ void Map::setDim(Point3S dim)
 	m_cdim.y = ny;
 	dim.x = nx * MapChunk::SIZE;
 	dim.y = ny * MapChunk::SIZE;
-	dim.z = MapChunk::SIZE;
 	m_chunks = move(newChunks);
+	dim.z = DEPTH; // use depth 16 for shadow map
 	m_volumeTextureMap.resize(dim);
 	m_dim = dim;
 	g.unlock();

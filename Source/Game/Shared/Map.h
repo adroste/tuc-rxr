@@ -10,6 +10,8 @@
 class Map : public IDrawable
 {
 public:
+	static const size_t DEPTH = 16;
+public:
 	Map(Point3S dim);
 	virtual ~Map();
 
