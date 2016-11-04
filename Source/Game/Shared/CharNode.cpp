@@ -28,9 +28,14 @@ void CharNode::draw(Drawing& draw)
 	this->draw(draw, glm::mat4(1.0f));
 }
 
-void CharNode::rotate(const glm::mat4& rotation)
+void CharNode::rotate(float phi, float theta)
 {
-	m_rot *= rotation;
+	m_phi += phi;
+	m_theta += theta;
+	glm::mat4 m = glm::rotate(m_phi, glm::vec3(0.0f, 1.0f, 0.0f));
+	glm::vec4 z =  m * glm::vec4(0.0f, 0.0f, 1.0f,0.0f);
+	m = glm::rotate(m_theta, glm::vec3(z.x,z.y,z.z)) * m;
+	m_rot = m;
 }
 
 void CharNode::draw(Drawing& draw, glm::mat4 transform)

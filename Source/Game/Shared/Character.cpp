@@ -286,52 +286,52 @@ void Character::interpolate()
 
 void Character::leftArmPitch(float angle)
 {
-	m_body.m_nodes[0]->rotate(glm::rotate(angle, glm::vec3(0.0f, 0.0f, 1.0f)));
+	m_body.m_nodes[0]->rotate(0.0f, angle);
 }
 
 void Character::rightArmPitch(float angle)
 {
-	m_body.m_nodes[1]->rotate(glm::rotate(angle, glm::vec3(0.0f, 0.0f, 1.0f)));
+	m_body.m_nodes[1]->rotate(0.0f, angle);
 }
 
 void Character::leftArmRoll(float angle)
 {
-	m_body.m_nodes[0]->rotate(glm::rotate(angle, glm::vec3(1.0f, 0.0f, 0.0f)));
+	m_body.m_nodes[0]->rotate(angle, 0.0f);
 }
 
 void Character::rightArmRoll(float angle)
 {
-	m_body.m_nodes[1]->rotate(glm::rotate(angle, glm::vec3(1.0f, 0.0f, 0.0f)));
+	m_body.m_nodes[1]->rotate(angle, 0.0f);
 }
 
 void Character::leftArm2Pitch(float angle)
 {
-	m_body.m_nodes[0]->m_nodes[0]->m_nodes[0]->rotate(glm::rotate(angle, glm::vec3(0.0f, 0.0f, 1.0f)));
+	m_body.m_nodes[0]->m_nodes[0]->m_nodes[0]->rotate(0.0f, angle);
 }
 
 void Character::rightArm2Pitch(float angle)
 {
-	m_body.m_nodes[1]->m_nodes[0]->m_nodes[0]->rotate(glm::rotate(angle, glm::vec3(0.0f, 0.0f, 1.0f)));
+	m_body.m_nodes[1]->m_nodes[0]->m_nodes[0]->rotate(0.0f, angle);
 }
 
 void Character::leftLegPitch(float angle)
 {
-	m_body.m_nodes[2]->rotate(glm::rotate(angle, glm::vec3(0.0f, 0.0f, 1.0f)));
+	m_body.m_nodes[2]->rotate(0.0f, angle);
 }
 
 void Character::rightLegPitch(float angle)
 {
-	m_body.m_nodes[3]->rotate(glm::rotate(angle, glm::vec3(0.0f, 0.0f, 1.0f)));
+	m_body.m_nodes[3]->rotate(0.0f, angle);
 }
 
 void Character::leftLeg2Pitch(float angle)
 {
-	m_body.m_nodes[3]->m_nodes[0]->rotate(glm::rotate(angle, glm::vec3(0.0f, 0.0f, 1.0f)));
+	m_body.m_nodes[3]->m_nodes[0]->rotate(0.0f, angle);
 }
 
 void Character::rightLeg2Pitch(float angle)
 {
-	m_body.m_nodes[2]->m_nodes[0]->rotate(glm::rotate(angle, glm::vec3(0.0f, 0.0f, 1.0f)));
+	m_body.m_nodes[2]->m_nodes[0]->rotate(0.0f, angle);
 }
 
 // angle functions kinda not correct yet

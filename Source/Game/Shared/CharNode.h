@@ -20,7 +20,7 @@ public:
 	void draw(Drawing& draw) override;
 #endif // _CLIENT
 
-	void rotate(const glm::mat4& rotation);
+	void rotate(float phi, float theta);
 
 private:
 #ifdef _CLIENT
@@ -30,6 +30,8 @@ private:
 private:
 	glm::vec3 m_pos;
 	glm::mat4 m_rot;
+	float m_phi = 0.0f;
+	float m_theta = 0.0f;
 
 	std::vector<std::unique_ptr<CharNode>> m_nodes;
 	std::vector<std::unique_ptr<Cube>> m_cubes;

@@ -62,8 +62,8 @@ Game::Game()
 	nodeArmLeft->setCubes(std::move(la));
 	nodeArmRight->setCubes(std::move(ra));
 
-	nodeArmLeft->rotate(glm::rotate(-1.6f, glm::vec3(0.0f, 0.0f, 1.0f)));
-	nodeArmRight->rotate(glm::rotate(0.8f, glm::vec3(0.0f, 0.0f, 1.0f)));
+	nodeArmLeft->rotate(0.0f, -1.6f);
+	nodeArmRight->rotate(0.0f, 0.8f);
 
 	m_testNode.addNode(std::move(nodeArmLeft));
 	m_testNode.addNode(std::move(nodeArmRight));
