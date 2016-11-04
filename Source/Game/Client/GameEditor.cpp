@@ -311,16 +311,22 @@ Point3S GameEditor::getMapSize() const
 	return m_pMap->getDim();
 }
 
-std::vector<std::pair<CubeDesc, Point3S>> GameEditor::getCubeDescs()
+PointS GameEditor::getMapChunkSize() const
+{
+	return m_pMap->getChunkSize();
+}
+
+std::vector<std::vector<std::pair<Point3S, CubeDesc>>> GameEditor::getCubeDescs()
 {
 	return m_pMap->getCubeInfos();
 }
 
-void GameEditor::loadCubes(const std::vector<std::pair<CubeDesc, Point3S>>& c)
+void GameEditor::loadCubes(const std::vector<std::pair<Point3S, CubeDesc>>& c, size_t xoff, size_t yoff)
 {
+	Point3S off = Point3S(xoff * MapChunk::SIZE, yoff * MapChunk::SIZE, 0);
 	for(const auto& o : c)
 	{
-		m_pMap->setCube(o.second, o.first);
+		m_pMap->setCube(o.first + off, o.second);
 	}
 }
 

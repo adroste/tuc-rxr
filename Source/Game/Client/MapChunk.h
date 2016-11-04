@@ -18,7 +18,7 @@ public:
 	void draw(Drawing& draw, Mesh& cube);
 	void setCube(Point3S pos, std::unique_ptr<CubeBase> c);
 	void updateGpuArray();
-	void appendCubeDescs(std::vector<std::pair<CubeDesc, Point3S>>& d) const;
+	std::vector<std::pair<Point3S, CubeDesc>> getCubes() const;
 private:
 	std::unique_ptr<CubeBase>& getCube(const Point3S& p);
 	void updateNeighborFlags(const Point3S& pos, bool isOpaque, bool isBlock);

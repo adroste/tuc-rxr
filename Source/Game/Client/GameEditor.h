@@ -30,8 +30,9 @@ public:
 	void updateLights(const Color& ambient, const std::vector<LightSource>& lights);
 
 	Point3S getMapSize() const;
-	std::vector<std::pair<CubeDesc, Point3S>> getCubeDescs();
-	void loadCubes(const std::vector<std::pair<CubeDesc, Point3S>>& c);
+	PointS getMapChunkSize() const;
+	std::vector<std::vector<std::pair<Point3S, CubeDesc>>> getCubeDescs();
+	void loadCubes(const std::vector<std::pair<Point3S, CubeDesc>>& c, size_t xoff, size_t yoff);
 private:
 	void drawGrid(Drawing& draw) const;
 	void drawLineBox(Drawing& draw, const Point3F& p1, const Point3F& p2, const Color& c) const;

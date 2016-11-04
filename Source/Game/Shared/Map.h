@@ -22,7 +22,8 @@ public:
 	void setDim(Point3S dim);
 
 	Point3S getDim() const;
-	std::vector<std::pair<CubeDesc, Point3S>> getCubeInfos();
+	std::vector<std::vector<std::pair<Point3S, CubeDesc>>> getCubeInfos() const;
+	PointS getChunkSize() const;
 private:
 	void setCube(Point3S pos, std::unique_ptr<CubeBase> c);
 private:

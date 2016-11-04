@@ -121,12 +121,17 @@ Point3S Map::getDim() const
 	return m_dim;
 }
 
-std::vector<std::pair<CubeDesc, Point3S>> Map::getCubeInfos()
+std::vector<std::vector<std::pair<Point3S, CubeDesc>>> Map::getCubeInfos() const
 {
-	std::vector<std::pair<CubeDesc, Point3S>> d;
+	std::vector<std::vector<std::pair<Point3S, CubeDesc>>> d;
 	for(const auto& c : m_chunks)
 	{
-		c.appendCubeDescs(d);
+		d.push_back(c.getCubes());
 	}
 	return d;
+}
+
+PointS Map::getChunkSize() const
+{
+	return m_cdim;
 }

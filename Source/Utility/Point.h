@@ -190,6 +190,25 @@ public:
 		}
 		return ((*this) * n == other);
 	}
+
+	Point<T> fromIndex(T cindex) const
+	{
+		Point<T> p;
+		p.y = cindex / x;
+		p.x = cindex % x;
+		return p;
+	}
+	T calcIndex(const Point<T>& p) const
+	{
+		assert(p.x < x);
+		assert(p.y < y);
+		return x * p.y + p.x;
+	}
+	T size() const
+	{
+		return x * y;
+	}
+
 	enum class Side
 	{
 		Left,

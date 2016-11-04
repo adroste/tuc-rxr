@@ -312,6 +312,7 @@
     <ClInclude Include="..\Source\Game\Shared\Map.h" />
     <ClInclude Include="..\Source\Game\Shared\MapLoader.h" />
     <ClInclude Include="..\Source\Game\Shared\MaterialLoader.h" />
+    <ClInclude Include="..\Source\Game\Shared\parser.h" />
     <ClInclude Include="..\Source\System\Exceptions\Exception.h" />
     <ClInclude Include="..\Source\System\Exceptions\ExceptionArgument.h" />
     <ClInclude Include="..\Source\System\Exceptions\ExceptionInvalidFile.h" />

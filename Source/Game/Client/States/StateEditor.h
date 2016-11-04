@@ -182,12 +182,13 @@ public:
 	{
 		std::string filename = "sample_scene";
 
-		auto lights = m_editor.getLights();
-		LightSource ls;
-		ls.type = LightType::Ambient;
-		ls.color = m_editor.getAmbientColor().toVec3();
-		lights.push_back(ls);
-		MapLoader::save(filename, m_editor.getMapSize(), m_editor.getCubeDescs(), lights);
+		MapLoader::MapInfo i;
+		i.lights = m_editor.getLights();
+		i.ambient = m_editor.getAmbientColor();
+		i.nChunks = m_editor.getMapChunkSize();
+		i.chunkCubes = m_editor.getCubeDescs();
+
+		MapLoader::save(filename, i);
 	}
 
 	void openMap()
@@ -197,10 +198,17 @@ public:
 		MapLoader l(filename);
 		if(l.isOpen())
 		{
+			const auto& i = l.getInfo();
 			m_editor.reset();
-			m_editor.setMapdim(l.getDim());
-			m_editor.loadCubes(l.getCubes());
-			m_editor.updateLights(l.getAmbient(), l.getLights());
+			m_editor.setMapdim({ i.nChunks.x * MapChunk::SIZE, i.nChunks.y * MapChunk::SIZE, Map::DEPTH });
+			size_t idx = 0;
+			for(const auto& c : i.chunkCubes)
+			{
+				PointS p = i.nChunks.fromIndex(idx);
+				m_editor.loadCubes(c, p.x, p.y);
+				idx++;
+			}
+			m_editor.updateLights(i.ambient, i.lights);
 		}
 	}
 

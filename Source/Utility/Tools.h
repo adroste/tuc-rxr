@@ -27,13 +27,13 @@ namespace tool
 
 		if (split != std::string::npos)
 		{
-			*dstPath = full.substr(0, split + 1);
-			*dstFile = full.substr(split + 1);
+			if(dstPath) *dstPath = full.substr(0, split + 1);
+			if (dstFile) *dstFile = full.substr(split + 1);
 		}
 		else
 		{
-			*dstPath = "";
-			*dstFile = full;
+			if (dstPath) *dstPath = "";
+			if (dstFile) *dstFile = full;
 		}
 	}
 }

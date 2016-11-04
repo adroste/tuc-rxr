@@ -6,6 +6,7 @@
 #include "../../Framework/Color.h"
 #include <vector>
 #include "../../Utility/Point3.h"
+#include "parser.h"
 
 MaterialLoader::MaterialLoader(const std::string & filename)
 {
@@ -53,11 +54,11 @@ bool MaterialLoader::parseCubeDesc(tinyxml2::XMLNode* node, CubeDesc& c, size_t*
 		*dstID = atoi(attr);
 
 	if ((attr = elm->Attribute("diffuse")))
-		c.diffuse = strToColor(attr);
+		c.diffuse = parser::strToColor(attr);
 	else return false;
 
 	if ((attr = elm->Attribute("specular")))
-		c.spec = strToColor(attr);
+		c.spec = parser::strToColor(attr);
 	else return false;
 
 	if ((attr = elm->Attribute("gloss")))
@@ -83,24 +84,7 @@ bool MaterialLoader::parseCubeDesc(tinyxml2::XMLNode* node, CubeDesc& c, size_t*
 	return true;
 }
 
-void MaterialLoader::save(const std::string& filename, const std::vector<std::pair<size_t, CubeDesc>>& descs)
-{
-	FILE* pFile = fopen(filename.c_str(),"wb");
-	if (!pFile)
-		return;
-
-	tinyxml2::XMLPrinter px(pFile);
-
-	for(const auto& e : descs)
-	{
-		writeCubeDesc(px, e.second, e.first);
-	}
-
-	fclose(pFile);
-	pFile = nullptr;
-}
-
-void MaterialLoader::save(const std::string& filename, const std::vector<CubeDesc>& descs)
+void MaterialLoader::save(const std::string& filename, const std::vector<CubeDesc>& descs, bool indexed)
 {
 	FILE* pFile = fopen(filename.c_str(), "wb");
 	if (!pFile)
@@ -108,9 +92,11 @@ void MaterialLoader::save(const std::string& filename, const std::vector<CubeDes
 
 	tinyxml2::XMLPrinter px(pFile);
 
+	size_t index = 0;
 	for (const auto& e : descs)
 	{
-		writeCubeDesc(px, e, 0);
+		if (indexed) index++;
+		writeCubeDesc(px, e, index);
 	}
 
 	fclose(pFile);
@@ -142,8 +128,8 @@ void MaterialLoader::writeCubeDesc(tinyxml2::XMLPrinter& p, const CubeDesc& c, s
 	if (id != 0)
 		p.PushAttribute("id", std::to_string(id).c_str());
 
-	p.PushAttribute("diffuse", colToString(c.diffuse).c_str());
-	p.PushAttribute("specular", colToString(c.spec).c_str());
+	p.PushAttribute("diffuse", parser::colToString(c.diffuse).c_str());
+	p.PushAttribute("specular", parser::colToString(c.spec).c_str());
 	p.PushAttribute("gloss", std::to_string(c.gloss).c_str());
 	p.PushAttribute("shader", CubeShaderToString(c.shader).c_str());
 	p.PushAttribute("blockType", BlockTypeToString(BlockType(c.blockType)).c_str());
@@ -151,50 +137,4 @@ void MaterialLoader::writeCubeDesc(tinyxml2::XMLPrinter& p, const CubeDesc& c, s
 	p.PushAttribute("HP", c.blockHP);
 
 	p.CloseElement();
-}
-
-std::string MaterialLoader::colToString(uint32_t c)
-{
-	char buffer[16];
-	sprintf(buffer, "0x%08x", c);
-	return std::string(buffer);
-}
-
-std::string MaterialLoader::colToString(const glm::vec3& v)
-{
-	Color c = Color(v.r, v.g, v.b);
-	return colToString(c.toDWORD());
-}
-
-uint32_t MaterialLoader::strToColor(const char* s)
-{
-	auto str = std::string(s);
-	if (str.size() > 2)
-	{
-		str = str.substr(2, str.length() - 2);
-		try
-		{
-			auto i = uint32_t(int32_t(std::strtoll(s, nullptr, 16)));
-			return i;
-		}
-		catch (const std::exception&) {}
-	}
-	return 0;
-}
-
-float MaterialLoader::getFloat(const char* s)
-{
-	return float(atof(s));
-}
-
-std::string MaterialLoader::vecToString(const glm::vec3& v)
-{
-	return std::to_string(v.r) + " " + std::to_string(v.g) + " " + std::to_string(v.b);
-}
-
-glm::vec3 MaterialLoader::strToVec3(const char* s)
-{
-	glm::vec3 v;
-	sscanf(s, "%f %f %f", &v.r, &v.g, &v.b);
-	return v;
 }

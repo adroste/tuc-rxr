@@ -3,24 +3,24 @@
 #include <set>
 #include "../../Utility/FileReader.h"
 #include "../../Framework/Color.h"
+#include "parser.h"
+#include "MaterialLoader.h"
+#include "ChunkLoader.h"
 
 template<class T>
 class IndexedSet
 {
 public:
 	// returns index of added material
-	size_t add(const T& t, bool& added)
+	size_t add(const T& t)
 	{
 		size_t i = 0;
-		added = false;
 		for (const auto& e : m_data)
 		{
 			if (e == t)
 				return i + 1;
 			++i;
 		}
-		// element was not in list
-		added = true;
 		m_data.push_back(t);
 		return m_data.size();
 	}
@@ -34,77 +34,109 @@ private:
 
 MapLoader::MapLoader(const std::string & filename)
 {
-	// TODO reason
-	std::vector<CubeDesc> materials;
-
-	{
-		tinyxml2::XMLDocument doc;
-		auto err = doc.LoadFile((filename + ".xml").c_str());
-		if (err != 0)
-			return;
-
-		// load xml document
-		auto node = doc.FirstChild();
-		while (node != nullptr)
-		{
-			if (node->Value() == std::string("cube"))
-			{
-				size_t id = 1;
-				CubeDesc c;
-				if (MapLoader::parseXMLToCubeDesc(node, c, &id))
-				{
-					// TODO improve
-					assert(id != 0);
-					while (int(materials.size()) < id) materials.push_back(CubeDesc());
-					materials[id - 1] = c;
-				}
-			}
-			else if(node->Value() == std::string("light"))
-			{
-				LightSource l;
-				if(parseXMLToLight(node,l))
-				{
-					if (l.type == LightType::Ambient)
-						m_ambient = Color(l.color.r, l.color.g, l.color.b);
-					else
-						m_lights.push_back(l);
-				}
-			}
-			node = node->NextSibling();
-		}
-	}
-
-	// load binary file
-	// header
-
-	FileReader r(filename + ".dat");
+	tinyxml2::XMLDocument doc;
+	auto err = doc.LoadFile((filename + ".cmap").c_str());
+	if (err != 0) return;
 	
-	if (!r.isOpen())return;
-	
-	try
+	std::string materialFilename;
+	std::vector<std::string> chunkFiles;
+
+	bool hasMapinfo = false;
+
+	auto node = doc.FirstChild();
+	while(node != nullptr)
 	{
-		if (!(r.readChar() == 'R' && r.readChar() == 'X' && r.readChar() == 'R'))
-			return;
-
-		auto version = r.readInt();
-		if (version != s_Version) return;
-		r.readStruct(&m_dim);
-
-		auto len = m_dim.size();
-		for(size_t i = 0; i < len; i++)
+		if(node->Value() == std::string("map"))
 		{
-			size_t id = static_cast<size_t>(r.readShort());
-			if(id != 0)
+			assert(!hasMapinfo);
+			hasMapinfo = true;
 			{
-				// add block
-				m_cubes.push_back(std::make_pair(materials[id - 1], m_dim.fromIndex(i)));
+				auto elm = node->ToElement();
+				const char* attr = nullptr;
+
+				if ((attr = elm->Attribute("width")))
+					m_info.nChunks.x = parser::getInt(attr);
+				else return;
+
+				if ((attr = elm->Attribute("height")))
+					m_info.nChunks.y = parser::getInt(attr);
+				else return;
+
+				if ((attr = elm->Attribute("material")))
+					materialFilename = attr;
+				else return;
+			}
+			chunkFiles.clear();
+			chunkFiles.assign(m_info.nChunks.x * m_info.nChunks.y, std::string());
+
+			// read chunks
+			auto map = node->FirstChild();
+			while(map != nullptr)
+			{
+				if(map->Value() == std::string("chunk"))
+				{
+					auto elm = map->ToElement();
+					const char* attr = nullptr;
+
+					Point3S chpos;
+					if ((attr = elm->Attribute("x")))
+						chpos.x = parser::getInt(attr);
+					else return;
+
+					if ((attr = elm->Attribute("y")))
+						chpos.y = parser::getInt(attr);
+					else return;
+
+					std::string chunkFilename;
+					if ((attr = elm->Attribute("file")))
+						chunkFilename = attr;
+					else return;
+
+					if(chpos.x < m_info.nChunks.x || chpos.y < m_info.nChunks.y)
+					{
+						chunkFiles[chpos.y * m_info.nChunks.x + chpos.x] = chunkFilename;
+					}
+				}
+				map = map->NextSibling();
 			}
 		}
+		else if(node->Value() == std::string("light"))
+		{
+			LightSource l;
+			if(parseLight(node, l))
+			{
+				if (l.type == LightType::Ambient)
+					m_info.ambient = Color(l.color.r, l.color.g, l.color.b);
+				else
+					m_info.lights.push_back(l);
+			}
+		}
+		node = node->NextSibling();
 	}
-	catch(const std::out_of_range&)
-	{
+	doc.Clear();
+
+	if (!hasMapinfo) return;
+
+	// load chunks
+	std::string path;
+	tool::splitFilenameToPathFile(&path, nullptr, filename);
+	MaterialLoader ml(path + materialFilename);
+	if (!ml.isOpen())
 		return;
+
+	m_info.chunkCubes.assign(m_info.nChunks.x * m_info.nChunks.y, MapInfo::ChunkCubes());
+
+	size_t idx = 0;
+	for(const auto& fname : chunkFiles)
+	{
+		ChunkLoader cl(path + fname, ml.getMappedDesc());
+		if(cl.isOpen())
+		{
+			m_info.chunkCubes[idx] = cl.getCubes();
+		}
+		idx++;
 	}
+
 	m_isValid = true;
 }
 
@@ -113,129 +145,93 @@ bool MapLoader::isOpen() const
 	return m_isValid;
 }
 
-void MapLoader::save(const std::string& filename, const Point3S& dim, std::vector<std::pair<CubeDesc, Point3S>> cubes, const std::vector<LightSource>& lights)
+const MapLoader::MapInfo& MapLoader::getInfo() const
 {
-	FILE* pXmlFile = fopen((filename + ".xml").c_str(), "wb");
-	if (!pXmlFile) return;
+	return m_info;
+}
 
-	FILE* pBinFile = fopen((filename + ".dat").c_str(), "wb");
-	if (!pBinFile) { fclose(pXmlFile); return; }
+void MapLoader::save(const std::string& filename, const MapInfo& i)
+{
+	// save map info
+	FILE* pFile = fopen((filename + ".cmap").c_str(), "wb");
+	tinyxml2::XMLPrinter p(pFile);
 
-	// Binary File Header
-	fwrite("RXR", 1, 3, pBinFile);
-	// version
-	fwrite(&s_Version, 1, sizeof(s_Version), pBinFile);
-	fwrite(&dim, sizeof(dim), 1, pBinFile);
+	std::string path;
+	std::string file;
+	tool::splitFilenameToPathFile(&path, &file, filename);
 
-	tinyxml2::XMLPrinter px(pXmlFile);
-
-	IndexedSet<CubeDesc> materials;
-
-	std::vector<unsigned short> mapCubes;
-	mapCubes.assign(dim.size(), 0);
-
-	for(const auto& block : cubes)
+	p.OpenElement("map");
 	{
-		bool addedMaterial = false;
-
-		auto matIdx = materials.add(block.first, addedMaterial);
-		if(addedMaterial)
+		p.PushAttribute("width", i.nChunks.x);
+		p.PushAttribute("height", i.nChunks.y);
+		p.PushAttribute("material", getMaterialFile(path,file).c_str());
+		// add chunks
+		for(size_t y = 0; y < i.nChunks.y; y++)
+		for(size_t x = 0; x < i.nChunks.x; x++)
 		{
-			parseCubeDescToXML(px, block.first, matIdx);
+			p.OpenElement("chunk");
+
+			p.PushAttribute("x", x);
+			p.PushAttribute("y", y);
+			p.PushAttribute("file", getChunkFile(path, file, x, y).c_str());
+
+			p.CloseElement("chunk");
 		}
-
-		// add to map binary
-		mapCubes[dim.calcIndex(block.second)] = short(matIdx);
 	}
-
-	// write map
-	fwrite(&mapCubes[0], sizeof(unsigned short), mapCubes.size(), pBinFile);
+	p.CloseElement();
 
 	// write lights
-	for(const auto& l : lights)
 	{
-		parseLightToXML(px, l);
+		LightSource l;
+		l.type = LightType::Ambient;
+		l.color = i.ambient.toVec3();
+		writeLight(p, l);
+	}
+	for(const auto& l : i.lights)
+	{
+		writeLight(p, l);
 	}
 
-	fclose(pBinFile);
-	pBinFile = nullptr;
-	fclose(pXmlFile);
-	pXmlFile = nullptr;
+	// write assets
+
+	fclose(pFile);
+	pFile = nullptr;
+
+	// create material and chunk files
+	IndexedSet<CubeDesc> materials;
+
+	// create chunks
+	size_t cindex = 0;
+	for(const auto& chunk : i.chunkCubes)
+	{
+		std::vector<std::pair<Point3S, size_t>> indices;
+		for(const auto& c : chunk)
+		{
+			size_t idx = materials.add(c.second);
+			indices.push_back(std::make_pair(c.first, idx));
+		}
+		PointS pos = i.nChunks.fromIndex(cindex);
+		ChunkLoader::save(getChunkFile(path, file, pos.x, pos.y), indices);
+		cindex++;
+	}
+
+	// create material
+	MaterialLoader::save(getMaterialFile(path, file), materials.get(), true);
 }
 
-void MapLoader::parseCubeDescToXML(tinyxml2::XMLPrinter& p, const CubeDesc& c, size_t id)
-{
-	p.OpenElement("cube");
-
-	p.PushAttribute("diffuse", colToString(c.diffuse).c_str());
-	p.PushAttribute("specular", colToString(c.spec).c_str());
-	p.PushAttribute("gloss", std::to_string(c.gloss).c_str());
-	p.PushAttribute("shader", CubeShaderToString(c.shader).c_str());
-	p.PushAttribute("blockType", BlockTypeToString(BlockType(c.blockType)).c_str());
-	p.PushAttribute("gravity", (c.blockFlags & CubeDesc::Gravity) != 0);
-	p.PushAttribute("HP", c.blockHP);
-
-	if (id != 0)
-		p.PushAttribute("id", std::to_string(id).c_str());
-
-	p.CloseElement(); // cube
-}
-
-bool MapLoader::parseXMLToCubeDesc(tinyxml2::XMLNode* node, CubeDesc& c, size_t* dstID)
-{
-	assert(node->Value() == std::string("cube"));
-
-	memset(&c, 0, sizeof(c));
-	auto elm = node->ToElement();
-	const char* attr = nullptr;
-	// read attributes
-	if ((attr = elm->Attribute("id")))
-		*dstID = atoi(attr);
-
-	if ((attr = elm->Attribute("diffuse")))
-		c.diffuse = strToColor(attr);
-	else return false;
-
-	if ((attr = elm->Attribute("specular")))
-		c.spec = strToColor(attr);
-	else return false;
-
-	if ((attr = elm->Attribute("gloss")))
-		c.gloss = float(atof(attr));
-	else return false;
-
-	if ((attr = elm->Attribute("shader")))
-		c.shader = CubeShaderFromString(attr);
-	else return false;
-
-	if ((attr = elm->Attribute("blockType")))
-		c.blockType = uint8_t(BlockTypeFromString(attr));
-	else return false;
-
-	if ((attr = elm->Attribute("HP")))
-		c.blockHP = atoi(attr);
-	else return false;
-
-	if ((attr = elm->Attribute("gravity")))
-		if (attr == std::string("true"))
-			c.blockFlags |= CubeDesc::Gravity;
-
-	return true;
-}
-
-void MapLoader::parseLightToXML(tinyxml2::XMLPrinter& p, const LightSource& l)
+void MapLoader::writeLight(tinyxml2::XMLPrinter& p, const LightSource& l)
 {
 	p.OpenElement("light");
 
 	p.PushAttribute("type", LightTypeToString(l.type).c_str());
-	p.PushAttribute("color", colToString(l.color).c_str());
+	p.PushAttribute("color", parser::colToString(l.color).c_str());
 	switch (l.type)
 	{
-	case LightType::Directional: 
-		p.PushAttribute("direction", vecToString(l.origin).c_str());
+	case LightType::Directional:
+		p.PushAttribute("direction", parser::vecToString(l.origin).c_str());
 		break;
 	case LightType::PointLight:
-		p.PushAttribute("origin", vecToString(l.origin).c_str());
+		p.PushAttribute("origin", parser::vecToString(l.origin).c_str());
 		p.PushAttribute("attenuation", std::to_string(l.attenuation).c_str());
 		break;
 	case LightType::Ambient: break;
@@ -245,7 +241,7 @@ void MapLoader::parseLightToXML(tinyxml2::XMLPrinter& p, const LightSource& l)
 	p.CloseElement();
 }
 
-bool MapLoader::parseXMLToLight(tinyxml2::XMLNode* node, LightSource& l)
+bool MapLoader::parseLight(tinyxml2::XMLNode* node, LightSource& l)
 {
 	assert(node->Value() == std::string("light"));
 	memset(&l, 0, sizeof(l));
@@ -257,22 +253,22 @@ bool MapLoader::parseXMLToLight(tinyxml2::XMLNode* node, LightSource& l)
 	else return false;
 
 	if ((attr = elm->Attribute("color")))
-		l.color = Color(strToColor(attr)).toVec3();
+		l.color = Color(parser::strToColor(attr)).toVec3();
 	else return false;
 
 	switch (l.type)
 	{
 	case LightType::Directional:
 		if ((attr = elm->Attribute("direction")))
-			l.origin = strToVec3(attr);
+			l.origin = parser::strToVec3(attr);
 		else return false;
 		break;
 	case LightType::PointLight:
 		if ((attr = elm->Attribute("origin")))
-			l.origin = strToVec3(attr);
+			l.origin = parser::strToVec3(attr);
 		else return false;
 		if ((attr = elm->Attribute("attenuation")))
-			l.attenuation = getFloat(attr);
+			l.attenuation = parser::getFloat(attr);
 		else return false;
 		break;
 	default: break;
@@ -281,68 +277,12 @@ bool MapLoader::parseXMLToLight(tinyxml2::XMLNode* node, LightSource& l)
 	return true;
 }
 
-std::string MapLoader::colToString(uint32_t c)
+std::string MapLoader::getMaterialFile(const std::string& path, const std::string& file)
 {
-	char buffer[16];
-	sprintf(buffer, "0x%08x", c);
-	return std::string(buffer);
+	return path + file + "_material.cd";
 }
 
-std::string MapLoader::colToString(const glm::vec3& v)
+std::string MapLoader::getChunkFile(const std::string& path, const std::string& file, size_t x, size_t y)
 {
-	Color c = Color(v.r, v.g, v.b);
-	return colToString(c.toDWORD());
-}
-
-uint32_t MapLoader::strToColor(const char* s)
-{
-	auto str = std::string(s);
-	if (str.size() > 2)
-	{
-		str = str.substr(2, str.length() - 2);
-		try
-		{
-			auto i = uint32_t(int32_t(std::strtoll(s, nullptr, 16)));
-			return i;
-		}
-		catch (const std::exception&) {}
-	}
-	return 0;
-}
-
-float MapLoader::getFloat(const char* s)
-{
-	return float(atof(s));
-}
-
-std::string MapLoader::vecToString(const glm::vec3& v)
-{
-	return std::to_string(v.r) + " " + std::to_string(v.g) + " " + std::to_string(v.b);
-}
-
-glm::vec3 MapLoader::strToVec3(const char* s)
-{
-	glm::vec3 v;
-	sscanf(s, "%f %f %f", &v.r, &v.g, &v.b);
-	return v;
-}
-
-const std::vector<std::pair<CubeDesc, Point3S>>& MapLoader::getCubes() const
-{
-	return m_cubes;
-}
-
-const Point3S& MapLoader::getDim() const
-{
-	return m_dim;
-}
-
-const std::vector<LightSource>& MapLoader::getLights() const
-{
-	return m_lights;
-}
-
-const Color& MapLoader::getAmbient() const
-{
-	return m_ambient;
+	return path + file + "_chunk_" + std::to_string(x) + "_" + std::to_string(y) + ".bin";
 }
