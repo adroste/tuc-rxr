@@ -235,6 +235,9 @@
     <ClCompile Include="..\Source\Game\Shared\ChunkLoader.cpp">
       <Filter>Source\Game\Shared</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Game\Shared\Character.cpp">
+      <Filter>Source\Game\Shared</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\Shader.h">

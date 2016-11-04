@@ -3,7 +3,7 @@
 #include "Map.h"
 #include "../../System/Input.h"
 #include "CharNode.h"
-
+#include "Character.h"
 #ifdef _CLIENT
 #include "../../Framework/OpenGL/Camera.h"
 #include "../Client/LightManager.h"
@@ -31,4 +31,5 @@ private:
 #endif // _CLIENT
 
 	CharNode m_testNode;
+	Character m_char;
 };

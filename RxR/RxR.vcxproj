@@ -190,6 +190,7 @@
     <ClCompile Include="..\Source\Game\Client\GameEditor.cpp" />
     <ClCompile Include="..\Source\Game\Client\LightManager.cpp" />
     <ClCompile Include="..\Source\Game\Client\MapChunk.cpp" />
+    <ClCompile Include="..\Source\Game\Shared\Character.cpp" />
     <ClCompile Include="..\Source\Game\Shared\CharNode.cpp" />
     <ClCompile Include="..\Source\Game\Shared\ChunkLoader.cpp" />
     <ClCompile Include="..\Source\Game\Shared\Cube.cpp" />

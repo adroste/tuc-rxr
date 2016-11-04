@@ -8,7 +8,7 @@
 class Cube : public IDrawable
 {
 public:
-	Cube(const CubeDesc& desc, const glm::vec3& pos, bool isMapCube,float scalar = 1.0f);
+	Cube(const CubeDesc& desc, const glm::vec3& pos, bool isMapCube,float scalar);
 	virtual ~Cube();
 	void setPos(const glm::vec3& pos);
 	void setRot(const glm::vec3& rot);

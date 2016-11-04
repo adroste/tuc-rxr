@@ -2,6 +2,13 @@
 #include "../../Framework/Color.h"
 #include "MapLoader.h"
 
+static float s = 0.5f;
+
+std::unique_ptr<Cube> getCube(float y)
+{
+	return std::unique_ptr<Cube>(new Cube(CubeDesc(Color::Random().toDWORD()), glm::vec3(0.0f, y, 0.0f), false, s));
+}
+
 Game::Game()
 	:
 	m_testNode(glm::vec3(5.0f, 5.0f, 0.0f))
@@ -32,7 +39,7 @@ Game::Game()
 
 	m_pLight->init(i.ambient, i.lights);
 
-	/*auto nodeArmLeft = std::unique_ptr <CharNode>(new CharNode(glm::vec3(1.0f, -2.0f, 0.0f)));
+	auto nodeArmLeft = std::unique_ptr <CharNode>(new CharNode(glm::vec3(1.0f, -2.0f, 0.0f)));
 	auto nodeArmRight = std::unique_ptr <CharNode>(new CharNode(glm::vec3(-1.0f, -2.0f, 0.0f)));
 
 	std::vector<std::unique_ptr<Cube>> c;
@@ -59,7 +66,7 @@ Game::Game()
 	nodeArmRight->rotate(glm::rotate(0.8f, glm::vec3(0.0f, 0.0f, 1.0f)));
 
 	m_testNode.addNode(std::move(nodeArmLeft));
-	m_testNode.addNode(std::move(nodeArmRight));*/
+	m_testNode.addNode(std::move(nodeArmRight));
 }
 
 Game::~Game()
@@ -68,7 +75,7 @@ Game::~Game()
 
 void Game::update(float dt)
 {
-
+	m_char.update(dt);
 }
 
 #ifdef _CLIENT
@@ -77,7 +84,8 @@ void Game::draw(Drawing& draw)
 	m_pCam->apply(draw);
 	m_pLight->apply(draw);
 	m_pMap->draw(draw);
-	//m_testNode.draw(draw);
+	m_testNode.draw(draw);
+	m_char.draw(draw);
 	draw.getUiCam().apply(draw);
 }
 

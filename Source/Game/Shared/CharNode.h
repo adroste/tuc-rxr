@@ -8,6 +8,7 @@
 
 class CharNode : public IDrawable
 {
+	friend class Character;
 public:
 	CharNode(const glm::vec3& pos);
 	virtual ~CharNode();

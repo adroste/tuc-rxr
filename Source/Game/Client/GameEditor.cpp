@@ -41,7 +41,7 @@ void GameEditor::draw(Drawing& draw, float dt)
 				divider++;
 			}
 
-			Cube curCube = Cube(m_curCubeDescs[divider % m_curCubeDescs.size()], m_blockPos.toGlmVec3(), false);
+			Cube curCube = Cube(m_curCubeDescs[divider % m_curCubeDescs.size()], m_blockPos.toGlmVec3(), false, 1.0f);
 			curCube.draw(draw);
 		}
 
