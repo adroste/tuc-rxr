@@ -10,9 +10,12 @@ class MaterialLoader
 public:
 	MaterialLoader(const std::string& filename);
 	bool isOpen() const;
-	bool parseCubeDesc(tinyxml2::XMLNode* node, CubeDesc& c, size_t* dstID);
 	static void save(const std::string& filename, const std::vector<std::pair<size_t, CubeDesc>>& descs);
+	std::map<size_t, CubeDesc> getMappedDesc() const;
+	std::vector<CubeDesc> getDesc() const;
 private:
+	static void writeCubeDesc(tinyxml2::XMLPrinter& p, const CubeDesc& c, size_t id);
+	static bool parseCubeDesc(tinyxml2::XMLNode* node, CubeDesc& c, size_t* dstID);
 	static std::string colToString(uint32_t c);
 	static std::string colToString(const glm::vec3& v);
 	static uint32_t strToColor(const char* s);

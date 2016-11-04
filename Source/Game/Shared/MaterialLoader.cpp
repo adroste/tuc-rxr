@@ -29,6 +29,7 @@ MaterialLoader::MaterialLoader(const std::string & filename)
 			}
 		}
 		else Log::warning(std::string("unknown node type ") + node->Value() + " in " + filename);
+		node = node->NextSibling();
 	}
 
 
@@ -37,7 +38,7 @@ MaterialLoader::MaterialLoader(const std::string & filename)
 
 bool MaterialLoader::isOpen() const
 {
-	return true;
+	return m_loaded;
 }
 
 bool MaterialLoader::parseCubeDesc(tinyxml2::XMLNode* node, CubeDesc& c, size_t* dstID)
@@ -84,6 +85,55 @@ bool MaterialLoader::parseCubeDesc(tinyxml2::XMLNode* node, CubeDesc& c, size_t*
 
 void MaterialLoader::save(const std::string& filename, const std::vector<std::pair<size_t, CubeDesc>>& descs)
 {
+	FILE* pFile = fopen(filename.c_str(),"wb");
+	if (!pFile)
+		return;
+
+	tinyxml2::XMLPrinter px(pFile);
+
+	for(const auto& e : descs)
+	{
+		writeCubeDesc(px, e.second, e.first);
+	}
+
+	fclose(pFile);
+	pFile = nullptr;
+}
+
+std::map<size_t, CubeDesc> MaterialLoader::getMappedDesc() const
+{
+	// multimap to map
+	std::map<size_t, CubeDesc> m(m_descs.begin(),m_descs.end());
+
+	return m;
+}
+
+std::vector<CubeDesc> MaterialLoader::getDesc() const
+{
+	std::vector<CubeDesc> d;
+	d.reserve(m_descs.size());
+	for(const auto& e : m_descs)
+		d.push_back(e.second);
+
+	return d;
+}
+
+void MaterialLoader::writeCubeDesc(tinyxml2::XMLPrinter& p, const CubeDesc& c, size_t id)
+{
+	p.OpenElement("cube");
+
+	if (id != 0)
+		p.PushAttribute("id", std::to_string(id).c_str());
+
+	p.PushAttribute("diffuse", colToString(c.diffuse).c_str());
+	p.PushAttribute("specular", colToString(c.spec).c_str());
+	p.PushAttribute("gloss", std::to_string(c.gloss).c_str());
+	p.PushAttribute("shader", CubeShaderToString(c.shader).c_str());
+	p.PushAttribute("blockType", BlockTypeToString(BlockType(c.blockType)).c_str());
+	p.PushAttribute("gravity", (c.blockFlags & CubeDesc::Gravity) != 0);
+	p.PushAttribute("HP", c.blockHP);
+
+	p.CloseElement();
 }
 
 std::string MaterialLoader::colToString(uint32_t c)

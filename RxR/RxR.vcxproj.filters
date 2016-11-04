@@ -233,7 +233,7 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\Game\Shared\MaterialLoader.cpp">
-      <Filter>Source</Filter>
+      <Filter>Source\Game\Shared</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
