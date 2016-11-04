@@ -192,6 +192,7 @@
     <ClCompile Include="..\Source\Game\Client\LightManager.cpp" />
     <ClCompile Include="..\Source\Game\Client\MapChunk.cpp" />
     <ClCompile Include="..\Source\Game\Shared\CharNode.cpp" />
+    <ClCompile Include="..\Source\Game\Shared\ChunkLoader.cpp" />
     <ClCompile Include="..\Source\Game\Shared\Cube.cpp" />
     <ClCompile Include="..\Source\Game\Shared\CubeBase.cpp" />
     <ClCompile Include="..\Source\Game\Shared\CubeDesc.cpp" />
@@ -331,6 +332,7 @@
     <ClInclude Include="..\Source\Utility\EnumConverter.h" />
     <ClInclude Include="..\Source\Utility\Exception.h" />
     <ClInclude Include="..\Source\Utility\FileReader.h" />
+    <ClInclude Include="..\Source\Utility\FileWriter.h" />
     <ClInclude Include="..\Source\Utility\move_util.h" />
     <ClInclude Include="..\Source\Utility\Mutex.h" />
     <ClInclude Include="..\Source\Utility\owner_ptr.h" />
@@ -342,6 +344,7 @@
     <ClInclude Include="..\Source\Utility\Thread.h" />
     <ClInclude Include="..\Source\Utility\Timer.h" />
     <ClInclude Include="..\Source\Utility\Tools.h" />
+    <ClInclude Include="..\Source\Utility\Writer.h" />
     <ClInclude Include="..\Source\xml\tinyxml2.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>

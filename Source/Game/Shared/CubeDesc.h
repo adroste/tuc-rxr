@@ -57,5 +57,11 @@ struct CubeDesc
 	{
 		return !this->operator==(r);
 	}
+	
+	// ugly pink cube
+	static CubeDesc getUgly()
+	{
+		return CubeDesc(0xD725DEFF);
+	}
 };
 
