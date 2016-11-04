@@ -1,0 +1,8 @@
+<map width="2" height="1" material="sample_scene_material.cd">
+    <chunk x="0" y="0" file="sample_scene_chunk_0_0.bin"/>
+    <chunk x="1" y="0" file="sample_scene_chunk_1_0.bin"/>
+</map>
+
+<light type="ambient" color="0xff020202"/>
+
+<light type="directional" color="0xffffffff" direction="0.000000 0.894427 0.447214"/>

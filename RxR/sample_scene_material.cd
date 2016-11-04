@@ -1,0 +1,43 @@
+<cube id="1" diffuse="0xff003000" specular="0xff000000" gloss="1.000000" shader="default" blockType="solid" gravity="false" HP="10"/>
+
+<cube id="2" diffuse="0xff005605" specular="0xff000000" gloss="1.000000" shader="default" blockType="solid" gravity="false" HP="10"/>
+
+<cube id="3" diffuse="0xff004900" specular="0xff000000" gloss="1.000000" shader="default" blockType="solid" gravity="false" HP="10"/>
+
+<cube id="4" diffuse="0xff005600" specular="0xff000000" gloss="1.000000" shader="default" blockType="solid" gravity="false" HP="10"/>
+
+<cube id="5" diffuse="0xff003800" specular="0xff000000" gloss="1.000000" shader="default" blockType="solid" gravity="false" HP="10"/>
+
+<cube id="6" diffuse="0xff002600" specular="0xff000000" gloss="1.000000" shader="default" blockType="solid" gravity="false" HP="10"/>
+
+<cube id="7" diffuse="0xff003003" specular="0xff000000" gloss="1.000000" shader="default" blockType="solid" gravity="false" HP="10"/>
+
+<cube id="8" diffuse="0xff272727" specular="0xff060606" gloss="100.000000" shader="default" blockType="solid" gravity="false" HP="30"/>
+
+<cube id="9" diffuse="0xff262626" specular="0xff060606" gloss="100.000000" shader="default" blockType="solid" gravity="false" HP="30"/>
+
+<cube id="10" diffuse="0xff1a1a1a" specular="0xff060606" gloss="100.000000" shader="default" blockType="solid" gravity="false" HP="30"/>
+
+<cube id="11" diffuse="0xff282828" specular="0xff060606" gloss="100.000000" shader="default" blockType="solid" gravity="false" HP="30"/>
+
+<cube id="12" diffuse="0xff333333" specular="0xff060606" gloss="100.000000" shader="default" blockType="solid" gravity="false" HP="30"/>
+
+<cube id="13" diffuse="0xff242424" specular="0xff060606" gloss="100.000000" shader="default" blockType="solid" gravity="false" HP="30"/>
+
+<cube id="14" diffuse="0xff4b4b4b" specular="0xff060606" gloss="100.000000" shader="default" blockType="solid" gravity="false" HP="30"/>
+
+<cube id="15" diffuse="0xff400f01" specular="0xff000000" gloss="100.000000" shader="default" blockType="solid" gravity="false" HP="20"/>
+
+<cube id="16" diffuse="0xff1b1612" specular="0xff000000" gloss="100.000000" shader="default" blockType="solid" gravity="false" HP="30"/>
+
+<cube id="17" diffuse="0xff4c0e00" specular="0xff000000" gloss="100.000000" shader="default" blockType="solid" gravity="false" HP="20"/>
+
+<cube id="18" diffuse="0xff2f0900" specular="0xff000000" gloss="100.000000" shader="default" blockType="solid" gravity="false" HP="20"/>
+
+<cube id="19" diffuse="0xff2a1c14" specular="0xff000000" gloss="100.000000" shader="default" blockType="solid" gravity="false" HP="30"/>
+
+<cube id="20" diffuse="0xff391204" specular="0xff000000" gloss="100.000000" shader="default" blockType="solid" gravity="false" HP="20"/>
+
+<cube id="21" diffuse="0xff350d01" specular="0xff000000" gloss="100.000000" shader="default" blockType="solid" gravity="false" HP="20"/>
+
+<cube id="22" diffuse="0xff99d9ea" specular="0xffffffff" gloss="10.000000" shader="water" blockType="liquid" gravity="true" HP="0"/>
