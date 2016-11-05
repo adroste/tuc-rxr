@@ -28,6 +28,10 @@ public:
 	{
 		return m_data;
 	}
+	void clear()
+	{
+		m_data.clear();
+	}
 private:
 	std::vector<T> m_data;
 };
@@ -110,6 +114,72 @@ MapLoader::MapLoader(const std::string & filename)
 				else
 					m_info.lights.push_back(l);
 			}
+		} 
+		else if(node->Value() == std::string("asset"))
+		{
+			std::string matFile;
+			std::string chFile;
+			{
+				auto elm = node->ToElement();
+				const char* attr = nullptr;
+
+				if ((attr = elm->Attribute("material")))
+					matFile = attr;
+				else return;
+
+				if ((attr = elm->Attribute("chunk")))
+					chFile = attr;
+				else return;
+			}
+
+			// get instances
+			auto asset = node->FirstChild();
+			std::vector<AssetInfo::Item> instances;
+			while(asset != nullptr)
+			{
+				if(asset->Value() == std::string("instance"))
+				{
+					AssetInfo::Item i;
+					auto elm = asset->ToElement();
+					const char* attr = nullptr;
+
+					if ((attr = elm->Attribute("position")))
+						i.pos = parser::strToVec3(attr);
+					else return;
+
+					if ((attr = elm->Attribute("scale")))
+						i.scale = parser::getFloat(attr);
+					else i.scale = 1.0f;
+
+					if ((attr = elm->Attribute("theta")))
+						i.theta = parser::getFloat(attr);
+					else i.theta = 0.0f;
+
+					if ((attr = elm->Attribute("phi")))
+						i.phi = parser::getFloat(attr);
+					else i.phi = 0.0f;
+
+					instances.push_back(i);
+				}
+
+				asset = asset->NextSibling();
+			}
+
+			if(instances.size())
+			{
+				// load chunk + material
+				MaterialLoader ml(matFile);
+				if (!ml.isOpen())
+					return;
+				ChunkLoader cl(chFile, ml.getMappedDesc());
+				if (!cl.isOpen())
+					return;
+
+				AssetInfo ai;
+				ai.instances = move(instances);
+				ai.geometry = cl.getCubes();
+				m_info.assets.push_back(std::move(ai));
+			}
 		}
 		node = node->NextSibling();
 	}
@@ -124,7 +194,7 @@ MapLoader::MapLoader(const std::string & filename)
 	if (!ml.isOpen())
 		return;
 
-	m_info.chunkCubes.assign(m_info.nChunks.x * m_info.nChunks.y, MapInfo::ChunkCubes());
+	m_info.chunkCubes.assign(m_info.nChunks.x * m_info.nChunks.y, ChunkCubes());
 
 	size_t idx = 0;
 	for(const auto& fname : chunkFiles)
@@ -193,6 +263,32 @@ void MapLoader::save(const std::string& filename, const MapInfo& i)
 	}
 
 	// write assets
+	size_t count = 1;
+	for(const auto& ass : i.assets)
+	{
+		if(ass.instances.size())
+		{
+			p.OpenElement("asset");
+			p.PushAttribute("material", getAssetMaterialFile(path, file, count).c_str());
+			p.PushAttribute("chunk", getAssetChunkFile(path, file, count).c_str());
+
+			for(const auto& in : ass.instances)
+			{
+				p.OpenElement("instance");
+				p.PushAttribute("position", parser::vecToString(in.pos).c_str());
+				if (std::abs(in.theta) > 0.0001f)
+					p.PushAttribute("theta", in.theta);
+				if (std::abs(in.phi) > 0.0001f)
+					p.PushAttribute("phi", in.phi);
+				if (std::abs(in.scale - 1.0f) > 0.0001f)
+					p.PushAttribute("scale", in.scale);
+				p.CloseElement();
+			}
+
+			p.CloseElement();
+			count++;
+		}
+	}
 
 	fclose(pFile);
 	pFile = nullptr;
@@ -217,6 +313,25 @@ void MapLoader::save(const std::string& filename, const MapInfo& i)
 
 	// create material
 	MaterialLoader::save(getMaterialFile(path, file), materials.get(), true);
+
+	// create material and chunks for assets
+	count = 1;
+	for(const auto& ass : i.assets)
+	{
+		if(ass.instances.size())
+		{
+			materials.clear();
+			std::vector<std::pair<Point3S, size_t>> indices;
+			for(const auto& c : ass.geometry)
+			{
+				size_t idx = materials.add(c.second);
+				indices.push_back(std::make_pair(c.first, idx));
+			}
+			ChunkLoader::save(getAssetChunkFile(path, file, count), indices);
+			MaterialLoader::save(getAssetMaterialFile(path, file, count), materials.get(), true);
+			count++;
+		}
+	}
 }
 
 void MapLoader::writeLight(tinyxml2::XMLPrinter& p, const LightSource& l)
@@ -285,4 +400,19 @@ std::string MapLoader::getMaterialFile(const std::string& path, const std::strin
 std::string MapLoader::getChunkFile(const std::string& path, const std::string& file, size_t x, size_t y)
 {
 	return path + file + "_chunk_" + std::to_string(x) + "_" + std::to_string(y) + ".bin";
+}
+
+std::string MapLoader::getAssetFile(const std::string& path, const std::string& file, size_t num)
+{
+	return path + file + "_asset_" + std::to_string(num);
+}
+
+std::string MapLoader::getAssetMaterialFile(const std::string& path, const std::string& file, size_t num)
+{
+	return getAssetFile(path, file, num) + ".cd";
+}
+
+std::string MapLoader::getAssetChunkFile(const std::string& path, const std::string& file, size_t num)
+{
+	return getAssetFile(path, file, num) + ".bin";
 }

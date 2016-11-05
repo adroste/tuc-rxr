@@ -11,11 +11,23 @@
 class MapLoader
 {
 public:
+	using ChunkCubes = std::vector<std::pair<Point3S, CubeDesc>>;
+	struct AssetInfo
+	{
+		ChunkCubes geometry;
+		struct Item
+		{
+			glm::vec3 pos;
+			float scale;
+			float theta;
+			float phi;
+		};
+		std::vector<Item> instances;
+	};
 	struct MapInfo
 	{
 		// chunk data
 		PointS nChunks; // how mny chunks in x and y?
-		using ChunkCubes = std::vector<std::pair<Point3S, CubeDesc>>;
 		std::vector<ChunkCubes> chunkCubes;
 
 		// light
@@ -23,7 +35,9 @@ public:
 		Color ambient;
 
 		// assets
+		std::vector<AssetInfo> assets;
 	};
+	
 public:
 	MapLoader(const std::string& filename);
 	bool isOpen() const;
@@ -34,6 +48,9 @@ private:
 	static bool parseLight(tinyxml2::XMLNode* node, LightSource& l);
 	static std::string getMaterialFile(const std::string& path, const std::string& file);
 	static std::string getChunkFile(const std::string& path, const std::string& file, size_t x, size_t y);
+	static std::string getAssetFile(const std::string& path, const std::string& file, size_t num);
+	static std::string getAssetMaterialFile(const std::string& path, const std::string& file, size_t num);
+	static std::string getAssetChunkFile(const std::string& path, const std::string& file, size_t num);
 private:
 	bool m_isValid = false;
 	MapInfo m_info;
