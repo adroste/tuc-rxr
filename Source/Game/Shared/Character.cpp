@@ -203,7 +203,7 @@ void Character::build()
 	rl2.push_back(std::unique_ptr<Cube>(new Cube(CubeDesc(Color::Cyan().toDWORD()), glm::vec3(0.0f, legLength2 - legWidth / 2, 0.0f), false, legWidth)));
 
 	body.push_back(std::unique_ptr<Cube>(new Cube(CubeDesc(Color::Green().toDWORD()), glm::vec3(0.0f, 0.0f, 0.0f), false, bodyWidth)));
-	body.push_back(std::unique_ptr<Cube>(new Cube(CubeDesc(Color::Gray().toDWORD()), glm::vec3(bodyWidth/2, 0.0f, 0.0f), false, bodyWidth/3)));
+	body.push_back(std::unique_ptr<Cube>(new Cube(CubeDesc(Color::Gray().toDWORD()), glm::vec3(-bodyWidth/2, 0.0f, 0.0f), false, bodyWidth/3)));
 
 	m_body.setCubes(std::move(body));
 	leftShoulder->setCubes(std::move(ls));
@@ -326,12 +326,12 @@ void Character::rightLegPitch(float angle)
 
 void Character::leftLeg2Pitch(float angle)
 {
-	m_body.m_nodes[3]->m_nodes[0]->rotate(0.0f, angle);
+	m_body.m_nodes[2]->m_nodes[0]->rotate(0.0f, angle);
 }
 
 void Character::rightLeg2Pitch(float angle)
 {
-	m_body.m_nodes[2]->m_nodes[0]->rotate(0.0f, angle);
+	m_body.m_nodes[3]->m_nodes[0]->rotate(0.0f, angle);
 }
 
 // angle functions kinda not correct yet
@@ -340,17 +340,17 @@ void Character::rightLeg2Pitch(float angle)
 float Character::GetPitch(CharNode & node)
 {
 	//return atan2(-node.m_rot[3][0], sqrt(node.m_rot[2][1]*node.m_rot[2][1]+ node.m_rot[2][2]*node.m_rot[2][2]));
-	return asin(node.m_rot[1][0]);
+	return node.m_theta;
 }
 
 float Character::GetRoll(CharNode & node)
 {
-	return atan2(-node.m_rot[1][2], node.m_rot[1][1]);
+	return node.m_phi;
 }
 
 float Character::GetYaw(CharNode & node)
 {
-	return atan2(-node.m_rot[2][1], node.m_rot[0][0]);
+	return node.m_theta;//bullshit
 }
 
 
