@@ -6,3 +6,8 @@
 <light type="ambient" color="0xff020202"/>
 
 <light type="directional" color="0xffffffff" direction="0.000000 0.894427 0.447214"/>
+
+<asset material="grassblade_material.cd" chunk="grassblade_chunk.bin">
+	<instance position="6 29 6" scale="0.2"/> 
+	<instance position="21 29 6" scale="0.2"/>
+</asset>

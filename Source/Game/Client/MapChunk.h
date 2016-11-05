@@ -19,6 +19,7 @@ public:
 	void setCube(Point3S pos, std::unique_ptr<CubeBase> c);
 	void updateGpuArray();
 	std::vector<std::pair<Point3S, CubeDesc>> getCubes() const;
+	void loadChunk(const std::vector<std::pair<Point3S, CubeDesc>>& cubes);
 private:
 	std::unique_ptr<CubeBase>& getCube(const Point3S& p);
 	void updateNeighborFlags(const Point3S& pos, bool isOpaque, bool isBlock);

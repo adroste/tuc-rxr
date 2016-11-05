@@ -72,9 +72,16 @@ void Map::draw(Drawing& draw)
 		}
 		transform = glm::translate(glm::vec3(0.0f, float(MapChunk::SIZE * (y+1)), 0.0f));
 	}
+	glDisable(GL_BLEND);
+	// draw assets
+	// TODO seperate lock?
+	for(auto& a : m_assets)
+	{
+		a.draw(draw, meshCube);
+	}
+
 	g.unlock();
 	shader.unbind();
-	glDisable(GL_BLEND);
 }
 
 void Map::setDim(Point3S dim)
@@ -134,4 +141,29 @@ std::vector<std::vector<std::pair<Point3S, CubeDesc>>> Map::getCubeInfos() const
 PointS Map::getChunkSize() const
 {
 	return m_cdim;
+}
+
+void Map::loadMapAndAssets(const MapLoader::MapInfo& i)
+{
+	// load chunks
+	size_t idx = 0;
+	for(const auto& c : i.chunkCubes)
+	{
+		PointS pos = i.nChunks.fromIndex(idx);
+		m_chunks[m_cdim.calcIndex(pos)].loadChunk(c);
+		idx++;
+	}
+
+	for(const auto& ass : i.assets)
+	{
+		if(ass.instances.size())
+		{
+			MapAsset a;
+			a.loadChunk(ass.geometry);
+			for (const auto& in : ass.instances)
+				a.addInstance(in.pos, in.theta, in.phi, in.scale);
+
+			m_assets.push_back(std::move(a));
+		}
+	}
 }

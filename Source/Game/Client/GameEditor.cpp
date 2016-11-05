@@ -330,6 +330,14 @@ void GameEditor::loadCubes(const std::vector<std::pair<Point3S, CubeDesc>>& c, s
 	}
 }
 
+void GameEditor::loadMap(const MapLoader::MapInfo& i)
+{
+	reset();
+	setMapdim({ i.nChunks.x * MapChunk::SIZE, i.nChunks.y * MapChunk::SIZE, Map::DEPTH });
+	updateLights(i.ambient, i.lights);
+	m_pMap->loadMapAndAssets(i);
+}
+
 void GameEditor::drawGrid(Drawing& draw) const
 {
 	draw.getTransform().pushModel(glm::translate(glm::vec3{ -0.5f, -0.5f, -0.5f }));

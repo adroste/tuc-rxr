@@ -21,17 +21,7 @@ Game::Game()
 	
 	auto& i = l.getInfo();
 	m_pMap = std::unique_ptr<Map>(new Map(Point3S(i.nChunks.x * MapChunk::SIZE, i.nChunks.y * MapChunk::SIZE, Map::DEPTH)));
-	// TODO improve
-	size_t idx = 0;
-	for(const auto& chunk : i.chunkCubes)
-	{
-		Point3S off = Point3S(idx % i.nChunks.x, idx / i.nChunks.x, 0);
-		off *= MapChunk::SIZE;
-		for (const auto& c : chunk)
-			m_pMap->setCube(c.first + off, c.second);
-		
-		idx++;
-	}
+	m_pMap->loadMapAndAssets(i);
 
 	m_pCam = makeCamera();
 

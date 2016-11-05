@@ -189,6 +189,7 @@
     <ClCompile Include="..\Source\Framework\Window.cpp" />
     <ClCompile Include="..\Source\Game\Client\GameEditor.cpp" />
     <ClCompile Include="..\Source\Game\Client\LightManager.cpp" />
+    <ClCompile Include="..\Source\Game\Client\MapAsset.cpp" />
     <ClCompile Include="..\Source\Game\Client\MapChunk.cpp" />
     <ClCompile Include="..\Source\Game\Shared\Character.cpp" />
     <ClCompile Include="..\Source\Game\Shared\CharNode.cpp" />
@@ -297,6 +298,7 @@
     <ClInclude Include="..\Source\Framework\Window.h" />
     <ClInclude Include="..\Source\Game\Client\GameEditor.h" />
     <ClInclude Include="..\Source\Game\Client\LightManager.h" />
+    <ClInclude Include="..\Source\Game\Client\MapAsset.h" />
     <ClInclude Include="..\Source\Game\Client\MapChunk.h" />
     <ClInclude Include="..\Source\Game\Client\States\StateDev.h" />
     <ClInclude Include="..\Source\Game\Client\States\StateEditor.h" />

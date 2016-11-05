@@ -199,7 +199,8 @@ public:
 		if(l.isOpen())
 		{
 			const auto& i = l.getInfo();
-			m_editor.reset();
+			m_editor.loadMap(i);
+			/*m_editor.reset();
 			m_editor.setMapdim({ i.nChunks.x * MapChunk::SIZE, i.nChunks.y * MapChunk::SIZE, Map::DEPTH });
 			size_t idx = 0;
 			for(const auto& c : i.chunkCubes)
@@ -208,7 +209,7 @@ public:
 				m_editor.loadCubes(c, p.x, p.y);
 				idx++;
 			}
-			m_editor.updateLights(i.ambient, i.lights);
+			m_editor.updateLights(i.ambient, i.lights);*/
 		}
 	}
 

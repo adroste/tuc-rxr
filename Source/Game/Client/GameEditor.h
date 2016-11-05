@@ -4,6 +4,7 @@
 #include "LightManager.h"
 #include "../../System/Input.h"
 #include "../../Framework/UI/Callback.h"
+#include "../Shared/MapLoader.h"
 
 class GameEditor : public Input::IReceiver
 {
@@ -33,6 +34,7 @@ public:
 	PointS getMapChunkSize() const;
 	std::vector<std::vector<std::pair<Point3S, CubeDesc>>> getCubeDescs();
 	void loadCubes(const std::vector<std::pair<Point3S, CubeDesc>>& c, size_t xoff, size_t yoff);
+	void loadMap(const MapLoader::MapInfo& i);
 private:
 	void drawGrid(Drawing& draw) const;
 	void drawLineBox(Drawing& draw, const Point3F& p1, const Point3F& p2, const Color& c) const;

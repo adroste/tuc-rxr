@@ -177,6 +177,15 @@ std::vector<std::pair<Point3S, CubeDesc>> MapChunk::getCubes() const
 	return d;
 }
 
+void MapChunk::loadChunk(const std::vector<std::pair<Point3S, CubeDesc>>& cubes)
+{
+	for(const auto& c : cubes)
+	{
+		// TODO improve
+		setCube(c.first, std::unique_ptr<CubeBase>(new CubeBase(c.second)));
+	}
+}
+
 std::unique_ptr<CubeBase>& MapChunk::getCube(const Point3S& p)
 {
 	return m_cubes[m_dim.calcIndex(p)];
