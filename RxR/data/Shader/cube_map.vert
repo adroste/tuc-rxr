@@ -1,6 +1,7 @@
 #version 330 core
 
 #include "uniforms/Transforms.glsl"
+#include "uniforms/Framework.glsl"
 
 layout(location = 0) in vec3 in_position;
 layout(location = 1) in vec3 in_normal;
@@ -10,8 +11,8 @@ uniform uint animation;
 
 #define CHUNK_SIZE 32
 
-out vec4 normal;
 out vec3 mapPos;
+flat out vec4 normal;
 flat out vec3 diffColor;
 flat out vec4 specColor;
 flat out uint shaderType;
@@ -80,9 +81,12 @@ void main()
 	}
 	else // wind animation
 	{
-		float sfac = 31.0 - chOffset.y;
-		mat2 s = mat2(1.0, 2.0,0.0,sfac);
-		inChunkPos.xy = s * inChunkPos.xy;
+		float xfactor = sin(framework.random.y * 6.28318531) * 7.0;
+		float zfactor = cos(framework.random.x * 6.28318531) * 7.0;
+		float h = 1.0 - (inChunkPos.y + 0.5) / float(CHUNK_SIZE); // [0-1]
+		
+		inChunkPos.x = inChunkPos.x + h * xfactor;
+		inChunkPos.z = inChunkPos.z + h * zfactor;
 		
 		normal = matModel * vec4(in_normal,0.0);
 		mapPos = (matModel * vec4(inChunkPos, 1.0)).xyz;

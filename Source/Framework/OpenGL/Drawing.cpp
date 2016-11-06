@@ -23,7 +23,8 @@ Drawing::Drawing()
 	m_blockFramework({&m_shButton,
 		&m_fontHeadS, &m_fontHeadM, &m_fontHeadL,
 		&m_fontTextS, &m_fontTextM, &m_fontTextL,
-		&m_shColor, &m_shDisc, &m_shColor2
+		&m_shColor, &m_shDisc, &m_shColor2,
+		&m_shCubeMap
 
 	},"Framework"),
 

@@ -90,6 +90,8 @@ void Graphics::beginFrame()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	m_draw.m_blockFramework.setMouse(Input::getMouse());
+	m_draw.m_blockFramework.updateRandom();
+	m_draw.m_blockFramework.flush();
 
 	glCheck("Graphics::beginFrame");
 }

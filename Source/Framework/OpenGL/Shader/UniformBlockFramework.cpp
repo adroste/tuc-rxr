@@ -4,6 +4,7 @@ UniformBlockFramework::UniformBlockFramework(const std::initializer_list<Shader*
 	:
 	UniformBlock(refShader,blockName)
 {
+	m_tmr.startWatch();
 }
 
 UniformBlockFramework::~UniformBlockFramework()
@@ -15,13 +16,26 @@ void UniformBlockFramework::create()
 	UniformBlock::create();
 	m_changed = true;
 
-	if (m_blockSize != 32)
-		throw ExceptionBlockSize("UniformBlockFramework::create", 32, m_blockSize);
+	if (m_blockSize != 48)
+		throw ExceptionBlockSize("UniformBlockFramework::create", 48, m_blockSize);
 }
 
 void UniformBlockFramework::setMouse(const PointF& mouse)
 {
 	updateVar(mouse, sizeof(RectF));
+	m_changed = true;
+}
+
+void UniformBlockFramework::updateRandom()
+{
+	float dt = m_tmr.lapSecond() * 0.1f;
+
+	m_random.x = fmodf(m_random.x + dt,1.0f);
+	m_random.y = fmodf(m_random.y + dt * 1.7f,1.0f);
+	m_random.z = fmodf(m_random.z + dt * 3.5f,1.0f);
+	m_random.w = fmodf(m_random.w + dt * 7.1f,1.0f);
+	updateVar(m_random, 32);
+
 	m_changed = true;
 }
 

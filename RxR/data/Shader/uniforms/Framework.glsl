@@ -4,6 +4,7 @@ layout( std140 ) uniform Framework
 {
 	vec4 clip; // x1,y1, x2,y2
 	vec4 mouse;
+	vec4 random;
 } framework;
 
 bool framework_isInRect(vec2 pos)

@@ -4,8 +4,8 @@
 #include "uniforms/Material.glsl"
 #include "light/gamma.glsl"
 
-in vec4 normal;
 in vec3 mapPos;
+flat in vec4 normal;
 flat in vec3 diffColor;
 flat in vec4 specColor;
 flat in uint shaderType;
