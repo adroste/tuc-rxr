@@ -23,8 +23,9 @@ void MapAsset::addInstance(glm::vec3 pos, float theta, float phi, float scale)
 	);
 }
 
-void MapAsset::draw(Drawing& draw, Mesh& cube)
+void MapAsset::draw(Drawing& draw, Mesh& cube, ShaderCubeMap& shader)
 {
+	shader.setAnimation(m_animation);
 	for(const auto& m : m_instRot)
 	{
 		draw.getTransform().pushModel(m);
@@ -34,4 +35,10 @@ void MapAsset::draw(Drawing& draw, Mesh& cube)
 
 		draw.getTransform().popModel();
 	}
+	shader.setAnimation(AssetAnimation::None);
+}
+
+void MapAsset::setAnimation(AssetAnimation a)
+{
+	m_animation = a;
 }

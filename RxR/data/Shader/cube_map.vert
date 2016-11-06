@@ -5,6 +5,9 @@
 layout(location = 0) in vec3 in_position;
 layout(location = 1) in vec3 in_normal;
 layout(location = 2) in ivec3 in_iinfo;
+
+uniform uint animation;
+
 #define CHUNK_SIZE 32
 
 out vec4 normal;
@@ -67,8 +70,22 @@ void main()
 	}
 	cubeSide = side;
 	plsDiscard = neighbors & cubeSide;
+	vec3 inChunkPos = in_position * 0.5 + chOffset;
 	
-	normal = matModel * vec4(in_normal,0.0);
-	mapPos = (matModel * vec4(in_position * 0.5 + chOffset, 1.0)).xyz;
-	gl_Position = matProjection * matCamera * matModel * vec4(in_position * 0.5 + chOffset, 1.0);
+	if(animation == uint(0))
+	{
+		normal = matModel * vec4(in_normal,0.0);
+		mapPos = (matModel * vec4(inChunkPos, 1.0)).xyz;
+		gl_Position = matProjection * matCamera * matModel * vec4(inChunkPos, 1.0);
+	}
+	else // wind animation
+	{
+		float sfac = 31.0 - chOffset.y;
+		mat2 s = mat2(1.0, 2.0,0.0,sfac);
+		inChunkPos.xy = s * inChunkPos.xy;
+		
+		normal = matModel * vec4(in_normal,0.0);
+		mapPos = (matModel * vec4(inChunkPos, 1.0)).xyz;
+		gl_Position = matProjection * matCamera * matModel * vec4(inChunkPos, 1.0);
+	}
 }

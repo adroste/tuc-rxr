@@ -7,6 +7,10 @@
 #include "MaterialLoader.h"
 #include "ChunkLoader.h"
 
+ENUM_CONVERT(AssetAnimation, AssetAnimation::None,
+{ AssetAnimation::None,"none" },
+{ AssetAnimation::Wind, "wind" });
+
 template<class T>
 class IndexedSet
 {
@@ -119,6 +123,7 @@ MapLoader::MapLoader(const std::string & filename)
 		{
 			std::string matFile;
 			std::string chFile;
+			AssetAnimation anim = AssetAnimation::None;
 			{
 				auto elm = node->ToElement();
 				const char* attr = nullptr;
@@ -130,6 +135,9 @@ MapLoader::MapLoader(const std::string & filename)
 				if ((attr = elm->Attribute("chunk")))
 					chFile = attr;
 				else return;
+
+				if ((attr = elm->Attribute("animation")))
+					anim = AssetAnimationFromString(attr);
 			}
 
 			// get instances
@@ -178,6 +186,7 @@ MapLoader::MapLoader(const std::string & filename)
 				AssetInfo ai;
 				ai.instances = move(instances);
 				ai.geometry = cl.getCubes();
+				ai.animation = anim;
 				m_info.assets.push_back(std::move(ai));
 			}
 		}
@@ -271,6 +280,8 @@ void MapLoader::save(const std::string& filename, const MapInfo& i)
 			p.OpenElement("asset");
 			p.PushAttribute("material", getAssetMaterialFile(path, file, count).c_str());
 			p.PushAttribute("chunk", getAssetChunkFile(path, file, count).c_str());
+			if (ass.animation != AssetAnimation::None && ass.animation != AssetAnimation::SIZE)
+				p.PushAttribute("animation", AssetAnimationToString(ass.animation).c_str());
 
 			for(const auto& in : ass.instances)
 			{

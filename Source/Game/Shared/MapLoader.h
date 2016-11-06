@@ -8,6 +8,15 @@
 #include "../../Framework/Color.h"
 #include "../../Utility/Point.h"
 
+enum class AssetAnimation
+{
+	None,
+	Wind,
+	SIZE
+};
+
+ENUM_CONVERT_FUNC(AssetAnimation);
+
 class MapLoader
 {
 public:
@@ -23,6 +32,7 @@ public:
 			float phi;
 		};
 		std::vector<Item> instances;
+		AssetAnimation animation;
 	};
 	struct MapInfo
 	{

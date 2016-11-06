@@ -77,7 +77,7 @@ void Map::draw(Drawing& draw)
 	// TODO seperate lock?
 	for(auto& a : m_assets)
 	{
-		a.draw(draw, meshCube);
+		a.draw(draw, meshCube, shader);
 	}
 
 	g.unlock();
@@ -151,6 +151,7 @@ void Map::loadMapAndAssets(const MapLoader::MapInfo& i)
 	{
 		PointS pos = i.nChunks.fromIndex(idx);
 		m_chunks[m_cdim.calcIndex(pos)].loadChunk(c);
+		// TODO set shadows
 		idx++;
 	}
 
@@ -162,6 +163,7 @@ void Map::loadMapAndAssets(const MapLoader::MapInfo& i)
 			a.loadChunk(ass.geometry);
 			for (const auto& in : ass.instances)
 				a.addInstance(in.pos, in.theta, in.phi, in.scale);
+			a.setAnimation(ass.animation);
 
 			m_assets.push_back(std::move(a));
 		}
