@@ -151,7 +151,12 @@ void Map::loadMapAndAssets(const MapLoader::MapInfo& i)
 	{
 		PointS pos = i.nChunks.fromIndex(idx);
 		m_chunks[m_cdim.calcIndex(pos)].loadChunk(c);
-		// TODO set shadows
+		// setting shadows
+		for(const auto& b : c)
+		{
+			PointS off = pos * MapChunk::SIZE;
+			m_volumeTextureMap.setValue(Point3S(off.x, off.y, 0) + b.first, CubeBase(b.second).getShadow());
+		}
 		idx++;
 	}
 
