@@ -80,3 +80,8 @@ float Framework::getScalar()
 {
 	return m_scale;
 }
+
+size_t Framework::getDrawThreadID()
+{
+	return Drawing::getThreadID();
+}

@@ -34,7 +34,7 @@ public:
 	void draw();
 
 	template <class vecType, size_t count, size_t enumType>
-	void drawInstanced(size_t num, InstacingArray<vecType, count, enumType>& ia);
+	void drawInstanced(size_t num, InstancingArray<vecType, count, enumType>& ia);
 
 	void create() override;
 	void dispose() override;
@@ -51,7 +51,7 @@ private:
 };
 
 template <class vecType, size_t count, size_t enumType>
-void Mesh::drawInstanced(size_t num, InstacingArray<vecType, count, enumType>& ia)
+void Mesh::drawInstanced(size_t num, InstancingArray<vecType, count, enumType>& ia)
 {
 	glBindVertexArray(m_vertexArrayObject);
 

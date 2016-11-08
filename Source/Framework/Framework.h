@@ -1,5 +1,6 @@
 #pragma once
 #include "../Utility/Point.h"
+#include "../System/System.h"
 
 class Framework
 {
@@ -16,6 +17,9 @@ public:
 	static PointF getCamOrigin();
 	static PointF getScreenCenter();
 	static float getScalar();
-
-
+	
+	static size_t getDrawThreadID();
 };
+
+#define DRAW_THREAD assert(System::getThreadID() == Framework::getDrawThreadID());
+#define MAIN_THREAD assert(System::getThreadID() != Framework::getDrawThreadID());

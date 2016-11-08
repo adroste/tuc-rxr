@@ -1,5 +1,6 @@
 #include "MapChunk.h"
 #include <bitset>
+#include "../../Framework/Framework.h"
 
 const Point3S MapChunk::m_dim = { SIZE,SIZE,SIZE };
 
@@ -18,6 +19,8 @@ MapChunk::~MapChunk()
 
 void MapChunk::draw(Drawing& draw, Mesh& cube)
 {
+	DRAW_THREAD;
+	
 	updateGpuArray(); // TODO move this function somewhere else?
 	if (m_iArray.getDataCount() == 0)
 		return;
@@ -32,67 +35,39 @@ void MapChunk::draw(Drawing& draw, Mesh& cube)
 
 void MapChunk::setCube(Point3S pos, std::unique_ptr<CubeBase> c)
 {
+	MAIN_THREAD;
 	auto index = m_dim.calcIndex(pos);
 
 	// check for neighbors
+	CubeBase* ch = nullptr;
 	if(c)
 	{
 		c->neighbors = 0;
-		if(c->isOpaque())
+		if(!c->hasTransparency())
 		{
-			if (pos.x > 0)
-				if (isOpaque(Point3S(pos.x - 1, pos.y, pos.z)))
-					c->neighbors |= CubeBase::Left;
-
-			if (pos.y > 0)
-				if (isOpaque(Point3S(pos.x, pos.y - 1, pos.z)))
-					c->neighbors |= CubeBase::Bottom;
-
-			if (pos.z > 0)
-				if (isOpaque(Point3S(pos.x, pos.y, pos.z - 1)))
-					c->neighbors |= CubeBase::Back;
-
-			if (pos.x < m_dim.x - 1)
-				if (isOpaque(Point3S(pos.x + 1, pos.y, pos.z)))
-					c->neighbors |= CubeBase::Right;
-
-			if (pos.y < m_dim.y - 1)
-				if (isOpaque(Point3S(pos.x, pos.y + 1, pos.z)))
-					c->neighbors |= CubeBase::Top;
-
-			if (pos.z < m_dim.z - 1)
-				if (isOpaque(Point3S(pos.x, pos.y, pos.z + 1)))
-					c->neighbors |= CubeBase::Front;
+			// no transparency
+#define UPD(dx,dy,dz,side, oside) ch = getCube(pos, dx, dy, dz); if (ch && !ch->hasTransparency()) \
+	{c->neighbors |= CubeBase::side; ch->neighbors |= CubeBase::oside;}
+			UPD(-1, 0, 0, Left, Right);
+			UPD(0, -1, 0, Bottom, Top);
+			UPD(0, 0, -1, Back, Front);
+			UPD(1, 0, 0, Right, Left);
+			UPD(0, 1, 0, Top, Bottom);
+			UPD(0, 0, 1, Front, Back);
+#undef UPD
 		}
-		else
+		else // has Transparency
 		{
-			if (pos.x > 0)
-				if (getCube(Point3S(pos.x - 1, pos.y, pos.z)))
-					c->neighbors |= CubeBase::Left;
-
-			if (pos.y > 0)
-				if (getCube(Point3S(pos.x, pos.y - 1, pos.z)))
-					c->neighbors |= CubeBase::Bottom;
-
-			if (pos.z > 0)
-				if (getCube(Point3S(pos.x, pos.y, pos.z - 1)))
-					c->neighbors |= CubeBase::Back;
-
-			if (pos.x < m_dim.x - 1)
-				if (getCube(Point3S(pos.x + 1, pos.y, pos.z)))
-					c->neighbors |= CubeBase::Right;
-
-			if (pos.y < m_dim.y - 1)
-				if (getCube(Point3S(pos.x, pos.y + 1, pos.z)))
-					c->neighbors |= CubeBase::Top;
-
-			if (pos.z < m_dim.z - 1)
-				if (getCube(Point3S(pos.x, pos.y, pos.z + 1)))
-					c->neighbors |= CubeBase::Front;
+#define UPD(dx,dy,dz,side, oside) ch = getCube(pos, dx, dy, dz); if (ch) \
+	{c->neighbors |= CubeBase::side; if(ch->hasTransparency()) ch->neighbors |= CubeBase::oside; else ch->neighbors &= ~CubeBase::oside;}
+			UPD(-1, 0, 0, Left, Right);
+			UPD(0, -1, 0, Bottom, Top);
+			UPD(0, 0, -1, Back, Front);
+			UPD(1, 0, 0, Right, Left);
+			UPD(0, 1, 0, Top, Bottom);
+			UPD(0, 0, 1, Front, Back);
+#undef UPD
 		}
-		
-
-		updateNeighborFlags(pos, c->isOpaque(), true);
 	}
 	else
 	{
@@ -100,7 +75,15 @@ void MapChunk::setCube(Point3S pos, std::unique_ptr<CubeBase> c)
 		if(m_cubes[index])
 		{
 			// clear flags around block
-			updateNeighborFlags(pos, false, false);
+#define UPD(dx,dy,dz,oside) ch = getCube(pos, dx, dy, dz); if (ch) \
+	{ch->neighbors &= ~CubeBase::oside;}
+			UPD(-1, 0, 0, Right);
+			UPD(0, -1, 0, Top);
+			UPD(0, 0, -1, Front);
+			UPD(1, 0, 0, Left);
+			UPD(0, 1, 0, Bottom);
+			UPD(0, 0, 1, Back);
+#undef UPD
 		}
 	}
 
@@ -164,6 +147,7 @@ void MapChunk::updateGpuArray()
 
 std::vector<std::pair<Point3S, CubeDesc>> MapChunk::getCubes() const
 {
+	MAIN_THREAD;
 	std::vector<std::pair<Point3S, CubeDesc>> d;
 	size_t idx = 0;
 	for (const auto& c : m_cubes)
@@ -179,6 +163,7 @@ std::vector<std::pair<Point3S, CubeDesc>> MapChunk::getCubes() const
 
 void MapChunk::loadChunk(const std::vector<std::pair<Point3S, CubeDesc>>& cubes)
 {
+	MAIN_THREAD;
 	for(const auto& c : cubes)
 	{
 		// TODO improve
@@ -186,114 +171,71 @@ void MapChunk::loadChunk(const std::vector<std::pair<Point3S, CubeDesc>>& cubes)
 	}
 }
 
-std::unique_ptr<CubeBase>& MapChunk::getCube(const Point3S& p)
+void MapChunk::setTransparency(bool hasTrans)
 {
-	return m_cubes[m_dim.calcIndex(p)];
+	MAIN_THREAD;
+
+	m_hasTransparent = hasTrans;
 }
 
-void MapChunk::updateNeighborFlags(const Point3S& pos, bool isOpaque, bool isBlock)
+void MapChunk::setNeighbors(MapChunk* left, MapChunk* right, MapChunk* top, MapChunk* bottom)
 {
-	if(isOpaque)
-	{
-		if (pos.x > 0)
-		{
-			auto& c = getCube(Point3S(pos.x - 1, pos.y, pos.z));
-			if (c) c->neighbors |= CubeBase::Right;
-		}
+	MAIN_THREAD;
 
-		if (pos.y > 0)
-		{
-			auto& c = getCube(Point3S(pos.x, pos.y - 1, pos.z));
-			if (c) c->neighbors |= CubeBase::Top;
-		}
-
-		if (pos.z > 0)
-		{
-			auto& c = getCube(Point3S(pos.x, pos.y, pos.z - 1));
-			if (c) c->neighbors |= CubeBase::Front;
-		}
-
-		if (pos.x < m_dim.x - 1)
-		{
-			auto& c = getCube(Point3S(pos.x + 1, pos.y, pos.z));
-			if (c) c->neighbors |= CubeBase::Left;
-		}
-
-		if (pos.y < m_dim.y - 1)
-		{
-			auto& c = getCube(Point3S(pos.x, pos.y + 1, pos.z));
-			if (c) c->neighbors |= CubeBase::Bottom;
-		}
-
-		if (pos.z < m_dim.z - 1)
-		{
-			auto& c = getCube(Point3S(pos.x, pos.y, pos.z + 1));
-			if (c) c->neighbors |= CubeBase::Back;
-		}
-	}
-	else
-	{
-		// its not opaque, but is it a block?
-		if (pos.x > 0)
-		{
-			auto& c = getCube(Point3S(pos.x - 1, pos.y, pos.z));
-			if (c)
-				if(isBlock && !c->isOpaque())
-					c->neighbors |= CubeBase::Right;
-				else c->neighbors &= ~CubeBase::Right;
-		}
-
-		if (pos.y > 0)
-		{
-			auto& c = getCube(Point3S(pos.x, pos.y - 1, pos.z));
-			if (c) 
-				if (isBlock && !c->isOpaque())
-				c->neighbors |= CubeBase::Top;
-				else c->neighbors &= ~CubeBase::Top;
-		}
-
-		if (pos.z > 0)
-		{
-			auto& c = getCube(Point3S(pos.x, pos.y, pos.z - 1));
-			if (c) 
-				if (isBlock && !c->isOpaque())
-					c->neighbors |= CubeBase::Front;
-				else c->neighbors &= ~CubeBase::Front;
-		}
-
-		if (pos.x < m_dim.x - 1)
-		{
-			auto& c = getCube(Point3S(pos.x + 1, pos.y, pos.z));
-			if (c) 
-				if (isBlock && !c->isOpaque())
-					c->neighbors |= CubeBase::Left;
-				else c->neighbors &= ~CubeBase::Left;
-		}
-
-		if (pos.y < m_dim.y - 1)
-		{
-			auto& c = getCube(Point3S(pos.x, pos.y + 1, pos.z));
-			if (c)
-				if (isBlock && !c->isOpaque())
-					c->neighbors |= CubeBase::Bottom;
-				else c->neighbors &= ~CubeBase::Bottom;
-		}
-
-		if (pos.z < m_dim.z - 1)
-		{
-			auto& c = getCube(Point3S(pos.x, pos.y, pos.z + 1));
-			if (c) 
-				if (isBlock && !c->isOpaque())
-					c->neighbors |= CubeBase::Back;
-				else c->neighbors &= ~CubeBase::Back;
-		}
-	}
+	m_left = left;
+	m_right = right;
+	m_top = top;
+	m_bottom = bottom;
 }
 
-bool MapChunk::isOpaque(const Point3S& p) const
+CubeBase* MapChunk::getCube(const Point3S& p, int dx, int dy, int dz)
 {
-	auto& b = m_cubes[m_dim.calcIndex(p)];
-	if (b)
-		return b->isOpaque();
-	return false;
+	MAIN_THREAD;
+	int x = int(p.x) + dx;
+	int y = int(p.y) + dy;
+	int z = int(p.z) + dz;
+	// only one offset may differ from zero
+	assert(((dx != 0) + (dy != 0) + (dz != 0)) == 1);
+
+	if (z < 0 || z >= SIZE)
+		return nullptr;
+
+	auto curChunk = this;
+
+	if(x < 0) // left chunk?
+	{
+		curChunk = m_left;
+		x += SIZE;
+	} else if(x >= SIZE)
+	{
+		curChunk = m_right;
+		x -= SIZE;
+	}
+
+	if(y < 0)
+	{
+		curChunk = m_top;
+		y += SIZE;
+	} else if(y >= SIZE)
+	{
+		curChunk = m_bottom;
+		y -= SIZE;
+	}
+
+	assert(x >= 0);
+	assert(x < SIZE);
+	assert(y >= 0);
+	assert(y < SIZE);
+
+	if (curChunk == nullptr)
+		return nullptr; // no block present
+
+	// get Block
+	return curChunk->getCube(Point3S(x, y, z));
+}
+
+CubeBase* MapChunk::getCube(const Point3S& p)
+{
+	MAIN_THREAD;
+	return m_cubes[m_dim.calcIndex(p)].get();
 }

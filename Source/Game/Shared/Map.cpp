@@ -43,8 +43,8 @@ void Map::destroyBlock(const Point3S& pos)
 
 void Map::draw(Drawing& draw)
 {
-	glEnable(GL_BLEND);
-	glBlendFuncSeparate(GL_DST_ALPHA, GL_ONE, GL_DST_ALPHA, GL_ZERO);
+	//glEnable(GL_BLEND);
+	//glBlendFuncSeparate(GL_DST_ALPHA, GL_ONE, GL_DST_ALPHA, GL_ZERO);
 	LockGuard g(m_muMap);
 	draw.setMapInfo(m_dim);
 	// enable volume map
@@ -72,7 +72,7 @@ void Map::draw(Drawing& draw)
 		}
 		transform = glm::translate(glm::vec3(0.0f, float(MapChunk::SIZE * (y+1)), 0.0f));
 	}
-	glDisable(GL_BLEND);
+	//glDisable(GL_BLEND);
 	// draw assets
 	// TODO seperate lock?
 	for(auto& a : m_assets)
@@ -111,12 +111,32 @@ void Map::setDim(Point3S dim)
 			else newChunks.emplace_back();
 		}
 	}
-
+	// set neighbors
 	m_cdim.x = nx;
 	m_cdim.y = ny;
+	m_chunks = move(newChunks);
+	for (size_t y = 0; y < ny; y++)
+	{
+		for (size_t x = 0; x < nx; x++)
+		{
+			MapChunk* left = nullptr;
+			MapChunk* right = nullptr;
+			MapChunk* top = nullptr;
+			MapChunk* bottom = nullptr;
+			if(x < nx -1)
+				right = &m_chunks[m_cdim.calcIndex({ x + 1,y })];
+			if (x > 0)
+				left = &m_chunks[m_cdim.calcIndex({ x - 1,y })];
+			if (y < ny - 1)
+				bottom = &m_chunks[m_cdim.calcIndex({ x,y+1 })];
+			if (y > 0)
+				top = &m_chunks[m_cdim.calcIndex({ x,y-1 })];
+			m_chunks[m_cdim.calcIndex({ x,y })].setNeighbors(left, right, top, bottom);
+		}
+	}
+	// TODO add case if neighbors were removed
 	dim.x = nx * MapChunk::SIZE;
 	dim.y = ny * MapChunk::SIZE;
-	m_chunks = move(newChunks);
 	dim.z = DEPTH; // use depth 16 for shadow map
 	m_volumeTextureMap.resize(dim);
 	m_dim = dim;

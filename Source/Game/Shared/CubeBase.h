@@ -27,6 +27,7 @@ public:
 		return 0.3f;
 	}
 	bool isOpaque() const;
+	bool hasTransparency() const;
 public:
 	// indicates if there are neighboring blocks in this chunk
 	size_t neighbors = 0;

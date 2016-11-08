@@ -20,18 +20,29 @@ public:
 	void updateGpuArray();
 	std::vector<std::pair<Point3S, CubeDesc>> getCubes() const;
 	void loadChunk(const std::vector<std::pair<Point3S, CubeDesc>>& cubes);
+	void setTransparency(bool hasTrans);
+	// note: top is mapchunk above -> mapchunk with lower y
+	void setNeighbors(MapChunk* left, MapChunk* right, MapChunk* top, MapChunk* bottom);
 private:
-	std::unique_ptr<CubeBase>& getCube(const Point3S& p);
-	void updateNeighborFlags(const Point3S& pos, bool isOpaque, bool isBlock);
-	bool isOpaque(const Point3S& p) const;
+	// position in chunk + offset
+	CubeBase* getCube(const Point3S& p, int x, int y, int z);
+	CubeBase* getCube(const Point3S& p);
 private:
 	static const Point3S m_dim;
 	std::vector<std::unique_ptr<CubeBase>> m_cubes;
 
 	// GPU stuff
 	bool m_hasChanged = true;
+	bool m_hasTransparent = false;
+	MapChunk* m_left = nullptr;
+	MapChunk* m_right = nullptr;
+	MapChunk* m_top = nullptr;
+	MapChunk* m_bottom = nullptr;
+
 	// pretend that this is a float because opengl would convert it otherwise...
-	InstacingArray<glm::ivec3, 3, GL_FLOAT> m_iArray;
+	InstancingArray<glm::ivec3, 3, GL_FLOAT> m_iArray;
+	InstancingArray<glm::ivec3, 3, GL_FLOAT> m_iTransArray; // array for transparent blocks
+	
 	/*
 	 * x:	0-15 chunk position
 	 *		16-31 diffuse r+g

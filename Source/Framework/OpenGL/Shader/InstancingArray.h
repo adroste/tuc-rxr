@@ -5,7 +5,7 @@
 
 // vecType = glm::vec3 -> count = 3, enumType = GL_FLOAT
 template <class vecType, size_t count, size_t enumType>
-class InstacingArray : public GLObject
+class InstancingArray : public GLObject
 {
 public:
 	void create() override;
@@ -21,7 +21,7 @@ private:
 };
 
 template <class vecType, size_t count, size_t enumType>
-void InstacingArray<vecType, count, enumType >::create()
+void InstancingArray<vecType, count, enumType >::create()
 {
 	assert(m_vbo == 0);
 	glGenBuffers(1, &m_vbo);
@@ -32,7 +32,7 @@ void InstacingArray<vecType, count, enumType >::create()
 }
 
 template <class vecType, size_t count, size_t enumType>
-void InstacingArray<vecType, count, enumType>::dispose()
+void InstancingArray<vecType, count, enumType>::dispose()
 {
 	assert(m_vbo);
 	glDeleteBuffers(1, &m_vbo);
@@ -40,7 +40,7 @@ void InstacingArray<vecType, count, enumType>::dispose()
 }
 
 template <class vecType, size_t count, size_t enumType>
-void InstacingArray<vecType, count, enumType>::bind(int slot)
+void InstancingArray<vecType, count, enumType>::bind(int slot)
 {
 	assert(m_vbo);
 	glEnableVertexAttribArray(slot);
@@ -52,14 +52,14 @@ void InstacingArray<vecType, count, enumType>::bind(int slot)
 }
 
 template <class vecType, size_t count, size_t enumType>
-void InstacingArray<vecType, count, enumType>::setData(std::vector<vecType> data)
+void InstancingArray<vecType, count, enumType>::setData(std::vector<vecType> data)
 {
 	m_changed = true;
 	m_data = move(data);
 }
 
 template <class vecType, size_t count, size_t enumType>
-void InstacingArray<vecType, count, enumType>::flush()
+void InstancingArray<vecType, count, enumType>::flush()
 {
 	if (m_changed)
 	{
@@ -77,7 +77,7 @@ void InstacingArray<vecType, count, enumType>::flush()
 }
 
 template <class vecType, size_t count, size_t enumType>
-size_t InstacingArray<vecType, count, enumType>::getDataCount() const
+size_t InstancingArray<vecType, count, enumType>::getDataCount() const
 {
 	return m_data.size();
 }
