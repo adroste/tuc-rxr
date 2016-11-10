@@ -43,8 +43,6 @@ void Map::destroyBlock(const Point3S& pos)
 
 void Map::draw(Drawing& draw)
 {
-	//glEnable(GL_BLEND);
-	//glBlendFuncSeparate(GL_DST_ALPHA, GL_ONE, GL_DST_ALPHA, GL_ZERO);
 	LockGuard g(m_muMap);
 	draw.setMapInfo(m_dim);
 	// enable volume map
@@ -72,13 +70,37 @@ void Map::draw(Drawing& draw)
 		}
 		transform = glm::translate(glm::vec3(0.0f, float(MapChunk::SIZE * (y+1)), 0.0f));
 	}
-	//glDisable(GL_BLEND);
 	// draw assets
 	// TODO seperate lock?
 	for(auto& a : m_assets)
 	{
 		a.draw(draw, meshCube, shader);
 	}
+
+	// draw transparency last
+	glEnable(GL_BLEND);
+	glDisable(GL_CULL_FACE);
+	
+	//glBlendFuncSeparate(GL_DST_ALPHA, GL_ONE, GL_DST_ALPHA, GL_ZERO);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//shader.setTransparent(true);
+	// TODO optimize draw range
+	transform = glm::mat4();
+	for (size_t y = 0; y < m_cdim.y; y++)
+	{
+		for (size_t x = 0; x < m_cdim.x; x++)
+		{
+			draw.getTransform().pushModel(transform);
+			draw.getTransform().flush();
+			m_chunks[y * m_cdim.x + x].drawTransparent(draw, meshCube);
+			draw.getTransform().popModel();
+			transform = glm::translate(transform, glm::vec3(float(MapChunk::SIZE), 0.0f, 0.0f));
+		}
+		transform = glm::translate(glm::vec3(0.0f, float(MapChunk::SIZE * (y + 1)), 0.0f));
+	}
+	glDisable(GL_BLEND);
+	glEnable(GL_CULL_FACE);
+	//shader.setTransparent(false);
 
 	g.unlock();
 	shader.unbind();
@@ -109,6 +131,7 @@ void Map::setDim(Point3S dim)
 				newChunks.push_back(std::move(m_chunks.at(y * m_cdim.x + x)));
 			}
 			else newChunks.emplace_back();
+			newChunks.back().setTransparency(true);
 		}
 	}
 	// set neighbors

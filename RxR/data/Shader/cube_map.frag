@@ -5,7 +5,7 @@
 #include "light/gamma.glsl"
 
 in vec3 mapPos;
-flat in vec4 normal;
+flat in vec4 out_normal;
 flat in vec3 diffColor;
 flat in vec4 specColor;
 flat in uint shaderType;
@@ -17,27 +17,22 @@ void main()
 {
 	if(plsDiscard != uint(0))
 		discard;
-
-	vec3 normNormal = normalize(normal.xyz);
+	/*{
+		gl_FragColor = vec4(1.0);
+		return;
+	}*/
+	vec3 normNormal = normalize(out_normal.xyz);
 	
 	vec3 color = renderMapBlock(mapPos, normNormal, diffColor, specColor.rgb, specColor.w);
 	
 	if(shaderType == uint(0))
 	{
-		gl_FragColor = vec4(correctGamma(color),0.0);
-		gl_FragDepth = gl_FragCoord.z;
+		gl_FragColor = vec4(correctGamma(color),1.0);
 	}
 	else
 	{
-		float depth = 0.99;
-		if((cubeNeighbors & uint(1)) != uint(0))
-		{
-			// has left neighbor
-			
-		}
-		
-		
-		gl_FragDepth = depth;
-		gl_FragColor = vec4(correctGamma(color) * 0.8, 0.2);
+		//if(cubeSide == uint(16))
+			//color.r = 1.0;
+		gl_FragColor = vec4(clamp(correctGamma(color),0.0,1.0), 0.5);
 	}
 }

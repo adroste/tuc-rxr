@@ -16,6 +16,7 @@ public:
 	MOVE_ONLY(MapChunk);
 
 	void draw(Drawing& draw, Mesh& cube);
+	void drawTransparent(Drawing& draw, Mesh& cube);
 	void setCube(Point3S pos, std::unique_ptr<CubeBase> c);
 	void updateGpuArray();
 	std::vector<std::pair<Point3S, CubeDesc>> getCubes() const;

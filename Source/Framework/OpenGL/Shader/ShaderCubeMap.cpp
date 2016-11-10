@@ -12,7 +12,14 @@ void ShaderCubeMap::setAnimation(AssetAnimation a)
 	glUniform1ui(m_animation, GLuint(a));
 }
 
+void ShaderCubeMap::setTransparent(bool isTrans)
+{
+	bind();
+	glUniform1ui(m_transparent, GLuint(isTrans ? 1 : 0));
+}
+
 void ShaderCubeMap::loadUniforms()
 {
 	m_animation = locateUniform("animation");
+	m_transparent = locateUniform("flipCoords");
 }

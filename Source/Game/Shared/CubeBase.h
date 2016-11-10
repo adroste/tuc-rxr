@@ -24,7 +24,7 @@ public:
 	{
 		if(m_cd.shader == CubeShader::Default)
 			return 1.0f;
-		return 0.3f;
+		return 0.05f;
 	}
 	bool isOpaque() const;
 	bool hasTransparency() const;

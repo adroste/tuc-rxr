@@ -8,11 +8,12 @@ layout(location = 1) in vec3 in_normal;
 layout(location = 2) in ivec3 in_iinfo;
 
 uniform uint animation;
+uniform bool flipCoords; // this is usefull for back to front rendering
 
 #define CHUNK_SIZE 32
 
 out vec3 mapPos;
-flat out vec4 normal;
+flat out vec4 out_normal;
 flat out vec3 diffColor;
 flat out vec4 specColor;
 flat out uint shaderType;
@@ -48,39 +49,51 @@ void main()
 	uint neighbors  = (uint(in_iinfo.z) & uint(0xFC000000)) >> 26;
 	cubeNeighbors = neighbors;
 	uint side = uint(0);
-	if(in_normal.x != 0.0)
+	
+	vec3 normal = in_normal;
+	vec3 pos = in_position;
+	
+	if(flipCoords)
 	{
-		if(in_normal.x > 0.0) // right
+		// transparent -> flip sides to draw cube backwards
+		normal *= -1.0;
+		pos *= -1.0;
+	}
+	
+	if(normal.x != 0.0)
+	{
+		if(normal.x > 0.0) // right
 			side = uint(2);
 		else
 			side = uint(1);
 	}
-	else if(in_normal.y != 0.0)
+	else if(normal.y != 0.0)
 	{
-		if(in_normal.y > 0.0) // top
+		if(normal.y > 0.0) // top
 			side = uint(4);
 		else
 			side = uint(8);
 	}
 	else // z != 0
 	{
-		if(in_normal.z > 0.0) // front
+		if(normal.z > 0.0) // front
 			side = uint(16);
 		else
 			side = uint(32);
 	}
 	cubeSide = side;
 	plsDiscard = neighbors & cubeSide;
-	vec3 inChunkPos = in_position * 0.5 + chOffset;
+	vec3 inChunkPos = pos * 0.5 + chOffset;
 	
 	if(animation == uint(0))
 	{
-		normal = matModel * vec4(in_normal,0.0);
+		out_normal = matModel * vec4(normal,0.0);
 		mapPos = (matModel * vec4(inChunkPos, 1.0)).xyz;
 		gl_Position = matProjection * matCamera * matModel * vec4(inChunkPos, 1.0);
 	}
 	else // wind animation
 	{
+		// draw cube from back to front -> flip sides
 		float xfactor = sin(framework.random.y * 6.28318531) * 7.0;
 		float zfactor = cos(framework.random.x * 6.28318531) * 7.0;
 		float h = 1.0 - (inChunkPos.y + 0.5) / float(CHUNK_SIZE); // [0-1]
@@ -88,7 +101,7 @@ void main()
 		inChunkPos.x = inChunkPos.x + h * xfactor;
 		inChunkPos.z = inChunkPos.z + h * zfactor;
 		
-		normal = matModel * vec4(in_normal,0.0);
+		out_normal = matModel * vec4(normal,0.0);
 		mapPos = (matModel * vec4(inChunkPos, 1.0)).xyz;
 		gl_Position = matProjection * matCamera * matModel * vec4(inChunkPos, 1.0);
 	}

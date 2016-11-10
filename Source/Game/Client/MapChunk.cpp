@@ -33,6 +33,22 @@ void MapChunk::draw(Drawing& draw, Mesh& cube)
 	cube.drawInstanced(m_iArray.getDataCount(), m_iArray);
 }
 
+void MapChunk::drawTransparent(Drawing& draw, Mesh& cube)
+{
+	DRAW_THREAD;
+	assert(m_hasTransparent);
+	// gpu data was updated before
+
+	if (m_iTransArray.getDataCount() == 0)
+		return;
+
+	m_iTransArray.flush();
+
+	m_iTransArray.bind(2);
+
+	cube.drawInstanced(m_iTransArray.getDataCount(), m_iTransArray);
+}
+
 void MapChunk::setCube(Point3S pos, std::unique_ptr<CubeBase> c)
 {
 	MAIN_THREAD;
@@ -43,11 +59,13 @@ void MapChunk::setCube(Point3S pos, std::unique_ptr<CubeBase> c)
 	if(c)
 	{
 		c->neighbors = 0;
-		if(!c->hasTransparency())
+		if (!c->hasTransparency())
 		{
 			// no transparency
 #define UPD(dx,dy,dz,side, oside) ch = getCube(pos, dx, dy, dz); if (ch && !ch->hasTransparency()) \
-	{c->neighbors |= CubeBase::side; ch->neighbors |= CubeBase::oside;}
+	{c->neighbors |= CubeBase::side; ch->neighbors |= CubeBase::oside;} else if(ch) {/*has transparency*/ \
+			ch->neighbors |= CubeBase::oside;}
+
 			UPD(-1, 0, 0, Left, Right);
 			UPD(0, -1, 0, Bottom, Top);
 			UPD(0, 0, -1, Back, Front);
@@ -100,6 +118,9 @@ void MapChunk::updateGpuArray()
 
 	std::vector<glm::ivec3> gpuArray;
 	gpuArray.reserve(m_cubes.size());
+	std::vector<glm::ivec3> gpuTrans;
+	if (m_hasTransparent)
+		gpuTrans.reserve(m_cubes.size());
 
 	LockGuard g(m_muCubes);
 	size_t idx = 0;
@@ -136,13 +157,28 @@ void MapChunk::updateGpuArray()
 			v.z |= (size_t(cd.shader) & 0xFF) << 16;
 			v.z |= (pCube->neighbors & 0x3F) << 26;
 
-			gpuArray.push_back(v);
+			assert(m_hasTransparent || !pCube->hasTransparency());
+			if (pCube->hasTransparency())
+				gpuTrans.push_back(v);
+			else
+				gpuArray.push_back(v);
 		}
 
 		idx++;
 	}
 
 	m_iArray.setData(move(gpuArray));
+	if (m_hasTransparent)
+	{
+		// draw front to back
+		decltype(gpuTrans) v2;
+		v2.reserve(gpuTrans.size());
+		for (auto r = gpuTrans.rbegin(), end = gpuTrans.rend(); r != end; ++r)
+			v2.push_back(*r);
+
+		m_iTransArray.setData(move(v2));
+	}
+	m_hasChanged = false;
 }
 
 std::vector<std::pair<Point3S, CubeDesc>> MapChunk::getCubes() const
