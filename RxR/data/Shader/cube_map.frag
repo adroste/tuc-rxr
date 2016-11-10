@@ -6,6 +6,7 @@
 #include "light/bump.glsl"
 
 in vec3 mapPos;
+in vec2 texCoord0;
 flat in vec3 out_normal;
 flat in vec3 diffColor;
 flat in vec4 specColor;
@@ -30,7 +31,7 @@ void main()
 	{
 		// water shader
 		mat3 rotMatrix = bumpGetRotation(normNormal, out_bitangent);
-		normNormal = bumpReadNormal(texture(texWater,vec2(0.0)).xyz, rotMatrix);
+		normNormal = bumpReadNormal(texture(texWater,texCoord0).xyz, rotMatrix);
 	}
 	
 	vec3 color = renderMapBlock(mapPos, normNormal, diffColor, specColor.rgb, specColor.w);
@@ -43,6 +44,7 @@ void main()
 	{
 		//if(cubeSide == uint(16))
 			//color.r = 1.0;
-		gl_FragColor = vec4(clamp(correctGamma(color) * texture(texWater,vec2(0.5)).rgb,0.0,1.0), 0.5);
+		gl_FragColor = vec4(clamp(correctGamma(color), 0.0,1.0), 0.5);
+		//gl_FragColor = vec4(texture(texWater,texCoord0).xyz,1.0);
 	}
 }

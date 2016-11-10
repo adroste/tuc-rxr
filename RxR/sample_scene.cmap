@@ -6,6 +6,7 @@
 <light type="ambient" color="0xff020202"/>
 
 <light type="directional" color="0xffffffff" direction="0.000000 0.894427 0.447214"/>
+<light type="pointLight" color="0xffffffff" origin="38 23 12" attenuation="0.0002"/>
 
 <asset material="grassblade_material.cd" chunk="grassblade_chunk.bin" animation="wind">
 	<instance position="6 30 6" scale="0.2"/> 

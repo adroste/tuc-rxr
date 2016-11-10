@@ -1,1 +1,1 @@
-<cube diffuse="0xff99d9ea" specular="0xffffffff" gloss="10.000000" shader="water" blockType="liquid" gravity="true" HP="0"/>
+<cube diffuse="0xff145363" specular="0xffffffff" gloss="10.000000" shader="water" blockType="liquid" gravity="true" HP="0"/>

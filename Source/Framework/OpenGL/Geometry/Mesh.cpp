@@ -8,6 +8,7 @@ Mesh::Mesh(const Vertex * pVertex, size_t nVertices, const unsigned int * pIndic
 	{
 		m_positions.push_back(pVertex[i].pos);
 		m_normal.push_back(pVertex[i].normal);
+		m_texCoords0.push_back(pVertex[i].texCoord0);
 	}
 	for (size_t i = 0; i < nIndices; i++)
 		m_indices.push_back(pIndices[i]);
@@ -41,13 +42,18 @@ void Mesh::create()
 	// init buffers (positions, normals etc)
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[static_cast<unsigned int>(AttributeName::Position)]);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex::pos) * m_positions.size(), &m_positions[0], GL_STATIC_DRAW);
-	glEnableVertexAttribArray(unsigned int(AttributeName::Position));
-	glVertexAttribPointer(unsigned int(AttributeName::Position), 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+	glEnableVertexAttribArray(GLuint(AttributeName::Position));
+	glVertexAttribPointer(GLuint(AttributeName::Position), 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[static_cast<unsigned int>(AttributeName::Normal)]);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex::normal) * m_normal.size(), &m_normal[0], GL_STATIC_DRAW);
-	glEnableVertexAttribArray(unsigned int(AttributeName::Normal));
-	glVertexAttribPointer(unsigned int(AttributeName::Normal), 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+	glEnableVertexAttribArray(GLuint(AttributeName::Normal));
+	glVertexAttribPointer(GLuint(AttributeName::Normal), 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+
+	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[static_cast<unsigned int>(AttributeName::TexCoord0)]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex::texCoord0) * m_texCoords0.size(), &m_texCoords0[0], GL_STATIC_DRAW);
+	glEnableVertexAttribArray(GLuint(AttributeName::TexCoord0));
+	glVertexAttribPointer(GLuint(AttributeName::TexCoord0), 2, GL_FLOAT, GL_FALSE, 0, nullptr);
 
 	// index buffer
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_vertexArrayBuffers[static_cast<unsigned int>(AttributeName::Index)]);

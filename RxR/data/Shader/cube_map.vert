@@ -5,7 +5,8 @@
 
 layout(location = 0) in vec3 in_position;
 layout(location = 1) in vec3 in_normal;
-layout(location = 2) in ivec3 in_iinfo;
+layout(location = 2) in vec2 in_texCoord0;
+layout(location = 3) in ivec3 in_iinfo;
 
 uniform uint animation;
 uniform bool flipCoords; // this is usefull for back to front rendering
@@ -13,6 +14,7 @@ uniform bool flipCoords; // this is usefull for back to front rendering
 #define CHUNK_SIZE 32
 
 out vec3 mapPos;
+out vec2 texCoord0;
 flat out vec3 out_normal;
 flat out vec3 diffColor;
 flat out vec4 specColor;
@@ -24,6 +26,7 @@ flat out vec3 out_bitangent;
 
 void main()
 {
+	texCoord0 = in_texCoord0 + framework.random.xy;
 	uint chIndex = (uint(in_iinfo.x) & uint(0xFFFF));
 	uvec3 chPos;
 	chPos.z = chIndex / (uint(CHUNK_SIZE) * uint(CHUNK_SIZE));
@@ -113,19 +116,19 @@ void main()
 		out_bitangent = vec3(0.0,1.0,0.0);
 		break;
 	case uint(2): // right
-		out_bitangent = vec3(0.0,1.0,0.0);
+		out_bitangent = vec3(0.0,-1.0,0.0);
 		break;
 	case uint(4): // top
-		out_bitangent = vec3(1.0,0.0,0.0);
+		out_bitangent = vec3(0.0,0.0,1.0);
 		break; 
 	case uint(8): // bottom
-		out_bitangent = vec3(1.0,0.0,0.0);
+		out_bitangent = vec3(0.0,0.0,1.0);
 		break; 
 	case uint(16): // front
-		out_bitangent = vec3(0.0,1.0,0.0);
+		out_bitangent = vec3(0.0,-1.0,0.0);
 		break;
 	case uint(32): // back
-		out_bitangent = vec3(0.0,1.0,0.0);
+		out_bitangent = vec3(0.0,-1.0,0.0);
 		break;
 	default:
 		out_bitangent = vec3(0.0);
