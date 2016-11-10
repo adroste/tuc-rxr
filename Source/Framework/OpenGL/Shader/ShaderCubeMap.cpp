@@ -22,4 +22,14 @@ void ShaderCubeMap::loadUniforms()
 {
 	m_animation = locateUniform("animation");
 	m_transparent = locateUniform("flipCoords");
+	glCheck("ShaderCubeMap::loadUniforms");
+
+	
+	GLint mapTex = locateUniform("mapTexVol");
+	glUniform1i(mapTex, 0);
+	glCheck("ShaderCubeMap::loadUniforms mapTexVol");
+
+	GLint waterTex = locateUniform("texWater");
+	glUniform1i(waterTex, 1);
+	glCheck("ShaderCubeMap::loadUniforms texWater");
 }

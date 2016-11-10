@@ -55,6 +55,7 @@ void Map::draw(Drawing& draw)
 
 	shader.bind();
 	m_volumeTextureMap.bind(0);
+	draw.getWaterTexture().bind(1);
 	//glTexSubImage3D()
 	glm::mat4 transform;
 	// TODO optimize draw range
