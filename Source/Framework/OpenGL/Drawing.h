@@ -60,6 +60,7 @@ public:
 	void pushIgnoreRect();
 
 	Camera& getUiCam();
+	Texture& getWaterTexture();
 
 	// shader
 	ShaderCubeMap& getShaderCubeMap();
@@ -110,6 +111,9 @@ private:
 	Texture m_texBtnBumpLeftDown;
 	Texture m_texBtnBumpRightDown;
 	Texture m_texBtnBumpMidDown;
+
+	// super cool shader textures
+	Texture m_texWater;
 
 	// init speedup
 	const std::vector<Shader*> m_shaders;

@@ -286,6 +286,11 @@ Camera& Drawing::getUiCam()
 	return m_uiCam;
 }
 
+Texture& Drawing::getWaterTexture()
+{
+	return m_texWater;
+}
+
 ShaderCubeMap& Drawing::getShaderCubeMap()
 {
 	return m_shCubeMap;
@@ -334,6 +339,8 @@ void Drawing::create()
 	m_texBtnBumpLeft.create();
 	m_texBtnBumpRight.create();
 	m_texBtnBumpMidDown.create();
+
+	m_texWater.create();
 }
 
 void Drawing::dispose()
@@ -358,6 +365,8 @@ void Drawing::dispose()
 	m_texBtnBumpLeft.dispose();
 	m_texBtnBumpRight.dispose();
 	m_texBtnBumpMidDown.dispose();
+
+	m_texWater.dispose();
 }
 
 void Drawing::init(FT_Library ftlib)
@@ -388,4 +397,6 @@ void Drawing::init(FT_Library ftlib)
 	m_texBtnBumpLeftDown.load("data/Pic/btn_bump_left_down.bmp");
 	m_texBtnBumpRightDown.load("data/Pic/btn_bump_right_down.bmp");
 	m_texBtnBumpMidDown.load("data/Pic/btn_bump_mid_down.bmp");
+
+	m_texWater.load("data/Pic/wave.bmp");
 }
