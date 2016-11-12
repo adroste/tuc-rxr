@@ -33,12 +33,12 @@ void Shader::create()
 	glLinkProgram(m_program);
 	checkShaderError(m_program, GL_LINK_STATUS, true, "programm linking failed");
 
-	glValidateProgram(m_program);
-	checkShaderError(m_program, GL_VALIDATE_STATUS, true, "programm validation failed");
-
 	glUseProgram(m_program);
 	loadUniforms();
 	glUseProgram(0);
+
+	glValidateProgram(m_program);
+	checkShaderError(m_program, GL_VALIDATE_STATUS, true, "programm validation failed");
 }
 
 void Shader::dispose()
