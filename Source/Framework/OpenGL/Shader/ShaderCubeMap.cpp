@@ -32,4 +32,8 @@ void ShaderCubeMap::loadUniforms()
 	GLint waterTex = locateUniform("texWater");
 	glUniform1i(waterTex, 1);
 	glCheck("ShaderCubeMap::loadUniforms texWater");
+
+	waterTex = locateUniform("texWaterfall");
+	glUniform1i(waterTex, 2);
+	glCheck("ShaderCubeMap::loadUniforms texWaterfall");
 }

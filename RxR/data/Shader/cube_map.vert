@@ -13,7 +13,7 @@ uniform bool flipCoords; // this is usefull for back to front rendering
 
 #define CHUNK_SIZE 32
 
-out vec3 mapPos;
+out vec3 out_mapPos;
 out vec2 texCoord0;
 flat out vec3 out_normal;
 flat out vec3 diffColor;
@@ -26,7 +26,8 @@ flat out vec3 out_bitangent;
 
 void main()
 {
-	texCoord0 = in_texCoord0 + framework.random.xy;
+	//texCoord0 = in_texCoord0 + framework.random.xy;
+	
 	uint chIndex = (uint(in_iinfo.x) & uint(0xFFFF));
 	uvec3 chPos;
 	chPos.z = chIndex / (uint(CHUNK_SIZE) * uint(CHUNK_SIZE));
@@ -88,6 +89,7 @@ void main()
 	cubeSide = side;
 	plsDiscard = neighbors & cubeSide;
 	vec3 inChunkPos = pos * 0.5 + chOffset;
+	vec3 mapPos;
 	
 	if(animation == uint(0))
 	{
@@ -98,8 +100,8 @@ void main()
 	else // wind animation
 	{
 		// draw cube from back to front -> flip sides
-		float xfactor = sin(framework.random.y * 6.28318531) * 7.0;
-		float zfactor = cos(framework.random.x * 6.28318531) * 7.0;
+		float xfactor = sin(framework.random.z * 6.28318531) * 7.0;
+		float zfactor = cos(framework.random.y * 6.28318531) * 7.0;
 		float h = 1.0 - (inChunkPos.y + 0.5) / float(CHUNK_SIZE); // [0-1]
 		
 		inChunkPos.x = inChunkPos.x + h * xfactor;
@@ -109,14 +111,15 @@ void main()
 		mapPos = (matModel * vec4(inChunkPos, 1.0)).xyz;
 		gl_Position = matProjection * matCamera * matModel * vec4(inChunkPos, 1.0);
 	}
+	out_mapPos = mapPos;
 	
 	switch(side)
 	{
 	case uint(0): // left
-		out_bitangent = vec3(0.0,1.0,0.0);
+		out_bitangent = vec3(0.0,-1.0,0.0);
 		break;
 	case uint(2): // right
-		out_bitangent = vec3(0.0,-1.0,0.0);
+		out_bitangent = vec3(0.0,1.0,0.0);
 		break;
 	case uint(4): // top
 		out_bitangent = vec3(0.0,0.0,1.0);
@@ -132,5 +135,19 @@ void main()
 		break;
 	default:
 		out_bitangent = vec3(0.0);
+	}
+	
+	switch(side)
+	{
+	case uint(4):
+	case uint(8): // top + bottom
+		texCoord0 = mapPos.xz / vec2(16.0) + framework.random.xy;
+		break;
+	case uint(0): // left rigt
+	case uint(2):
+		texCoord0 = (mapPos.zy + vec2(8.0)) / vec2(16.0) + framework.random.xy;
+	default: // front back
+		texCoord0 = mapPos.xy / vec2(16.0) - vec2(0.0,framework.random.w);
+		
 	}
 }

@@ -61,6 +61,7 @@ public:
 
 	Camera& getUiCam();
 	Texture& getWaterTexture();
+	Texture& getWaterfallTexture();
 
 	// shader
 	ShaderCubeMap& getShaderCubeMap();
@@ -114,6 +115,7 @@ private:
 
 	// super cool shader textures
 	Texture m_texWater;
+	Texture m_texWaterfall;
 
 	// init speedup
 	const std::vector<Shader*> m_shaders;

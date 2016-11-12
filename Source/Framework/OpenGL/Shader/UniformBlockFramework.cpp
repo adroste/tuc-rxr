@@ -28,7 +28,7 @@ void UniformBlockFramework::setMouse(const PointF& mouse)
 
 void UniformBlockFramework::updateRandom()
 {
-	float dt = m_tmr.lapSecond() * 0.1f;
+	float dt = m_tmr.lapSecond() * 0.02f;
 
 	m_random.x = fmodf(m_random.x + dt,1.0f);
 	m_random.y = fmodf(m_random.y + dt * 1.7f,1.0f);

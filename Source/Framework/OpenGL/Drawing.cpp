@@ -291,6 +291,11 @@ Texture& Drawing::getWaterTexture()
 	return m_texWater;
 }
 
+Texture& Drawing::getWaterfallTexture()
+{
+	return m_texWaterfall;
+}
+
 ShaderCubeMap& Drawing::getShaderCubeMap()
 {
 	return m_shCubeMap;
@@ -341,6 +346,7 @@ void Drawing::create()
 	m_texBtnBumpMidDown.create();
 
 	m_texWater.create();
+	m_texWaterfall.create();
 }
 
 void Drawing::dispose()
@@ -367,6 +373,7 @@ void Drawing::dispose()
 	m_texBtnBumpMidDown.dispose();
 
 	m_texWater.dispose();
+	m_texWaterfall.dispose();
 }
 
 void Drawing::init(FT_Library ftlib)
@@ -399,4 +406,5 @@ void Drawing::init(FT_Library ftlib)
 	m_texBtnBumpMidDown.load("data/Pic/btn_bump_mid_down.bmp");
 
 	m_texWater.load("data/Pic/wave.bmp");
+	m_texWaterfall.load("data/Pic/waterfall.bmp");
 }

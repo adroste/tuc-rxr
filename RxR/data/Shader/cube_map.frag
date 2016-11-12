@@ -5,7 +5,7 @@
 #include "light/gamma.glsl"
 #include "light/bump.glsl"
 
-in vec3 mapPos;
+in vec3 out_mapPos;
 in vec2 texCoord0;
 flat in vec3 out_normal;
 flat in vec3 diffColor;
@@ -17,6 +17,7 @@ flat in uint cubeNeighbors;
 flat in vec3 out_bitangent;
 
 uniform sampler2D texWater;
+uniform sampler2D texWaterfall;
 
 void main()
 {
@@ -30,11 +31,17 @@ void main()
 	if(shaderType == uint(2))
 	{
 		// water shader
+		vec3 rgbNormal;
+		if(cubeSide == uint(4) || cubeSide == uint(8))
+			rgbNormal = texture(texWater,texCoord0).xyz;
+		else
+			rgbNormal = texture(texWaterfall,texCoord0).xyz;
+			
 		mat3 rotMatrix = bumpGetRotation(normNormal, out_bitangent);
-		normNormal = bumpReadNormal(texture(texWater,texCoord0).xyz, rotMatrix);
+		normNormal = bumpReadNormal(rgbNormal, rotMatrix);
 	}
 	
-	vec3 color = renderMapBlock(mapPos, normNormal, diffColor, specColor.rgb, specColor.w);
+	vec3 color = renderMapBlock(out_mapPos, normNormal, diffColor, specColor.rgb, specColor.w);
 	
 	if(shaderType == uint(0))
 	{

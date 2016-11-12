@@ -74,8 +74,8 @@ void Game::draw(Drawing& draw)
 	m_pCam->apply(draw);
 	m_pLight->apply(draw);
 	m_pMap->draw(draw);
-	m_testNode.draw(draw);
-	m_char.draw(draw);
+	//m_testNode.draw(draw);
+	//m_char.draw(draw);
 	draw.getUiCam().apply(draw);
 }
 
