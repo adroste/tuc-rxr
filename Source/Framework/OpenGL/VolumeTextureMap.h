@@ -21,7 +21,8 @@ public:
 protected:
 	void updateGPU();
 private:
-	Point3S m_dim;
+	Point3S m_curDim;
+	Point3S m_newDim;
 	GLuint m_texture = 0;
 	std::unique_ptr<unsigned char[]> m_pData;
 	bool m_changed = true;

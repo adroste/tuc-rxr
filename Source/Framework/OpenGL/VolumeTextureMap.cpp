@@ -2,6 +2,8 @@
 #include "../../System/Exceptions/GL_Exception.h"
 #include "Drawing.h"
 #include "../../System/System.h"
+#include "../Framework.h"
+#include "../../Game/Client/MapAsset.h"
 
 VolumeTextureMap::VolumeTextureMap()
 {
@@ -13,26 +15,28 @@ VolumeTextureMap::~VolumeTextureMap()
 
 void VolumeTextureMap::resize(Point3S dim)
 {
+	MAIN_THREAD;
 	auto newDim = std::unique_ptr<unsigned char[]>(new unsigned char[dim.size()]);
 	memset(newDim.get(), 0, dim.size() * sizeof(char));
 
-	LockGuard g(m_muTex);
-
-	for (size_t x = 0; x < std::min(dim.x, m_dim.x); x++)
-		for (size_t y = 0; y < std::min(dim.y, m_dim.y); y++)
-			for (size_t z = 0; z < std::min(dim.z, m_dim.z); z++)
+	for (size_t x = 0; x < std::min(dim.x, m_curDim.x); x++)
+		for (size_t y = 0; y < std::min(dim.y, m_curDim.y); y++)
+			for (size_t z = 0; z < std::min(dim.z, m_curDim.z); z++)
 			{
-				newDim[dim.calcIndex({x,y,z})] = m_pData[m_dim.calcIndex({x,y,z})];
+				newDim[dim.calcIndex({x,y,z})] = m_pData[m_curDim.calcIndex({x,y,z})];
 			}
 
+	LockGuard g(m_muTex);
+
 	m_pData = move(newDim);
-	m_dim = dim;
+	m_newDim = dim;
 
 	m_changed = true;
 }
 
 void VolumeTextureMap::create()
 {
+	DRAW_THREAD;
 	assert(m_texture == 0);
 	assert(Drawing::getThreadID() == System::getThreadID());
 
@@ -53,6 +57,7 @@ void VolumeTextureMap::create()
 
 void VolumeTextureMap::dispose()
 {
+	DRAW_THREAD;
 	assert(Drawing::getThreadID() == System::getThreadID());
 	if (m_texture)
 	{
@@ -68,19 +73,31 @@ bool VolumeTextureMap::isCreated() const
 
 void VolumeTextureMap::updateGPU()
 {
+	DRAW_THREAD;
 	// note: texture is already bound
 	LockGuard g(m_muTex);
 	if (m_changed)
 	{
 		// transfer bytes to gpu
-		glTexImage3D(GL_TEXTURE_3D, 0, GL_RED, m_dim.width, m_dim.height, m_dim.depth,
-		                          0, GL_RED, GL_UNSIGNED_BYTE, m_pData.get());
+		if(m_newDim != m_curDim)
+		{
+			m_curDim = m_newDim;
+			glTexImage3D(GL_TEXTURE_3D, 0, GL_RED, m_curDim.width, m_curDim.height, m_curDim.depth,
+				0, GL_RED, GL_UNSIGNED_BYTE, m_pData.get());
+		}
+		else
+		{
+			// update without resizing (faster)
+			glTexSubImage3D(GL_TEXTURE_3D, 0, 0, 0, 0, m_curDim.width, m_curDim.height, m_curDim.depth,
+				GL_RED, GL_UNSIGNED_BYTE, m_pData.get());
+		}
 		m_changed = false;
 	}
 }
 
 void VolumeTextureMap::bind(unsigned id)
 {
+	DRAW_THREAD;
 	assert(id < 32);
 	assert(m_texture);
 	assert(Drawing::getThreadID() == System::getThreadID());
@@ -95,17 +112,19 @@ void VolumeTextureMap::bind(unsigned id)
 
 void VolumeTextureMap::unbind()
 {
+	DRAW_THREAD;
 	assert(Drawing::getThreadID() == System::getThreadID());
 	glBindTexture(GL_TEXTURE_3D, 0);
 }
 
 void VolumeTextureMap::setValue(const Point3S& idx, float val)
 {
-	assert(idx.x < m_dim.x);
-	assert(idx.y < m_dim.y);
-	assert(idx.z < m_dim.z);
+	MAIN_THREAD;
+	assert(idx.x < m_newDim.x);
+	assert(idx.y < m_newDim.y);
+	assert(idx.z < m_newDim.z);
 
 	LockGuard g(m_muTex);
-	m_pData[m_dim.calcIndex(idx)] = static_cast<unsigned char>(val * 255);
+	m_pData[m_newDim.calcIndex(idx)] = static_cast<unsigned char>(val * 255);
 	m_changed = true;
 }
