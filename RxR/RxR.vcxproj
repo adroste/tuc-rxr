@@ -220,6 +220,7 @@
     <ClInclude Include="..\Source\Framework\OpenGL\Font.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Geometry\Mesh.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Geometry\MeshCube.h" />
+    <ClInclude Include="..\Source\Framework\OpenGL\glhelper.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\GLObject.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Graphics.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\IDrawable.h" />

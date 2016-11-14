@@ -1,5 +1,6 @@
 #pragma once
 #include "../../glew/glew.h"
+#include "glhelper.h"
 
 class GLObject
 {

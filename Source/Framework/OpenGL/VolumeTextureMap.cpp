@@ -7,6 +7,7 @@
 
 VolumeTextureMap::VolumeTextureMap()
 {
+
 }
 
 VolumeTextureMap::~VolumeTextureMap()
