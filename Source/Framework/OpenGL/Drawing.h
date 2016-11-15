@@ -31,7 +31,7 @@ class Drawing : public GLObject
 	friend Font; // because flushing transforms + clipping
 	Drawing();
 public:
-	~Drawing() {}
+	~Drawing();
 
 	virtual void create() override;
 	virtual void dispose() override;

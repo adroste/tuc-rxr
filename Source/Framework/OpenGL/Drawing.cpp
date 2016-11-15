@@ -51,6 +51,11 @@ Drawing::Drawing()
 	m_drawThreadID = System::getThreadID();
 }
 
+Drawing::~Drawing()
+{
+	m_curInstance = nullptr;
+}
+
 void Drawing::rect(const RectF & r, const Color & c)
 {
 	m_shColor.setColor(c);

@@ -2,6 +2,8 @@
 #include "../GLObject.h"
 #include <vector>
 #include <cassert>
+#include "../../Framework.h"
+#include "../../../Utility/Mutex.h"
 
 // vecType = glm::vec3 -> count = 3, enumType = GL_FLOAT
 template <class vecType, size_t count, size_t enumType>
@@ -16,35 +18,32 @@ public:
 	size_t getDataCount() const; 
 private:
 	bool m_changed = true;
-	GLuint m_vbo = 0;
+	gl::ArrayBuffer m_vbo;
 	std::vector<vecType> m_data;
+	Mutex m_muData;
 };
 
 template <class vecType, size_t count, size_t enumType>
 void InstancingArray<vecType, count, enumType >::create()
 {
-	assert(m_vbo == 0);
-	glGenBuffers(1, &m_vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+	m_vbo.create();
+	m_vbo.bind();
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vecType) * m_data.size(),
 		&m_data[0], GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	m_vbo.unbind();
 }
 
 template <class vecType, size_t count, size_t enumType>
 void InstancingArray<vecType, count, enumType>::dispose()
 {
-	assert(m_vbo);
-	glDeleteBuffers(1, &m_vbo);
-	m_vbo = 0;
+	m_vbo.dispose();
 }
 
 template <class vecType, size_t count, size_t enumType>
 void InstancingArray<vecType, count, enumType>::bind(int slot)
 {
-	assert(m_vbo);
 	glEnableVertexAttribArray(slot);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+	m_vbo.bind();
 	glVertexAttribPointer(slot, count, enumType,
 		GL_FALSE, 0, nullptr);
 	//glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -54,6 +53,7 @@ void InstancingArray<vecType, count, enumType>::bind(int slot)
 template <class vecType, size_t count, size_t enumType>
 void InstancingArray<vecType, count, enumType>::setData(std::vector<vecType> data)
 {
+	LockGuard g(m_muData);
 	m_changed = true;
 	m_data = move(data);
 }
@@ -61,16 +61,18 @@ void InstancingArray<vecType, count, enumType>::setData(std::vector<vecType> dat
 template <class vecType, size_t count, size_t enumType>
 void InstancingArray<vecType, count, enumType>::flush()
 {
+	DRAW_THREAD;
 	if (m_changed)
 	{
+		LockGuard g(m_muData);
 		m_changed = false;
 		// send to gpu
-		if (m_vbo)
+		if (m_vbo.get())
 		{
-			glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+			m_vbo.bind();
 			glBufferData(GL_ARRAY_BUFFER, sizeof(vecType) * m_data.size(),
 				&m_data[0], GL_STATIC_DRAW);
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
+			m_vbo.unbind();
 		}
 		else create();
 	}
