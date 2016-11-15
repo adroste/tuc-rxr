@@ -38,11 +38,10 @@ void VolumeTextureMap::resize(Point3S dim)
 void VolumeTextureMap::create()
 {
 	DRAW_THREAD;
-	assert(m_texture == 0);
 	assert(Drawing::getThreadID() == System::getThreadID());
 
-	glGenTextures(1, &m_texture);
-	glBindTexture(GL_TEXTURE_3D, m_texture);
+	m_texture.create();
+	m_texture.bind();
 
 	// clamp texture
 	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP);
@@ -60,16 +59,12 @@ void VolumeTextureMap::dispose()
 {
 	DRAW_THREAD;
 	assert(Drawing::getThreadID() == System::getThreadID());
-	if (m_texture)
-	{
-		glDeleteTextures(1, &m_texture);
-		m_texture = 0;
-	}
+	m_texture.dispose();
 }
 
 bool VolumeTextureMap::isCreated() const
 {
-	return m_texture != 0;
+	return m_texture.get() != 0;
 }
 
 void VolumeTextureMap::updateGPU()
@@ -100,11 +95,10 @@ void VolumeTextureMap::bind(unsigned id)
 {
 	DRAW_THREAD;
 	assert(id < 32);
-	assert(m_texture);
 	assert(Drawing::getThreadID() == System::getThreadID());
 
 	glActiveTexture(GL_TEXTURE0 + id);
-	glBindTexture(GL_TEXTURE_3D, m_texture);
+	m_texture.bind();
 
 	updateGPU();
 

@@ -23,7 +23,7 @@ protected:
 private:
 	Point3S m_curDim;
 	Point3S m_newDim;
-	GLuint m_texture = 0;
+	gl::Texture3D m_texture;
 	std::unique_ptr<unsigned char[]> m_pData;
 	bool m_changed = true;
 	Mutex m_muTex;

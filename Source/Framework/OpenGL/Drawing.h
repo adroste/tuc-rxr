@@ -22,6 +22,8 @@
 #include "Shader/ShaderCube.h"
 #include "Shader/ShaderHSVPickerSquare.h"
 #include "Shader/ShaderDisk.h"
+#include "../../System/System.h"
+#include "../Framework.h"
 
 class Drawing : public GLObject
 {
@@ -71,7 +73,9 @@ public:
 	// static
 	static Font& getFont(Font::Style style, Font::Size size);
 	static size_t getThreadID();
-	static VolumeTextureMap& getVolumeTextureMap();
+
+	// memory
+	void addToDisposeStack(gl::Disposeable d);
 private:
 	static Drawing& get();
 	void prepareDraw();
@@ -119,4 +123,8 @@ private:
 
 	// init speedup
 	const std::vector<Shader*> m_shaders;
+
+	// memory
+	Mutex m_muDisposeStack;
+	std::stack<gl::Disposeable> m_disposeStack;
 };

@@ -7,6 +7,19 @@
 static Drawing* m_curInstance = nullptr;
 static size_t m_drawThreadID = 0;
 
+void glHelperDisposeCallback(gl::Disposeable d)
+{
+	if(System::getThreadID() !=  Framework::getDrawThreadID())
+	{
+		// queue disposable	
+		if(m_curInstance)
+		{
+			m_curInstance->addToDisposeStack(std::move(d));
+		}
+	}
+	// else delete immediatly (destructor will do this)
+}
+
 Drawing::Drawing()
 	:
 	m_uiCam(Framework::getScreenCenter(), 1.0f, 1000.0f),
@@ -321,6 +334,12 @@ void Drawing::prepareDraw()
 {
 	m_trans.flush();
 	m_blockFramework.flush();
+}
+
+void Drawing::addToDisposeStack(gl::Disposeable d)
+{
+	LockGuard m(m_muDisposeStack);
+	m_disposeStack.push(std::move(d));
 }
 
 void Drawing::create()

@@ -79,6 +79,14 @@ void Graphics::close()
 
 void Graphics::beginFrame()
 {
+	// dispose old objects in draw
+	if(m_draw.m_disposeStack.size())
+	{
+		LockGuard g(m_draw.m_muDisposeStack);
+		while (m_draw.m_disposeStack.size())
+			m_draw.m_disposeStack.pop();
+	}
+
 	if (m_needsResize)
 		doResize();
 

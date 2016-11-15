@@ -5,21 +5,23 @@
 
 namespace gl
 {
+	class Disposeable;
+}
+extern void glHelperDisposeCallback(gl::Disposeable);
+
+namespace gl
+{
 	using deleter = void(*)(GLsizei, GLuint*);
 	using generator = void(*)(GLsizei, GLuint*);
+	using binder = void(*)(GLenum, GLuint);
 
-	template <generator, deleter>
-	class Data;
 	class Disposeable
 	{
-		template <generator, deleter>
-		friend Data<generator,deleter>;
-
+	public:
 		Disposeable(GLuint id, deleter del)
 			:
 		m_deleter(del),m_id(id)
 		{}
-	public:
 		Disposeable()
 		{}
 		Disposeable(const Disposeable&) = delete;
@@ -57,9 +59,7 @@ namespace gl
 	{
 	public:
 		Data()
-		{
-			gen(1, &m_id);
-		}
+		{}
 		Data(const Data&) = delete;
 		Data(Data&& o) noexcept
 		{
@@ -75,8 +75,7 @@ namespace gl
 		{
 			if (m_id)
 			{
-				del(1, &m_id);
-				m_id = 0;
+				glHelperDisposeCallback(dispose());
 			}
 		}
 		GLuint get() const
@@ -97,8 +96,27 @@ namespace gl
 			m_id = 0;
 			return d;
 		}
+		void create()
+		{
+			assert(!m_id);
+			if(!m_id)
+			{
+				gen(1, &m_id);
+			}
+			assert(m_id);
+		}
 	private:
 		GLuint m_id = 0;
+	};
+
+	template<generator gen, deleter del, binder bnd, GLenum target>
+	class BinbableData : public Data<gen,del>
+	{
+	public:
+		void bind()
+		{
+			bnd(target, this->get());
+		}
 	};
 
 #define GENERIC_GEN_DELETE(Name)	inline void gen##Name(GLsizei s, GLuint* d) { glGen##Name(s,d);}\
@@ -107,7 +125,14 @@ namespace gl
 	GENERIC_GEN_DELETE(Textures);
 
 #undef GENERIC_GEN_DELETE
+#define  GENERIC_BIND(Name)			inline void bind##Name(GLenum e, GLuint d) { glBind##Name(e,d); }
+
+	GENERIC_BIND(Texture);
+
+#undef GENERIC_GEN_DELETE
 
 	using Buffer = Data<genBuffers, deleteBuffers>;
-	using Texture = Data<genTextures, deleteTextures>;
+	using Texture1D = BinbableData<genTextures, deleteTextures, bindTexture, GL_TEXTURE_1D>;
+	using Texture2D = BinbableData<genTextures, deleteTextures, bindTexture, GL_TEXTURE_2D>;
+	using Texture3D = BinbableData<genTextures, deleteTextures, bindTexture, GL_TEXTURE_3D>;
 }
