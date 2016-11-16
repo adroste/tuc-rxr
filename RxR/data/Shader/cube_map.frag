@@ -47,11 +47,18 @@ void main()
 	{
 		gl_FragColor = vec4(correctGamma(color),1.0);
 	}
+	else if(shaderType == uint(1))
+	{
+		gl_FragColor = vec4(clamp(correctGamma(color), 0.0,1.0), 0.5);
+	}
 	else
 	{
-		//if(cubeSide == uint(16))
-			//color.r = 1.0;
-		gl_FragColor = vec4(clamp(correctGamma(color), 0.0,1.0), 0.5);
-		//gl_FragColor = vec4(texture(texWater,texCoord0).xyz,1.0);
+		vec3 eyeDir = normalize(LightsEye - out_mapPos);
+		
+		float fangle = 1.0 + dot(eyeDir,normNormal);
+		fangle = pow(fangle,5);
+		fangle = clamp(1.0 / fangle,0.2,0.8);
+		
+		gl_FragColor = vec4(clamp(correctGamma(color), 0.0,1.0), 1.0 - fangle);
 	}
 }
