@@ -57,8 +57,8 @@ void main()
 		
 		float fangle = 1.0 + dot(eyeDir,normNormal);
 		fangle = pow(fangle,5);
-		fangle = clamp(1.0 / fangle,0.2,0.8);
+		fangle = clamp(1.0 / fangle,0.5,0.9);
 		
-		gl_FragColor = vec4(clamp(correctGamma(color), 0.0,1.0), 1.0 - fangle);
+		gl_FragColor = vec4(clamp(correctGamma(color), 0.0,1.0), /*1.0 - */fangle);
 	}
 }

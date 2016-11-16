@@ -1,5 +1,6 @@
 #include "UniformBlockLight.h"
 #include <algorithm>
+#include "../../Framework.h"
 
 static const size_t MAX_LIGHTS = 20;
 
@@ -24,7 +25,7 @@ void UniformBlockLight::create()
 void UniformBlockLight::updateLights(const glm::vec3& ambient, const glm::vec3 eye, const std::vector<LightSource>& src)
 {
 	// structure in memory:
-
+	DRAW_THREAD;
 	/*
 	layout( std140 ) uniform Lights
 	{
@@ -57,4 +58,20 @@ void UniformBlockLight::updateLights(const glm::vec3& ambient, const glm::vec3 e
 
 	flush();
 	glCheck("UniformBlockLight::updateLights");
+}
+
+void UniformBlockLight::updateEye(const glm::vec3& eye)
+{
+	updateVar(eye, 32);
+	m_eyeChanged = true;
+}
+
+void UniformBlockLight::updateGpu()
+{
+	DRAW_THREAD;
+	if(m_eyeChanged)
+	{
+		m_eyeChanged = false;
+		flush();
+	}
 }

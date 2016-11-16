@@ -72,6 +72,7 @@ void Game::update(float dt)
 void Game::draw(Drawing& draw)
 {
 	m_pCam->apply(draw);
+	
 	m_pLight->apply(draw);
 	m_pMap->draw(draw);
 	//m_testNode.draw(draw);

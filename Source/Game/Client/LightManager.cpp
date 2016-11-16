@@ -23,6 +23,9 @@ void LightManager::apply(Drawing& draw)
 		m_isApplied = true;
 	}
 	// TODO else check for changes => apply only on changes
+	// TODO only update eye if changed
+	draw.getLightUniform().updateEye(m_cam.getEye());
+	draw.getLightUniform().updateGpu();
 }
 
 const Color& LightManager::getAmbient() const

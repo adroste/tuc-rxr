@@ -278,6 +278,11 @@ void Drawing::pushIgnoreRect()
 	m_blockFramework.pushIgnore();
 }
 
+UniformBlockLight& Drawing::getLightUniform()
+{
+	return m_lights;
+}
+
 Font& Drawing::getFont(Font::Style style, Font::Size size)
 {
 	switch (size)

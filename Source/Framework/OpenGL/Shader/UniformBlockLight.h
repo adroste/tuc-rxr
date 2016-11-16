@@ -12,4 +12,9 @@ public:
 	void create() override;
 
 	void updateLights(const glm::vec3& ambient, const glm::vec3 eye, const std::vector< LightSource >& src);
+	void updateEye(const glm::vec3& eye);
+	void updateGpu();
+
+private:
+	bool m_eyeChanged = false;
 };

@@ -61,6 +61,8 @@ public:
 	void popClippingRect();
 	void pushIgnoreRect();
 
+	UniformBlockLight& getLightUniform();
+
 	Camera& getUiCam();
 	Texture& getWaterTexture();
 	Texture& getWaterfallTexture();
