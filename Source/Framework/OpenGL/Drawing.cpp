@@ -44,8 +44,13 @@ Drawing::Drawing()
 	m_shaders({
 		&m_shCubeMap, &m_shCube, &m_shButton, &m_shColor, &m_shColor2,
 		&m_shHSVPickerCircle, &m_shHSVPickerSquare, &m_shDisc,
-		&m_fontHeadS, &m_fontHeadM, &m_fontHeadL, &m_fontTextS, &m_fontTextM, &m_fontTextL
-	})
+		&m_fontHeadS, &m_fontHeadM, &m_fontHeadL, &m_fontTextS, &m_fontTextM, &m_fontTextL,
+		&m_shFxaa
+	}),
+	m_blockFramebuffer({
+		&m_shFxaa
+	},"Framebuffer"),
+	m_frontFbo(0,0,true)
 {
 	m_curInstance = this;
 	m_drawThreadID = System::getThreadID();
@@ -346,6 +351,36 @@ void Drawing::prepareDraw()
 	m_blockFramework.flush();
 }
 
+void Drawing::beginFrame()
+{
+	m_frontFbo.bind();
+}
+
+void Drawing::endFrame()
+{
+	// do framebuffer processing
+	// anti aliasing, blooming etc.
+	Texture texFrame = m_frontFbo.getTexture();
+	m_frontFbo.dispose();
+	m_frontFbo.create();
+
+	glm::vec2 step;
+	step.x = 1.0f / float(m_resolution.x);
+	step.y = 1.0f / float(m_resolution.y);
+	m_blockFramebuffer.setStep(step);
+
+	texFrame.bind(0);
+	m_shFxaa.bind();
+
+	FramebufferObject::drawRect();
+}
+
+void Drawing::resize(GLsizei width, GLsizei height)
+{
+	m_frontFbo.resize(width, height);
+	m_resolution = PointS(width, height);
+}
+
 void Drawing::addToDisposeStack(gl::Disposeable d)
 {
 	LockGuard m(m_muDisposeStack);
@@ -364,6 +399,7 @@ void Drawing::create()
 	m_lights.create();
 	m_mapInfo.create();
 	m_blockFramework.create();
+	m_blockFramebuffer.create();
 
 	m_texBtnMid.create();
 	m_texBtnSide.create();
@@ -376,6 +412,8 @@ void Drawing::create()
 
 	m_texWater.create();
 	m_texWaterfall.create();
+
+	m_frontFbo.create();
 }
 
 void Drawing::dispose()
@@ -391,6 +429,7 @@ void Drawing::dispose()
 	m_lights.dispose();
 	m_mapInfo.dispose();
 	m_blockFramework.dispose();
+	m_blockFramebuffer.dispose();
 
 	m_texBtnMid.dispose();
 	m_texBtnSide.dispose();
@@ -403,6 +442,8 @@ void Drawing::dispose()
 
 	m_texWater.dispose();
 	m_texWaterfall.dispose();
+
+	m_frontFbo.dispose();
 }
 
 void Drawing::init(FT_Library ftlib)

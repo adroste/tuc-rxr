@@ -1,4 +1,4 @@
-#include "FramebufferObject.h"
+#include "glFramebufferObject.h"
 #include <assert.h>
 #include "../../System/Exceptions/GL_Exception.h"
 
@@ -8,6 +8,7 @@ FramebufferObject::FramebufferObject(GLsizei width, GLsizei height, bool hasDept
 	m_height(height),
 	m_hasDepth(hasDepth)
 {
+
 }
 
 FramebufferObject::~FramebufferObject()
@@ -17,6 +18,8 @@ FramebufferObject::~FramebufferObject()
 
 void FramebufferObject::create()
 {
+	if (m_texture)
+		return; // already inititialized
 	assert(m_texture == 0);
 	assert(m_depth == 0);
 	assert(m_fbo == 0);
@@ -88,10 +91,21 @@ void FramebufferObject::dispose()
 	}
 }
 
+void FramebufferObject::resize(GLsizei width, GLsizei height)
+{
+	dispose();
+	m_width = width;
+	m_height = height;
+	create();
+}
+
 void FramebufferObject::bind()
 {
 	assert(m_fbo);
 	glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
+
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 Texture FramebufferObject::getTexture()
@@ -119,4 +133,18 @@ void FramebufferObject::setTextureFilter(GLint filter)
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 	glCheck("FramebufferObject::setTextureFilter");
+}
+
+void FramebufferObject::drawRect()
+{
+	glDisable(GL_CULL_FACE);
+	glBegin(GL_TRIANGLE_STRIP);
+	{
+		glVertex3f(1.0f, -1.0f, 0.0f);
+		glVertex3f(-1.0f, -1.0f, 0.0f);
+		glVertex3f(1.0f, 1.0f, 0.0f);
+		glVertex3f(-1.0f, 1.0f, 0.0f);
+	}
+	glEndSafe();
+	glEnable(GL_CULL_FACE);
 }

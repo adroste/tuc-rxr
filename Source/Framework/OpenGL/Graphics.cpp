@@ -48,7 +48,7 @@ void Graphics::init(SDL_Window* wnd, PointI dim)
 	}
 
 	resize(dim);
-
+	doResize();
 	// auto correct gamma:
 	//glEnable(GL_FRAMEBUFFER_SRGB);
 
@@ -90,10 +90,6 @@ void Graphics::beginFrame()
 	if (m_needsResize)
 		doResize();
 
-	m_draw.getUiCam().apply(m_draw);
-
-	//m_draw.setModel(glm::mat4(1.0f));
-
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -101,11 +97,15 @@ void Graphics::beginFrame()
 	m_draw.m_blockFramework.updateRandom();
 	m_draw.m_blockFramework.flush();
 
+	m_draw.beginFrame();
+	m_draw.getUiCam().apply(m_draw);
+
 	glCheck("Graphics::beginFrame");
 }
 
 void Graphics::endFrame()
 {
+	m_draw.endFrame();
 	glCheck("endFrame");
 	glFlush();
 }
@@ -148,9 +148,10 @@ Drawing& Graphics::getDraw()
 void Graphics::doResize()
 {
 	Log::info("Graphics::doResize");
+	m_needsResize = false;
 	glViewport(0, 0, GLsizei(m_wndSize.x), GLsizei(m_wndSize.y));
 	m_draw.getUiCam().setLookAt(Framework::getScreenCenter());
 	m_draw.getUiCam().setHeight(Framework::getCamDim().y);
-	m_needsResize = false;
+	m_draw.resize(GLsizei(m_wndSize.x), GLsizei(m_wndSize.y));
 	glCheck("Graphics::doResize");
 }

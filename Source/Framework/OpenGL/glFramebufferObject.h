@@ -10,17 +10,18 @@ public:
 
 	void create() override;
 	void dispose() override;
+	void resize(GLsizei width, GLsizei height);
 
 	void bind();
 	Texture getTexture();
 
 	void setTextureFilter(GLint filter);
-
+	static void drawRect();
 private:
 	GLuint m_texture = 0;
 	GLuint m_depth = 0;
 	GLuint m_fbo = 0;
-	const GLsizei m_width, m_height;
+	GLsizei m_width, m_height;
 
 	GLint m_minMagFilter = GL_NEAREST;
 	bool m_hasDepth;

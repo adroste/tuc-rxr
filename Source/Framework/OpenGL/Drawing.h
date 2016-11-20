@@ -24,6 +24,9 @@
 #include "Shader/ShaderDisk.h"
 #include "../../System/System.h"
 #include "../Framework.h"
+#include "glFramebufferObject.h"
+#include "Shader/UniformBlockFramebuffer.h"
+#include "Shader/ShaderFXAA.h"
 
 class Drawing : public GLObject
 {
@@ -81,6 +84,9 @@ public:
 private:
 	static Drawing& get();
 	void prepareDraw();
+	void beginFrame();
+	void endFrame();
+	void resize(GLsizei width, GLsizei height);
 private:
 	Camera m_uiCam;
 
@@ -94,12 +100,14 @@ private:
 	ShaderHSVPickerCircle m_shHSVPickerCircle;
 	ShaderHSVPickerSquare m_shHSVPickerSquare;
 	ShaderDisk m_shDisc;
+	ShaderFXAA m_shFxaa;
 
 	UniformBlockTransforms m_trans;
 	UniformBlockMaterial m_material;
 	UniformBlockLight m_lights;
 	UniformBlockMapInfo m_mapInfo;
 	UniformBlockFramework m_blockFramework;
+	UniformBlockFramebuffer m_blockFramebuffer;
 
 	// fonts
 	Font m_fontHeadS;
@@ -129,4 +137,7 @@ private:
 	// memory
 	Mutex m_muDisposeStack;
 	std::stack<gl::Disposeable> m_disposeStack;
+
+	FramebufferObject m_frontFbo;
+	PointS m_resolution;
 };

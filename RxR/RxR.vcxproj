@@ -160,10 +160,9 @@
     <ClCompile Include="..\Source\Framework\OpenGL\Camera.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Drawing.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Font.cpp" />
-    <ClCompile Include="..\Source\Framework\OpenGL\FramebufferObject.cpp" />
-    <ClCompile Include="..\Source\Framework\OpenGL\FramebufferObject.h" />
     <ClCompile Include="..\Source\Framework\OpenGL\Geometry\Mesh.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Geometry\MeshCube.cpp" />
+    <ClCompile Include="..\Source\Framework\OpenGL\glFramebufferObject.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Graphics.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\InstancingArray.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\Shader.cpp" />
@@ -220,6 +219,7 @@
     <ClInclude Include="..\Source\Framework\OpenGL\Font.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Geometry\Mesh.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Geometry\MeshCube.h" />
+    <ClInclude Include="..\Source\Framework\OpenGL\glFramebufferObject.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\glhelper.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\GLObject.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Graphics.h" />
@@ -232,9 +232,11 @@
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderCube.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderCubeMap.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderDisk.h" />
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderFXAA.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderHSVPickerCircle.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderHSVPickerSquare.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlock.h" />
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlockFramebuffer.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlockFramework.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlockLight.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlockMapInfo.h" />

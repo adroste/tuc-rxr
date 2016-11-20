@@ -139,12 +139,6 @@
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\UniformBlockTransforms.cpp">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Framework\OpenGL\FramebufferObject.cpp">
-      <Filter>Source\Framework\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\Framework\OpenGL\FramebufferObject.h">
-      <Filter>Source\Framework\OpenGL</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Game\Shared\Cube.cpp">
       <Filter>Source\Game\Shared</Filter>
     </ClCompile>
@@ -240,6 +234,9 @@
     </ClCompile>
     <ClCompile Include="..\Source\Game\Client\MapAsset.cpp">
       <Filter>Source\Game\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Framework\OpenGL\glFramebufferObject.cpp">
+      <Filter>Source\Framework\OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -659,6 +656,15 @@
     </ClInclude>
     <ClInclude Include="..\Source\Framework\OpenGL\glhelper.h">
       <Filter>Source\Framework\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\OpenGL\glFramebufferObject.h">
+      <Filter>Source\Framework\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlockFramebuffer.h">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderFXAA.h">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
