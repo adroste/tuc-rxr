@@ -353,6 +353,7 @@ void Drawing::prepareDraw()
 
 void Drawing::beginFrame()
 {
+	m_frontFbo.setTextureFilter(GL_LINEAR);
 	m_frontFbo.bind();
 }
 

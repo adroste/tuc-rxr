@@ -1,7 +1,5 @@
 #version 330 core
 
-#include "uniforms/Framebuffer.glsl"
-
 layout(location = 0) in vec2 in_pos;
 out vec2 texCoord;
 
