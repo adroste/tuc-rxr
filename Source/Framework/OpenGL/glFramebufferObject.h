@@ -14,13 +14,14 @@ public:
 
 	void bind();
 	Texture getTexture();
+	Texture getTexture2();
 	Texture getDepth();
 
 	void setTextureFilter(GLint filter);
 	static void drawRect();
 private:
 	gl::Texture2D m_texture;
-	//GLuint m_texture = 0;
+	gl::Texture2D m_texture2;
 	gl::Texture2D m_depth;
 	GLuint m_fbo = 0;
 	GLsizei m_width, m_height;

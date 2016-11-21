@@ -60,6 +60,21 @@ void FramebufferObject::create()
 
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_depth.get(), 0);
 	}
+	if(m_hasColor2)
+	{
+		m_texture2.create();
+		m_texture2.bind();
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_width, m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, m_texture2.get(), 0);
+	}
 
 
 	auto status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
@@ -90,6 +105,7 @@ void FramebufferObject::dispose()
 		m_fbo = 0;
 	}
 	m_depth.dispose();
+	m_texture2.dispose();
 }
 
 void FramebufferObject::resize(GLsizei width, GLsizei height)
@@ -107,6 +123,16 @@ void FramebufferObject::bind()
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	GLenum buffers[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1 };
+	if(m_hasColor2)
+	{
+		glDrawBuffers(2, buffers);
+	}
+	else
+	{
+		glDrawBuffers(1, buffers);
+	}
 }
 
 Texture FramebufferObject::getTexture()
@@ -117,6 +143,17 @@ Texture FramebufferObject::getTexture()
 
 	Texture tex(std::move(m_texture), m_width, m_height);
 	m_texture.dispose(); // move texture owner
+	return std::move(tex);
+}
+
+Texture FramebufferObject::getTexture2()
+{
+	// end drawing
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	// now we can use the texture
+
+	Texture tex(std::move(m_texture2), m_width, m_height);
+	m_texture2.dispose(); // move texture owner
 	return std::move(tex);
 }
 

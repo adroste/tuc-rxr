@@ -50,7 +50,7 @@ Drawing::Drawing()
 	m_blockFramebuffer({
 		&m_shFxaa
 	},"Framebuffer"),
-	m_frontFbo(0,0,true,true)
+	m_frontFbo(0,0,true,false)
 {
 	m_curInstance = this;
 	m_drawThreadID = System::getThreadID();
