@@ -122,7 +122,6 @@ void FramebufferObject::bind()
 	glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	GLenum buffers[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1 };
 	if(m_hasColor2)
@@ -133,6 +132,7 @@ void FramebufferObject::bind()
 	{
 		glDrawBuffers(1, buffers);
 	}
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 Texture FramebufferObject::getTexture()

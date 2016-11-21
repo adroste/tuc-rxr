@@ -666,6 +666,9 @@
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderFXAA.h">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderBloom1.h">
+      <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glew32.dll">

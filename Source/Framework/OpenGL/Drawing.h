@@ -27,6 +27,7 @@
 #include "glFramebufferObject.h"
 #include "Shader/UniformBlockFramebuffer.h"
 #include "Shader/ShaderFXAA.h"
+#include "Shader/ShaderBloom1.h"
 
 class Drawing : public GLObject
 {
@@ -101,6 +102,9 @@ private:
 	ShaderHSVPickerSquare m_shHSVPickerSquare;
 	ShaderDisk m_shDisc;
 	ShaderFXAA m_shFxaa;
+	ShaderBloom1 m_shBloom1;
+	ShaderBloom2 m_shBloom2;
+	ShaderBloom3 m_shBloom3;
 
 	UniformBlockTransforms m_trans;
 	UniformBlockMaterial m_material;

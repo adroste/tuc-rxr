@@ -226,6 +226,7 @@
     <ClInclude Include="..\Source\Framework\OpenGL\IDrawable.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\InstancingArray.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\Shader.h" />
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderBloom1.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderButton.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderColor.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderColor2.h" />

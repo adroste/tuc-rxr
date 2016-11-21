@@ -45,10 +45,10 @@ Drawing::Drawing()
 		&m_shCubeMap, &m_shCube, &m_shButton, &m_shColor, &m_shColor2,
 		&m_shHSVPickerCircle, &m_shHSVPickerSquare, &m_shDisc,
 		&m_fontHeadS, &m_fontHeadM, &m_fontHeadL, &m_fontTextS, &m_fontTextM, &m_fontTextL,
-		&m_shFxaa
+		&m_shFxaa, &m_shBloom1, &m_shBloom2, &m_shBloom3
 	}),
 	m_blockFramebuffer({
-		&m_shFxaa
+		&m_shFxaa, &m_shBloom2
 	},"Framebuffer"),
 	m_frontFbo(0,0,true,true)
 {
@@ -363,8 +363,8 @@ void Drawing::endFrame()
 {
 	// do framebuffer processing
 	// anti aliasing, blooming etc.
-	Texture texFrame = m_frontFbo.getTexture2();
-	Texture texDepth = m_frontFbo.getDepth();
+	Texture texFrame = m_frontFbo.getTexture();
+	Texture texDepth = m_frontFbo.getTexture2();
 	m_frontFbo.dispose();
 	m_frontFbo.create();
 
@@ -373,11 +373,66 @@ void Drawing::endFrame()
 	step.y = 1.0f / float(m_resolution.y);
 	m_blockFramebuffer.setStep(step);
 
+	// apply blooming
+	FramebufferObject fbo(m_resolution.x, m_resolution.y, false, false);
+	fbo.create();
+
+	fbo.bind();
+	// extract bloom color
+	m_shBloom1.bind();
 	texFrame.bind(0);
 	texDepth.bind(1);
+
+	FramebufferObject::drawRect();
+
+	
+	// blur in x
+	Texture texBlured = fbo.getTexture();
+	fbo.dispose();
+	fbo.create();
+	fbo.bind();
+	m_shBloom2.setDir({1.0f,0.0f});
+	m_shBloom2.bind();
+	texBlured.bind(0);
+
+	FramebufferObject::drawRect();
+	
+	
+	// blur in y
+	texBlured = fbo.getTexture();
+	fbo.dispose();
+	fbo.create();
+	fbo.bind();
+	m_shBloom2.setDir({ 0.0f,1.0f });
+	m_shBloom2.bind();
+	texBlured.bind(0);
+	FramebufferObject::drawRect();
+	
+	
+	
+	// add images together
+	texBlured = fbo.getTexture();
+	fbo.dispose();
+	fbo.create();
+	fbo.bind();
+	m_shBloom3.bind();
+	texFrame.bind(0);
+	texBlured.bind(1);
+	FramebufferObject::drawRect();
+	
+	
+	
+	// apply fxaa
+	texFrame = fbo.getTexture();
+	//fbo.dispose();
+	//fbo.create();
+	texFrame.bind(0);
 	m_shFxaa.bind();
 
 	FramebufferObject::drawRect();
+
+
+	fbo.dispose();
 }
 
 void Drawing::resize(GLsizei width, GLsizei height)

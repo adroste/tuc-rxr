@@ -49,6 +49,8 @@ public:
 
 	virtual bool update(float dt) override
 	{
+		setNextState(TransitionState::ForcePreserve, std::unique_ptr<GameState>(new StateGame()));
+
 		if (m_btnSingle->isClicked(true))
 		{	
 			Sound::playMusic(Sound::Music::Theme);
