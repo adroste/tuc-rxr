@@ -339,28 +339,23 @@ MeshCube& Drawing::getCubeMesh()
 	return m_meshCube;
 }
 
-Drawing& Drawing::get()
+void Drawing::beginGameShader()
 {
-	assert(m_curInstance);
-	return *m_curInstance;
-}
+	assert(!m_gameActive);
+	m_gameActive = true;
 
-void Drawing::prepareDraw()
-{
-	m_trans.flush();
-	m_blockFramework.flush();
-}
-
-void Drawing::beginFrame()
-{
+	// dont draw before this call!
 	m_frontFbo.setTextureFilter(GL_LINEAR);
 	m_frontFbo.bind();
 
-	glClear(GL_COLOR_BUFFER_BIT);
+	//glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void Drawing::endFrame()
+void Drawing::endGameShader()
 {
+	assert(m_gameActive);
+	m_gameActive = false;
+
 	// do framebuffer processing
 	// anti aliasing, blooming etc.
 	Texture texFrame = m_frontFbo.getTexture();
@@ -385,19 +380,19 @@ void Drawing::endFrame()
 
 	FramebufferObject::drawRect();
 
-	
+
 	// blur in x
 	Texture texBlured = fbo.getTexture();
 	fbo.dispose();
 	fbo.create();
 	fbo.bind();
-	m_shBloom2.setDir({1.0f,0.0f});
+	m_shBloom2.setDir({ 1.0f,0.0f });
 	m_shBloom2.bind();
 	texBlured.bind(0);
 
 	FramebufferObject::drawRect();
-	
-	
+
+
 	// blur in y
 	texBlured = fbo.getTexture();
 	fbo.dispose();
@@ -407,9 +402,9 @@ void Drawing::endFrame()
 	m_shBloom2.bind();
 	texBlured.bind(0);
 	FramebufferObject::drawRect();
-	
-	
-	
+
+
+
 	// add images together
 	texBlured = fbo.getTexture();
 	fbo.dispose();
@@ -419,9 +414,9 @@ void Drawing::endFrame()
 	texFrame.bind(0);
 	texBlured.bind(1);
 	FramebufferObject::drawRect();
-	
-	
-	
+
+
+
 	// apply fxaa
 	texFrame = fbo.getTexture();
 	//fbo.dispose();
@@ -430,9 +425,29 @@ void Drawing::endFrame()
 	m_shFxaa.bind();
 
 	FramebufferObject::drawRect();
-
-
 	fbo.dispose();
+}
+
+Drawing& Drawing::get()
+{
+	assert(m_curInstance);
+	return *m_curInstance;
+}
+
+void Drawing::prepareDraw()
+{
+	m_trans.flush();
+	m_blockFramework.flush();
+}
+
+void Drawing::beginFrame()
+{
+	
+}
+
+void Drawing::endFrame()
+{
+	
 }
 
 void Drawing::resize(GLsizei width, GLsizei height)

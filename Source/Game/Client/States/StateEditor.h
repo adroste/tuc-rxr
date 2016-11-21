@@ -172,7 +172,9 @@ public:
 
 	virtual void composeFrame(Drawing& draw, float dt) override
 	{
+		draw.beginGameShader();
 		m_editor.draw(draw, dt);
+		draw.endGameShader();
 
 		//m_uiList.draw(draw);
 		drawWindows(draw);

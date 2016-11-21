@@ -23,7 +23,12 @@ public:
 	{
 		Timer t;
 		t.startWatch();
+
+		draw.beginGameShader();
 		m_game.draw(draw);
+		draw.endGameShader();
+		
+		
 		t.stopWatch();
 
 		draw.getUiCam().apply(draw);

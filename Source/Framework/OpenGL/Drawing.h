@@ -76,6 +76,9 @@ public:
 	ShaderCube& getShaderCubeDefault();
 	MeshCube& getCubeMesh();
 
+	void beginGameShader();
+	void endGameShader();
+
 	// static
 	static Font& getFont(Font::Style style, Font::Size size);
 	static size_t getThreadID();
@@ -144,4 +147,6 @@ private:
 
 	FramebufferObject m_frontFbo;
 	PointS m_resolution;
+
+	bool m_gameActive = false;
 };

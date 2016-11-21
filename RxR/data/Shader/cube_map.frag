@@ -64,5 +64,5 @@ void main()
 		
 		fragColor[0] = vec4(clamp(correctGamma(color), 0.0,1.0), /*1.0 - */fangle);
 	}
-	fragColor[1] = vec4(isGlowing, out_mapPos.z, 0.0, 0.0);
+	fragColor[1] = vec4(isGlowing, out_mapPos.z, 0.0, isGlowing);
 }
