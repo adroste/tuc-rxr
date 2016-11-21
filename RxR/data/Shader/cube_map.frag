@@ -15,9 +15,12 @@ flat in uint plsDiscard;
 flat in uint cubeSide;
 flat in uint cubeNeighbors;
 flat in vec3 out_bitangent;
+flat in float isGlowing;
 
 uniform sampler2D texWater;
 uniform sampler2D texWaterfall;
+
+out vec4 fragColor[2];
 
 void main()
 {
@@ -45,11 +48,11 @@ void main()
 	
 	if(shaderType == uint(0))
 	{
-		gl_FragColor = vec4(correctGamma(color),1.0);
+		fragColor[0] = vec4(correctGamma(color),1.0);
 	}
 	else if(shaderType == uint(1))
 	{
-		gl_FragColor = vec4(clamp(correctGamma(color), 0.0,1.0), 0.5);
+		fragColor[0] = vec4(clamp(correctGamma(color), 0.0,1.0), 0.5);
 	}
 	else
 	{
@@ -59,6 +62,7 @@ void main()
 		fangle = pow(fangle,5);
 		fangle = clamp(1.0 / fangle,0.5,0.9);
 		
-		gl_FragColor = vec4(clamp(correctGamma(color), 0.0,1.0), /*1.0 - */fangle);
+		fragColor[0] = vec4(clamp(correctGamma(color), 0.0,1.0), /*1.0 - */fangle);
 	}
+	fragColor[1] = vec4(isGlowing, out_mapPos.z, 0.0, 0.0);
 }

@@ -30,8 +30,7 @@ struct CubeDesc
 		diffuse(diff),
 		spec(0),
 		gloss(1.0f),
-		shader(CubeShader::Default),
-		glowing(0.0f)
+		shader(CubeShader::Default)
 	{}
 
 	// visual part
@@ -39,11 +38,11 @@ struct CubeDesc
 	uint32_t spec;
 	float gloss; // cos(phi)^gloss
 	CubeShader shader;
-	float glowing;
 
 	enum BlockFlag
 	{
-		Gravity = 1
+		Gravity = 1,
+		Glowing = 2
 	};
 	uint8_t blockType;
 	uint8_t blockFlags;

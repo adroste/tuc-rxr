@@ -50,7 +50,7 @@ Drawing::Drawing()
 	m_blockFramebuffer({
 		&m_shFxaa
 	},"Framebuffer"),
-	m_frontFbo(0,0,true,false)
+	m_frontFbo(0,0,true,true)
 {
 	m_curInstance = this;
 	m_drawThreadID = System::getThreadID();
@@ -355,13 +355,15 @@ void Drawing::beginFrame()
 {
 	m_frontFbo.setTextureFilter(GL_LINEAR);
 	m_frontFbo.bind();
+
+	glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void Drawing::endFrame()
 {
 	// do framebuffer processing
 	// anti aliasing, blooming etc.
-	Texture texFrame = m_frontFbo.getTexture();
+	Texture texFrame = m_frontFbo.getTexture2();
 	Texture texDepth = m_frontFbo.getDepth();
 	m_frontFbo.dispose();
 	m_frontFbo.create();

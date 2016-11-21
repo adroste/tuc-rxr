@@ -138,7 +138,8 @@ void MapChunk::updateGpuArray()
 			*		8-31 specular rgb
 			*
 			*	z:	0-15 gloss (int)
-			*		16-23 shader type: 0 = default, 1 = transparent, 2 = water
+			*		16-18 shader type: 0 = default, 1 = transparent, 2 = water
+			*		19 glowing
 			*		26-31 neighbors
 			*/
 			v.x = idx & 0xFFFF;
@@ -154,7 +155,10 @@ void MapChunk::updateGpuArray()
 			uint32_t gint = uint32_t(cd.gloss);
 			v.z = gint & 0xFFFF;
 
-			v.z |= (size_t(cd.shader) & 0xFF) << 16;
+			v.z |= (size_t(cd.shader) & 7) << 16;
+			if (cd.blockFlags & CubeDesc::Glowing)
+				v.z |= size_t(1) << 19;
+
 			v.z |= (pCube->neighbors & 0x3F) << 26;
 
 			assert(m_hasTransparent || !pCube->hasTransparency());

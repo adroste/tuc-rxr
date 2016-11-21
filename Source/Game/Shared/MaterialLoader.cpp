@@ -81,6 +81,10 @@ bool MaterialLoader::parseCubeDesc(tinyxml2::XMLNode* node, CubeDesc& c, size_t*
 		if (attr == std::string("true"))
 			c.blockFlags |= CubeDesc::Gravity;
 
+	if ((attr = elm->Attribute("glow")))
+		if (attr == std::string("true"))
+			c.blockFlags |= CubeDesc::Glowing;
+
 	return true;
 }
 
@@ -133,7 +137,10 @@ void MaterialLoader::writeCubeDesc(tinyxml2::XMLPrinter& p, const CubeDesc& c, s
 	p.PushAttribute("gloss", std::to_string(c.gloss).c_str());
 	p.PushAttribute("shader", CubeShaderToString(c.shader).c_str());
 	p.PushAttribute("blockType", BlockTypeToString(BlockType(c.blockType)).c_str());
-	p.PushAttribute("gravity", (c.blockFlags & CubeDesc::Gravity) != 0);
+	if((c.blockFlags & CubeDesc::Gravity) != 0)
+		p.PushAttribute("gravity", true);
+	if ((c.blockFlags & CubeDesc::Glowing) != 0)
+		p.PushAttribute("glow", true);
 	p.PushAttribute("HP", c.blockHP);
 
 	p.CloseElement();

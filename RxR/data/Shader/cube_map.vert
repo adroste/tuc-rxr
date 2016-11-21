@@ -23,6 +23,7 @@ flat out uint plsDiscard;
 flat out uint cubeSide;
 flat out uint cubeNeighbors;
 flat out vec3 out_bitangent;
+flat out float isGlowing;
 
 void main()
 {
@@ -50,7 +51,10 @@ void main()
 	
 	specColor = vec4(float(r) / 255.0, float(g) / 255.0, float(b) / 255.0, float(igloss));
 	
-	shaderType = (uint(in_iinfo.z) & uint(0xFF0000)) >> 16;
+	shaderType = (uint(in_iinfo.z) & uint(0x070000)) >> 16;
+	uint glow = (uint(in_iinfo.z) & uint(0x080000)) >> 19;
+	isGlowing = float(glow);
+	
 	uint neighbors  = (uint(in_iinfo.z) & uint(0xFC000000)) >> 26;
 	cubeNeighbors = neighbors;
 	uint side = uint(0);

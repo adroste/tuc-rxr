@@ -1,8 +1,8 @@
-<cube id="1" diffuse="0xff005605" specular="0xff000000" gloss="1.000000" shader="default" blockType="solid" gravity="false" HP="10"/>
+<cube id="1" diffuse="0xff005605" specular="0xff000000" gloss="1.000000" shader="default" blockType="solid" gravity="false" HP="10" glow="true" />
 
-<cube id="2" diffuse="0xff004900" specular="0xff000000" gloss="1.000000" shader="default" blockType="solid" gravity="false" HP="10"/>
+<cube id="2" diffuse="0xff004900" specular="0xff000000" gloss="1.000000" shader="default" blockType="solid" gravity="false" HP="10" />
 
-<cube id="3" diffuse="0xff003800" specular="0xff000000" gloss="1.000000" shader="default" blockType="solid" gravity="false" HP="10"/>
+<cube id="3" diffuse="0xff003800" specular="0xff000000" gloss="1.000000" shader="default" blockType="solid" gravity="false" HP="10" />
 
 <cube id="4" diffuse="0xff002600" specular="0xff000000" gloss="1.000000" shader="default" blockType="solid" gravity="false" HP="10"/>
 
