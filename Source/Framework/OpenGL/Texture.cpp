@@ -11,9 +11,9 @@ Texture::Texture()
 {
 }
 
-Texture::Texture(GLuint texture, GLsizei width, GLsizei height)
+Texture::Texture(gl::Texture2D texture, GLsizei width, GLsizei height)
 	:
-	m_texIndex(texture),
+	m_texIndex(std::move(texture)),
 	m_width(width),
 	m_height(height)
 {
@@ -54,9 +54,8 @@ void Texture::load(const std::string & fileName)
 
 void Texture::create()
 {
-	assert(m_texIndex == 0);
-	glGenTextures(1, &m_texIndex);
-	glBindTexture(GL_TEXTURE_2D, m_texIndex);
+	m_texIndex.create();
+	m_texIndex.bind();
 
 	// repeat texture
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -74,11 +73,7 @@ void Texture::create()
 
 void Texture::dispose()
 {
-	if(m_texIndex != 0)
-	{
-		glDeleteTextures(1, &m_texIndex);
-		m_texIndex = 0;
-	}
+	m_texIndex.dispose();
 }
 
 int Texture::getWidth() const
@@ -91,12 +86,12 @@ int Texture::getHeight() const
 	return m_height;
 }
 
-void Texture::bind(unsigned int id) const
+void Texture::bind(unsigned int id)
 {
 	assert(id <= 31);
 
 	glActiveTexture(GL_TEXTURE0 + id);
-	glBindTexture(GL_TEXTURE_2D, m_texIndex);
+	m_texIndex.bind();
 	
 	glCheck("Texture::bind");
 }

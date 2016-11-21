@@ -1,8 +1,9 @@
-#version 330 core
+#version 420 core
 
 #include "uniforms/Framebuffer.glsl"
 
-uniform sampler2D tex0;
+layout(binding = 0) uniform sampler2D tex0;
+layout(binding = 1) uniform sampler2D tex1;
 in vec2 texCoord;
 
 #define FXAA_SPAN_MAX 2.5
@@ -25,11 +26,11 @@ vec3 fxaaPixelShader()
 	*/
 	vec2 s = frame.pstep;
 	
-	vec3 rgbM = texture2D(tex0 , texCoord).rgb;
-	vec3 rgbNW = texture2D(tex0, texCoord - (s * FXAA_SUBPIX_SHIFT)).rgb;
-	vec3 rgbNE = texture2D(tex0, texCoord + (vec2(s.x, -s.y) * FXAA_SUBPIX_SHIFT)).rgb;
-	vec3 rgbSW = texture2D(tex0, texCoord + (vec2(-s.x, s.y) * FXAA_SUBPIX_SHIFT)).rgb;
-	vec3 rgbSE = texture2D(tex0, texCoord + (s * FXAA_SUBPIX_SHIFT)).rgb;
+	vec3 rgbM = texture(tex0 , texCoord).rgb;
+	vec3 rgbNW = texture(tex0, texCoord - (s * FXAA_SUBPIX_SHIFT)).rgb;
+	vec3 rgbNE = texture(tex0, texCoord + (vec2(s.x, -s.y) * FXAA_SUBPIX_SHIFT)).rgb;
+	vec3 rgbSW = texture(tex0, texCoord + (vec2(-s.x, s.y) * FXAA_SUBPIX_SHIFT)).rgb;
+	vec3 rgbSE = texture(tex0, texCoord + (s * FXAA_SUBPIX_SHIFT)).rgb;
 	
 	// edge detection
 	float lumaM =  fxaaLuma(rgbM);
@@ -52,10 +53,10 @@ vec3 fxaaPixelShader()
 
 	dir = clamp(dir * rcpDirMin, vec2(-FXAA_SPAN_MAX),vec2(FXAA_SPAN_MAX)) * s;
 	
-	vec3 rgbA = (1.0 / 2.0) * (texture2D(tex0, texCoord + dir * (1.0 / 3.0 - 0.5)).rgb +
-		texture2D(tex0, texCoord + dir * (2.0 / 3.0 - 0.5)).rgb);
-	vec3 rgbB = rgbA * (1.0 / 2.0) + (1.0 / 4.0) * (texture2D(tex0, texCoord + dir * (0.0 / 3.0 - 0.5)).rgb + 
-		texture2D(tex0, texCoord + dir * (3.0 / 3.0 - 0.5)).rgb);
+	vec3 rgbA = (1.0 / 2.0) * (texture(tex0, texCoord + dir * (1.0 / 3.0 - 0.5)).rgb +
+		texture(tex0, texCoord + dir * (2.0 / 3.0 - 0.5)).rgb);
+	vec3 rgbB = rgbA * (1.0 / 2.0) + (1.0 / 4.0) * (texture(tex0, texCoord + dir * (0.0 / 3.0 - 0.5)).rgb + 
+		texture(tex0, texCoord + dir * (3.0 / 3.0 - 0.5)).rgb);
 	
 	float lumaB = fxaaLuma(rgbB);
 	if((lumaB < lumaMin) || (lumaB > lumaMax))
@@ -67,4 +68,5 @@ vec3 fxaaPixelShader()
 void main()
 {
 	gl_FragColor = vec4(fxaaPixelShader(), 1.0);
+	//gl_FragColor = texture(tex1, texCoord); //+ vec4(fxaaPixelShader(), 1.0);
 }

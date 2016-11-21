@@ -50,7 +50,7 @@ Drawing::Drawing()
 	m_blockFramebuffer({
 		&m_shFxaa
 	},"Framebuffer"),
-	m_frontFbo(0,0,true)
+	m_frontFbo(0,0,true,true)
 {
 	m_curInstance = this;
 	m_drawThreadID = System::getThreadID();
@@ -362,6 +362,7 @@ void Drawing::endFrame()
 	// do framebuffer processing
 	// anti aliasing, blooming etc.
 	Texture texFrame = m_frontFbo.getTexture();
+	Texture texDepth = m_frontFbo.getDepth();
 	m_frontFbo.dispose();
 	m_frontFbo.create();
 
@@ -371,6 +372,7 @@ void Drawing::endFrame()
 	m_blockFramebuffer.setStep(step);
 
 	texFrame.bind(0);
+	texDepth.bind(1);
 	m_shFxaa.bind();
 
 	FramebufferObject::drawRect();

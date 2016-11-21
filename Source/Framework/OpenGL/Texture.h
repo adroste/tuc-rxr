@@ -7,7 +7,7 @@ class Texture : public GLObject
 {
 public:
 	Texture();
-	Texture(GLuint texture, GLsizei width, GLsizei height);
+	Texture(gl::Texture2D texture, GLsizei width, GLsizei height);
 	Texture(Texture&& move);
 	Texture& operator=(Texture&& move);
 	
@@ -19,12 +19,12 @@ public:
 	int getWidth() const;
 	int getHeight() const;
 
-	void bind(unsigned int id) const;
+	void bind(unsigned int id);
 	static void unbind();
 
 	void swap(Texture& o);
 private:
-	GLuint m_texIndex = 0;
+	gl::Texture2D m_texIndex;
 	int m_width = 0;
 	int m_height = 0;
 	std::unique_ptr<char[]> m_pRawData;
