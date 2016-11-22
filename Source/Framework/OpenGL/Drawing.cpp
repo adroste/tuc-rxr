@@ -339,15 +339,18 @@ MeshCube& Drawing::getCubeMesh()
 	return m_meshCube;
 }
 
+//#define DISABLE_FBO
+
 void Drawing::beginGameShader()
 {
 	assert(!m_gameActive);
 	m_gameActive = true;
 
+#ifndef DISABLE_FBO
 	// dont draw before this call!
 	m_frontFbo.setTextureFilter(GL_LINEAR);
 	m_frontFbo.bind();
-
+#endif
 	//glClear(GL_COLOR_BUFFER_BIT);
 }
 
@@ -356,6 +359,8 @@ void Drawing::endGameShader()
 	assert(m_gameActive);
 	m_gameActive = false;
 
+#ifndef DISABLE_FBO
+	//glFlush(); // flush beforehand to create game image
 	// do framebuffer processing
 	// anti aliasing, blooming etc.
 	Texture texFrame = m_frontFbo.getTexture();
@@ -426,6 +431,10 @@ void Drawing::endGameShader()
 
 	FramebufferObject::drawRect();
 	fbo.dispose();
+
+#endif
+	// flush all commands because they will take a little longer...
+	glFlush();
 }
 
 Drawing& Drawing::get()

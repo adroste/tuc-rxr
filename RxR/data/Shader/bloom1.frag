@@ -4,13 +4,14 @@
 layout(binding = 0) uniform sampler2D tex0;
 // glow and depth information
 layout(binding = 1) uniform sampler2D tex1;
-in vec2 texCoord;
+
 out vec4 fragColor;
 
 void main()
 {
-	vec4 color = texture(tex0, texCoord);
-	vec4 info = texture(tex1, texCoord);
+	ivec2 texCoord = ivec2(gl_FragCoord.xy);
+	vec4 color = texelFetch(tex0, texCoord, 0);
+	vec4 info = texelFetch(tex1, texCoord, 0);
 	
 	fragColor = color * float(info.r);
 }

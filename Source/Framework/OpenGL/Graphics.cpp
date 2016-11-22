@@ -107,7 +107,7 @@ void Graphics::endFrame()
 {
 	m_draw.endFrame();
 	glCheck("endFrame");
-	glFlush();
+	glFinish();
 }
 
 void Graphics::resize(PointI dim)

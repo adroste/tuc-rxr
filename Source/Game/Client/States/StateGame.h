@@ -22,15 +22,21 @@ public:
 	virtual void composeFrame(Drawing& draw, float dt) override
 	{
 		Timer t;
+		Timer t2;
+		glFinish();
 		t.startWatch();
 
 		draw.beginGameShader();
+		t2.startWatch();
 		m_game.draw(draw);
+		glFinish();
+		t2.stopWatch();
 		draw.endGameShader();
-		
+
+		glFinish(); // snyc
 		
 		t.stopWatch();
-
+	
 		draw.getUiCam().apply(draw);
 		Font& f = draw.getFont(Font::Style::Text, Font::Size::M);
 
@@ -38,6 +44,7 @@ public:
 		f.setColor(Color::White());
 		f.write(draw, "draw time: " + std::to_string(t.getTimeMilli()), { 10,10 });
 		f.write(draw, "draw max: " + std::to_string(m_maxDrawTime), { 10,50 });
+		f.write(draw, "draw without fbo: " + std::to_string(t2.getTimeMilli()), { 10,90 });
 	}
 
 	// Input handling
