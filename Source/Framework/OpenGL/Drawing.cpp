@@ -391,7 +391,7 @@ void Drawing::endGameShader()
 	fbo.dispose();
 	fbo.create();
 	fbo.bind();
-	m_shBloom2.setDir({ 1.0f,0.0f });
+	m_shBloom2.setDir({ 1,0 });
 	m_shBloom2.bind();
 	texBlured.bind(0);
 
@@ -403,7 +403,7 @@ void Drawing::endGameShader()
 	fbo.dispose();
 	fbo.create();
 	fbo.bind();
-	m_shBloom2.setDir({ 0.0f,1.0f });
+	m_shBloom2.setDir({ 0,1 });
 	m_shBloom2.bind();
 	texBlured.bind(0);
 	FramebufferObject::drawRect();

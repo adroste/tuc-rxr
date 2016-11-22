@@ -24,10 +24,10 @@ public:
 	{
 		Shader::load("data/Shader/bloom2");
 	}
-	void setDir(const glm::vec2& dir)
+	void setDir(const glm::ivec2& dir)
 	{
 		bind();
-		glUniform2f(m_dir, dir.x, dir.y);
+		glUniform2i(m_dir, dir.x, dir.y);
 		unbind();
 	}
 protected:
