@@ -48,7 +48,7 @@ Drawing::Drawing()
 		&m_shFxaa, &m_shBloom1, &m_shBloom2, &m_shBloom3
 	}),
 	m_blockFramebuffer({
-		&m_shFxaa, &m_shBloom2
+		&m_shFxaa
 	},"Framebuffer"),
 	m_frontFbo(0,0,true,true)
 {

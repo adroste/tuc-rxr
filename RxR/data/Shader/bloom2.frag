@@ -1,5 +1,4 @@
 #version 420 core
-#include "uniforms/Framebuffer.glsl"
 
 // image with blooming parts only
 layout(binding = 0) uniform sampler2D tex0;
