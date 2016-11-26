@@ -50,10 +50,16 @@ Drawing::Drawing()
 	m_blockFramebuffer({
 		&m_shFxaa
 	},"Framebuffer"),
-	m_frontFbo(0,0,true,true)
+	m_fboImagePlusBlur(true, 2),
+	m_fboTransparentAccumulator(true, 2),
+	m_fboBlurX(false,1),
+	m_fboBlurY(false,1),
+	m_fboFinal(false, 1)
 {
 	m_curInstance = this;
 	m_drawThreadID = System::getThreadID();
+
+	m_fboFinal.setTexture(0, GL_LINEAR); // linear for best fxaa
 }
 
 Drawing::~Drawing()
@@ -346,94 +352,78 @@ void Drawing::beginGameShader()
 	assert(!m_gameActive);
 	m_gameActive = true;
 
-#ifndef DISABLE_FBO
-	// dont draw before this call!
-	m_frontFbo.setTextureFilter(GL_LINEAR);
-	m_frontFbo.bind();
-#endif
-	//glClear(GL_COLOR_BUFFER_BIT);
+	// apply framebuffer that will hold the "true" image + "unblurred" parts
+	
+	m_fboImagePlusBlur.bind();
+	glCheck("Drawing::beginGameShader");
+}
+
+void Drawing::beginGameTransparency()
+{
+	assert(!m_transparentActive);
+	m_transparentActive = true;
+
+	m_fboTransparentAccumulator.bind();
+}
+
+void Drawing::endGameTransparency()
+{
+	assert(m_transparentActive);
+	m_transparentActive = false;
+
+	// add images together
+	m_fboImagePlusBlur.bind();
+
+
 }
 
 void Drawing::endGameShader()
 {
+	glFlush(); // flush beforehand to create game image
 	assert(m_gameActive);
 	m_gameActive = false;
-
-#ifndef DISABLE_FBO
-	//glFlush(); // flush beforehand to create game image
-	// do framebuffer processing
-	// anti aliasing, blooming etc.
-	Texture texFrame = m_frontFbo.getTexture();
-	Texture texDepth = m_frontFbo.getTexture2();
-	m_frontFbo.dispose();
-	m_frontFbo.create();
 
 	glm::vec2 step;
 	step.x = 1.0f / float(m_resolution.x);
 	step.y = 1.0f / float(m_resolution.y);
 	m_blockFramebuffer.setStep(step);
 
-	// apply blooming
-	FramebufferObject fbo(m_resolution.x, m_resolution.y, false, false);
-	fbo.create();
+	m_fboImagePlusBlur.unbind();
+	// get texture for blending
 
-	fbo.bind();
-	// extract bloom color
-	m_shBloom1.bind();
-	texFrame.bind(0);
-	texDepth.bind(1);
+	m_fboBlurX.bind();
+	{// blur
+		m_shBloom2.setDir({ 1,0 });
+		m_shBloom2.bind();
+		m_fboImagePlusBlur.bindTexture(1, 0);
+		FramebufferObject::drawRect();
+	}
+	m_fboBlurX.unbind();
 
-	FramebufferObject::drawRect();
+	m_fboBlurY.bind();
+	{// blur
+		m_shBloom2.setDir({ 0,1 });
+		m_shBloom2.bind();
+		m_fboBlurX.bindTexture(0, 0);
+		FramebufferObject::drawRect();
+	}
+	m_fboBlurY.unbind();
 
+	m_fboFinal.bind();
+	{
+		m_fboImagePlusBlur.bindTexture(0, 0);
+		m_fboBlurY.bindTexture(0, 1);
+		// add together + FXAA	TODO
+		m_shBloom3.bind();
+		FramebufferObject::drawRect();
+	}
+	m_fboFinal.unbind();
 
-	// blur in x
-	Texture texBlured = fbo.getTexture();
-	fbo.dispose();
-	fbo.create();
-	fbo.bind();
-	m_shBloom2.setDir({ 1,0 });
-	m_shBloom2.bind();
-	texBlured.bind(0);
-
-	FramebufferObject::drawRect();
-
-
-	// blur in y
-	texBlured = fbo.getTexture();
-	fbo.dispose();
-	fbo.create();
-	fbo.bind();
-	m_shBloom2.setDir({ 0,1 });
-	m_shBloom2.bind();
-	texBlured.bind(0);
-	FramebufferObject::drawRect();
-
-
-
-	// add images together
-	texBlured = fbo.getTexture();
-	fbo.dispose();
-	fbo.create();
-	fbo.bind();
-	m_shBloom3.bind();
-	texFrame.bind(0);
-	texBlured.bind(1);
-	FramebufferObject::drawRect();
-
-
-
-	// apply fxaa
-	texFrame = fbo.getTexture();
-	//fbo.dispose();
-	//fbo.create();
-	texFrame.bind(0);
+	m_fboFinal.bindTexture(0, 0);
 	m_shFxaa.bind();
 
 	FramebufferObject::drawRect();
-	fbo.dispose();
-
-#endif
-	// flush all commands because they will take a little longer...
+	glCheck("Drawing::endGameShader");
 	glFlush();
 }
 
@@ -461,8 +451,12 @@ void Drawing::endFrame()
 
 void Drawing::resize(GLsizei width, GLsizei height)
 {
-	m_frontFbo.resize(width, height);
 	m_resolution = PointS(width, height);
+	m_fboImagePlusBlur.resize(width, height);
+	m_fboTransparentAccumulator.resize(width, height);
+	m_fboBlurX.resize(width, height);
+	m_fboBlurY.resize(width, height);
+	m_fboFinal.resize(width, height);
 }
 
 void Drawing::addToDisposeStack(gl::Disposeable d)
@@ -497,7 +491,11 @@ void Drawing::create()
 	m_texWater.create();
 	m_texWaterfall.create();
 
-	m_frontFbo.create();
+	m_fboImagePlusBlur.create();
+	m_fboTransparentAccumulator.create();
+	m_fboBlurX.create();
+	m_fboBlurY.create();
+	m_fboFinal.create();
 }
 
 void Drawing::dispose()
@@ -527,7 +525,11 @@ void Drawing::dispose()
 	m_texWater.dispose();
 	m_texWaterfall.dispose();
 
-	m_frontFbo.dispose();
+	m_fboImagePlusBlur.dispose();
+	m_fboTransparentAccumulator.dispose();
+	m_fboBlurX.dispose();
+	m_fboBlurY.dispose();
+	m_fboFinal.dispose();
 }
 
 void Drawing::init(FT_Library ftlib)

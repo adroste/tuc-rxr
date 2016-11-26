@@ -77,6 +77,8 @@ public:
 	MeshCube& getCubeMesh();
 
 	void beginGameShader();
+	void beginGameTransparency();
+	void endGameTransparency();
 	void endGameShader();
 
 	// static
@@ -144,9 +146,14 @@ private:
 	// memory
 	Mutex m_muDisposeStack;
 	std::stack<gl::Disposeable> m_disposeStack;
-
-	FramebufferObject m_frontFbo;
 	PointS m_resolution;
 
+
+	FramebufferObject m_fboImagePlusBlur; // render targets: image, to be blurred parts, depth
+	FramebufferObject m_fboTransparentAccumulator; //  render targets: accum, revealage, blurAccum, blurReveallage
+	FramebufferObject m_fboBlurX; // render targets: blurTex
+	FramebufferObject m_fboBlurY; // render targets: blurTex
+	FramebufferObject m_fboFinal; // render targets: final image (no fxaa)
 	bool m_gameActive = false;
+	bool m_transparentActive = false;
 };

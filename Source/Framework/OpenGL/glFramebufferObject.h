@@ -1,32 +1,41 @@
 #pragma once
 #include "GLObject.h"
 #include "Texture.h"
+#include <vector>
 
 class FramebufferObject : public GLObject
 {
 public:
-	FramebufferObject(GLsizei width, GLsizei height, bool hasDepth, bool hasColor2);
+	FramebufferObject(bool hasDepth, size_t nColorAttachments);
 	virtual ~FramebufferObject();
 
+	// Format -> GL_RGBA8
+	void setTexture(size_t slot, GLenum minMag = GL_NEAREST, GLenum format = GL_RGBA8, GLenum internalFormat = GL_RGBA, GLenum type = GL_UNSIGNED_BYTE);
+	// note: textures have to be initialized 
 	void create() override;
 	void dispose() override;
 	void resize(GLsizei width, GLsizei height);
 
 	void bind();
-	Texture getTexture();
-	Texture getTexture2();
-	Texture getDepth();
+	void unbind();
+	void bindTexture(size_t slot, size_t target);
 
-	void setTextureFilter(GLint filter);
 	static void drawRect();
 private:
-	gl::Texture2D m_texture;
-	gl::Texture2D m_texture2;
-	gl::Texture2D m_depth;
-	GLuint m_fbo = 0;
-	GLsizei m_width, m_height;
-
-	GLint m_minMagFilter = GL_NEAREST;
+	struct TexInfo
+	{
+		GLenum minMag = GL_NEAREST;
+		GLenum format = GL_RGBA8;
+		GLenum internalFormat = GL_RGBA;
+		GLenum type = GL_UNSIGNED_BYTE;
+	};
+	std::vector<gl::Texture2D> m_colorAttachments;
+	std::vector<TexInfo> m_colorInfo;
 	bool m_hasDepth;
-	bool m_hasColor2;
+	gl::Texture2D m_depth;
+
+	//GLuint m_fbo = 0;
+	gl::Framebuffer m_fbo;
+	GLsizei m_width = 0, m_height = 0;
+
 };

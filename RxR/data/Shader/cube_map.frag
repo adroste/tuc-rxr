@@ -45,14 +45,16 @@ void main()
 	}
 	
 	vec3 color = renderMapBlock(out_mapPos, normNormal, diffColor, specColor.rgb, specColor.w);
+	vec4 finalColor = vec4(0.0);
+	vec4 glowColor = vec4(0.0);
 	
 	if(shaderType == uint(0))
 	{
-		fragColor[0] = vec4(correctGamma(color),1.0);
+		finalColor = vec4(correctGamma(color),1.0);
 	}
 	else if(shaderType == uint(1))
 	{
-		fragColor[0] = vec4(clamp(correctGamma(color), 0.0,1.0), 0.5);
+		finalColor = vec4(clamp(correctGamma(color), 0.0,1.0), 0.5);
 	}
 	else
 	{
@@ -62,7 +64,14 @@ void main()
 		fangle = pow(fangle,5);
 		fangle = clamp(1.0 / fangle,0.5,0.9);
 		
-		fragColor[0] = vec4(clamp(correctGamma(color), 0.0,1.0), /*1.0 - */fangle);
+		finalColor = vec4(clamp(correctGamma(color), 0.0,1.0), /*1.0 - */fangle);
 	}
-	fragColor[1] = vec4(isGlowing, out_mapPos.z, 0.0, isGlowing);
+
+	if(isGlowing > 0.0)
+	{
+		glowColor = finalColor;
+	}
+	
+	fragColor[0] = finalColor;
+	fragColor[1] = glowColor;
 }

@@ -11,6 +11,12 @@ mat3 bumpGetRotation(vec3 inNormal, vec3 inTangent)
 	return mat3(tangent, biTangent, inNormal);
 }
 
+// VertexShader: calculates matrix for bumpReadNormal
+mat3 bumpGetRotation(vec3 inNormal, vec3 inTangent, vec3 inBitangent)
+{
+	return mat3(inNormal,inTangent,inBitangent);
+}
+
 // FragmentShader: transfers normal from sampler to correct normal
 vec3 bumpReadNormal(vec3 rawNormal, mat3 matrix)
 {

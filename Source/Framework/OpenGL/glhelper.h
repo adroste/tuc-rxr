@@ -127,12 +127,14 @@ namespace gl
 									inline void delete##Name(GLsizei s, GLuint* d) {glDelete##Name(s,d);}
 	GENERIC_GEN_DELETE(Buffers);
 	GENERIC_GEN_DELETE(Textures);
+	GENERIC_GEN_DELETE(Framebuffers);
 
 #undef GENERIC_GEN_DELETE
 #define  GENERIC_BIND(Name)			inline void bind##Name(GLenum e, GLuint d) { glBind##Name(e,d); }
 
 	GENERIC_BIND(Texture);
 	GENERIC_BIND(Buffer);
+	GENERIC_BIND(Framebuffer);
 
 #undef GENERIC_GEN_DELETE
 
@@ -140,4 +142,5 @@ namespace gl
 	using Texture1D = BinbableData<genTextures, deleteTextures, bindTexture, GL_TEXTURE_1D>;
 	using Texture2D = BinbableData<genTextures, deleteTextures, bindTexture, GL_TEXTURE_2D>;
 	using Texture3D = BinbableData<genTextures, deleteTextures, bindTexture, GL_TEXTURE_3D>;
+	using Framebuffer = BinbableData<genFramebuffers, deleteFramebuffers, bindFramebuffer, GL_FRAMEBUFFER>;
 }
