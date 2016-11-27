@@ -369,7 +369,6 @@ void Drawing::beginGameTransparency()
 	m_transparentActive = true;
 
 	m_fboTransparentAccumulator.bind();
-	m_fboTransparentAccumulator.getDepthFrom(m_fboImagePlusBlur);
 
 	glEnable(GL_BLEND);
 	//glBlendFunci(0, GL_ONE, GL_ONE); // add layers
@@ -486,6 +485,8 @@ void Drawing::resize(GLsizei width, GLsizei height)
 	m_fboBlurX.resize(width, height);
 	m_fboBlurY.resize(width, height);
 	m_fboFinal.resize(width, height);
+
+	m_fboTransparentAccumulator.getDepthFrom(m_fboImagePlusBlur);
 }
 
 void Drawing::addToDisposeStack(gl::Disposeable d)
@@ -525,6 +526,8 @@ void Drawing::create()
 	m_fboBlurX.create();
 	m_fboBlurY.create();
 	m_fboFinal.create();
+
+	m_fboTransparentAccumulator.getDepthFrom(m_fboImagePlusBlur);
 }
 
 void Drawing::dispose()

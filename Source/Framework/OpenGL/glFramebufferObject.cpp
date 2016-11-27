@@ -162,7 +162,7 @@ void FramebufferObject::getDepthFrom(FramebufferObject& fbo)
 
 	m_fbo.bind();
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, fbo.m_depth.get(), 0);
-
+	m_fbo.unbind();
 	glCheck("FramebufferObject::getDepthFrom");
 }
 
