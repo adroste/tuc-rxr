@@ -9,7 +9,9 @@ void main()
 {
 	vec4 accum = texelFetch(accumTex, ivec2(gl_FragCoord.xy), 0);
 	float r = accum.a;
-	accum.a = texelFetch(revealTex, ivec2(gl_FragCoord.xy), 0).r;
-	fragColor[0] = vec4(accum.rgb / clamp(accum.a, 1e-4, 5e4), r);
-	fragColor[1] = vec4(0.0);
+	vec2 info = texelFetch(revealTex, ivec2(gl_FragCoord.xy), 0).rg;
+	accum.a = info.r;
+	vec4 finalColor = vec4(accum.rgb / clamp(accum.a, 1e-4, 5e4), r);
+	fragColor[0] = finalColor;
+	fragColor[1] = info.g * finalColor;
 }

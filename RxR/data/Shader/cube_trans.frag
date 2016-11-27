@@ -17,7 +17,11 @@ void main()
 	bool isGlowing = false;
 	getPixelColor(finalColor, isGlowing);
 	
+	float glowFac = 0.0;
+	if(isGlowing)
+		glowFac = 1.0;
+		
 	float weight = getTransWeight(gl_FragCoord.z,finalColor.a);
 	fragColor[0] = vec4( finalColor.rgb * weight, finalColor.a);
-	fragColor[1] = vec4(finalColor.a) * weight;
+	fragColor[1] = vec4(finalColor.a * weight, glowFac, 0.0, 1.0);
 }
