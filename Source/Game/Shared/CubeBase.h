@@ -28,6 +28,10 @@ public:
 	}
 	bool isOpaque() const;
 	bool hasTransparency() const;
+	bool isHidden() const
+	{
+		return neighbors == 63;
+	}
 public:
 	// indicates if there are neighboring blocks in this chunk
 	size_t neighbors = 0;

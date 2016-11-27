@@ -126,7 +126,7 @@ void MapChunk::updateGpuArray()
 	size_t idx = 0;
 	for (const auto& pCube : m_cubes)
 	{
-		if (pCube)
+		if (pCube && !pCube->isHidden())
 		{
 			glm::ivec3 v = {0,0,0};
 
@@ -175,12 +175,13 @@ void MapChunk::updateGpuArray()
 	if (m_hasTransparent)
 	{
 		// draw front to back
-		decltype(gpuTrans) v2;
+		/*decltype(gpuTrans) v2;
 		v2.reserve(gpuTrans.size());
 		for (auto r = gpuTrans.rbegin(), end = gpuTrans.rend(); r != end; ++r)
 			v2.push_back(*r);
 
-		m_iTransArray.setData(move(v2));
+		m_iTransArray.setData(move(v2));*/
+		m_iTransArray.setData(move(gpuTrans));
 	}
 	m_hasChanged = false;
 }
