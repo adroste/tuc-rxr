@@ -7,7 +7,6 @@ layout(location = 2) in vec2 in_texCoord0;
 layout(location = 3) in ivec3 in_iinfo;
 
 uniform uint animation;
-uniform bool flipCoords; // this is usefull for back to front rendering
 
 #define CHUNK_SIZE 32
 
@@ -60,13 +59,6 @@ void main()
 	vec3 normal = in_normal;
 	vec3 pos = in_position;
 	
-	if(flipCoords)
-	{
-		// transparent -> flip sides to draw cube backwards
-		normal *= -1.0;
-		pos *= -1.0;
-	}
-	
 	if(normal.x != 0.0)
 	{
 		if(normal.x > 0.0) // right
@@ -117,8 +109,8 @@ void main()
 	
 	switch(side)
 	{
-	case uint(0): // left
-		out_bitangent = vec3(0.0,-1.0,0.0);
+	case uint(1): // left
+		out_bitangent = vec3(0.0,1.0,0.0);
 		break;
 	case uint(2): // right
 		out_bitangent = vec3(0.0,1.0,0.0);
@@ -145,7 +137,7 @@ void main()
 	case uint(8): // top + bottom
 		texCoord0 = mapPos.xz / vec2(16.0) + framework.random.xy;
 		break;
-	case uint(0): // left rigt
+	case uint(1): // left rigt
 	case uint(2):
 		texCoord0 = (mapPos.zy + vec2(8.0)) / vec2(16.0) + framework.random.xy;
 	default: // front back

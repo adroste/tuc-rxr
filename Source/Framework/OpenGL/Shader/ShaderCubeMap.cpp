@@ -12,28 +12,8 @@ void ShaderCubeMap::setAnimation(AssetAnimation a)
 	glUniform1ui(m_animation, GLuint(a));
 }
 
-void ShaderCubeMap::setTransparent(bool isTrans)
-{
-	bind();
-	glUniform1ui(m_transparent, GLuint(isTrans ? 1 : 0));
-}
-
 void ShaderCubeMap::loadUniforms()
 {
 	m_animation = locateUniform("animation");
-	m_transparent = locateUniform("flipCoords");
 	glCheck("ShaderCubeMap::loadUniforms");
-
-	
-	//GLint mapTex = locateUniform("mapTexVol");
-	//glUniform1i(mapTex, 0);
-	//glCheck("ShaderCubeMap::loadUniforms mapTexVol");
-
-	//GLint waterTex = locateUniform("texWater");
-	//glUniform1i(waterTex, 1);
-	//glCheck("ShaderCubeMap::loadUniforms texWater");
-
-	//waterTex = locateUniform("texWaterfall");
-	//glUniform1i(waterTex, 2);
-	//glCheck("ShaderCubeMap::loadUniforms texWaterfall");
 }
