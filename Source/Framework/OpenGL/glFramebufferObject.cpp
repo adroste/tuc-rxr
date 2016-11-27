@@ -120,11 +120,12 @@ void FramebufferObject::resize(GLsizei width, GLsizei height)
 	create();
 }
 
-void FramebufferObject::bind()
+void FramebufferObject::bind(bool clear)
 {
 	m_fbo.bind();
 
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	if(clear)
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	GLenum buffers[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2,
 		GL_COLOR_ATTACHMENT3, GL_COLOR_ATTACHMENT4, GL_COLOR_ATTACHMENT5 ,
@@ -133,7 +134,13 @@ void FramebufferObject::bind()
 		GL_COLOR_ATTACHMENT12, GL_COLOR_ATTACHMENT13, GL_COLOR_ATTACHMENT14 };
 	assert(m_colorAttachments.size() < 16);
 	glDrawBuffers(m_colorAttachments.size(), buffers);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	if (clear)
+	{
+		if(m_hasDepth)
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		else
+			glClear(GL_COLOR_BUFFER_BIT);
+	}
 }
 
 void FramebufferObject::unbind()
@@ -146,6 +153,17 @@ void FramebufferObject::bindTexture(size_t slot, size_t target)
 	assert(slot < m_colorAttachments.size());
 	glActiveTexture( GL_TEXTURE0 + target);
 	m_colorAttachments[slot].bind();
+}
+
+void FramebufferObject::getDepthFrom(FramebufferObject& fbo)
+{
+	assert(!m_hasDepth);
+	assert(fbo.m_hasDepth);
+
+	m_fbo.bind();
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, fbo.m_depth.get(), 0);
+
+	glCheck("FramebufferObject::getDepthFrom");
 }
 
 void FramebufferObject::drawRect()

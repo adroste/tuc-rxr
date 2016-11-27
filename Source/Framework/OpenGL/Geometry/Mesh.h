@@ -59,7 +59,7 @@ void Mesh::drawInstanced(size_t num, InstancingArray<vecType, count, enumType>& 
 	glBindVertexArray(m_vertexArrayObject);
 
 	ia.bind(3);
-
+	glCheck("l Mesh::drawInstaced");
 	glDrawElementsInstanced(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, nullptr, num);
 	glCheck("Mesh::drawInstaced");
 

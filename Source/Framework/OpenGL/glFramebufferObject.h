@@ -16,10 +16,11 @@ public:
 	void dispose() override;
 	void resize(GLsizei width, GLsizei height);
 
-	void bind();
+	void bind(bool clear = true);
 	void unbind();
 	void bindTexture(size_t slot, size_t target);
 
+	void getDepthFrom(FramebufferObject& fbo);
 	static void drawRect();
 private:
 	struct TexInfo

@@ -76,16 +76,13 @@ void Map::draw(Drawing& draw)
 	// TODO seperate lock?
 	for(auto& a : m_assets)
 	{
-		a.draw(draw, meshCube, shader);
+		a.draw(draw, meshCube, draw.getShaderCubeMap());
 	}
 
 	// draw transparency last
-	glEnable(GL_BLEND);
-	glDisable(GL_CULL_FACE);
-	
-	//glBlendFuncSeparate(GL_DST_ALPHA, GL_ONE, GL_DST_ALPHA, GL_ZERO);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	//shader.setTransparent(true);
+	draw.beginGameTransparency();
+	draw.getShaderCubeTrans().bind();
+
 	// TODO optimize draw range
 	transform = glm::mat4();
 	for (size_t y = 0; y < m_cdim.y; y++)
@@ -100,8 +97,8 @@ void Map::draw(Drawing& draw)
 		}
 		transform = glm::translate(glm::vec3(0.0f, float(MapChunk::SIZE * (y + 1)), 0.0f));
 	}
-	glDisable(GL_BLEND);
-	glEnable(GL_CULL_FACE);
+	
+	draw.endGameTransparency();
 	//shader.setTransparent(false);
 
 	g.unlock();

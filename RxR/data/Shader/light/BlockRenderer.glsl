@@ -3,7 +3,7 @@
 #include "../uniforms/Lights.glsl"
 #include "../uniforms/MapInfo.glsl"
 
-uniform sampler3D mapTexVol;
+layout(binding = 0) uniform sampler3D mapTexVol;
 #define SHADOW_STEP 0.5
 #define SHADOW_TRESHOLD 0.0625
 #define FACTOR_DISCARD 0.0005

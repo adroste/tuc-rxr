@@ -232,10 +232,12 @@
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderColor2.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderCube.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderCubeMap.h" />
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderCubeTrans.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderDisk.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderFXAA.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderHSVPickerCircle.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderHSVPickerSquare.h" />
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderTransEnd.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlock.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlockFramebuffer.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\UniformBlockFramework.h" />

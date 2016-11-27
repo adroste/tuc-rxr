@@ -1,4 +1,4 @@
-#version 330 core
+#version 420 core
 
 #include "light/BlockRenderer.glsl"
 #include "uniforms/Material.glsl"

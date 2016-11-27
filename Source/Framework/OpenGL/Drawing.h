@@ -28,6 +28,8 @@
 #include "Shader/UniformBlockFramebuffer.h"
 #include "Shader/ShaderFXAA.h"
 #include "Shader/ShaderBloom1.h"
+#include "Shader/ShaderTransEnd.h"
+#include "Shader/ShaderCubeTrans.h"
 
 class Drawing : public GLObject
 {
@@ -73,6 +75,7 @@ public:
 
 	// shader
 	ShaderCubeMap& getShaderCubeMap();
+	ShaderCubeTrans& getShaderCubeTrans();
 	ShaderCube& getShaderCubeDefault();
 	MeshCube& getCubeMesh();
 
@@ -110,6 +113,8 @@ private:
 	ShaderBloom1 m_shBloom1;
 	ShaderBloom2 m_shBloom2;
 	ShaderBloom3 m_shBloom3;
+	ShaderTransEnd m_shTransEnd;
+	ShaderCubeTrans m_shCubeTrans;
 
 	UniformBlockTransforms m_trans;
 	UniformBlockMaterial m_material;

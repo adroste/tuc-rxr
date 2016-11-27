@@ -27,17 +27,17 @@ Drawing::Drawing()
 		&m_fontHeadS, &m_fontHeadM, &m_fontHeadL,
 		&m_fontTextS, &m_fontTextM, &m_fontTextL,
 		&m_shColor, &m_shHSVPickerCircle, &m_shHSVPickerSquare, &m_shButton,
-		&m_shDisc, &m_shColor2
+		&m_shDisc, &m_shColor2, &m_shCubeTrans
 	}, "Transforms"),
-	m_material({ &m_shCubeMap,  &m_shCube }, "Material"),
-	m_lights({ &m_shCubeMap,  &m_shCube }, "Lights"),
-	m_mapInfo({ &m_shCubeMap,  &m_shCube }, "MapInfo"),
+	m_material({ &m_shCubeMap,  &m_shCube, &m_shCubeTrans }, "Material"),
+	m_lights({ &m_shCubeMap,  &m_shCube, &m_shCubeTrans }, "Lights"),
+	m_mapInfo({ &m_shCubeMap,  &m_shCube, &m_shCubeTrans }, "MapInfo"),
 	
 	m_blockFramework({&m_shButton,
 		&m_fontHeadS, &m_fontHeadM, &m_fontHeadL,
 		&m_fontTextS, &m_fontTextM, &m_fontTextL,
 		&m_shColor, &m_shDisc, &m_shColor2,
-		&m_shCubeMap
+		&m_shCubeMap, &m_shCubeTrans
 
 	},"Framework"),
 
@@ -45,13 +45,13 @@ Drawing::Drawing()
 		&m_shCubeMap, &m_shCube, &m_shButton, &m_shColor, &m_shColor2,
 		&m_shHSVPickerCircle, &m_shHSVPickerSquare, &m_shDisc,
 		&m_fontHeadS, &m_fontHeadM, &m_fontHeadL, &m_fontTextS, &m_fontTextM, &m_fontTextL,
-		&m_shFxaa, &m_shBloom1, &m_shBloom2, &m_shBloom3
+		&m_shFxaa, &m_shBloom1, &m_shBloom2, &m_shBloom3, &m_shTransEnd, &m_shCubeTrans
 	}),
 	m_blockFramebuffer({
 		&m_shFxaa
 	},"Framebuffer"),
 	m_fboImagePlusBlur(true, 2),
-	m_fboTransparentAccumulator(true, 2),
+	m_fboTransparentAccumulator(false, 2),
 	m_fboBlurX(false,1),
 	m_fboBlurY(false,1),
 	m_fboFinal(false, 1)
@@ -335,6 +335,11 @@ ShaderCubeMap& Drawing::getShaderCubeMap()
 	return m_shCubeMap;
 }
 
+ShaderCubeTrans& Drawing::getShaderCubeTrans()
+{
+	return m_shCubeTrans;
+}
+
 ShaderCube& Drawing::getShaderCubeDefault()
 {
 	return m_shCube;
@@ -364,6 +369,16 @@ void Drawing::beginGameTransparency()
 	m_transparentActive = true;
 
 	m_fboTransparentAccumulator.bind();
+	m_fboTransparentAccumulator.getDepthFrom(m_fboImagePlusBlur);
+
+	glEnable(GL_BLEND);
+	//glBlendFunci(0, GL_ONE, GL_ONE); // add layers
+	//glBlendFunci(1, GL_ZERO, GL_ONE_MINUS_SRC_ALPHA); // (1 - a) * (1 - a)...
+	glBlendFuncSeparate(GL_ONE, GL_ONE, GL_ZERO, GL_ONE_MINUS_SRC_ALPHA);
+	glDisable(GL_CULL_FACE);
+	glDepthMask(GL_FALSE);
+
+	glCheck("Drawing::beginGameTransparency");
 }
 
 void Drawing::endGameTransparency()
@@ -372,9 +387,23 @@ void Drawing::endGameTransparency()
 	m_transparentActive = false;
 
 	// add images together
-	m_fboImagePlusBlur.bind();
+	m_fboImagePlusBlur.bind(false);
+	glEnable(GL_BLEND);
+	glBlendFunci(0, GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA);
+	glBlendFunci(1, GL_ONE, GL_ONE); // add bloom
+	// add together
+	m_fboTransparentAccumulator.bindTexture(0, 0);
+	m_fboTransparentAccumulator.bindTexture(1, 1);
+	m_shTransEnd.bind();
 
+	FramebufferObject::drawRect();
 
+	m_shTransEnd.unbind();
+
+	
+	glDisable(GL_BLEND);
+	glEnable(GL_CULL_FACE);
+	glDepthMask(GL_TRUE);
 }
 
 void Drawing::endGameShader()
@@ -413,7 +442,7 @@ void Drawing::endGameShader()
 	{
 		m_fboImagePlusBlur.bindTexture(0, 0);
 		m_fboBlurY.bindTexture(0, 1);
-		// add together + FXAA	TODO
+		// add together + FXAA
 		m_shBloom3.bind();
 		FramebufferObject::drawRect();
 	}

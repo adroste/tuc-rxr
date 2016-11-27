@@ -15,8 +15,8 @@ flat in uint cubeNeighbors;
 flat in vec3 out_bitangent;
 flat in float isGlowing;
 
-uniform sampler2D texWater;
-uniform sampler2D texWaterfall;
+layout(binding = 1) uniform sampler2D texWater;
+layout(binding = 2) uniform sampler2D texWaterfall;
 
 void getPixelColor(out vec4 dstColor, out bool dstGlowing)
 {
@@ -52,7 +52,7 @@ void getPixelColor(out vec4 dstColor, out bool dstGlowing)
 		vec3 eyeDir = normalize(LightsEye - out_mapPos);
 		
 		float fangle = 1.0 + dot(eyeDir,normNormal);
-		fangle = pow(fangle,5);
+		fangle = pow(fangle,3);
 		fangle = clamp(1.0 / fangle,0.5,0.9);
 		
 		dstColor = vec4(clamp(correctGamma(color), 0.0,1.0), fangle);
