@@ -22,6 +22,10 @@ void getPixelColor(out vec4 dstColor, out bool dstGlowing)
 	vec3 normNormal = normalize(out_normal);
 	if(shaderType == uint(2))
 	{
+		// flip water normal if facing away from eyeDir
+		vec3 eyeDir = normalize(LightsEye - out_mapPos);
+		if (dot(normNormal, eyeDir) < 0.0)
+			normNormal *= -1.0;
 		// water shader
 		vec3 rgbNormal;
 		if(cubeSide == uint(4) || cubeSide == uint(8))
@@ -31,11 +35,6 @@ void getPixelColor(out vec4 dstColor, out bool dstGlowing)
 			
 		mat3 rotMatrix = bumpGetRotation(normNormal, out_bitangent);
 		normNormal = bumpReadNormal(rgbNormal, rotMatrix);
-		
-		// flip water normal if facing away from eyeDir
-		vec3 eyeDir = normalize(LightsEye - out_mapPos);
-		if (dot(normNormal, eyeDir) < 0.0)
-			normNormal *= -1.0;
 	}
 	
 	vec3 color = renderMapBlock(out_mapPos, normNormal, diffColor, specColor.rgb, specColor.w);

@@ -7,7 +7,7 @@ layout(binding = 0) uniform sampler3D mapTexVol;
 #define SHADOW_STEP 0.5
 #define SHADOW_TRESHOLD 0.0625
 #define FACTOR_DISCARD 0.0005
-//#define FASTER_SHADOWS
+#define FASTER_SHADOWS
 const float SH_FUNC_M = 1.0 / (1.0 - SHADOW_TRESHOLD * SHADOW_TRESHOLD);
 const float SH_FUNC_B = 1.0 - SH_FUNC_M;
 
