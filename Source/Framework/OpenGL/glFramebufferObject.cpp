@@ -26,17 +26,6 @@ void FramebufferObject::setTexture(size_t slot, GLenum minMag, GLenum format, GL
 	tex.format = format;
 	tex.internalFormat = internalFormat;
 	tex.type = type;
-	/*gl::Texture2D& tex = m_colorAttachments[slot];
-
-	tex.create();
-	tex.bind();
-
-	glTexImage2D(GL_TEXTURE_2D, 0, format, m_width, m_height, 0, internalFormat, type, nullptr);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minMag);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, minMag);
-	glBindTexture(GL_TEXTURE_2D, 0);*/
 }
 
 void FramebufferObject::create()
@@ -69,20 +58,11 @@ void FramebufferObject::create()
 	// attach render buffer
 	if (m_hasDepth)
 	{
-		/*glGenRenderbuffers(1, &m_depth);
-		glBindRenderbuffer(GL_RENDERBUFFER, m_depth);
-		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, m_width, m_height);
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_depth);*/
 		m_depth.create();
 		m_depth.bind();
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, m_width, m_height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glBindTexture(GL_TEXTURE_2D, 0);
-
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_depth.get(), 0);
+		
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, m_width, m_height);
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_depth.get());
 	}
 
 	auto status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
@@ -161,7 +141,7 @@ void FramebufferObject::getDepthFrom(FramebufferObject& fbo)
 	assert(fbo.m_hasDepth);
 
 	m_fbo.bind();
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, fbo.m_depth.get(), 0);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, fbo.m_depth.get());
 	m_fbo.unbind();
 	glCheck("FramebufferObject::getDepthFrom");
 }

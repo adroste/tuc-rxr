@@ -33,9 +33,8 @@ private:
 	std::vector<gl::Texture2D> m_colorAttachments;
 	std::vector<TexInfo> m_colorInfo;
 	bool m_hasDepth;
-	gl::Texture2D m_depth;
+	gl::Renderbuffer m_depth;
 
-	//GLuint m_fbo = 0;
 	gl::Framebuffer m_fbo;
 	GLsizei m_width = 0, m_height = 0;
 
