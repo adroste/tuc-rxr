@@ -109,13 +109,14 @@ vec3 renderMapBlock(vec3 pos, vec3 normal, vec3 mdiff, vec3 mspec, float ngloss)
 			vec3 lightVec = pos - LightsLight[i].origin;//LightsLight[i].origin - pos;
 			
 			// check normal
-			reflectedLight = reflect(normalize(lightVec) , normal);
+			float dist =  length(lightVec);
+			reflectedLight = reflect(lightVec / dist , normal);
 			theta = dot(reflectedLight, normal);
 			if(theta < 0.0)
 				continue;
 			
 			// check distance
-			float invDistance = length(lightVec);
+			float invDistance = dist;
 			invDistance *= invDistance;
 			if(invDistance > 0.0) // only invert if distance != 0
 				invDistance = 1.0 / invDistance;
