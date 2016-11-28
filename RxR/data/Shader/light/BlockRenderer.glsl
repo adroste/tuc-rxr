@@ -7,6 +7,7 @@ layout(binding = 0) uniform sampler3D mapTexVol;
 #define SHADOW_STEP 0.5
 #define SHADOW_TRESHOLD 0.0625
 #define FACTOR_DISCARD 0.0005
+#define FASTER_SHADOWS
 const float SH_FUNC_M = 1.0 / (1.0 - SHADOW_TRESHOLD * SHADOW_TRESHOLD);
 const float SH_FUNC_B = 1.0 - SH_FUNC_M;
 
@@ -40,6 +41,7 @@ float getSoftShadowPointLight(vec3 start, vec3 dest)
 	vstep = normalize(vstep) * SHADOW_STEP;
 	vec3 pos = start + vstep;
 	
+	bool leaped = false;
 	while(curDist < pathLen && isInMap(pos))
 	{
 		float v = getMapVolumeValue(pos);
@@ -47,6 +49,25 @@ float getSoftShadowPointLight(vec3 start, vec3 dest)
 		if(f < SHADOW_TRESHOLD)
 			return 0.0;
 		
+#ifdef FASTER_SHADOWS
+		if(leaped && v > 0.01)
+		{
+			// leaped in the wrong place..
+			f *= (1.0 - getMapVolumeValue(pos - vstep));
+			f *= (1.0 - getMapVolumeValue(pos - vstep * 2.0));
+			if(f < SHADOW_TRESHOLD)
+				return 0.0;
+		}
+		leaped = false;
+		// leap?
+		if(v < 0.01)
+		{
+			pos += vstep * 3.0;
+			curDist += SHADOW_STEP * 3.0;
+			leaped = true;
+			continue;
+		}
+#endif
 		pos += vstep;
 		curDist += SHADOW_STEP;
 	}
@@ -60,13 +81,34 @@ float getSoftShadowDirectional(vec3 start, vec3 destOut)
 	vec3 vstep = destOut * SHADOW_STEP;
 	vec3 pos = start + vstep;
 	
+	bool leaped = false;
 	while(isInMap(pos))
 	{
 		float v = getMapVolumeValue(pos);
 		f *= (1.0 - v);
 		if(f < SHADOW_TRESHOLD)
 			return 0.0;
-		
+
+#ifdef FASTER_SHADOWS
+		if(leaped && (v > 0.01))
+		{
+			// leaped in the wrong place..
+			f *= (1.0 - getMapVolumeValue(pos - vstep));
+			f *= (1.0 - getMapVolumeValue(pos - vstep * 2.0));
+			if(f < SHADOW_TRESHOLD)
+				return 0.0;
+		}
+		leaped = false;
+		// big step?
+		if(v < 0.01)
+		{
+			// step okay?
+			
+			pos += vstep * 3.0;
+			leaped = true;
+			continue;
+		}
+#endif
 		pos += vstep;
 	}
 	return smoothShadowValue(f);
@@ -102,7 +144,7 @@ vec3 renderMapBlock(vec3 pos, vec3 normal, vec3 mdiff, vec3 mspec, float ngloss)
 		}
 		else // pointLight
 		{
-			float shadowFac = getSoftShadowPointLight(pos, LightsLight[i].origin);
+			float shadowFac = 1.0;//getSoftShadowPointLight(pos, LightsLight[i].origin);
 			if(shadowFac <= FACTOR_DISCARD)
 				continue;
 			
