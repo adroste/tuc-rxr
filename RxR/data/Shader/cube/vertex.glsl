@@ -16,7 +16,6 @@ flat out vec3 out_normal;
 flat out vec3 diffColor;
 flat out vec4 specColor;
 flat out uint shaderType;
-flat out uint plsDiscard;
 flat out uint cubeSide;
 flat out uint cubeNeighbors;
 flat out vec3 out_bitangent;
@@ -24,34 +23,6 @@ flat out float isGlowing;
 
 void main()
 {
-	//texCoord0 = in_texCoord0 + framework.random.xy;
-	
-	uint chIndex = (uint(in_iinfo.x) & uint(0xFFFF));
-	uvec3 chPos;
-	chPos.z = chIndex / (uint(CHUNK_SIZE) * uint(CHUNK_SIZE));
-	chPos.y = (chIndex % (uint(CHUNK_SIZE) * uint(CHUNK_SIZE))) / uint(CHUNK_SIZE);
-	chPos.x = (chIndex % (uint(CHUNK_SIZE) * uint(CHUNK_SIZE))) % uint(CHUNK_SIZE);
-	
-	vec3 chOffset = vec3(chPos);
-	
-	// extract color
-	uint r = (uint(in_iinfo.x) & uint(0xFF000000)) >> 24;
-	uint g = (uint(in_iinfo.x) & uint(0xFF0000)) >> 16;
-	uint b = (uint(in_iinfo.y) & uint(0xFF));
-	
-	diffColor = vec3(float(r) / 255.0, float(g) / 255.0, float(b) / 255.0);
-	
-	r = (uint(in_iinfo.y) & uint(0xFF00)) >> 8;
-	g = (uint(in_iinfo.y) & uint(0xFF0000)) >> 16;
-	b = (uint(in_iinfo.y) & uint(0xFF000000)) >> 24;
-	uint igloss = uint(in_iinfo.z);
-	
-	specColor = vec4(float(r) / 255.0, float(g) / 255.0, float(b) / 255.0, float(igloss));
-	
-	shaderType = (uint(in_iinfo.z) & uint(0x070000)) >> 16;
-	uint glow = (uint(in_iinfo.z) & uint(0x080000)) >> 19;
-	isGlowing = float(glow);
-	
 	uint neighbors  = (uint(in_iinfo.z) & uint(0xFC000000)) >> 26;
 	cubeNeighbors = neighbors;
 	uint side = uint(0);
@@ -81,7 +52,40 @@ void main()
 			side = uint(32);
 	}
 	cubeSide = side;
-	plsDiscard = neighbors & cubeSide;
+	uint plsDiscard = neighbors & cubeSide;
+	if(plsDiscard != uint(0))
+	{
+		// move outside window
+		gl_Position = vec4(-2.0,-2.0,0.0,1.0);
+		return;
+	}
+	
+	uint chIndex = (uint(in_iinfo.x) & uint(0xFFFF));
+	uvec3 chPos;
+	chPos.z = chIndex / (uint(CHUNK_SIZE) * uint(CHUNK_SIZE));
+	chPos.y = (chIndex % (uint(CHUNK_SIZE) * uint(CHUNK_SIZE))) / uint(CHUNK_SIZE);
+	chPos.x = (chIndex % (uint(CHUNK_SIZE) * uint(CHUNK_SIZE))) % uint(CHUNK_SIZE);
+	
+	vec3 chOffset = vec3(chPos);
+	
+	// extract color
+	uint r = (uint(in_iinfo.x) & uint(0xFF000000)) >> 24;
+	uint g = (uint(in_iinfo.x) & uint(0xFF0000)) >> 16;
+	uint b = (uint(in_iinfo.y) & uint(0xFF));
+	
+	diffColor = vec3(float(r) / 255.0, float(g) / 255.0, float(b) / 255.0);
+	
+	r = (uint(in_iinfo.y) & uint(0xFF00)) >> 8;
+	g = (uint(in_iinfo.y) & uint(0xFF0000)) >> 16;
+	b = (uint(in_iinfo.y) & uint(0xFF000000)) >> 24;
+	uint igloss = uint(in_iinfo.z);
+	
+	specColor = vec4(float(r) / 255.0, float(g) / 255.0, float(b) / 255.0, float(igloss));
+	
+	shaderType = (uint(in_iinfo.z) & uint(0x070000)) >> 16;
+	uint glow = (uint(in_iinfo.z) & uint(0x080000)) >> 19;
+	isGlowing = float(glow);
+	
 	vec3 inChunkPos = pos * 0.5 + chOffset;
 	vec3 mapPos;
 	

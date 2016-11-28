@@ -9,7 +9,6 @@ flat in vec3 out_normal;
 flat in vec3 diffColor;
 flat in vec4 specColor;
 flat in uint shaderType;
-flat in uint plsDiscard;
 flat in uint cubeSide;
 flat in uint cubeNeighbors;
 flat in vec3 out_bitangent;
@@ -20,9 +19,6 @@ layout(binding = 2) uniform sampler2D texWaterfall;
 
 void getPixelColor(out vec4 dstColor, out bool dstGlowing)
 {
-	if(plsDiscard != uint(0))
-		discard;
-	
 	vec3 normNormal = normalize(out_normal);
 	if(shaderType == uint(2))
 	{
