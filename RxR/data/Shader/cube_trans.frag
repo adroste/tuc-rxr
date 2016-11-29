@@ -29,7 +29,7 @@ void main()
 	if(isGlowing)
 		glowFac = 1.0;
 		
-	float weight = getTransWeight(clampZ(out_mapPos.z),finalColor.a);
+	float weight = getTransWeight(clampZ(in_mapPos.z),finalColor.a);
 	fragColor[0] = vec4( finalColor.rgb * weight, finalColor.a);
 	fragColor[1] = vec4(finalColor.a * weight, glowFac, 0.0, 1.0);
 }
