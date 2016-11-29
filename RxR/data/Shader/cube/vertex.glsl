@@ -11,21 +11,21 @@ uniform uint animation;
 
 #define CHUNK_SIZE 32
 
-out vec3 out_mapPos;
-out vec2 texCoord0;
-flat out vec3 out_normal;
-flat out vec3 diffColor;
-flat out vec4 specColor;
-flat out uint shaderType;
-flat out uint cubeSide;
-flat out uint cubeNeighbors;
-flat out vec3 out_bitangent;
-flat out float isGlowing;
+layout(location = 0) out vec3 out_mapPos;
+layout(location = 1) out vec2 out_texCoord0;
+layout(location = 2) flat out vec3 out_normal;
+layout(location = 3) flat out vec3 out_diffColor;
+layout(location = 4) flat out vec4 out_specColor;
+layout(location = 5) flat out uint out_shaderType;
+layout(location = 6) flat out uint out_cubeSide;
+layout(location = 7) flat out uint out_neighbors;
+layout(location = 8) flat out vec3 out_tangent;
+layout(location = 9) flat out float out_glowing;
 
 void main()
 {
 	uint neighbors  = (uint(in_iinfo.z) & uint(0xFC000000)) >> 26;
-	cubeNeighbors = neighbors;
+	out_neighbors = neighbors;
 	uint side = uint(0);
 	
 	vec3 normal = in_normal;
@@ -52,15 +52,15 @@ void main()
 		else
 			side = uint(32);
 	}
-	cubeSide = side;
-	uint plsDiscard = neighbors & cubeSide;
+	out_cubeSide = side;
+	uint plsDiscard = neighbors & side;
 	if(plsDiscard != uint(0))
 	{
 		// move outside window
 		gl_Position = vec4(-2.0,-2.0,0.0,1.0);
 		return;
 	}
-	out_bitangent = in_tangent;
+	out_tangent = in_tangent;
 	
 	uint chIndex = (uint(in_iinfo.x) & uint(0xFFFF));
 	uvec3 chPos;
@@ -75,18 +75,18 @@ void main()
 	uint g = (uint(in_iinfo.x) & uint(0xFF0000)) >> 16;
 	uint b = (uint(in_iinfo.y) & uint(0xFF));
 	
-	diffColor = vec3(float(r) / 255.0, float(g) / 255.0, float(b) / 255.0);
+	out_diffColor = vec3(float(r) / 255.0, float(g) / 255.0, float(b) / 255.0);
 	
 	r = (uint(in_iinfo.y) & uint(0xFF00)) >> 8;
 	g = (uint(in_iinfo.y) & uint(0xFF0000)) >> 16;
 	b = (uint(in_iinfo.y) & uint(0xFF000000)) >> 24;
 	uint igloss = uint(in_iinfo.z);
 	
-	specColor = vec4(float(r) / 255.0, float(g) / 255.0, float(b) / 255.0, float(igloss));
+	out_specColor = vec4(float(r) / 255.0, float(g) / 255.0, float(b) / 255.0, float(igloss));
 	
-	shaderType = (uint(in_iinfo.z) & uint(0x070000)) >> 16;
+	out_shaderType = (uint(in_iinfo.z) & uint(0x070000)) >> 16;
 	uint glow = (uint(in_iinfo.z) & uint(0x080000)) >> 19;
-	isGlowing = float(glow);
+	out_glowing = float(glow);
 	
 	vec3 inChunkPos = pos * 0.5 + chOffset;
 	vec3 mapPos;
@@ -117,13 +117,13 @@ void main()
 	{
 	case uint(4):
 	case uint(8): // top + bottom
-		texCoord0 = mapPos.xz / vec2(16.0) + framework.random.xy;
+		out_texCoord0 = mapPos.xz / vec2(16.0) + framework.random.xy;
 		break;
 	case uint(1): // left rigt
 	case uint(2):
-		texCoord0 = (mapPos.zy + vec2(8.0)) / vec2(16.0) + framework.random.xy;
+		out_texCoord0 = (mapPos.zy + vec2(8.0)) / vec2(16.0) + framework.random.xy;
 	default: // front back
-		texCoord0 = mapPos.xy / vec2(16.0) - vec2(0.0,framework.random.w);
+		out_texCoord0 = mapPos.xy / vec2(16.0) - vec2(0.0,framework.random.w);
 		
 	}
 }

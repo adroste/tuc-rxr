@@ -3,16 +3,16 @@
 #include "../light/gamma.glsl"
 #include "../light/bump.glsl"
 
-in vec3 out_mapPos;
-in vec2 texCoord0;
-flat in vec3 out_normal;
-flat in vec3 diffColor;
-flat in vec4 specColor;
-flat in uint shaderType;
-flat in uint cubeSide;
-flat in uint cubeNeighbors;
-flat in vec3 out_bitangent;
-flat in float isGlowing;
+layout(location = 0) in vec3 out_mapPos;
+layout(location = 1) in vec2 texCoord0;
+layout(location = 2) flat in vec3 out_normal;
+layout(location = 3) flat in vec3 diffColor;
+layout(location = 4) flat in vec4 specColor;
+layout(location = 5) flat in uint shaderType;
+layout(location = 6) flat in uint cubeSide;
+layout(location = 7) flat in uint cubeNeighbors;
+layout(location = 8) flat in vec3 out_bitangent;
+layout(location = 9) flat in float isGlowing;
 
 layout(binding = 1) uniform sampler2D texWater;
 layout(binding = 2) uniform sampler2D texWaterfall;
