@@ -9,6 +9,7 @@ Mesh::Mesh(const Vertex * pVertex, size_t nVertices, const unsigned int * pIndic
 		m_positions.push_back(pVertex[i].pos);
 		m_normal.push_back(pVertex[i].normal);
 		m_texCoords0.push_back(pVertex[i].texCoord0);
+		m_tangent.push_back(pVertex[i].tangent);
 	}
 	for (size_t i = 0; i < nIndices; i++)
 		m_indices.push_back(pIndices[i]);
@@ -54,6 +55,11 @@ void Mesh::create()
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex::texCoord0) * m_texCoords0.size(), &m_texCoords0[0], GL_STATIC_DRAW);
 	glEnableVertexAttribArray(GLuint(AttributeName::TexCoord0));
 	glVertexAttribPointer(GLuint(AttributeName::TexCoord0), 2, GL_FLOAT, GL_FALSE, 0, nullptr);
+
+	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[static_cast<unsigned int>(AttributeName::Tangent)]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex::tangent) * m_tangent.size(), &m_tangent[0], GL_STATIC_DRAW);
+	glEnableVertexAttribArray(GLuint(AttributeName::Tangent));
+	glVertexAttribPointer(GLuint(AttributeName::Tangent), 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
 	// index buffer
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_vertexArrayBuffers[static_cast<unsigned int>(AttributeName::Index)]);

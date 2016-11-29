@@ -12,6 +12,7 @@ class Mesh : public GLObject
 		Position,
 		Normal,
 		TexCoord0,
+		Tangent,
 		Index,
 		
 		Size
@@ -19,15 +20,17 @@ class Mesh : public GLObject
 public:
 	struct Vertex
 	{
-		Vertex(const glm::vec3& pos, const glm::vec3& normal, const glm::vec2& texCoord0)
+		Vertex(const glm::vec3& pos, const glm::vec3& normal,
+			const glm::vec2& texCoord0, const glm::vec3& tangent)
 			:
-			pos(pos),normal(normal), texCoord0(texCoord0)
+			pos(pos),normal(normal), texCoord0(texCoord0), tangent(tangent)
 		{}
 		Vertex()
 		{}
 		glm::vec3 pos;
 		glm::vec3 normal;
 		glm::vec2 texCoord0;
+		glm::vec3 tangent;
 	};
 public:
 	Mesh(const Vertex* pVertex, size_t nVertices, const unsigned int* pIndices, size_t nIndices);
@@ -47,6 +50,7 @@ private:
 	std::vector<decltype(Vertex::pos)> m_positions;
 	std::vector<decltype(Vertex::normal)> m_normal;
 	std::vector<decltype(Vertex::texCoord0)> m_texCoords0;
+	std::vector<decltype(Vertex::tangent)> m_tangent;
 	std::vector<unsigned int> m_indices;
 
 	GLuint m_vertexArrayObject = 0;
@@ -58,7 +62,7 @@ void Mesh::drawInstanced(size_t num, InstancingArray<vecType, count, enumType>& 
 {
 	glBindVertexArray(m_vertexArrayObject);
 
-	ia.bind(3);
+	ia.bind(size_t(AttributeName::Size) - 1);
 	glCheck("l Mesh::drawInstaced");
 	glDrawElementsInstanced(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, nullptr, num);
 	glCheck("Mesh::drawInstaced");

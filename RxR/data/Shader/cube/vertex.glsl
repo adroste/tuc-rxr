@@ -4,7 +4,8 @@
 layout(location = 0) in vec3 in_position;
 layout(location = 1) in vec3 in_normal;
 layout(location = 2) in vec2 in_texCoord0;
-layout(location = 3) in ivec3 in_iinfo;
+layout(location = 3) in vec3 in_tangent;
+layout(location = 4) in ivec3 in_iinfo;
 
 uniform uint animation;
 
@@ -59,6 +60,7 @@ void main()
 		gl_Position = vec4(-2.0,-2.0,0.0,1.0);
 		return;
 	}
+	out_bitangent = in_tangent;
 	
 	uint chIndex = (uint(in_iinfo.x) & uint(0xFFFF));
 	uvec3 chPos;
@@ -110,30 +112,6 @@ void main()
 		gl_Position = matProjection * matCamera * matModel * vec4(inChunkPos, 1.0);
 	}
 	out_mapPos = mapPos;
-	
-	switch(side)
-	{
-	case uint(1): // left
-		out_bitangent = vec3(0.0,1.0,0.0);
-		break;
-	case uint(2): // right
-		out_bitangent = vec3(0.0,1.0,0.0);
-		break;
-	case uint(4): // top
-		out_bitangent = vec3(0.0,0.0,1.0);
-		break; 
-	case uint(8): // bottom
-		out_bitangent = vec3(0.0,0.0,1.0);
-		break; 
-	case uint(16): // front
-		out_bitangent = vec3(0.0,-1.0,0.0);
-		break;
-	case uint(32): // back
-		out_bitangent = vec3(0.0,-1.0,0.0);
-		break;
-	default:
-		out_bitangent = vec3(0.0);
-	}
 	
 	switch(side)
 	{
