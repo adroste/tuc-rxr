@@ -106,7 +106,7 @@ void main()
 		out_mapPos = (matModel * vec4(inChunkPos, 1.0)).xyz;
 		gl_Position = matProjection * matCamera * matModel * vec4(inChunkPos, 1.0);
 	}
-	
+	out_normal = normalize(out_normal);
 	// flow animation
 	switch(out_cubeSide)
 	{
