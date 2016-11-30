@@ -6,8 +6,9 @@
 layout(binding = 0) uniform sampler3D mapTexVol;
 #define SHADOW_STEP 0.5
 #define SHADOW_TRESHOLD 0.0625
-#define FACTOR_DISCARD 0.0005
+#define FACTOR_DISCARD 0.000024
 #define FASTER_SHADOWS
+
 const float SH_FUNC_M = 1.0 / (1.0 - SHADOW_TRESHOLD * SHADOW_TRESHOLD);
 const float SH_FUNC_B = 1.0 - SH_FUNC_M;
 
@@ -28,7 +29,7 @@ float smoothShadowValue(float x)
 	return y;
 }
 
-float getSoftShadowPointLight(vec3 start, vec3 dest)
+float getSoftShadowPointLight(vec3 start, vec3 dest, float prefac)
 {
 	float f = 1.0;
 	
@@ -46,7 +47,7 @@ float getSoftShadowPointLight(vec3 start, vec3 dest)
 	{
 		float v = getMapVolumeValue(pos);
 		f *= (1.0 - v);
-		if(f < SHADOW_TRESHOLD)
+		if(smoothShadowValue(f) * prefac < FACTOR_DISCARD)
 			return 0.0;
 		
 #ifdef FASTER_SHADOWS
@@ -56,7 +57,7 @@ float getSoftShadowPointLight(vec3 start, vec3 dest)
 			// leaped in the wrong place..
 			f *= (1.0 - getMapVolumeValue(pos - vstep));
 			f *= (1.0 - getMapVolumeValue(pos - vstep * 2.0));
-			if(f < SHADOW_TRESHOLD)
+			if(smoothShadowValue(f) * prefac < FACTOR_DISCARD)
 				return 0.0;
 		}
 		leaped = false;
@@ -72,7 +73,7 @@ float getSoftShadowPointLight(vec3 start, vec3 dest)
 		pos += vstep;
 		curDist += SHADOW_STEP;
 	}
-	return smoothShadowValue(f);
+	return smoothShadowValue(f) * prefac;
 }
 
 float getSoftShadowDirectional(vec3 start, vec3 destOut)
@@ -128,6 +129,7 @@ vec3 renderMapBlock(vec3 pos, vec3 normal, vec3 mdiff, vec3 mspec, float ngloss)
 	float phi = 0.0;
 	float factor = 0.0;
 	vec3 reflectedLight = vec3(0.0);
+	const vec3 lumaConst = vec3(0.299,0.587,0.114);
 	
 	for(uint i = uint(0); i < LightsNLights; i++)
 	{
@@ -154,26 +156,20 @@ vec3 renderMapBlock(vec3 pos, vec3 normal, vec3 mdiff, vec3 mspec, float ngloss)
 			if(theta < 0.0)
 				continue;
 			
-			// check distance
-			float invDistance = dist;
-			invDistance *= invDistance;
-			if(invDistance > 0.0) // only invert if distance != 0
-				invDistance = 1.0 / invDistance;
-			
-			factor = 1.0 / LightsLight[i].attenuation * invDistance;
+			//factor = 1.0 / (1.0 + (LightsLight[i].attenuation * dist) *(1.0 + dist));
+			float r = LightsLight[i].attenuation;
+			factor = - pow(dist - r,3) / (r * r * r);
 			// if factor to small discard
-			if(factor < 0.015)
-				continue;
-				//return vec3(1.0,0.0,0.0);
-			/*
-					9 58 8
-				*/
+			if(factor  <= FACTOR_DISCARD)
+				//continue;
+				return vec3(1.0,0.0,0.0);
 				
-			float shadowFac = getSoftShadowPointLight(pos, LightsLight[i].origin);
+			float shadowFac = getSoftShadowPointLight(pos, LightsLight[i].origin, factor);
 			if(shadowFac <= FACTOR_DISCARD)
 				continue;
+				//return vec3(0.0,1.0,0.0);
 			
-			factor = min(factor,1.0) * shadowFac;
+			factor = /*min(factor,1.0) */ shadowFac;
 		}
 		
 		color += mdiff * LightsLight[i].color * theta * factor;
