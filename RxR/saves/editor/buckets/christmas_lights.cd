@@ -1,0 +1,17 @@
+<cube id="1" diffuse="0xff00a803" specular="0xff000000" gloss="100.000000" shader="default" blockType="transparent" HP="10" glow="true"/>
+
+<cube id="2" diffuse="0xff21a800" specular="0xff000000" gloss="100.000000" shader="default" blockType="transparent" HP="10" glow="true"/>
+
+<cube id="3" diffuse="0xffa80000" specular="0xff000000" gloss="100.000000" shader="default" blockType="transparent" HP="10" glow="true"/>
+
+<cube id="4" diffuse="0xffa80091" specular="0xff000000" gloss="100.000000" shader="default" blockType="transparent" HP="10" glow="true"/>
+
+<cube id="5" diffuse="0xffa81e00" specular="0xff000000" gloss="100.000000" shader="default" blockType="transparent" HP="10" glow="true"/>
+
+<cube id="6" diffuse="0xff00a865" specular="0xff000000" gloss="100.000000" shader="default" blockType="transparent" HP="10" glow="true"/>
+
+<cube id="7" diffuse="0xff2500a8" specular="0xff000000" gloss="100.000000" shader="default" blockType="transparent" HP="10" glow="true"/>
+
+<cube id="8" diffuse="0xff0002a8" specular="0xff000000" gloss="100.000000" shader="default" blockType="transparent" HP="10" glow="true"/>
+
+<cube id="9" diffuse="0xff8da800" specular="0xff000000" gloss="100.000000" shader="default" blockType="transparent" HP="10" glow="true"/>

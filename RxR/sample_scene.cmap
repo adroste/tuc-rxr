@@ -1,15 +1,26 @@
-<map width="2" height="1" material="sample_scene_material.cd">
+<map width="2" height="2" material="sample_scene_material.cd">
     <chunk x="0" y="0" file="sample_scene_chunk_0_0.bin"/>
     <chunk x="1" y="0" file="sample_scene_chunk_1_0.bin"/>
+    <chunk x="0" y="1" file="sample_scene_chunk_0_1.bin"/>
+    <chunk x="1" y="1" file="sample_scene_chunk_1_1.bin"/>
 </map>
 
-<light type="ambient" color="0xff020202"/>
+<light type="ambient" color="0xff010101"/>
 
-<light type="directional" color="0xffffffff" direction="0.200000 0.894427 0.447214"/>
+<light type="pointLight" color="0xffffffff" origin="10.000000 29.000000 2.000000" attenuation="0.020000"/>
 
-<asset material="grassblade_material.cd" chunk="grassblade_chunk.bin" animation="wind">
-	<instance position="3 28 10" scale="0.1"/> 
-	<instance position="35 27 14" scale="0.1"/>
-	<instance position="26 17 14" scale="0.1"/>
-	<instance position="47 7 14" scale="0.1"/>
-</asset>
+<light type="pointLight" color="0xffffffff" origin="10.000000 36.000000 2.000000" attenuation="0.020000"/>
+
+<light type="pointLight" color="0xffffffff" origin="47.000000 41.000000 1.000000" attenuation="0.020000"/>
+
+<light type="pointLight" color="0xffffffff" origin="28.000000 45.000000 6.000000" attenuation="0.020000"/>
+
+<light type="pointLight" color="0xffffffff" origin="44.000000 51.000000 7.000000" attenuation="0.020000"/>
+
+<light type="pointLight" color="0xffff0000" origin="10.000000 57.000000 5.000000" attenuation="0.020000"/>
+
+<light type="pointLight" color="0xff0000ff" origin="16.000000 57.000000 5.000000" attenuation="0.020000"/>
+
+<light type="pointLight" color="0xff00ff00" origin="23.000000 57.000000 5.000000" attenuation="0.020000"/>
+
+<light type="pointLight" color="0xffffff00" origin="56.000000 29.000000 12.000000" attenuation="0.100000"/>

@@ -13,7 +13,7 @@ void main()
 	getPixelColor(finalColor, isGlowing);
 	
 	if(isGlowing)
-		glowColor = finalColor;
+		glowColor = vec4(in_diffColor,1.0);
 	
 	fragColor[0] = finalColor;
 	fragColor[1] = glowColor;

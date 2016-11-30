@@ -163,8 +163,8 @@ vec3 renderMapBlock(vec3 pos, vec3 normal, vec3 mdiff, vec3 mspec, float ngloss)
 			factor = 1.0 / LightsLight[i].attenuation * invDistance;
 			// if factor to small discard
 			if(factor < 0.015)
-				//continue;
-				return vec3(1.0,0.0,0.0);
+				continue;
+				//return vec3(1.0,0.0,0.0);
 			/*
 					9 58 8
 				*/

@@ -1,0 +1,7 @@
+<cube id="1" diffuse="0xff0c0200" specular="0xff000000" gloss="10.000000" shader="default" blockType="solid" HP="60"/>
+
+<cube id="2" diffuse="0xff140400" specular="0xff000000" gloss="10.000000" shader="default" blockType="solid" HP="60"/>
+
+<cube id="3" diffuse="0xff1e0500" specular="0xff000000" gloss="10.000000" shader="default" blockType="solid" HP="60"/>
+
+<cube id="4" diffuse="0xff140200" specular="0xff000000" gloss="10.000000" shader="default" blockType="solid" HP="60"/>
