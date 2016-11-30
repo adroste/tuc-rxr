@@ -13,6 +13,7 @@ layout(location = 6) flat in uint in_cubeSide;
 layout(location = 7) flat in uint in_neighbors;
 layout(location = 8) flat in vec3 in_tangent;
 layout(location = 9) flat in float in_glowing;
+layout(location = 10) flat in vec3 in_bitangent;
 
 layout(binding = 1) uniform sampler2D texWater;
 layout(binding = 2) uniform sampler2D texWaterfall;
@@ -26,6 +27,8 @@ void getPixelColor(out vec4 dstColor, out bool dstGlowing)
 		vec3 eyeDir = normalize(LightsEye - in_mapPos);
 		if (dot(normNormal, eyeDir) < 0.0)
 			normNormal *= -1.0;
+		// flip tangent as well?
+			
 		// water shader
 		vec3 rgbNormal;
 		if(in_cubeSide == uint(4) || in_cubeSide == uint(8))
@@ -33,8 +36,7 @@ void getPixelColor(out vec4 dstColor, out bool dstGlowing)
 		else
 			rgbNormal = texture(texWaterfall,in_texCoord0).xyz;
 			
-		mat3 rotMatrix = bumpGetRotation(normNormal, in_tangent);
-		normNormal = bumpReadNormal(rgbNormal, rotMatrix);
+		normNormal = bumpReadNormal(rgbNormal, mat3(in_tangent, in_bitangent, normNormal));
 	}
 	
 	vec3 color = renderMapBlock(in_mapPos, normNormal, in_diffColor, in_specColor.rgb, in_specColor.w);

@@ -21,6 +21,7 @@ layout(location = 6) flat out uint out_cubeSide;
 layout(location = 7) flat out uint out_neighbors;
 layout(location = 8) flat out vec3 out_tangent;
 layout(location = 9) flat out float out_glowing;
+layout(location = 10) flat out vec3 out_bitangent;
 
 void main()
 {
@@ -57,7 +58,6 @@ void main()
 		gl_Position = vec4(-2.0,-2.0,0.0,1.0);
 		return;
 	}
-	out_tangent = in_tangent;
 	
 	uint chIndex = (uint(in_iinfo.x) & uint(0xFFFF));
 	uvec3 chPos;
@@ -90,6 +90,7 @@ void main()
 	{
 		out_normal = (matModel * vec4(out_normal,0.0)).xyz;
 		out_mapPos = (matModel * vec4(inChunkPos, 1.0)).xyz;
+		out_tangent = (matModel * vec4(in_tangent, 1.0)).xyz;
 		gl_Position = matProjection * matCamera * matModel * vec4(inChunkPos, 1.0);
 	}
 	else // wind animation
@@ -103,10 +104,13 @@ void main()
 		inChunkPos.z = inChunkPos.z + h * zfactor;
 		
 		out_normal = (matModel * vec4(out_normal,0.0)).xyz;
+		out_tangent = (matModel * vec4(in_tangent, 1.0)).xyz;
 		out_mapPos = (matModel * vec4(inChunkPos, 1.0)).xyz;
 		gl_Position = matProjection * matCamera * matModel * vec4(inChunkPos, 1.0);
 	}
 	out_normal = normalize(out_normal);
+	out_tangent = normalize(out_tangent);
+	out_bitangent = cross(out_tangent, out_normal);
 	// flow animation
 	switch(out_cubeSide)
 	{
