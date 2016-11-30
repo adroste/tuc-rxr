@@ -50,6 +50,7 @@ float getSoftShadowPointLight(vec3 start, vec3 dest)
 			return 0.0;
 		
 #ifdef FASTER_SHADOWS
+
 		if(leaped && v > 0.01)
 		{
 			// leaped in the wrong place..
@@ -132,23 +133,19 @@ vec3 renderMapBlock(vec3 pos, vec3 normal, vec3 mdiff, vec3 mspec, float ngloss)
 	{
 		if(LightsLight[i].type == uint(0)) // directional
 		{
-			factor = getSoftShadowDirectional(pos, -LightsLight[i].origin);
-			if(factor <= FACTOR_DISCARD)
-				continue;
-				
 			// lambert term
 			reflectedLight = reflect(LightsLight[i].origin, normal);
 			theta = dot(reflectedLight, normal);
 			if(theta < 0.0)
 				continue; // light comes from other direction
+				
+			factor = getSoftShadowDirectional(pos, -LightsLight[i].origin);
+			if(factor <= FACTOR_DISCARD)
+				continue;
 		}
 		else // pointLight
 		{
-			float shadowFac = 1.0;//getSoftShadowPointLight(pos, LightsLight[i].origin);
-			if(shadowFac <= FACTOR_DISCARD)
-				continue;
-			
-			vec3 lightVec = pos - LightsLight[i].origin;//LightsLight[i].origin - pos;
+			vec3 lightVec = pos - LightsLight[i].origin;
 			
 			// check normal
 			float dist =  length(lightVec);
@@ -166,8 +163,16 @@ vec3 renderMapBlock(vec3 pos, vec3 normal, vec3 mdiff, vec3 mspec, float ngloss)
 			factor = 1.0 / LightsLight[i].attenuation * invDistance;
 			// if factor to small discard
 			if(factor < 0.015)
-				continue;
+				//continue;
+				return vec3(1.0,0.0,0.0);
+			/*
+					9 58 8
+				*/
 				
+			float shadowFac = getSoftShadowPointLight(pos, LightsLight[i].origin);
+			if(shadowFac <= FACTOR_DISCARD)
+				continue;
+			
 			factor = min(factor,1.0) * shadowFac;
 		}
 		
