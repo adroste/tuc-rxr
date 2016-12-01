@@ -25,8 +25,7 @@ bool isInMap(vec3 pos)
 float smoothShadowValue(float x)
 {
 	// [SHADOW_TRESHOLD,1.0] -> [0.0,1.0] to smooth borders
-	float y = SH_FUNC_M * x * x + SH_FUNC_B;
-	return y;
+	return SH_FUNC_M * x * x + SH_FUNC_B;
 }
 
 float getSoftShadowPointLight(vec3 start, vec3 dest, float prefac)
@@ -48,7 +47,12 @@ float getSoftShadowPointLight(vec3 start, vec3 dest, float prefac)
 		float v = getMapVolumeValue(pos);
 		f *= (1.0 - v);
 		if(smoothShadowValue(f) * prefac < FACTOR_DISCARD)
-			return 0.0;
+		//if(f < SHADOW_TRESHOLD)
+		{
+			if(f < SHADOW_TRESHOLD)
+				return 0.0;
+			return -1.0;
+		}	
 		
 #ifdef FASTER_SHADOWS
 
@@ -57,8 +61,10 @@ float getSoftShadowPointLight(vec3 start, vec3 dest, float prefac)
 			// leaped in the wrong place..
 			f *= (1.0 - getMapVolumeValue(pos - vstep));
 			f *= (1.0 - getMapVolumeValue(pos - vstep * 2.0));
-			if(smoothShadowValue(f) * prefac < FACTOR_DISCARD)
+
+			if(f < SHADOW_TRESHOLD)
 				return 0.0;
+
 		}
 		leaped = false;
 		// leap?
@@ -120,6 +126,7 @@ float getSoftShadowDirectional(vec3 start, vec3 destOut)
 vec3 renderMapBlock(vec3 pos, vec3 normal, vec3 mdiff, vec3 mspec, float ngloss)
 {
 	vec3 color = mdiff * LightsAmbient;
+	color = vec3(0.0);
 	
 	vec3 eyeDir = normalize(LightsEye - pos);
 	bool isSpecular = dot(mspec,mspec) > 0.0;
@@ -166,9 +173,11 @@ vec3 renderMapBlock(vec3 pos, vec3 normal, vec3 mdiff, vec3 mspec, float ngloss)
 				
 			float shadowFac = getSoftShadowPointLight(pos, LightsLight[i].origin, factor);
 			if(shadowFac <= FACTOR_DISCARD)
-				continue;
-				//return vec3(0.0,1.0,0.0);
+				//continue;
+				if(shadowFac > -0.5) return vec3(0.0,1.0,0.0);
+				else return vec3(0.0,0.0,1.0);
 			
+			return vec3(shadowFac);
 			factor = /*min(factor,1.0) */ shadowFac;
 		}
 		
