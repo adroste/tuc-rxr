@@ -47,12 +47,7 @@ float getSoftShadowPointLight(vec3 start, vec3 dest, float prefac)
 		float v = getMapVolumeValue(pos);
 		f *= (1.0 - v);
 		if(smoothShadowValue(f) * prefac < FACTOR_DISCARD)
-		//if(f < SHADOW_TRESHOLD)
-		{
-			if(f < SHADOW_TRESHOLD)
-				return 0.0;
-			return -1.0;
-		}	
+			return 0.0;
 		
 #ifdef FASTER_SHADOWS
 
@@ -64,7 +59,6 @@ float getSoftShadowPointLight(vec3 start, vec3 dest, float prefac)
 
 			if(f < SHADOW_TRESHOLD)
 				return 0.0;
-
 		}
 		leaped = false;
 		// leap?
@@ -126,7 +120,7 @@ float getSoftShadowDirectional(vec3 start, vec3 destOut)
 vec3 renderMapBlock(vec3 pos, vec3 normal, vec3 mdiff, vec3 mspec, float ngloss)
 {
 	vec3 color = mdiff * LightsAmbient;
-	color = vec3(0.0);
+	//color = vec3(0.0);
 	
 	vec3 eyeDir = normalize(LightsEye - pos);
 	bool isSpecular = dot(mspec,mspec) > 0.0;
@@ -136,10 +130,12 @@ vec3 renderMapBlock(vec3 pos, vec3 normal, vec3 mdiff, vec3 mspec, float ngloss)
 	float phi = 0.0;
 	float factor = 0.0;
 	vec3 reflectedLight = vec3(0.0);
+	float lightLuma = 1.0;
 	const vec3 lumaConst = vec3(0.299,0.587,0.114);
 	
 	for(uint i = uint(0); i < LightsNLights; i++)
 	{
+		lightLuma = dot(lumaConst,LightsLight[i].color);
 		if(LightsLight[i].type == uint(0)) // directional
 		{
 			// lambert term
@@ -149,7 +145,7 @@ vec3 renderMapBlock(vec3 pos, vec3 normal, vec3 mdiff, vec3 mspec, float ngloss)
 				continue; // light comes from other direction
 				
 			factor = getSoftShadowDirectional(pos, -LightsLight[i].origin);
-			if(factor <= FACTOR_DISCARD)
+			if(factor * lightLuma <= FACTOR_DISCARD)
 				continue;
 		}
 		else // pointLight
@@ -165,20 +161,17 @@ vec3 renderMapBlock(vec3 pos, vec3 normal, vec3 mdiff, vec3 mspec, float ngloss)
 			
 			//factor = 1.0 / (1.0 + (LightsLight[i].attenuation * dist) *(1.0 + dist));
 			float r = LightsLight[i].attenuation;
-			factor = - pow(dist - r,3) / (r * r * r);
+			float rinv = dist - r;
+			factor = - (rinv * rinv * rinv) / (r * r * r);
 			// if factor to small discard
 			if(factor  <= FACTOR_DISCARD)
-				//continue;
-				return vec3(1.0,0.0,0.0);
+				continue;
 				
-			float shadowFac = getSoftShadowPointLight(pos, LightsLight[i].origin, factor);
-			if(shadowFac <= FACTOR_DISCARD)
-				//continue;
-				if(shadowFac > -0.5) return vec3(0.0,1.0,0.0);
-				else return vec3(0.0,0.0,1.0);
-			
-			return vec3(shadowFac);
-			factor = /*min(factor,1.0) */ shadowFac;
+			factor = getSoftShadowPointLight(pos, LightsLight[i].origin, factor);
+			if(factor * lightLuma <= FACTOR_DISCARD)
+				continue;
+				//if(shadowFac > -0.5) return vec3(0.0,1.0,0.0);
+				//else return vec3(0.0,0.0,1.0);
 		}
 		
 		color += mdiff * LightsLight[i].color * theta * factor;
