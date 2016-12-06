@@ -16,12 +16,22 @@ float getMapVolumeValue(vec3 pos)
 {
 	return texture(mapTexVol, vec3((pos.x + 0.5) / MapDim.x, (pos.y + 0.5) / MapDim.y, (pos.z + 0.5) / MapDim.z)).r;
 }
+// pos := (pos + 0.5) / MapDim
+float getMapVolumeValueRaw(vec3 pos)
+{
+	return texture(mapTexVol, pos).r;
+}
 bool isInMap(vec3 pos)
 {
 	return pos.x >= -0.5 && pos.y >= -0.5 && pos.z >= -0.5 	
 			&& pos.x <= MapDim.x - 0.5 && pos.y <= MapDim.y - 0.5 && pos.z <= MapDim.z - 0.5;
 }
-
+// pos := (pos += 0.5) / MapDim
+bool isInMapRaw(vec3 pos)
+{
+	return pos.x >= 0.0 && pos.y >= 0.0 && pos.z >= 0.0 	
+			&& pos.x <= 1.0 && pos.y <= 1.0 && pos.z <= 1.0;
+}
 float smoothShadowValue(float x)
 {
 	// [SHADOW_TRESHOLD,1.0] -> [0.0,1.0] to smooth borders
@@ -40,11 +50,14 @@ float getSoftShadowPointLight(vec3 start, vec3 dest, float prefac)
 	float curDist = SHADOW_STEP;
 	vstep = normalize(vstep) * SHADOW_STEP;
 	vec3 pos = start + vstep;
+	pos += vec3(0.5); // offset
+	pos /= MapDim.xyz;
+	vstep /= MapDim.xyz;
 	
 	bool leaped = false;
-	while(curDist < pathLen && isInMap(pos))
+	while(curDist < pathLen && isInMapRaw(pos))
 	{
-		float v = getMapVolumeValue(pos);
+		float v = getMapVolumeValueRaw(pos);
 		f *= (1.0 - v);
 		if(smoothShadowValue(f) * prefac < FACTOR_DISCARD)
 			return 0.0;
@@ -54,8 +67,8 @@ float getSoftShadowPointLight(vec3 start, vec3 dest, float prefac)
 		if(leaped && v > 0.01)
 		{
 			// leaped in the wrong place..
-			f *= (1.0 - getMapVolumeValue(pos - vstep));
-			f *= (1.0 - getMapVolumeValue(pos - vstep * 2.0));
+			f *= (1.0 - getMapVolumeValueRaw(pos - vstep));
+			f *= (1.0 - getMapVolumeValueRaw(pos - vstep * 2.0));
 
 			if(f < SHADOW_TRESHOLD)
 				return 0.0;
@@ -82,11 +95,14 @@ float getSoftShadowDirectional(vec3 start, vec3 destOut)
 
 	vec3 vstep = destOut * SHADOW_STEP;
 	vec3 pos = start + vstep;
+	pos += vec3(0.5);
+	pos /= MapDim.xyz;
+	vstep /= MapDim.xyz;
 	
 	bool leaped = false;
-	while(isInMap(pos))
+	while(isInMapRaw(pos))
 	{
-		float v = getMapVolumeValue(pos);
+		float v = getMapVolumeValueRaw(pos);
 		f *= (1.0 - v);
 		if(f < SHADOW_TRESHOLD)
 			return 0.0;
@@ -95,8 +111,8 @@ float getSoftShadowDirectional(vec3 start, vec3 destOut)
 		if(leaped && (v > 0.01))
 		{
 			// leaped in the wrong place..
-			f *= (1.0 - getMapVolumeValue(pos - vstep));
-			f *= (1.0 - getMapVolumeValue(pos - vstep * 2.0));
+			f *= (1.0 - getMapVolumeValueRaw(pos - vstep));
+			f *= (1.0 - getMapVolumeValueRaw(pos - vstep * 2.0));
 			if(f < SHADOW_TRESHOLD)
 				return 0.0;
 		}
