@@ -13,54 +13,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="38b86f34-94ec-4fef-a704-39146e5c1e0b" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Source/SDL/Directory.cpp" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Source/SDL/dirent.h" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/Framework/Color.h" afterPath="$PROJECT_DIR$/Source/Framework/Color.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/Framework/OpenGL/Drawing.cpp" afterPath="$PROJECT_DIR$/Source/Framework/OpenGL/Drawing.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/Framework/OpenGL/Font.cpp" afterPath="$PROJECT_DIR$/Source/Framework/OpenGL/Font.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/Framework/OpenGL/Graphics.cpp" afterPath="$PROJECT_DIR$/Source/Framework/OpenGL/Graphics.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/Framework/UI/UIColorPicker.h" afterPath="$PROJECT_DIR$/Source/Framework/UI/UIColorPicker.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/Framework/UI/UIItemLister.h" afterPath="$PROJECT_DIR$/Source/Framework/UI/UIItemLister.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/Framework/UI/UINumUpDown.h" afterPath="$PROJECT_DIR$/Source/Framework/UI/UINumUpDown.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/Framework/UI/UIObjectList.h" afterPath="$PROJECT_DIR$/Source/Framework/UI/UIObjectList.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/Framework/UI/WindowDesc.h" afterPath="$PROJECT_DIR$/Source/Framework/UI/WindowDesc.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/Framework/Window.cpp" afterPath="$PROJECT_DIR$/Source/Framework/Window.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/Game/Client/MapChunk.h" afterPath="$PROJECT_DIR$/Source/Game/Client/MapChunk.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/Game/Shared/Character.cpp" afterPath="$PROJECT_DIR$/Source/Game/Shared/Character.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/Game/Shared/Character.h" afterPath="$PROJECT_DIR$/Source/Game/Shared/Character.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/Game/Shared/CubeDesc.h" afterPath="$PROJECT_DIR$/Source/Game/Shared/CubeDesc.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/Game/Shared/MapLoader.cpp" afterPath="$PROJECT_DIR$/Source/Game/Shared/MapLoader.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/SDL/SDL.h" afterPath="$PROJECT_DIR$/Source/SDL/SDL.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/SDL/SDL_audio.h" afterPath="$PROJECT_DIR$/Source/SDL/SDL_audio.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/SDL/SDL_config.h" afterPath="$PROJECT_DIR$/Source/SDL/SDL_config.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/SDL/SDL_events.h" afterPath="$PROJECT_DIR$/Source/SDL/SDL_events.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/SDL/SDL_gamecontroller.h" afterPath="$PROJECT_DIR$/Source/SDL/SDL_gamecontroller.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/SDL/SDL_haptic.h" afterPath="$PROJECT_DIR$/Source/SDL/SDL_haptic.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/SDL/SDL_hints.h" afterPath="$PROJECT_DIR$/Source/SDL/SDL_hints.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/SDL/SDL_joystick.h" afterPath="$PROJECT_DIR$/Source/SDL/SDL_joystick.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/SDL/SDL_keyboard.h" afterPath="$PROJECT_DIR$/Source/SDL/SDL_keyboard.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/SDL/SDL_main.h" afterPath="$PROJECT_DIR$/Source/SDL/SDL_main.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/SDL/SDL_mouse.h" afterPath="$PROJECT_DIR$/Source/SDL/SDL_mouse.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/SDL/SDL_opengles.h" afterPath="$PROJECT_DIR$/Source/SDL/SDL_opengles.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/SDL/SDL_opengles2.h" afterPath="$PROJECT_DIR$/Source/SDL/SDL_opengles2.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/SDL/SDL_pixels.h" afterPath="$PROJECT_DIR$/Source/SDL/SDL_pixels.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/SDL/SDL_platform.h" afterPath="$PROJECT_DIR$/Source/SDL/SDL_platform.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/SDL/SDL_render.h" afterPath="$PROJECT_DIR$/Source/SDL/SDL_render.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/SDL/SDL_revision.h" afterPath="$PROJECT_DIR$/Source/SDL/SDL_revision.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/SDL/SDL_rwops.h" afterPath="$PROJECT_DIR$/Source/SDL/SDL_rwops.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/SDL/SDL_stdinc.h" afterPath="$PROJECT_DIR$/Source/SDL/SDL_stdinc.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/SDL/SDL_surface.h" afterPath="$PROJECT_DIR$/Source/SDL/SDL_surface.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/SDL/SDL_syswm.h" afterPath="$PROJECT_DIR$/Source/SDL/SDL_syswm.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/SDL/SDL_version.h" afterPath="$PROJECT_DIR$/Source/SDL/SDL_version.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/SDL/SDL_video.h" afterPath="$PROJECT_DIR$/Source/SDL/SDL_video.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/System/Exceptions/GL_Exception.h" afterPath="$PROJECT_DIR$/Source/System/Exceptions/GL_Exception.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/System/Exceptions/SDL_Exception.h" afterPath="$PROJECT_DIR$/Source/System/Exceptions/SDL_Exception.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/System/Input.h" afterPath="$PROJECT_DIR$/Source/System/Input.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/Utility/Point.h" afterPath="$PROJECT_DIR$/Source/Utility/Point.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/Utility/Point3.h" afterPath="$PROJECT_DIR$/Source/Utility/Point3.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/Utility/Thread.h" afterPath="$PROJECT_DIR$/Source/Utility/Thread.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/Utility/owner_ptr.h" afterPath="$PROJECT_DIR$/Source/Utility/owner_ptr.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeLists.txt" afterPath="$PROJECT_DIR$/CMakeLists.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RxR/log.txt" afterPath="$PROJECT_DIR$/RxR/log.txt" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <ignored path="$PROJECT_DIR$/cmake-build-release/" />
@@ -85,6 +39,7 @@
               <caret line="70" column="0" lean-forward="false" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
+                <marker date="1483734746000" expanded="true" signature="451:454" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -114,7 +69,7 @@
         <entry file="file://$PROJECT_DIR$/Source/Framework/OpenGL/glFramebufferObject.h">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="180">
-              <caret line="14" column="13" lean-forward="true" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="15" />
+              <caret line="14" column="13" lean-forward="false" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="15" />
               <folding />
             </state>
           </provider>
@@ -156,7 +111,7 @@
         <entry file="file://$PROJECT_DIR$/Source/Framework/OpenGL/Graphics.h">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-135">
-              <caret line="1" column="9" lean-forward="true" selection-start-line="1" selection-start-column="9" selection-end-line="1" selection-end-column="9" />
+              <caret line="1" column="9" lean-forward="false" selection-start-line="1" selection-start-column="9" selection-end-line="1" selection-end-column="9" />
               <folding>
                 <element signature="e#13#39#0" expanded="true" />
               </folding>
@@ -177,8 +132,8 @@
       <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="14" column="35" lean-forward="true" selection-start-line="14" selection-start-column="35" selection-end-line="14" selection-end-column="35" />
+            <state relative-caret-position="345">
+              <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -220,12 +175,12 @@
         <option value="$PROJECT_DIR$/Source/Utility/Directory.cpp" />
         <option value="$PROJECT_DIR$/Source/Game/Shared/Map.h" />
         <option value="$PROJECT_DIR$/Source/Game/Client/MapChunk.h" />
-        <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/Source/Framework/OpenGL/glFramebufferObject.cpp" />
         <option value="$PROJECT_DIR$/Source/Utility/Thread.h" />
         <option value="$PROJECT_DIR$/Source/Framework/OpenGL/Graphics.cpp" />
         <option value="$PROJECT_DIR$/Source/Framework/OpenGL/Drawing.cpp" />
         <option value="$PROJECT_DIR$/Source/Framework/Window.cpp" />
+        <option value="$PROJECT_DIR$/CMakeLists.txt" />
       </list>
     </option>
   </component>
@@ -772,12 +727,12 @@
       <workItem from="1483625905991" duration="106000" />
       <workItem from="1483626015540" duration="1000" />
       <workItem from="1483628602150" duration="119000" />
-      <workItem from="1483630332170" duration="38544000" />
+      <workItem from="1483630332170" duration="39376000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="38770000" />
+    <option name="totallyTimeSpent" value="39602000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="23" width="1440" height="824" extended-state="6" />
@@ -1227,7 +1182,7 @@
         <state relative-caret-position="141">
           <caret line="68" column="0" lean-forward="false" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
           <folding>
-            <element signature="e#1326#1394#0" expanded="true" />
+            <element signature="e#1326#1394#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1235,7 +1190,7 @@
     <entry file="file://$PROJECT_DIR$/Source/Framework/OpenGL/glFramebufferObject.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
-          <caret line="14" column="13" lean-forward="true" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="15" />
+          <caret line="14" column="13" lean-forward="false" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="15" />
           <folding />
         </state>
       </provider>
@@ -1244,14 +1199,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="125">
           <caret line="144" column="35" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="163" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="35" lean-forward="true" selection-start-line="14" selection-start-column="35" selection-end-line="14" selection-end-column="35" />
           <folding />
         </state>
       </provider>
@@ -1269,7 +1216,7 @@
     <entry file="file://$PROJECT_DIR$/Source/Framework/OpenGL/Graphics.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-135">
-          <caret line="1" column="9" lean-forward="true" selection-start-line="1" selection-start-column="9" selection-end-line="1" selection-end-column="9" />
+          <caret line="1" column="9" lean-forward="false" selection-start-line="1" selection-start-column="9" selection-end-line="1" selection-end-column="9" />
           <folding>
             <element signature="e#13#39#0" expanded="true" />
           </folding>
@@ -1306,7 +1253,16 @@
           <caret line="70" column="0" lean-forward="false" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
+            <marker date="1483734746000" expanded="true" signature="451:454" ph="{...}" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
