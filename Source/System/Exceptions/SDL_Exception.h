@@ -1,8 +1,8 @@
 #pragma once
 #include <exception>
 #include <string>
-#include "../SDL/SDL_net.h"
-#include "../SDL/SDL.h"
+#include "../../SDL/SDL_net.h"
+#include "../../SDL/SDL.h"
 
 class SDL_Exception : public std::exception
 {

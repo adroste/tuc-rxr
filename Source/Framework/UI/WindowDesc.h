@@ -5,7 +5,7 @@ class WindowDesc
 {
 	friend class WindowManager;
 private:
-	WindowDesc(WindowManager* wm, size_t anchor, PointF offset, bool isDialog)
+	WindowDesc(class WindowManager* wm, size_t anchor, PointF offset, bool isDialog)
 		:
 		m_windowManager(wm),
 		m_anchor(anchor),
@@ -18,7 +18,7 @@ public:
 	{}
 
 public:
-	WindowManager* getWindowManager() const
+	class WindowManager* getWindowManager() const
 	{
 		return m_windowManager;
 	}
@@ -29,7 +29,7 @@ public:
 	}
 
 private:
-	WindowManager* m_windowManager = nullptr;
+	class WindowManager* m_windowManager = nullptr;
 	size_t m_anchor = 0;
 	PointF m_offset;
 	bool m_isDialog;

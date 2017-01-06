@@ -9,6 +9,7 @@
 #include "../Game/Client/States/StateGame.h"
 #include "../Utility/Timer.h"
 #include "../System/System.h"
+#include "../glew/glew.h"
 #include <stack>
 
 static const int MAX_UPDATE_DELAY = 15;
@@ -28,7 +29,7 @@ void Window::init(const std::string & title, const PointI & dim)
 
 	m_dim = dim;
 
-	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
@@ -44,6 +45,12 @@ void Window::init(const std::string & title, const PointI & dim)
 		| SDL_WindowFlags::SDL_WINDOW_RESIZABLE
 		| SDL_WindowFlags::SDL_WINDOW_ALLOW_HIGHDPI
 	);
+
+    // TODO check why its not working if set before SDL_CreateWindow
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+
 
 	if (!m_pWnd)
 		throw SDL_Exception("Window::init window creation failed");

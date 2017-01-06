@@ -97,6 +97,7 @@ private:
 		catch (const std::exception& e)
 		{
 			pThread->setThreadError(e.what());
+            //Log::error(e);
 		}
 		catch (...)
 		{

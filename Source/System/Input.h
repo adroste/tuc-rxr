@@ -241,7 +241,7 @@ public:
 	};
 
 public:
-	static void init(Window* pWnd);
+	static void init(class Window* pWnd);
 	static PointF getMouse();
 	static void setCamMouse(const PointF& p);
 

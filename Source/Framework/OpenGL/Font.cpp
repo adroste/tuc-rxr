@@ -139,8 +139,8 @@ PointF Font::getDim(const char* txt) const
 	float width = 0.0f;
 	while(*txt != '\0')
 	{
-		assert(*txt < m_nChars);
-		if(*txt < m_nChars)
+		assert(unsigned(*txt) < m_nChars);
+		if(unsigned(*txt) < m_nChars)
 			width += m_metrics[*txt].horiAdvance;
 		txt++;
 	}

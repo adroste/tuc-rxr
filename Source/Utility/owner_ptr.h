@@ -3,6 +3,7 @@
 #include <cassert>
 #include <functional>
 #include <vector>
+#include <string>
 
 /*
 USAGE:
@@ -41,6 +42,7 @@ Nevertheless you should not do this when accessing ref_ptr from a seperate threa
 - set the callback in ref_ptr AFTER it has a valid owner_ptr, the callback will be lost otherwise!
 */
 
+
 template <class T>
 class refable_ptr;
 
@@ -56,15 +58,15 @@ class refable;
 template <class T>
 class ref_ptr
 {
-	friend refable_ptr<T>;
-	friend owner_ptr<T>;
-	friend derived_ptr<T>;
-	friend refable<T>;
+	friend class refable_ptr<T>;
+	friend class owner_ptr<T>;
+	friend class derived_ptr<T>;
+	friend class refable<T>;
 
 	ref_ptr(refable_ptr<T>*);
 public:
 	ref_ptr();
-	ref_ptr(nullptr_t);
+	ref_ptr(std::nullptr_t);
 	ref_ptr(const ref_ptr&);
 	ref_ptr& operator=(const ref_ptr&);
 	ref_ptr(ref_ptr&&);
@@ -107,7 +109,7 @@ private:
 template <class T>
 class refable_ptr
 {
-	friend ref_ptr<T>;
+	friend class ref_ptr<T>;
 
 public:
 	virtual ~refable_ptr()
@@ -278,7 +280,7 @@ public:
 	{
 	}
 
-	owner_ptr(nullptr_t)
+	owner_ptr(std::nullptr_t)
 		:
 		m_ptr(nullptr)
 	{
@@ -381,7 +383,7 @@ ref_ptr<T>::ref_ptr()
 }
 
 template <class T>
-ref_ptr<T>::ref_ptr(nullptr_t)
+ref_ptr<T>::ref_ptr(std::nullptr_t)
 	:
 	m_owner(nullptr)
 {

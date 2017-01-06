@@ -9,7 +9,8 @@
 class MapChunk
 {
 public:
-	static const size_t SIZE = 32;
+	static const int SIZE = 32;
+
 public:
 	MapChunk();
 	~MapChunk();

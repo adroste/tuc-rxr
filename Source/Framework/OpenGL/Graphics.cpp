@@ -24,10 +24,16 @@ void Graphics::init(SDL_Window* wnd, PointI dim)
 {
 	assert(!m_isInit);
 	assert(m_glContext == nullptr);
-	
+
+    Log::info("Graphics::init creating opengl context");
 	m_glContext = SDL_GL_CreateContext(wnd);
 	if (!m_glContext)
 		throw SDL_Exception("Graphics::init open gl context could not be created");
+
+    std::string glVersion((char*)(glGetString(GL_VERSION)));
+    std::string glslVersion((char*)(glGetString(GL_SHADING_LANGUAGE_VERSION)));
+    Log::info("Graphics::init OpenGL Version: " + glVersion);
+    Log::info("Graphics::init GLSL Version: " + glslVersion);
 
 	static bool isGlewInit = false;
 	if (!isGlewInit)

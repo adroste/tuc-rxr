@@ -1,5 +1,5 @@
 #pragma once
-#include <math.h>
+#include <cmath>
 #include <assert.h>
 #include <algorithm>
 #include "../glm/detail/type_vec3.hpp"

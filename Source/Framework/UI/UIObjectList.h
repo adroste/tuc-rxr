@@ -28,21 +28,21 @@ public:
 			o->registerMe(broadcaster);
 	}
 
-	void add(ref_ptr<UIObject> obj)
+    void add(void) {}
+    template<typename... TObjs>
+	void add(ref_ptr<UIObject> first, TObjs... args)
 	{
-		LockGuard g(m_muObjs);
-		obj.setAbandonCallback([this](ref_ptr<UIObject>& o)
-		{
-			remove(o);
-		});
-		m_objs.push_back(obj);
-		sort();
+        LockGuard g(m_muObjs);
+        first.setAbandonCallback([this](ref_ptr<UIObject>& o)
+                               {
+                                   remove(o);
+                               });
+        m_objs.push_back(first);
+        sort();
+
+		add(args...);
 	}
-	void add(ref_ptr<UIObject> first, ref_ptr<UIObject> args...)
-	{
-		add(first);
-		add(args);
-	}
+
 	void addAndReg(ref_ptr<UIObject> obj, Input::IBroadcaster* broadcaster)
 	{
 		LockGuard g(m_muObjs);
@@ -56,6 +56,8 @@ public:
 			o->unregisterMe();
 		m_objs.clear();
 	}
+
+
 
 	virtual void draw(Drawing& draw) override
 	{
@@ -83,22 +85,22 @@ private:
 	Mutex m_muObjs;
 
 public:
-	decltype(m_objs)::const_iterator begin() const
+    std::list<ref_ptr<UIObject>>::const_iterator begin() const
 	{
 		return m_objs.cbegin();
 	}
 
-	decltype(m_objs)::const_iterator end() const
+    std::list<ref_ptr<UIObject>>::const_iterator end() const
 	{
 		return m_objs.cend();
 	}
 
-	decltype(m_objs)::iterator begin() 
+    std::list<ref_ptr<UIObject>>::iterator begin()
 	{
 		return m_objs.begin();
 	}
 
-	decltype(m_objs)::iterator end() 
+    std::list<ref_ptr<UIObject>>::iterator end()
 	{
 		return m_objs.end();
 	}

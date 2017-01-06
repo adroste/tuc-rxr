@@ -1,7 +1,7 @@
 #pragma once
 #include "Exception.h"
 #include <string>
-#include "../glew/glew.h"
+#include "../../glew/glew.h"
 
 class GL_Exception : public Exception
 {

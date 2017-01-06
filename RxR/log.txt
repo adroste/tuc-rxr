@@ -1,0 +1,32 @@
+2017-01-06_21-34-54: INFO: System::init SDL
+2017-01-06_21-34-55: INFO: System::init SDLNet
+2017-01-06_21-34-55: INFO: Sound::init 32 audio channels allocated
+2017-01-06_21-34-55: INFO: Window::init
+2017-01-06_21-34-56: INFO: Window::threadProc initializing openGL
+2017-01-06_21-34-56: INFO: Graphics::init creating opengl context
+2017-01-06_21-34-56: INFO: Graphics::init OpenGL Version: 4.1 INTEL-10.22.25
+2017-01-06_21-34-56: INFO: Graphics::init GLSL Version: 4.10
+2017-01-06_21-34-56: INFO: Graphics::init glew
+2017-01-06_21-34-56: INFO: Graphics::init freetype
+2017-01-06_21-34-56: INFO: Shader::load data/Shader/cube_map
+2017-01-06_21-34-56: INFO: Shader::load data/Shader/cube
+2017-01-06_21-34-56: INFO: Shader::load data/Shader/button
+2017-01-06_21-34-56: INFO: Shader::load data/Shader/color
+2017-01-06_21-34-56: INFO: Shader::load data/Shader/color2
+2017-01-06_21-34-56: INFO: Shader::load data/shader/hsvPickerCircle
+2017-01-06_21-34-56: INFO: Shader::load data/shader/hsvPickerSquare
+2017-01-06_21-34-56: INFO: Shader::load data/shader/disk
+2017-01-06_21-34-56: INFO: Shader::load data/Shader/fxaa
+2017-01-06_21-34-56: INFO: Shader::load data/Shader/bloom1
+2017-01-06_21-34-56: INFO: Shader::load data/Shader/bloom2
+2017-01-06_21-34-56: INFO: Shader::load data/Shader/bloom3
+2017-01-06_21-34-56: INFO: Shader::load data/Shader/trans_end
+2017-01-06_21-34-56: INFO: Shader::load data/Shader/cube_trans
+2017-01-06_21-34-56: INFO: Shader::load data/Shader/text
+2017-01-06_21-34-56: INFO: Shader::load data/Shader/text
+2017-01-06_21-34-56: INFO: Shader::load data/Shader/text
+2017-01-06_21-34-56: INFO: Shader::load data/Shader/text
+2017-01-06_21-34-56: INFO: Shader::load data/Shader/text
+2017-01-06_21-34-56: INFO: Shader::load data/Shader/text
+2017-01-06_21-34-56: INFO: Graphics::resize
+2017-01-06_21-34-56: INFO: Graphics::doResize

@@ -153,7 +153,7 @@ public:
 		orderItems();
 	}
 
-	void UIItemLister::setMode(const Mode mode)
+	void setMode(const Mode mode)
 	{
 		m_mode = mode;
 	}

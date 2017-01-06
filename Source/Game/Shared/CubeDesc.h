@@ -50,7 +50,7 @@ struct CubeDesc
 
 	bool operator==(const CubeDesc& r) const
 	{
-		return memcmp(this, &r, sizeof(this)) == 0;
+		return memcmp(this, &r, sizeof(*this)) == 0;
 	}
 	bool operator!=(const CubeDesc& r) const
 	{

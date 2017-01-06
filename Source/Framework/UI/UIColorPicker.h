@@ -182,9 +182,9 @@ private:
 	{
 		float hue = m_angle / (float(M_PI) * 2.0f);
 		// angle to hue
-		m_hueColor.r = tool::clamp(abs(6.0f * hue - 3.0f) - 1.0f, 0.0f, 1.0f);
-		m_hueColor.g = tool::clamp(2.0f - abs(6.0f * hue - 2.0f), 0.0f, 1.0f);
-		m_hueColor.b = tool::clamp(2.0f - abs(6.0f * hue - 4.0f), 0.0f, 1.0f);
+		m_hueColor.r = tool::clamp(float(fabs(6.0f * hue - 3.0f) - 1.0f), 0.0f, 1.0f);
+		m_hueColor.g = tool::clamp(float(2.0f - fabs(6.0f * hue - 2.0f)), 0.0f, 1.0f);
+		m_hueColor.b = tool::clamp(float(2.0f - fabs(6.0f * hue - 4.0f)), 0.0f, 1.0f);
 
 		// hsv to rgb
 		Color c;

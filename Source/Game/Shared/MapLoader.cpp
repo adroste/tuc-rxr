@@ -241,8 +241,9 @@ void MapLoader::save(const std::string& filename, const MapInfo& i)
 
 	p.OpenElement("map");
 	{
-		p.PushAttribute("width", i.nChunks.x);
-		p.PushAttribute("height", i.nChunks.y);
+		//TODO fix chunk datatype (size_t != unsigned int)
+		p.PushAttribute("width", (unsigned int)i.nChunks.x);
+		p.PushAttribute("height", (unsigned int)i.nChunks.y);
 		p.PushAttribute("material", getMaterialFile(path,file).c_str());
 		// add chunks
 		for(size_t y = 0; y < i.nChunks.y; y++)
@@ -250,8 +251,9 @@ void MapLoader::save(const std::string& filename, const MapInfo& i)
 		{
 			p.OpenElement("chunk");
 
-			p.PushAttribute("x", x);
-			p.PushAttribute("y", y);
+			//TODO fix chunk datatype (size_t != unsigned int)
+			p.PushAttribute("x", (unsigned int)x);
+			p.PushAttribute("y", (unsigned int)y);
 			p.PushAttribute("file", getChunkFile(path, file, x, y).c_str());
 
 			p.CloseElement("chunk");

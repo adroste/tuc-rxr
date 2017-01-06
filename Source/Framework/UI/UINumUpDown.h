@@ -10,7 +10,7 @@ public:
 	UINumUpDown(Font& font, T start, T min, T max, T step)
 		: 
 		UIInputBox(font, 256),
-		IValueHolder(start),
+		IValueHolder<T>(start),
 		m_step(step),
 		m_min(min),
 		m_max(max)

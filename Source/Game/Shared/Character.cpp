@@ -57,7 +57,7 @@ void Character::SetState(State state)
 	m_state = state;
 	switch (m_state)
 	{
-	case State::default:
+	case State::normal:
 
 	case State::stand:
 		startTime = clock();
@@ -137,7 +137,7 @@ void Character::build()
 	float armLength2 = 3.0f; // unterarm
 	float legLength1 = 5.0f; // oberschnekel
 	float legLength2 = 5.0f; // unterschenkel
-	float bodyLength = 6.0f; // abstand schulter hüfte
+	float bodyLength = 6.0f; // abstand schulter hï¿½fte
 
 	float armWidth = 1.0f;
 	float legWidth = 1.5f;

@@ -18,7 +18,7 @@ public:
 		backwardRight1,
 		backwardRight2,
 		stand,
-		default
+		normal
 	};
 	Character();
 	virtual ~Character();
