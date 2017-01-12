@@ -1,6 +1,5 @@
 #pragma once
 #include "../../../Framework/GameState.h"
-#include "../../Shared/Game.h"
 #include "../../../Utility/Timer.h"
 #include "../../Shared/GameEngine.h"
 

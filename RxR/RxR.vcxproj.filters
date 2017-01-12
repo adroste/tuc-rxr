@@ -145,9 +145,6 @@
     <ClCompile Include="..\Source\Game\Shared\Map.cpp">
       <Filter>Source\Game\Shared</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Game\Shared\Game.cpp">
-      <Filter>Source\Game\Shared</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Game\Shared\CharNode.cpp">
       <Filter>Source\Game\Shared</Filter>
     </ClCompile>
@@ -355,9 +352,6 @@
       <Filter>Source\Game\Shared</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Game\Shared\CubeDesc.h">
-      <Filter>Source\Game\Shared</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Game\Shared\Game.h">
       <Filter>Source\Game\Shared</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Game\Shared\Map.h">

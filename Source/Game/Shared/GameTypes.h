@@ -37,9 +37,17 @@ struct CubeShape
 	ColorT diffuse;
 	ColorT specular;
 	float gloss;
+	uint_least8_t flags;
+	CubeShader shader;
+	BlockType type;
 };
 
-using GameManager =	ecs::Manager<Transform, Movement, Health, Damage, CubeShape>;
-using GameEntity =	ecs::Entity< Transform, Movement, Health, Damage, CubeShape>;
-using GameSystem =	ecs::System< Transform, Movement, Health, Damage, CubeShape>;
-using GameScript =	ecs::Script< Transform, Movement, Health, Damage, CubeShape>;
+struct MapChunkInfo
+{
+	uint_least8_t neighbors;
+};
+
+using GameManager =	ecs::Manager<Transform, Movement, Health, Damage, CubeShape, MapChunkInfo>;
+using GameEntity =	ecs::Entity< Transform, Movement, Health, Damage, CubeShape, MapChunkInfo>;
+using GameSystem =	ecs::System< Transform, Movement, Health, Damage, CubeShape, MapChunkInfo>;
+using GameScript =	ecs::Script< Transform, Movement, Health, Damage, CubeShape, MapChunkInfo>;

@@ -31,7 +31,7 @@ void Map::setCube(Point3S pos, std::unique_ptr<CubeBase> c)
 	assert(chunk.y * m_cdim.x + chunk.x < m_chunks.size());
 	pos.x -= chunk.x * MapChunk::SIZE;
 	pos.y -= chunk.y * MapChunk::SIZE;
-	m_chunks[chunk.y * m_cdim.x + chunk.x].setCube(pos, move(c));
+	m_chunks[chunk.y * m_cdim.x + chunk.x].setCube(pos, m_chunks[0].convertFromDesc(c->getDesc()));
 }
 
 void Map::destroyBlock(const Point3S& pos)
@@ -128,7 +128,7 @@ void Map::setDim(Point3S dim)
 				// use old chunk
 				newChunks.push_back(std::move(m_chunks.at(y * m_cdim.x + x)));
 			}
-			else newChunks.emplace_back();
+			else newChunks.emplace_back(m_manager);
 			newChunks.back().setTransparency(true);
 		}
 	}
@@ -205,7 +205,7 @@ void Map::loadMapAndAssets(const MapLoader::MapInfo& i)
 	{
 		if(ass.instances.size())
 		{
-			MapAsset a;
+			MapAsset a(m_manager);
 			a.loadChunk(ass.geometry);
 			for (const auto& in : ass.instances)
 				a.addInstance(in.pos, in.theta, in.phi, in.scale);

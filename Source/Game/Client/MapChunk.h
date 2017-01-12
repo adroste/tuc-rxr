@@ -5,32 +5,38 @@
 #include "../Shared/CubeBase.h"
 #include "../../Utility/move_util.h"
 #include "../../Framework/OpenGL/Shader/InstancingArray.h"
+#include <array>
+#include "../Shared/GameTypes.h"
 
 class MapChunk
 {
 public:
 	static const size_t SIZE = 32;
 public:
-	MapChunk();
+	MapChunk() = default;
+	MapChunk(GameManager& m);
 	~MapChunk();
 	MOVE_ONLY(MapChunk);
 
 	void draw(Drawing& draw, Mesh& cube);
 	void drawTransparent(Drawing& draw, Mesh& cube);
-	void setCube(Point3S pos, std::unique_ptr<CubeBase> c);
+	void setCube(Point3S pos, std::shared_ptr<GameEntity>);
 	void updateGpuArray();
 	std::vector<std::pair<Point3S, CubeDesc>> getCubes() const;
 	void loadChunk(const std::vector<std::pair<Point3S, CubeDesc>>& cubes);
 	void setTransparency(bool hasTrans);
 	// note: top is mapchunk above -> mapchunk with lower y
 	void setNeighbors(MapChunk* left, MapChunk* right, MapChunk* top, MapChunk* bottom);
+	std::shared_ptr<GameEntity> convertFromDesc(const CubeDesc& cd) const;
 private:
 	// position in chunk + offset
-	CubeBase* getCube(const Point3S& p, int x, int y, int z);
-	CubeBase* getCube(const Point3S& p);
+	std::shared_ptr<GameEntity> getCube(const Point3S& p, int x, int y, int z);
+	std::shared_ptr<GameEntity> getCube(const Point3S& p);
+	static bool hasTranparency(const GameEntity& e);
+	static bool isHidden(const GameEntity& e);
 private:
 	static const Point3S m_dim;
-	std::vector<std::unique_ptr<CubeBase>> m_cubes;
+	std::array<std::shared_ptr<GameEntity>, SIZE * SIZE* SIZE> m_cubes;
 
 	// GPU stuff
 	bool m_hasChanged = true;
@@ -57,4 +63,5 @@ private:
 	 *		26-31 neighbors
 	 */
 	Mutex m_muCubes;
+	GameManager* m_pManager = nullptr;
 };

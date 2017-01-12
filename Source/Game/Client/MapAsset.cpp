@@ -1,6 +1,9 @@
 #include "MapAsset.h"
 
-MapAsset::MapAsset()
+MapAsset::MapAsset(GameManager& m)
+	:
+m_pManager(&m),
+m_chunk(m)
 {
 }
 

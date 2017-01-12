@@ -1,5 +1,4 @@
 #include "GameEditor.h"
-#include "../Shared/Game.h"
 #include "../../System/System.h"
 #include <functional>
 
@@ -277,7 +276,7 @@ void GameEditor::reset()
 {
 	LockGuard g(m_muMap);
 	m_pMap = std::unique_ptr<Map>(new Map(m_manager));
-	m_pCam = Game::makeCamera();
+	m_pCam = std::make_unique<Camera>(Camera({ 24.5f, 15.0f }, 30.0f, 70.0f, 5.0f, false));
 
 	m_pLight = std::unique_ptr<LightManager>(new LightManager(*m_pCam));
 
