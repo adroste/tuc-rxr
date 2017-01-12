@@ -8,6 +8,9 @@ GameEditor::GameEditor()
 	m_prevClientMouse(Input::getMouse())
 {
 	reset();
+
+	// TODO add queries
+	m_manager.start();
 }
 
 GameEditor::~GameEditor()
@@ -273,7 +276,7 @@ void GameEditor::setMapdim(const Point3S& d)
 void GameEditor::reset()
 {
 	LockGuard g(m_muMap);
-	m_pMap = std::unique_ptr<Map>(new Map({ MapChunk::SIZE, MapChunk::SIZE, Map::DEPTH }));
+	m_pMap = std::unique_ptr<Map>(new Map(m_manager));
 	m_pCam = Game::makeCamera();
 
 	m_pLight = std::unique_ptr<LightManager>(new LightManager(*m_pCam));

@@ -238,6 +238,9 @@
     <ClCompile Include="..\Source\Framework\OpenGL\glFramebufferObject.cpp">
       <Filter>Source\Framework\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Game\Shared\GameEngine.cpp">
+      <Filter>Source\Game\Shared</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\Shader.h">
@@ -680,6 +683,9 @@
     </ClInclude>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderCubeUniforms.h">
       <Filter>Source\Framework\OpenGL\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Game\Shared\GameEngine.h">
+      <Filter>Source\Game\Shared</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

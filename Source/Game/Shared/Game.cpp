@@ -20,7 +20,7 @@ Game::Game()
 		throw Exception("cannot find " + filename);
 	
 	auto& i = l.getInfo();
-	m_pMap = std::unique_ptr<Map>(new Map(Point3S(i.nChunks.x * MapChunk::SIZE, i.nChunks.y * MapChunk::SIZE, Map::DEPTH)));
+	//m_pMap = std::unique_ptr<Map>(new Map(Point3S(i.nChunks.x * MapChunk::SIZE, i.nChunks.y * MapChunk::SIZE, Map::DEPTH)));
 	m_pMap->loadMapAndAssets(i);
 
 	m_pCam = makeCamera();

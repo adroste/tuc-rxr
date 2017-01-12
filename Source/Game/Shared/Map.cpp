@@ -2,12 +2,11 @@
 #include <assert.h>
 #include "../../System/Exceptions/Exception.h"
 
-Map::Map(Point3S dim)
+Map::Map(GameManager& m)
 	:
-	m_dim(Point3S(0, 0, 0))
-{
-	setDim(dim);
-}
+	m_dim(Point3S(0, 0, 0)),
+	m_manager(m)
+{}
 
 Map::~Map()
 {

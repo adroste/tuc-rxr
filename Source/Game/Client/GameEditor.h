@@ -63,4 +63,5 @@ private:
 	Point3I m_downPos;
 
 	std::vector<CubeDesc> m_curCubeDescs;
+	GameManager m_manager;
 };

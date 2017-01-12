@@ -2,20 +2,22 @@
 #include "../../../Framework/GameState.h"
 #include "../../Shared/Game.h"
 #include "../../../Utility/Timer.h"
+#include "../../Shared/GameEngine.h"
 
 class StateGame : public GameState
 {
 public:
 	StateGame()
 	{
-		m_game.registerMe(this);
+		if (!m_engine.loadLevel("sample_scene"))
+			throw Exception("cannot load sample scene");
 	}
 	virtual ~StateGame()
 	{}
 
 	virtual bool update(float dt) override 
 	{
-		m_game.update(dt);
+		m_engine.update(dt);
 		return false;
 	}
 
@@ -28,7 +30,7 @@ public:
 
 		draw.beginGameShader();
 		t2.startWatch();
-		m_game.draw(draw);
+		m_engine.draw(draw);
 		glFinish();
 		t2.stopWatch();
 		draw.endGameShader();
@@ -93,6 +95,6 @@ public:
 	}
 
 private:
-	Game m_game;
+	GameEngine m_engine;
 	float m_maxDrawTime = 0.0f;
 };

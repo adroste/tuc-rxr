@@ -8,13 +8,14 @@
 #include "../Client/MapChunk.h"
 #include "MapLoader.h"
 #include "../Client/MapAsset.h"
+#include "GameTypes.h"
 
 class Map : public IDrawable
 {
 public:
 	static const size_t DEPTH = 16;
 public:
-	Map(Point3S dim);
+	Map(GameManager& m);
 	virtual ~Map();
 
 	void setCube(Point3S pos, const CubeDesc& cd);
@@ -38,4 +39,5 @@ private:
 	VolumeTextureMap m_volumeTextureMap;
 
 	Mutex m_muMap;
+	GameManager& m_manager;
 };

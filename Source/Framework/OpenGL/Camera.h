@@ -5,6 +5,7 @@
 class Camera
 {
 public:
+	Camera() = default;
 	Camera(const PointF& lookAt, float height, float dist, float heightOffset = 0.0f, bool overrideEqualDepth = true);
 	virtual ~Camera();
 
