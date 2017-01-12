@@ -45,6 +45,15 @@ struct CubeShape
 struct MapChunkInfo
 {
 	uint_least8_t neighbors;
+	enum Side
+	{
+		Left = 1,
+		Right = 2,
+		Top = 4,
+		Bottom = 8,
+		Front = 16,
+		Back = 32
+	};
 };
 
 using GameManager =	ecs::Manager<Transform, Movement, Health, Damage, CubeShape, MapChunkInfo>;

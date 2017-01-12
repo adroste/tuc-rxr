@@ -19,24 +19,21 @@ void Map::setCube(Point3S pos, const CubeDesc& cd)
 		return;
 	// construct cube
 	// at the moment just default cubes
-	auto pCube = std::unique_ptr<CubeBase>(new CubeBase(cd));
-	m_volumeTextureMap.setValue(pos, pCube->getShadow());
-	setCube(pos, move(pCube));
-}
+	m_volumeTextureMap.setValue(pos, cd.shader == CubeShader::Default ? 1.0f : 0.5f);
+	setCube(pos, cd);
 
-void Map::setCube(Point3S pos, std::unique_ptr<CubeBase> c)
-{
 	// find chunk
 	PointS chunk = PointS(pos.x, pos.y) / MapChunk::SIZE;
 	assert(chunk.y * m_cdim.x + chunk.x < m_chunks.size());
 	pos.x -= chunk.x * MapChunk::SIZE;
 	pos.y -= chunk.y * MapChunk::SIZE;
-	m_chunks[chunk.y * m_cdim.x + chunk.x].setCube(pos, m_chunks[0].convertFromDesc(c->getDesc()));
+	m_chunks[chunk.y * m_cdim.x + chunk.x].setCube(pos, m_chunks[0].convertFromDesc(cd));
 }
 
 void Map::destroyBlock(const Point3S& pos)
 {
-	setCube(pos, nullptr);
+	// TODO implement ;)
+	//setCube(pos, nullptr);
 	m_volumeTextureMap.setValue(pos, 0.0f);
 }
 
@@ -196,7 +193,7 @@ void Map::loadMapAndAssets(const MapLoader::MapInfo& i)
 		for(const auto& b : c)
 		{
 			PointS off = pos * MapChunk::SIZE;
-			m_volumeTextureMap.setValue(Point3S(off.x, off.y, 0) + b.first, CubeBase(b.second).getShadow());
+			m_volumeTextureMap.setValue(Point3S(off.x, off.y, 0) + b.first, b.second.shader == CubeShader::Default? 1.0f : 0.5f);
 		}
 		idx++;
 	}

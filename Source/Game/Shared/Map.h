@@ -4,7 +4,6 @@
 #include "../../Utility/Point3.h"
 #include "../../Utility/Mutex.h"
 #include "../../Framework/OpenGL/VolumeTextureMap.h"
-#include "CubeBase.h"
 #include "../Client/MapChunk.h"
 #include "MapLoader.h"
 #include "../Client/MapAsset.h"
@@ -29,8 +28,6 @@ public:
 	PointS getChunkSize() const;
 
 	void loadMapAndAssets(const MapLoader::MapInfo& i);
-private:
-	void setCube(Point3S pos, std::unique_ptr<CubeBase> c);
 private:
 	std::vector<MapChunk> m_chunks;
 	std::vector<MapAsset> m_assets;
