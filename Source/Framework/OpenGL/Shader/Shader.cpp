@@ -202,3 +202,7 @@ GLint Shader::locateUniform(const char* name) const
 	return x;
 }
 
+GLint Shader::tryLocateUniform(const char* name) const
+{
+	return glGetUniformLocation(m_program, name);
+}

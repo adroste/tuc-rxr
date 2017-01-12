@@ -1,7 +1,7 @@
 #pragma once
 #include "Shader.h"
 
-class ShaderCubeTrans: public Shader, public Shader::ILoadable
+class ShaderCubeTrans: public ShaderCubeUniforms, public Shader::ILoadable
 {
 public:
 	ShaderCubeTrans() = default;

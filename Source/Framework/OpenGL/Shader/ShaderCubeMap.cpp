@@ -14,6 +14,7 @@ void ShaderCubeMap::setAnimation(AssetAnimation a)
 
 void ShaderCubeMap::loadUniforms()
 {
+	ShaderCubeUniforms::loadUniforms();
 	m_animation = locateUniform("animation");
 	glCheck("ShaderCubeMap::loadUniforms");
 }

@@ -233,6 +233,7 @@
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderCube.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderCubeMap.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderCubeTrans.h" />
+    <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderCubeUniforms.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderDisk.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderFXAA.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\ShaderHSVPickerCircle.h" />

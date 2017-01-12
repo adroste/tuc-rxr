@@ -15,8 +15,10 @@ layout(location = 8) flat in vec3 in_tangent;
 layout(location = 9) flat in float in_glowing;
 layout(location = 10) flat in vec3 in_bitangent;
 
-layout(binding = 1) uniform sampler2D texWater;
-layout(binding = 2) uniform sampler2D texWaterfall;
+// plz bind this to 1
+uniform sampler2D texWater;
+// ans dis to 2
+uniform sampler2D texWaterfall;
 
 void getPixelColor(out vec4 dstColor, out bool dstGlowing)
 {
