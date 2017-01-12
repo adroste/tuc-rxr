@@ -11,4 +11,12 @@ public:
 	{
 		Shader::load("data/Shader/trans_end");
 	}
+
+	virtual void loadUniforms() override
+	{
+		auto tex0 = locateUniform("tex0");
+		glUniform1i(tex0, 0);
+		auto tex1 = locateUniform("tex1");
+		glUniform1i(tex1, 1);
+	}
 };

@@ -1,9 +1,9 @@
-#version 420 core
+#version 330 core
 
 // normal rgb texture
-layout(binding = 0) uniform sampler2D tex0;
+uniform sampler2D tex0;
 // texture that will be added
-layout(binding = 1) uniform sampler2D tex1;
+uniform sampler2D tex1;
 
 out vec4 fragColor;
 

@@ -1,9 +1,7 @@
-#version 420 core
+#version 330 core
 
 // image with blooming parts only
-layout(binding = 0) uniform sampler2D tex0;
-// depth information in g
-layout(binding = 1) uniform sampler2D tex1;
+uniform sampler2D tex0;
 
 uniform ivec2 dir; // [1.0,0.0] or [0.0,1.0]
 

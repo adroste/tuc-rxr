@@ -12,6 +12,14 @@ public:
 	{
 		Shader::load("data/Shader/bloom1");
 	}
+
+	virtual void loadUniforms() override
+	{
+		auto tex0 = locateUniform("tex0");
+		glUniform1i(tex0, 0);
+		auto tex1 = locateUniform("tex1");
+		glUniform1i(tex1, 1);
+	}
 };
 
 class ShaderBloom2 : public Shader, public Shader::ILoadable
@@ -33,8 +41,11 @@ public:
 protected:
 	virtual void loadUniforms() override
 	{
+		auto tex0 = locateUniform("tex0");
+		glUniform1i(tex0, 0);
 		m_dir = locateUniform("dir");
 	}
+
 
 private:
 	GLint m_dir;
@@ -49,5 +60,14 @@ public:
 	void load() override
 	{
 		Shader::load("data/Shader/bloom3");
+	}
+
+protected:
+	virtual void loadUniforms() override
+	{
+		auto tex0 = locateUniform("tex0");
+		glUniform1i(tex0, 0);
+		auto tex1 = locateUniform("tex1");
+		glUniform1i(tex1, 1);
 	}
 };

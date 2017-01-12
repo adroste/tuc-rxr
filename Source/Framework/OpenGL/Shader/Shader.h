@@ -40,6 +40,7 @@ protected:
 	void loadShaderSource(const std::string& filename);
 	virtual void loadUniforms(){}
 	GLint locateUniform(const char* name) const;
+	GLint tryLocateUniform(const char* name) const;
 protected:
 	GLuint m_program = 0;
 

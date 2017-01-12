@@ -1,9 +1,9 @@
-#version 420 core
+#version 330 core
 
 // rgb image
-layout(binding = 0) uniform sampler2D tex0;
+uniform sampler2D tex0;
 // glow and depth information
-layout(binding = 1) uniform sampler2D tex1;
+uniform sampler2D tex1;
 
 out vec4 fragColor;
 

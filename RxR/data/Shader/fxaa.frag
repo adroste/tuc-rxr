@@ -1,9 +1,8 @@
-#version 420 core
+#version 330 core
 
 #include "uniforms/Framebuffer.glsl"
 
-layout(binding = 0) uniform sampler2D tex0;
-layout(binding = 1) uniform sampler2D tex1;
+uniform sampler2D tex0;
 in vec2 texCoord;
 
 #define FXAA_SPAN_MAX 2.5
