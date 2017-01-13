@@ -164,7 +164,6 @@
     <ClCompile Include="..\Source\Framework\OpenGL\Geometry\MeshCube.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\glFramebufferObject.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Graphics.cpp" />
-    <ClCompile Include="..\Source\Framework\OpenGL\Shader\InstancingArray.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\Shader.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderButton.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\ShaderColor.cpp" />
@@ -194,7 +193,7 @@
     <ClCompile Include="..\Source\Game\Shared\CharNode.cpp" />
     <ClCompile Include="..\Source\Game\Shared\ChunkLoader.cpp" />
     <ClCompile Include="..\Source\Game\Shared\Cube.cpp" />
-    <ClCompile Include="..\Source\Game\Shared\CubeBase.cpp" />
+    <ClCompile Include="..\Source\Game\Shared\CubeChunk.cpp" />
     <ClCompile Include="..\Source\Game\Shared\CubeDesc.cpp" />
     <ClCompile Include="..\Source\Game\Shared\GameEngine.cpp" />
     <ClCompile Include="..\Source\Game\Shared\LightSource.cpp" />
@@ -315,7 +314,7 @@
     <ClInclude Include="..\Source\Game\Shared\CharNode.h" />
     <ClInclude Include="..\Source\Game\Shared\ChunkLoader.h" />
     <ClInclude Include="..\Source\Game\Shared\Cube.h" />
-    <ClInclude Include="..\Source\Game\Shared\CubeBase.h" />
+    <ClInclude Include="..\Source\Game\Shared\CubeChunk.h" />
     <ClInclude Include="..\Source\Game\Shared\CubeDesc.h" />
     <ClInclude Include="..\Source\Game\Shared\GameEngine.h" />
     <ClInclude Include="..\Source\Game\Shared\GameTypes.h" />

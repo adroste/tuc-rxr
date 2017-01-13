@@ -214,12 +214,6 @@
     <ClCompile Include="..\Source\Game\Client\MapChunk.cpp">
       <Filter>Source\Game\Client</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Framework\OpenGL\Shader\InstancingArray.cpp">
-      <Filter>Source\Framework\OpenGL\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\Game\Shared\CubeBase.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Game\Shared\MaterialLoader.cpp">
       <Filter>Source\Game\Shared</Filter>
     </ClCompile>
@@ -237,6 +231,9 @@
     </ClCompile>
     <ClCompile Include="..\Source\Game\Shared\GameEngine.cpp">
       <Filter>Source\Game\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Game\Shared\CubeChunk.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -624,9 +621,6 @@
     <ClInclude Include="..\Source\Game\Client\MapChunk.h">
       <Filter>Source\Game\Client</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Game\Shared\CubeBase.h">
-      <Filter>Source\Game\Shared</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Utility\move_util.h">
       <Filter>Source\Utility</Filter>
     </ClInclude>
@@ -679,6 +673,9 @@
       <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Game\Shared\GameEngine.h">
+      <Filter>Source\Game\Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Game\Shared\CubeChunk.h">
       <Filter>Source\Game\Shared</Filter>
     </ClInclude>
   </ItemGroup>

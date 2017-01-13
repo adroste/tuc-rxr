@@ -16,38 +16,6 @@ MapChunk::~MapChunk()
 {
 }
 
-void MapChunk::draw(Drawing& draw, Mesh& cube)
-{
-	DRAW_THREAD;
-	
-	updateGpuArray(); // TODO move this function somewhere else?
-	if (m_iArray.getDataCount() == 0)
-		return;
-	// create array or reupload if data changed
-	m_iArray.flush();
-
-	// draw instanced
-	m_iArray.bind(2);
-
-	cube.drawInstanced(m_iArray.getDataCount(), m_iArray);
-}
-
-void MapChunk::drawTransparent(Drawing& draw, Mesh& cube)
-{
-	DRAW_THREAD;
-	assert(m_hasTransparent);
-	// gpu data was updated before
-
-	if (m_iTransArray.getDataCount() == 0)
-		return;
-
-	m_iTransArray.flush();
-
-	m_iTransArray.bind(2);
-
-	cube.drawInstanced(m_iTransArray.getDataCount(), m_iTransArray);
-}
-
 void MapChunk::setCube(Point3S pos, std::shared_ptr<GameEntity> c)
 {
 	MAIN_THREAD;
@@ -63,9 +31,9 @@ void MapChunk::setCube(Point3S pos, std::shared_ptr<GameEntity> c)
 			// no transparency
 #define UPD(dx,dy,dz,side, oside) ch = getCube(pos, dx, dy, dz); if (ch && \
 			!hasTranparency(*c)) \
-			{c->getComponent<MapChunkInfo>().neighbors |= CubeBase::side; ch->getComponent<MapChunkInfo>().neighbors |= CubeBase::oside;} \
+			{c->getComponent<MapChunkInfo>().neighbors |= MapChunkInfo::side; ch->getComponent<MapChunkInfo>().neighbors |= MapChunkInfo::oside;} \
 			else if(ch) {/*has transparency*/ \
-			ch->getComponent<MapChunkInfo>().neighbors |= CubeBase::oside;}
+			ch->getComponent<MapChunkInfo>().neighbors |= MapChunkInfo::oside;}
 
 			UPD(-1, 0, 0, Left, Right);
 			UPD(0, -1, 0, Bottom, Top);
@@ -78,7 +46,7 @@ void MapChunk::setCube(Point3S pos, std::shared_ptr<GameEntity> c)
 		else // has Transparency
 		{
 #define UPD(dx,dy,dz,side, oside) ch = getCube(pos, dx, dy, dz); if (ch) \
-	{c->getComponent<MapChunkInfo>().neighbors |= CubeBase::side; if(hasTranparency(*c)) ch->getComponent<MapChunkInfo>().neighbors |= CubeBase::oside; else ch->getComponent<MapChunkInfo>().neighbors &= ~CubeBase::oside;}
+	{c->getComponent<MapChunkInfo>().neighbors |= MapChunkInfo::side; if(hasTranparency(*c)) ch->getComponent<MapChunkInfo>().neighbors |= MapChunkInfo::oside; else ch->getComponent<MapChunkInfo>().neighbors &= ~MapChunkInfo::oside;}
 			UPD(-1, 0, 0, Left, Right);
 			UPD(0, -1, 0, Bottom, Top);
 			UPD(0, 0, -1, Back, Front);
@@ -95,7 +63,7 @@ void MapChunk::setCube(Point3S pos, std::shared_ptr<GameEntity> c)
 		{
 			// clear flags around block
 #define UPD(dx,dy,dz,oside) ch = getCube(pos, dx, dy, dz); if (ch) \
-	{ch->getComponent<MapChunkInfo>().neighbors &= ~CubeBase::oside;}
+	{ch->getComponent<MapChunkInfo>().neighbors &= ~MapChunkInfo::oside;}
 			UPD(-1, 0, 0, Right);
 			UPD(0, -1, 0, Top);
 			UPD(0, 0, -1, Front);
@@ -208,22 +176,6 @@ std::vector<std::pair<Point3S, CubeDesc>> MapChunk::getCubes() const
 	return d;
 }
 
-void MapChunk::loadChunk(const std::vector<std::pair<Point3S, CubeDesc>>& cubes)
-{
-	MAIN_THREAD;
-	for(const auto& c : cubes)
-	{
-		setCube(c.first, convertFromDesc(c.second));
-	}
-}
-
-void MapChunk::setTransparency(bool hasTrans)
-{
-	MAIN_THREAD;
-
-	m_hasTransparent = hasTrans;
-}
-
 void MapChunk::setNeighbors(MapChunk* left, MapChunk* right, MapChunk* top, MapChunk* bottom)
 {
 	MAIN_THREAD;
@@ -232,20 +184,6 @@ void MapChunk::setNeighbors(MapChunk* left, MapChunk* right, MapChunk* top, MapC
 	m_right = right;
 	m_top = top;
 	m_bottom = bottom;
-}
-
-std::shared_ptr<GameEntity> MapChunk::convertFromDesc(const CubeDesc& cd) const
-{
-	auto e = m_pManager->addEntity();
-	auto& s = e->addComponent<CubeShape>();
-	e->addComponent<MapChunkInfo>();
-	s.diffuse = cd.diffuse;
-	s.gloss = cd.gloss;
-	s.specular = cd.spec;
-	s.shader = cd.shader;
-	s.flags = cd.blockFlags;
-	s.type = BlockType(cd.blockType);
-	return e;
 }
 
 std::shared_ptr<GameEntity> MapChunk::getCube(const Point3S& p, int dx, int dy, int dz)
