@@ -211,15 +211,6 @@
     <ClCompile Include="..\Source\Framework\UI\UIObject.cpp">
       <Filter>Source\Framework\UI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Game\Client\MapChunk.cpp">
-      <Filter>Source\Game\Client</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\Framework\OpenGL\Shader\InstancingArray.cpp">
-      <Filter>Source\Framework\OpenGL\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\Game\Shared\CubeBase.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Game\Shared\MaterialLoader.cpp">
       <Filter>Source\Game\Shared</Filter>
     </ClCompile>
@@ -229,13 +220,16 @@
     <ClCompile Include="..\Source\Game\Shared\Character.cpp">
       <Filter>Source\Game\Shared</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Game\Client\MapAsset.cpp">
-      <Filter>Source\Game\Client</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Framework\OpenGL\glFramebufferObject.cpp">
       <Filter>Source\Framework\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\Game\Shared\GameEngine.cpp">
+      <Filter>Source\Game\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Game\Shared\StaticChunk.cpp">
+      <Filter>Source\Game\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Game\Shared\MapChunk.cpp">
       <Filter>Source\Game\Shared</Filter>
     </ClCompile>
   </ItemGroup>
@@ -621,12 +615,6 @@
     <ClInclude Include="..\Source\Utility\owner_ptr.h">
       <Filter>Source\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Game\Client\MapChunk.h">
-      <Filter>Source\Game\Client</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Game\Shared\CubeBase.h">
-      <Filter>Source\Game\Shared</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Utility\move_util.h">
       <Filter>Source\Utility</Filter>
     </ClInclude>
@@ -647,9 +635,6 @@
     </ClInclude>
     <ClInclude Include="..\Source\Game\Shared\parser.h">
       <Filter>Source\Game\Shared</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Game\Client\MapAsset.h">
-      <Filter>Source\Game\Client</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Framework\OpenGL\glhelper.h">
       <Filter>Source\Framework\OpenGL</Filter>
@@ -679,6 +664,12 @@
       <Filter>Source\Framework\OpenGL\Shader</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Game\Shared\GameEngine.h">
+      <Filter>Source\Game\Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Game\Shared\StaticChunk.h">
+      <Filter>Source\Game\Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Game\Shared\MapChunk.h">
       <Filter>Source\Game\Shared</Filter>
     </ClInclude>
   </ItemGroup>

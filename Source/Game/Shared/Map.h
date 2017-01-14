@@ -4,10 +4,9 @@
 #include "../../Utility/Point3.h"
 #include "../../Utility/Mutex.h"
 #include "../../Framework/OpenGL/VolumeTextureMap.h"
-#include "../Client/MapChunk.h"
 #include "MapLoader.h"
-#include "../Client/MapAsset.h"
 #include "GameTypes.h"
+#include "MapChunk.h"
 
 class Map : public IDrawable
 {
@@ -18,7 +17,7 @@ public:
 	virtual ~Map();
 
 	void setCube(Point3S pos, const CubeDesc& cd);
-	void destroyBlock(const Point3S& pos);
+	void destroyBlock(Point3S pos);
 
 	virtual void draw(Drawing& draw) override;
 	void setDim(Point3S dim);
@@ -28,9 +27,10 @@ public:
 	PointS getChunkSize() const;
 
 	void loadMapAndAssets(const MapLoader::MapInfo& i);
+
+	void update();
 private:
 	std::vector<MapChunk> m_chunks;
-	std::vector<MapAsset> m_assets;
 	Point3S m_dim; // complete map dim
 	PointS m_cdim; // dim in chunks
 	VolumeTextureMap m_volumeTextureMap;

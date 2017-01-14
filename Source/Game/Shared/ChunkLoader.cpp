@@ -1,8 +1,8 @@
 #include "ChunkLoader.h"
 #include "../../Utility/FileReader.h"
 #include "../../System/Log.h"
-#include "../Client/MapChunk.h"
 #include "../../Utility/FileWriter.h"
+#include "StaticChunk.h"
 
 ChunkLoader::ChunkLoader(const std::string& filename, const std::map<size_t, CubeDesc>& material)
 {
@@ -17,7 +17,7 @@ ChunkLoader::ChunkLoader(const std::string& filename, const std::map<size_t, Cub
 		m_version = r.readInt();
 		if (m_version != s_version) return;
 		m_chunkDim = r.readByte();
-		if (m_chunkDim != MapChunk::SIZE) return;
+		if (m_chunkDim != StaticChunk::SIZE) return;
 
 		Point3S dim = Point3S(m_chunkDim,m_chunkDim,m_chunkDim);
 		size_t len = m_chunkDim * m_chunkDim * m_chunkDim;
@@ -62,9 +62,9 @@ void ChunkLoader::save(const std::string& filename, const std::vector<std::pair<
 	w.writeChar('N');
 	w.writeChar('K');
 	w.writeInt(s_version);
-	w.writeByte(MapChunk::SIZE);
+	w.writeByte(StaticChunk::SIZE);
 	
-	Point3S dim = Point3S(MapChunk::SIZE, MapChunk::SIZE, MapChunk::SIZE);
+	Point3S dim = Point3S(StaticChunk::SIZE, StaticChunk::SIZE, StaticChunk::SIZE);
 	std::vector<unsigned short> c;
 	c.assign(dim.size(), 0);
 

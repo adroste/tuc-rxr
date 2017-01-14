@@ -13,6 +13,8 @@ public:
 	void create() override;
 	void dispose() override;
 	void bind(int slot);
+
+	// Threadsafe
 	void setData(std::vector<vecType> data);
 	void flush();
 	size_t getDataCount() const; 

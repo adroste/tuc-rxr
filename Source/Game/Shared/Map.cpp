@@ -20,21 +20,31 @@ void Map::setCube(Point3S pos, const CubeDesc& cd)
 	// construct cube
 	// at the moment just default cubes
 	m_volumeTextureMap.setValue(pos, cd.shader == CubeShader::Default ? 1.0f : 0.5f);
-	setCube(pos, cd);
 
 	// find chunk
 	PointS chunk = PointS(pos.x, pos.y) / MapChunk::SIZE;
 	assert(chunk.y * m_cdim.x + chunk.x < m_chunks.size());
 	pos.x -= chunk.x * MapChunk::SIZE;
 	pos.y -= chunk.y * MapChunk::SIZE;
-	m_chunks[chunk.y * m_cdim.x + chunk.x].setCube(pos, m_chunks[0].convertFromDesc(cd));
+	m_chunks[chunk.y * m_cdim.x + chunk.x].setCube(pos, &cd);
 }
 
-void Map::destroyBlock(const Point3S& pos)
+void Map::destroyBlock(Point3S pos)
 {
 	// TODO implement ;)
-	//setCube(pos, nullptr);
+	assert(pos.z < DEPTH);
+	if (pos.z >= DEPTH)
+		return;
+	// construct cube
+	// at the moment just default cubes
 	m_volumeTextureMap.setValue(pos, 0.0f);
+
+	// find chunk
+	PointS chunk = PointS(pos.x, pos.y) / MapChunk::SIZE;
+	assert(chunk.y * m_cdim.x + chunk.x < m_chunks.size());
+	pos.x -= chunk.x * MapChunk::SIZE;
+	pos.y -= chunk.y * MapChunk::SIZE;
+	m_chunks[chunk.y * m_cdim.x + chunk.x].setCube(pos, nullptr);
 }
 
 void Map::draw(Drawing& draw)
@@ -68,12 +78,6 @@ void Map::draw(Drawing& draw)
 		}
 		transform = glm::translate(glm::vec3(0.0f, float(MapChunk::SIZE * (y+1)), 0.0f));
 	}
-	// draw assets
-	// TODO seperate lock?
-	for(auto& a : m_assets)
-	{
-		a.draw(draw, meshCube, draw.getShaderCubeMap());
-	}
 
 	// draw transparency last
 	draw.beginGameTransparency();
@@ -104,7 +108,6 @@ void Map::draw(Drawing& draw)
 void Map::setDim(Point3S dim)
 {
 	assert(dim.z == DEPTH);
-	// TODO lock mutex
 	// allocate / deallocate chunks
 	size_t nx = (dim.x + MapChunk::SIZE - 1) / MapChunk::SIZE;
 	size_t ny = (dim.y + MapChunk::SIZE - 1) / MapChunk::SIZE;
@@ -124,9 +127,9 @@ void Map::setDim(Point3S dim)
 			{
 				// use old chunk
 				newChunks.push_back(std::move(m_chunks.at(y * m_cdim.x + x)));
+				newChunks.back().setChunkPosition(Point3S(x, y, 0));
 			}
-			else newChunks.emplace_back(m_manager);
-			newChunks.back().setTransparency(true);
+			else newChunks.emplace_back(m_manager,Point3S(x,y,0));
 		}
 	}
 	// set neighbors
@@ -198,7 +201,7 @@ void Map::loadMapAndAssets(const MapLoader::MapInfo& i)
 		idx++;
 	}
 
-	for(const auto& ass : i.assets)
+	/*for(const auto& ass : i.assets)
 	{
 		if(ass.instances.size())
 		{
@@ -210,5 +213,11 @@ void Map::loadMapAndAssets(const MapLoader::MapInfo& i)
 
 			m_assets.push_back(std::move(a));
 		}
-	}
+	}*/
+}
+
+void Map::update()
+{
+	for (auto& c : m_chunks)
+		c.update();
 }
