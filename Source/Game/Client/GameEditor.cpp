@@ -276,6 +276,7 @@ void GameEditor::reset()
 {
 	LockGuard g(m_muMap);
 	m_pMap = std::unique_ptr<Map>(new Map(m_manager));
+	setMapdim({ 32,32,16 });
 	m_pCam = std::make_unique<Camera>(Camera({ 24.5f, 15.0f }, 30.0f, 70.0f, 5.0f, false));
 
 	m_pLight = std::unique_ptr<LightManager>(new LightManager(*m_pCam));
@@ -338,6 +339,12 @@ void GameEditor::loadMap(const MapLoader::MapInfo& i)
 	setMapdim({ i.nChunks.x * MapChunk::SIZE, i.nChunks.y * MapChunk::SIZE, Map::DEPTH });
 	updateLights(i.ambient, i.lights);
 	m_pMap->loadMapAndAssets(i);
+}
+
+void GameEditor::update()
+{
+	MAIN_THREAD;
+	m_pMap->update();
 }
 
 void GameEditor::drawGrid(Drawing& draw) const

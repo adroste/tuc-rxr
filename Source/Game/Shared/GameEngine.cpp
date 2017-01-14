@@ -30,6 +30,8 @@ bool GameEngine::loadLevel(const std::string& filename)
 void GameEngine::update(float dt)
 {
 	m_manager.tick(dt);
+
+	m_map.update();
 }
 
 void GameEngine::draw(Drawing& draw)

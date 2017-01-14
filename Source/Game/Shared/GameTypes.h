@@ -10,7 +10,7 @@ struct Transform
 {
 	glm::vec3 pos;
 	glm::vec3 scale;
-	glm::vec2 rortation;
+	glm::vec2 rotation;
 };
 
 struct Movement

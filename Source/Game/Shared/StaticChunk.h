@@ -4,35 +4,43 @@
 #include "../Utility/move_util.h"
 #include "../../Framework/OpenGL/Shader/InstancingArray.h"
 #include "../../Framework/OpenGL/Drawing.h"
+#include <algorithm>
 
 // stores information about a 32³ block cluster for cube instancing
 // Static cube chunk usage:
 // - load the chunk once (should not be updated)
-class StaticCubeChunk
+class StaticChunk
 {
 public:
 	static const size_t SIZE = 32;
+protected:
+	static const Point3S s_dim;
 public:
-	StaticCubeChunk() = default;
-	StaticCubeChunk(GameManager& m);
-	virtual ~StaticCubeChunk() = default;
-	MOVE_ONLY(StaticCubeChunk);
+	StaticChunk() = default;
+	StaticChunk(GameManager& m);
+	virtual ~StaticChunk() = default;
+	MOVE_ONLY(StaticChunk);
 
 	void draw(Drawing& draw, Mesh& cube);
 	void drawTransparent(Drawing& draw, Mesh& cube);
 
 	void loadChunk(const std::vector<std::pair<Point3S, CubeDesc>>& cubes);
 protected:
-	std::shared_ptr<GameEntity> spawnCube(const CubeDesc& cd);
-	void addCubeShape(GameEntity& e, const CubeDesc& cd);
-	void addMapChunkInfo(GameEntity& e);
+	virtual std::shared_ptr<GameEntity> spawnCube(const CubeDesc& cd, const Point3S& pos) const;
+	static void addCubeShape(GameEntity& e, const CubeDesc& cd);
+	static void addMapChunkInfo(GameEntity& e);
 	// may be overwritten to obtain cube infos from neighboring chunks
 	virtual std::shared_ptr<GameEntity> getCube(Point3I pos);
-	bool isTransparent(const GameEntity& e);
-private:
-	GameManager* m_pManager = nullptr;
+	static bool isTransparent(const GameEntity& e);
+	static bool isHidden(const GameEntity& entity);
+	void refreshGpuArray();
+	GameManager& getManager() const;
+
+protected:
 	// access only from main thread
 	std::array<std::shared_ptr<GameEntity>, SIZE * SIZE* SIZE> m_cubes;
+private:
+	GameManager* m_pManager = nullptr;
 
 	// pretend that this is a float because opengl would convert it otherwise...
 	// draw access -> draw thread | setData access -> main thread

@@ -1,4 +1,4 @@
-#version 330 core
+#version 410 core
 // transparent cubes
 #include "cube/fragHeader.glsl"
 
