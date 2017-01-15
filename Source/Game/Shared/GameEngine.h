@@ -3,6 +3,7 @@
 #include "../../Framework/OpenGL/Drawing.h"
 #include "Map.h"
 #include "../Client/LightManager.h"
+#include "../Client/RenderSystem.h"
 
 class GameEngine
 {
@@ -17,4 +18,5 @@ private:
 	Map m_map;
 	Camera m_cam;
 	LightManager m_light;
+	std::shared_ptr<RenderSystem> m_renderSystem;
 };

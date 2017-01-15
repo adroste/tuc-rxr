@@ -235,6 +235,9 @@
     <ClCompile Include="..\Source\Game\Shared\MapChunk.cpp">
       <Filter>Source\Game\Shared</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Game\Client\RenderSystem.cpp">
+      <Filter>Source\Game\Client</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\Shader.h">
@@ -677,6 +680,9 @@
     </ClInclude>
     <ClInclude Include="..\Source\ecs\entitycs.h">
       <Filter>Source\ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Game\Client\RenderSystem.h">
+      <Filter>Source\Game\Client</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

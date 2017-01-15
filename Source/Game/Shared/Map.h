@@ -8,7 +8,7 @@
 #include "GameTypes.h"
 #include "MapChunk.h"
 
-class Map : public IDrawable
+class Map
 {
 public:
 	static const size_t DEPTH = 16;
@@ -19,7 +19,7 @@ public:
 	void setCube(Point3S pos, const CubeDesc& cd);
 	void destroyBlock(Point3S pos);
 
-	virtual void draw(Drawing& draw) override;
+	virtual void bind(Drawing& draw);
 	void setDim(Point3S dim);
 
 	Point3S getDim() const;
@@ -29,6 +29,8 @@ public:
 	void loadMapAndAssets(const MapLoader::MapInfo& i);
 
 	void update();
+	// function for the editor
+	void dispose();
 private:
 	// pointers to the map chunk script (the chunk itself is an entity)
 	std::vector<std::shared_ptr<MapChunk>> m_chunks;

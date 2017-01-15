@@ -3,10 +3,12 @@
 
 GameEngine::GameEngine()
 	:
-m_light(m_cam),
-m_map(m_manager)
+m_map(m_manager),
+m_light(m_cam)
 {
-	// TODO add manager queries
+	m_renderSystem = std::make_shared<RenderSystem>();
+	m_manager.addSystem(m_renderSystem);
+
 	m_manager.start();
 }
 
@@ -39,6 +41,9 @@ void GameEngine::draw(Drawing& draw)
 	m_cam.apply(draw);
 
 	m_light.apply(draw);
-	m_map.draw(draw);
+	m_map.bind(draw);
+
+	m_renderSystem->draw(draw);
+
 	draw.getUiCam().apply(draw);
 }

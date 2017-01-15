@@ -10,6 +10,8 @@ public:
 	MapChunk(const Point3S& chunkPos);
 	MOVE_ONLY(MapChunk);
 	virtual ~MapChunk() override = default;
+
+	virtual void begin() override;
 	void setNeighbors(MapChunk* left, MapChunk* right, MapChunk* top, MapChunk* bottom);
 	// pass nullptr to delete block
 	void setCube(const Point3S& pos, const CubeDesc* cd);

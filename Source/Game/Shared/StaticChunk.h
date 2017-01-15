@@ -29,7 +29,6 @@ public:
 	void loadChunk(const std::vector<std::pair<Point3S, CubeDesc>>& cubes);
 	// will be killed in the next iteration
 	void kill();
-
 	virtual void tick(float dt) override;
 protected:
 	virtual std::shared_ptr<GameEntity> spawnCube(const CubeDesc& cd, const Point3S& pos) const;

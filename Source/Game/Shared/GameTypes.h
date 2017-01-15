@@ -3,6 +3,7 @@
 #include "../../glm/glm.hpp"
 #include "CubeDesc.h"
 #include "../../Framework/OpenGL/Shader/InstancingArray.h"
+#include "../../glm/gtc/matrix_transform.hpp"
 
 using HealthT = int_fast32_t;
 using ColorT = uint32_t;
@@ -12,6 +13,12 @@ struct Transform
 	glm::vec3 pos;
 	glm::vec3 scale;
 	glm::vec2 rotation;
+
+	// TODO scale add rotaion
+	glm::mat4 getMatrix() const
+	{
+		return glm::translate(glm::mat4(),pos);
+	}
 };
 
 struct Movement

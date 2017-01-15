@@ -47,7 +47,7 @@ void Map::destroyBlock(Point3S pos)
 	m_chunks[chunk.y * m_cdim.x + chunk.x]->setCube(pos, nullptr);
 }
 
-void Map::draw(Drawing& draw)
+void Map::bind(Drawing& draw)
 {
 	LockGuard g(m_muMap);
 	draw.setMapInfo(m_dim);
@@ -55,54 +55,7 @@ void Map::draw(Drawing& draw)
 	if (!m_volumeTextureMap.isCreated())
 		m_volumeTextureMap.create();
 
-	auto& shader = draw.getShaderCubeMap();
-
-	auto& meshCube = draw.getCubeMesh();
-
-	shader.bind();
 	m_volumeTextureMap.bind(0);
-	draw.getWaterTexture().bind(1);
-	draw.getWaterfallTexture().bind(2);
-	//glTexSubImage3D()
-	glm::mat4 transform;
-	// TODO optimize draw range
-	for(size_t y = 0; y < m_cdim.y; y++)
-	{
-		for(size_t x = 0; x < m_cdim.x; x++)
-		{
-			draw.getTransform().pushModel(transform);
-			draw.getTransform().flush();
-			m_chunks[y * m_cdim.x + x]->draw(draw, meshCube);
-			draw.getTransform().popModel();
-			transform = glm::translate(transform,glm::vec3(float(MapChunk::SIZE), 0.0f, 0.0f));
-		}
-		transform = glm::translate(glm::vec3(0.0f, float(MapChunk::SIZE * (y+1)), 0.0f));
-	}
-
-	// draw transparency last
-	draw.beginGameTransparency();
-	draw.getShaderCubeTrans().bind();
-
-	// TODO optimize draw range
-	transform = glm::mat4();
-	for (size_t y = 0; y < m_cdim.y; y++)
-	{
-		for (size_t x = 0; x < m_cdim.x; x++)
-		{
-			draw.getTransform().pushModel(transform);
-			draw.getTransform().flush();
-			m_chunks[y * m_cdim.x + x]->drawTransparent(draw, meshCube);
-			draw.getTransform().popModel();
-			transform = glm::translate(transform, glm::vec3(float(MapChunk::SIZE), 0.0f, 0.0f));
-		}
-		transform = glm::translate(glm::vec3(0.0f, float(MapChunk::SIZE * (y + 1)), 0.0f));
-	}
-	
-	draw.endGameTransparency();
-	//shader.setTransparent(false);
-
-	g.unlock();
-	shader.unbind();
 }
 
 void Map::setDim(Point3S dim)
@@ -237,4 +190,10 @@ void Map::loadMapAndAssets(const MapLoader::MapInfo& i)
 void Map::update()
 {
 
+}
+
+void Map::dispose()
+{
+	for (auto& c : m_chunks)
+		c->kill();
 }

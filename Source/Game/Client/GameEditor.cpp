@@ -6,7 +6,9 @@ GameEditor::GameEditor()
 	:
 	m_prevClientMouse(Input::getMouse())
 {
-	// TODO add queries
+	m_renderSystem = std::make_shared<RenderSystem>();
+	m_manager.addSystem(m_renderSystem);
+
 	m_manager.start();
 
 	reset();
@@ -23,7 +25,8 @@ void GameEditor::draw(Drawing& draw, float dt)
 
 	m_pCam->apply(draw);
 	m_pLight->apply(draw);
-	m_pMap->draw(draw);
+	m_pMap->bind(draw);
+	m_renderSystem->draw(draw);
 
 	drawGrid(draw);
 	if(m_hasCapture)
@@ -275,6 +278,7 @@ void GameEditor::setMapdim(const Point3S& d)
 void GameEditor::reset()
 {
 	LockGuard g(m_muMap);
+	if (m_pMap) m_pMap->dispose();
 	m_pMap = std::unique_ptr<Map>(new Map(m_manager));
 	setMapdim({ 32,32,16 });
 	m_pCam = std::make_unique<Camera>(Camera({ 24.5f, 15.0f }, 30.0f, 70.0f, 5.0f, false));

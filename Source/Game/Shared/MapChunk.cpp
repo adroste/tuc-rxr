@@ -8,6 +8,13 @@ MapChunk::MapChunk(const Point3S& chunkPos)
 
 }
 
+void MapChunk::begin()
+{
+	StaticChunk::begin();
+	// update transform omponent
+	setChunkPosition(m_chunkPos);
+}
+
 void MapChunk::setNeighbors(MapChunk* left, MapChunk* right, MapChunk* top, MapChunk* bottom)
 {
 	MAIN_THREAD;
@@ -99,6 +106,7 @@ void MapChunk::setCube(const Point3S& pos, const CubeDesc* cd)
 void MapChunk::setChunkPosition(const Point3S& p)
 {
 	m_chunkPos = p;
+	getEntity().getComponent<Transform>().pos = glm::vec3(float(p.x * SIZE), float(p.y * SIZE), float(p.z * SIZE));
 }
 
 std::vector<std::pair<Point3S, CubeDesc>> MapChunk::getCubes() const

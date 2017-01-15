@@ -5,6 +5,7 @@
 #include "../../System/Input.h"
 #include "../../Framework/UI/Callback.h"
 #include "../Shared/MapLoader.h"
+#include "RenderSystem.h"
 
 class GameEditor : public Input::IReceiver
 {
@@ -65,4 +66,5 @@ private:
 
 	std::vector<CubeDesc> m_curCubeDescs;
 	GameManager m_manager;
+	std::shared_ptr<RenderSystem> m_renderSystem;
 };
