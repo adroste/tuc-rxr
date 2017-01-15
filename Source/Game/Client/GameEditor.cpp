@@ -6,10 +6,10 @@ GameEditor::GameEditor()
 	:
 	m_prevClientMouse(Input::getMouse())
 {
-	reset();
-
 	// TODO add queries
 	m_manager.start();
+
+	reset();
 }
 
 GameEditor::~GameEditor()
@@ -341,9 +341,10 @@ void GameEditor::loadMap(const MapLoader::MapInfo& i)
 	m_pMap->loadMapAndAssets(i);
 }
 
-void GameEditor::update()
+void GameEditor::update(float dt)
 {
 	MAIN_THREAD;
+	m_manager.tick(dt);
 	m_pMap->update();
 }
 

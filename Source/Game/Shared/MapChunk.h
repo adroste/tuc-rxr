@@ -7,7 +7,7 @@ class MapChunk : public StaticChunk
 public:
 	MapChunk() = default;
 	// chunk position in chunk coordinates (real position 0,32,0 => chunk 0,1,0)
-	MapChunk(GameManager& m, const Point3S& chunkPos);
+	MapChunk(const Point3S& chunkPos);
 	MOVE_ONLY(MapChunk);
 	virtual ~MapChunk() override = default;
 	void setNeighbors(MapChunk* left, MapChunk* right, MapChunk* top, MapChunk* bottom);
@@ -17,7 +17,7 @@ public:
 	// editor extension
 	std::vector<std::pair<Point3S, CubeDesc>> getCubes() const;
 	// this will upload new blocks
-	void update();
+	virtual void tick(float dt) override;
 protected:
 	virtual std::shared_ptr<GameEntity> getCube(Point3I pos) override;
 	virtual std::shared_ptr<GameEntity> spawnCube(const CubeDesc& cd, const Point3S& pos) const override;

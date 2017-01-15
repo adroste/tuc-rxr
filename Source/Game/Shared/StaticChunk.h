@@ -9,7 +9,7 @@
 // stores information about a 32³ block cluster for cube instancing
 // Static cube chunk usage:
 // - load the chunk once (should not be updated)
-class StaticChunk
+class StaticChunk : public GameScript
 {
 public:
 	static const size_t SIZE = 32;
@@ -17,14 +17,20 @@ protected:
 	static const Point3S s_dim;
 public:
 	StaticChunk() = default;
-	StaticChunk(GameManager& m);
 	virtual ~StaticChunk() = default;
 	MOVE_ONLY(StaticChunk);
+
+
+	virtual void begin() override;
 
 	void draw(Drawing& draw, Mesh& cube);
 	void drawTransparent(Drawing& draw, Mesh& cube);
 
 	void loadChunk(const std::vector<std::pair<Point3S, CubeDesc>>& cubes);
+	// will be killed in the next iteration
+	void kill();
+
+	virtual void tick(float dt) override;
 protected:
 	virtual std::shared_ptr<GameEntity> spawnCube(const CubeDesc& cd, const Point3S& pos) const;
 	static void addCubeShape(GameEntity& e, const CubeDesc& cd);
@@ -34,19 +40,10 @@ protected:
 	static bool isTransparent(const GameEntity& e);
 	static bool isHidden(const GameEntity& entity);
 	void refreshGpuArray();
-	GameManager& getManager() const;
-
 protected:
 	// access only from main thread
 	std::array<std::shared_ptr<GameEntity>, SIZE * SIZE* SIZE> m_cubes;
-private:
-	GameManager* m_pManager = nullptr;
-
-	// pretend that this is a float because opengl would convert it otherwise...
-	// draw access -> draw thread | setData access -> main thread
-	InstancingArray<glm::ivec3, 3, GL_FLOAT> m_iArray;
-	InstancingArray<glm::ivec3, 3, GL_FLOAT> m_iTransArray; // array for transparent blocks
-
+	bool m_isAlive = true;
 	/*
 	* x:	0-15 chunk position
 	*		16-31 diffuse r+g

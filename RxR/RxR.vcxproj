@@ -209,6 +209,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\dirent\dirent.h" />
+    <ClInclude Include="..\Source\ecs\entitycs.h" />
     <ClInclude Include="..\Source\Framework\Color.h" />
     <ClInclude Include="..\Source\Framework\Framework.h" />
     <ClInclude Include="..\Source\Framework\GameState.h" />

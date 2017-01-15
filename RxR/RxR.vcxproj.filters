@@ -80,6 +80,9 @@
     <Filter Include="Source\xml">
       <UniqueIdentifier>{4279b751-f559-4df7-ad4c-7f7337234e7c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\ecs">
+      <UniqueIdentifier>{44bb9916-b487-45de-81b0-5e58d48b63f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\Shader.cpp">
@@ -671,6 +674,9 @@
     </ClInclude>
     <ClInclude Include="..\Source\Game\Shared\MapChunk.h">
       <Filter>Source\Game\Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\ecs\entitycs.h">
+      <Filter>Source\ecs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

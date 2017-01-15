@@ -2,6 +2,7 @@
 #include "../../ecs/entitycs.h"
 #include "../../glm/glm.hpp"
 #include "CubeDesc.h"
+#include "../../Framework/OpenGL/Shader/InstancingArray.h"
 
 using HealthT = int_fast32_t;
 using ColorT = uint32_t;
@@ -56,7 +57,15 @@ struct MapChunkInfo
 	};
 };
 
-using GameManager =	ecs::Manager<Transform, Movement, Health, Damage, CubeShape, MapChunkInfo>;
-using GameEntity =	ecs::Entity< Transform, Movement, Health, Damage, CubeShape, MapChunkInfo>;
-using GameSystem =	ecs::System< Transform, Movement, Health, Damage, CubeShape, MapChunkInfo>;
-using GameScript =	ecs::Script< Transform, Movement, Health, Damage, CubeShape, MapChunkInfo>;
+struct ChunkData
+{
+	// pretend that this is a float because opengl would convert it otherwise...
+	// draw access -> draw thread | setData access -> main thread
+	std::unique_ptr<InstancingArray<glm::ivec3, 3, GL_FLOAT>> m_iArray;
+	std::unique_ptr<InstancingArray<glm::ivec3, 3, GL_FLOAT>> m_iTransArray;
+};
+
+using GameManager =	ecs::Manager<Transform, Movement, Health, Damage, CubeShape, MapChunkInfo, ChunkData>;
+using GameEntity =	ecs::Entity< Transform, Movement, Health, Damage, CubeShape, MapChunkInfo, ChunkData>;
+using GameSystem =	ecs::System< Transform, Movement, Health, Damage, CubeShape, MapChunkInfo, ChunkData>;
+using GameScript =	ecs::Script< Transform, Movement, Health, Damage, CubeShape, MapChunkInfo, ChunkData>;

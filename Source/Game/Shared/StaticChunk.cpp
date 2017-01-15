@@ -2,37 +2,40 @@
 
 const Point3S StaticChunk::s_dim = Point3S(StaticChunk::SIZE, StaticChunk::SIZE, StaticChunk::SIZE);
 
-StaticChunk::StaticChunk(GameManager & m)
-	:
-m_pManager(&m)
+void StaticChunk::begin()
 {
-
+	auto& me = getEntity();
+	auto& c = me.addComponent<ChunkData>();
+	c.m_iArray = std::make_unique<InstancingArray<glm::ivec3, 3, GL_FLOAT>>();
+	c.m_iTransArray = std::make_unique<InstancingArray<glm::ivec3, 3, GL_FLOAT>>();
 }
 
 void StaticChunk::draw(Drawing& draw, Mesh& cube)
 {
 	DRAW_THREAD;
-	if(m_iArray.getDataCount() == 0)
+	auto& c = getEntity().getComponent<ChunkData>();
+	if(c.m_iArray->getDataCount() == 0)
 		return;
 
 	// this will create the array if it was not created
 	// + it will reupload the array if changes were made
-	m_iArray.flush();
+	c.m_iArray->flush();
 
-	m_iArray.bind(2);
-	cube.drawInstanced(m_iArray.getDataCount(), m_iArray);
+	c.m_iArray->bind(2);
+	cube.drawInstanced(c.m_iArray->getDataCount(), *c.m_iArray);
 }
 
 void StaticChunk::drawTransparent(Drawing& draw, Mesh& cube)
 {
 	DRAW_THREAD;
 	// TODO assert transparent
-	if (m_iTransArray.getDataCount() == 0)
+	auto& c = getEntity().getComponent<ChunkData>();
+	if (c.m_iTransArray->getDataCount() == 0)
 		return;
 
-	m_iTransArray.flush();
-	m_iTransArray.bind(2);
-	cube.drawInstanced(m_iTransArray.getDataCount(), m_iTransArray);
+	c.m_iTransArray->flush();
+	c.m_iTransArray->bind(2);
+	cube.drawInstanced(c.m_iTransArray->getDataCount(), *c.m_iTransArray);
 }
 
 void StaticChunk::loadChunk(const std::vector<std::pair<Point3S, CubeDesc>>& cubes)
@@ -92,6 +95,17 @@ void StaticChunk::loadChunk(const std::vector<std::pair<Point3S, CubeDesc>>& cub
 
 	// prepare data for the gpu array
 	refreshGpuArray();
+}
+
+void StaticChunk::kill()
+{
+	m_isAlive = false;
+}
+
+void StaticChunk::tick(float dt)
+{
+	if(!m_isAlive)
+		getEntity().kill();
 }
 
 std::shared_ptr<GameEntity> StaticChunk::spawnCube(const CubeDesc& cd, const Point3S& pos) const
@@ -197,12 +211,7 @@ void StaticChunk::refreshGpuArray()
 		idx++;
 	}
 
-	m_iArray.setData(move(gpuArray));
-	m_iTransArray.setData(move(gpuTrans));
-}
-
-GameManager& StaticChunk::getManager() const
-{
-	assert(m_pManager);
-	return *m_pManager;
+	auto& c = getEntity().getComponent<ChunkData>();
+	c.m_iArray->setData(move(gpuArray));
+	c.m_iTransArray->setData(move(gpuTrans));
 }

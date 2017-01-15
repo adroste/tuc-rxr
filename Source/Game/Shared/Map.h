@@ -30,7 +30,8 @@ public:
 
 	void update();
 private:
-	std::vector<MapChunk> m_chunks;
+	// pointers to the map chunk script (the chunk itself is an entity)
+	std::vector<std::shared_ptr<MapChunk>> m_chunks;
 	Point3S m_dim; // complete map dim
 	PointS m_cdim; // dim in chunks
 	VolumeTextureMap m_volumeTextureMap;

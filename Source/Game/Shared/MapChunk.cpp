@@ -1,9 +1,8 @@
 #include "MapChunk.h"
 
 
-MapChunk::MapChunk(GameManager& m, const Point3S& chunkPos)
+MapChunk::MapChunk(const Point3S& chunkPos)
 	:
-	StaticChunk(m),
 	m_chunkPos(chunkPos)
 {
 
@@ -128,10 +127,12 @@ std::vector<std::pair<Point3S, CubeDesc>> MapChunk::getCubes() const
 	return d;
 }
 
-void MapChunk::update()
+void MapChunk::tick(float dt)
 {
 	MAIN_THREAD;
-	if(m_changed)
+	StaticChunk::tick(dt);
+
+	if (m_changed)
 	{
 		refreshGpuArray();
 		m_changed = false;

@@ -167,7 +167,7 @@ public:
 			m_pDlgBuckImport.reset();
 		}
 
-		m_editor.update();
+		m_editor.update(dt);
 
 		return true;
 	}
