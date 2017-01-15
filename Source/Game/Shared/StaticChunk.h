@@ -23,9 +23,6 @@ public:
 
 	virtual void begin() override;
 
-	void draw(Drawing& draw, Mesh& cube);
-	void drawTransparent(Drawing& draw, Mesh& cube);
-
 	void loadChunk(const std::vector<std::pair<Point3S, CubeDesc>>& cubes);
 	// will be killed in the next iteration
 	void kill();

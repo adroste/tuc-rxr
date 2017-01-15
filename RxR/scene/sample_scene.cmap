@@ -6,7 +6,3 @@
 <light type="ambient" color="0xff020202"/>
 
 <light type="directional" color="0xffffffff" direction="0.000000 0.894427 0.447214"/>
-
-<asset material="chest_material.cd" chunk="chest_chunk.bin">
-	<instance position="10 5 5" scale="0.2"/>
-</asset>

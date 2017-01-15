@@ -14,34 +14,6 @@ void StaticChunk::begin()
 	t.rotation = glm::vec2(0.0f);
 }
 
-void StaticChunk::draw(Drawing& draw, Mesh& cube)
-{
-	DRAW_THREAD;
-	auto& c = getEntity().getComponent<ChunkData>();
-	if(c.m_iArray->getDataCount() == 0)
-		return;
-
-	// this will create the array if it was not created
-	// + it will reupload the array if changes were made
-	c.m_iArray->flush();
-
-	c.m_iArray->bind(2);
-	cube.drawInstanced(c.m_iArray->getDataCount(), *c.m_iArray);
-}
-
-void StaticChunk::drawTransparent(Drawing& draw, Mesh& cube)
-{
-	DRAW_THREAD;
-	// TODO assert transparent
-	auto& c = getEntity().getComponent<ChunkData>();
-	if (c.m_iTransArray->getDataCount() == 0)
-		return;
-
-	c.m_iTransArray->flush();
-	c.m_iTransArray->bind(2);
-	cube.drawInstanced(c.m_iTransArray->getDataCount(), *c.m_iTransArray);
-}
-
 void StaticChunk::loadChunk(const std::vector<std::pair<Point3S, CubeDesc>>& cubes)
 {
 	// place all cubes
