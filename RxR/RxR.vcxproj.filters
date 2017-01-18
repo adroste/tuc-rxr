@@ -229,14 +229,14 @@
     <ClCompile Include="..\Source\Game\Shared\GameEngine.cpp">
       <Filter>Source\Game\Shared</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Game\Shared\StaticChunk.cpp">
-      <Filter>Source\Game\Shared</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Game\Shared\MapChunk.cpp">
       <Filter>Source\Game\Shared</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\Game\Client\RenderSystem.cpp">
       <Filter>Source\Game\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Game\Shared\AssetLoader.cpp">
+      <Filter>Source\Game\Shared</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -683,6 +683,9 @@
     </ClInclude>
     <ClInclude Include="..\Source\Game\Client\RenderSystem.h">
       <Filter>Source\Game\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Game\Shared\AssetLoader.h">
+      <Filter>Source\Game\Shared</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

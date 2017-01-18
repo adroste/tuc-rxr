@@ -10,7 +10,14 @@ MapChunk::MapChunk(const Point3S& chunkPos)
 
 void MapChunk::begin()
 {
-	StaticChunk::begin();
+	auto& me = getEntity();
+	auto& c = me.addComponent<ChunkData>();
+	c.m_iArray = std::make_unique<InstancingArray<glm::ivec3, 3, GL_FLOAT>>();
+	c.m_iTransArray = std::make_unique<InstancingArray<glm::ivec3, 3, GL_FLOAT>>();
+	auto& t = me.addComponent<Transform>();
+	t.pos = glm::vec3(0.0f);
+	t.scale = glm::vec3(0.0f);
+	t.rotation = glm::vec2(0.0f);
 	// update transform omponent
 	setChunkPosition(m_chunkPos);
 }
@@ -138,13 +145,19 @@ std::vector<std::pair<Point3S, CubeDesc>> MapChunk::getCubes() const
 void MapChunk::tick(float dt)
 {
 	MAIN_THREAD;
-	StaticChunk::tick(dt);
+	if (!m_isAlive)
+		getEntity().kill();
 
 	if (m_changed)
 	{
 		refreshGpuArray();
 		m_changed = false;
 	}
+}
+
+void MapChunk::kill()
+{
+	m_isAlive = false;
 }
 
 // modified to contain neighbor chunk information
@@ -196,6 +209,13 @@ std::shared_ptr<GameEntity> MapChunk::spawnCube(const CubeDesc& cd, const Point3
 	addTransform(*e, pos);
 	// TODO add collison component
 	return e;
+}
+
+void MapChunk::setGpuData(std::vector<glm::ivec3>& solid, std::vector<glm::ivec3>& trans)
+{
+	auto& c = getEntity().getComponent<ChunkData>();
+	c.m_iArray->setData(move(solid));
+	c.m_iTransArray->setData(move(trans));
 }
 
 void MapChunk::addTransform(GameEntity& e, const Point3S& pos) const

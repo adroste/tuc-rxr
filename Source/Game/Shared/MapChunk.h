@@ -2,7 +2,7 @@
 #include "StaticChunk.h"
 
 // special chunk for Cubes within map (collission per block)
-class MapChunk : public StaticChunk
+class MapChunk : public StaticChunk<std::shared_ptr<GameEntity>>, public GameScript
 {
 public:
 	MapChunk() = default;
@@ -20,9 +20,11 @@ public:
 	std::vector<std::pair<Point3S, CubeDesc>> getCubes() const;
 	// this will upload new blocks
 	virtual void tick(float dt) override;
+	void kill();
 protected:
 	virtual std::shared_ptr<GameEntity> getCube(Point3I pos) override;
-	virtual std::shared_ptr<GameEntity> spawnCube(const CubeDesc& cd, const Point3S& pos) const override;
+	virtual std::shared_ptr<GameEntity> spawnCube(const CubeDesc& cd, const Point3S& pos) const override final;
+	virtual void setGpuData(std::vector<glm::ivec3>& solid, std::vector<glm::ivec3>& trans) override final;
 	void addTransform(GameEntity& e, const Point3S& pos) const;
 private:
 	Point3S m_chunkPos;
@@ -32,4 +34,5 @@ private:
 	MapChunk* m_top = nullptr;
 	MapChunk* m_bottom = nullptr;
 	bool m_changed = false;
+	bool m_isAlive = true;
 };
