@@ -18,7 +18,7 @@ struct Transform
 	// TODO scale add rotaion
 	glm::mat4 getMatrix() const
 	{
-		return glm::translate(glm::mat4(),pos) * glm::scale(glm::mat4(),scale);
+		return glm::scale(glm::translate(glm::mat4(), pos),scale);
 	}
 };
 
@@ -32,6 +32,8 @@ struct Collision
 {
 	// axis aligned box
 	AABox aabox;
+	// bounce factor when hitting other object [0.0f,-1.0f]
+	float bounce = -1.0f;
 };
 
 // this objects cant move
