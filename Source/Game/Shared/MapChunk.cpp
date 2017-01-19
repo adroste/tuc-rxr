@@ -251,5 +251,6 @@ void MapChunk::addMapChunkInfo(GameEntity& e)
 void MapChunk::addCollision(GameEntity& e)
 {
 	auto& c = e.addComponent<StaticCollision>();
-	c.aabox = AABox(glm::vec3(-0.5f), glm::vec3(0.5f));
+	// make the bounding box a little smaller so that map cubes fit in exactly one grid spot
+	c.aabox = AABox(glm::vec3(-0.49f), glm::vec3(0.49f));
 }

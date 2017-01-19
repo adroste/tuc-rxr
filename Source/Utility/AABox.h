@@ -44,4 +44,10 @@ struct AABox
 		r.p2 = { n2.x,n2.y,n2.z };
 		return r;
 	}
+	bool intersectWith(const AABox& o) const
+	{
+		return xmin <= o.xmax && xmax >= o.xmin &&
+			ymin <= o.ymax && ymax >= o.ymin &&
+			zmin <= o.zmax && zmax >= o.zmin;
+	}
 };

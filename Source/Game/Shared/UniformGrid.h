@@ -2,6 +2,7 @@
 #include "../../Utility/Point3.h"
 #include <vector>
 #include "GameTypes.h"
+#include "../../Framework/OpenGL/Drawing.h"
 
 class UniformGrid
 {
@@ -34,6 +35,21 @@ public:
 		m_data.assign(m_dim.size(),Element());
 		m_outside = Element();
 	}
+	// for debugging
+	void draw(Drawing& draw)
+	{
+		for(const auto& e : m_data)
+		{
+			for(const auto& s : e.statics)
+			{
+				draw.lineBox(s.aabox.p1, s.aabox.p2, Color::Blue());
+			}
+		}
+		for(const auto& s : m_outside.statics)
+		{
+			draw.lineBox(s.aabox.p1, s.aabox.p2, Color::Green());
+		}
+	}
 	void setEntity(std::shared_ptr<GameEntity> e)
 	{
 		// static or dynamic Component?
@@ -60,10 +76,17 @@ public:
 	bool hasCollision(const AABox& aabox)
 	{
 		bool hasCol = false;
-		forColliding(aabox,[&hasCol](Element& e)
+		forColliding(aabox,[&hasCol,&aabox](Element& e)
 		{
-			if (e.statics.size())
-				hasCol = true;
+			// test collission with objects
+			for(const auto& i : e.statics)
+			{
+				if(aabox.intersectWith(i.aabox))
+				{
+					hasCol = true;
+					return;
+				}
+			}
 		});
 		return hasCol;
 	}
@@ -95,9 +118,9 @@ private:
 	int toIndex(const glm::vec3& p) const
 	{
 		// to integer coodinates
-		int x = int(p.x);
-		int y = int(p.y);
-		int z = int(p.z);
+		int x = int(p.x + 0.5f);
+		int y = int(p.y + 0.5f);
+		int z = int(p.z + 0.5f);
 
 		if(x < m_min.x || y < m_min.x || z < m_min.z
 			|| x >= m_max.x || y >= m_max.y || z >= m_max.z)

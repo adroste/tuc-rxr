@@ -53,5 +53,7 @@ void GameEngine::draw(Drawing& draw)
 
 	m_renderSystem->draw(draw);
 
+	//m_grid.draw(draw);
+
 	draw.getUiCam().apply(draw);
 }
