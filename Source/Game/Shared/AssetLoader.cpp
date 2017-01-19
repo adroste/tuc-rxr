@@ -21,6 +21,7 @@ void AssetLoader::loadAssetData(const MapLoader::AssetInfo & i)
 		auto e = m_manager.addEntity();
 		// add components
 		setTransform(*e, inst.pos, glm::vec3(inst.scale), inst.phi, inst.theta);
+		setMovement(*e);
 		e->addComponent<AssetChunkInfo>().assetID = id;
 	}
 }
@@ -47,4 +48,11 @@ void AssetLoader::setTransform(GameEntity& e, const glm::vec3& pos, const glm::v
 	t.pos = pos;
 	t.scale = scale;
 	t.rotation = glm::vec2(phi, theta);
+}
+
+void AssetLoader::setMovement(GameEntity& e)
+{
+	auto& m = e.addComponent<Movement>();
+	m.velocity = glm::vec3(0.0f);
+	m.acceleration = glm::vec3(0.0f, 6.5f, 0.0f);
 }

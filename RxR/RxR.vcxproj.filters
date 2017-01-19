@@ -241,6 +241,9 @@
     <ClCompile Include="..\Source\Game\Shared\AssetChunk.cpp">
       <Filter>Source\Game\Shared</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Game\Shared\MovementSystem.cpp">
+      <Filter>Source\Game\Shared</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\Shader.h">
@@ -691,6 +694,9 @@
       <Filter>Source\Game\Shared</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Game\Shared\AssetChunk.h">
+      <Filter>Source\Game\Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Game\Shared\MovementSystem.h">
       <Filter>Source\Game\Shared</Filter>
     </ClInclude>
   </ItemGroup>

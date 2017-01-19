@@ -1,5 +1,6 @@
 #include "GameEngine.h"
 #include "MapLoader.h"
+#include "MovementSystem.h"
 
 GameEngine::GameEngine()
 	:
@@ -9,6 +10,8 @@ m_assets(m_manager)
 {
 	m_renderSystem = std::make_shared<RenderSystem>(m_assets);
 	m_manager.addSystem(m_renderSystem);
+
+	m_manager.addSystem(std::make_shared<MovementSystem>());
 
 	m_manager.start();
 }
