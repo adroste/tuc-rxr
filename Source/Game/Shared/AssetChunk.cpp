@@ -21,9 +21,9 @@ AABox AssetChunk::calcAABox() const
 
 	for(size_t x = 0; x < SIZE; x++)
 	{
-		for (size_t y = 0; x < SIZE; x++)
+		for (size_t y = 0; y < SIZE; y++)
 		{
-			for (size_t z = 0; x < SIZE; x++)
+			for (size_t z = 0; z < SIZE; z++)
 			{
 				if(m_cubes[s_dim.calcIndex({x,y,z})])
 				{

@@ -16,7 +16,11 @@ public:
 
 	virtual bool update(float dt) override 
 	{
+#ifdef _DEBUG
+		m_engine.update(std::min(dt, 0.016f));
+#else
 		m_engine.update(dt);
+#endif
 		return false;
 	}
 

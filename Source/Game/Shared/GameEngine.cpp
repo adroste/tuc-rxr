@@ -31,6 +31,8 @@ bool GameEngine::loadLevel(const std::string& filename)
 	m_cam = Camera({ 24.5f, 15.0f }, 30.0f, 70.0f, 5.0f, false);
 	m_light.init(i.ambient, i.lights);
 	m_grid.init(m_map.getDim(), Point3S(10, 10, 10));
+	// upload all data
+	m_manager.tick(0.0f);
 
 	return true;
 }

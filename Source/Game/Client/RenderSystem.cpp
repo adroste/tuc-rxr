@@ -73,6 +73,16 @@ void RenderSystem::draw(Drawing& draw)
 	{
 		drawChunk(c, m_assets.getGpuArray(c->getComponent<AssetChunkInfo>().assetID));
 	}
+	// bounding boxes
+	/*for (auto& c : assChunks)
+	{
+		if (c->hasComponents<Collision, Transform>())
+		{
+			auto box = c->getComponent<Collision>().aabox;
+			box = box.transform(c->getComponent<Transform>().getMatrix());
+			draw.lineBox(box.p1, box.p2, Color::Red());
+		}
+	}*/
 
 	// draw transparency last
 	draw.beginGameTransparency();

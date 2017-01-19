@@ -392,7 +392,7 @@ void GameEditor::drawGrid(Drawing& draw) const
 
 void GameEditor::drawLineBox(Drawing& draw, const Point3F& p1, const Point3F& p2, const Color& c) const
 {
-	auto s = p1.toGlmVec3();//std::min(p1, p2).toGlmVec3();
+	/*auto s = p1.toGlmVec3();//std::min(p1, p2).toGlmVec3();
 	auto e = p2.toGlmVec3();//std::max(p1, p2).toGlmVec3();
 	float t = 1.0f;
 
@@ -410,7 +410,8 @@ void GameEditor::drawLineBox(Drawing& draw, const Point3F& p1, const Point3F& p2
 	draw.line(glm::vec3(s.x, e.y, s.z), glm::vec3(e.x, e.y, s.z), t, c);
 
 	draw.line(glm::vec3(s.x, s.y, e.z), glm::vec3(s.x, e.y, e.z), t, c);
-	draw.line(glm::vec3(e.x, s.y, s.z), glm::vec3(e.x, e.y, s.z), t, c);
+	draw.line(glm::vec3(e.x, s.y, s.z), glm::vec3(e.x, e.y, s.z), t, c);*/
+	draw.lineBox(p1, p2, c);
 }
 
 void GameEditor::releaseCapture()

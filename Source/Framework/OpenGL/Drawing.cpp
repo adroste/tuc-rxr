@@ -149,6 +149,29 @@ void Drawing::disc(const PointF& midPos, float r, const Color& color)
 	m_shDisc.unbind();
 }
 
+void Drawing::lineBox(const Point3F& p1, const Point3F& p2, const Color& c)
+{
+	auto s = p1.toGlmVec3();//std::min(p1, p2).toGlmVec3();
+	auto e = p2.toGlmVec3();//std::max(p1, p2).toGlmVec3();
+	float t = 1.0f;
+
+	line(s, glm::vec3(s.x, s.y, e.z), t, c);
+	line(s, glm::vec3(s.x, e.y, s.z), t, c);
+	line(s, glm::vec3(e.x, s.y, s.z), t, c);
+	line(e, glm::vec3(e.x, e.y, s.z), t, c);
+	line(e, glm::vec3(e.x, s.y, e.z), t, c);
+	line(e, glm::vec3(s.x, e.y, e.z), t, c);
+
+	line(glm::vec3(s.x, e.y, s.z), glm::vec3(s.x, e.y, e.z), t, c);
+	line(glm::vec3(e.x, s.y, s.z), glm::vec3(e.x, s.y, e.z), t, c);
+
+	line(glm::vec3(s.x, s.y, e.z), glm::vec3(e.x, s.y, e.z), t, c);
+	line(glm::vec3(s.x, e.y, s.z), glm::vec3(e.x, e.y, s.z), t, c);
+
+	line(glm::vec3(s.x, s.y, e.z), glm::vec3(s.x, e.y, e.z), t, c);
+	line(glm::vec3(e.x, s.y, s.z), glm::vec3(e.x, e.y, s.z), t, c);
+}
+
 void Drawing::buttonRoyal(const RectF& r, bool down)
 {
 	Texture& bumpMid = down ? m_texBtnBumpMidDown : m_texBtnBumpMid;

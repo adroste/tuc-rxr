@@ -49,6 +49,7 @@ public:
 	void line(PointF p1, PointF p2, float thickness, const Color& color);
 	void line(const glm::vec3& p1, const glm::vec3& p2, float thikness, const Color& c);
 	void disc(const PointF& midPos, float r, const Color& color);
+	void lineBox(const Point3F& p1, const Point3F& p2, const Color& c);
 
 	// ui
 	void buttonRoyal(const RectF& r, bool down);
