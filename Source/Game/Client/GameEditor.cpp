@@ -4,9 +4,10 @@
 
 GameEditor::GameEditor()
 	:
-	m_prevClientMouse(Input::getMouse())
+	m_prevClientMouse(Input::getMouse()),
+	m_assets(m_manager)
 {
-	m_renderSystem = std::make_shared<RenderSystem>();
+	m_renderSystem = std::make_shared<RenderSystem>(m_assets);
 	m_manager.addSystem(m_renderSystem);
 
 	m_manager.start();

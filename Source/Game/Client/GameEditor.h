@@ -67,4 +67,5 @@ private:
 	std::vector<CubeDesc> m_curCubeDescs;
 	GameManager m_manager;
 	std::shared_ptr<RenderSystem> m_renderSystem;
+	AssetLoader m_assets;
 };

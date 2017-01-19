@@ -27,8 +27,8 @@ protected:
 	virtual void setGpuData(std::vector<glm::ivec3>& solid, std::vector<glm::ivec3>& trans) override final;
 	void addTransform(GameEntity& e, const Point3S& pos) const;
 
-	virtual CubeShape& getCubeShape(std::shared_ptr<ecs::Entity<Transform, Movement, Health, Damage, CubeShape, MapChunkInfo, ChunkData>>& c) override final;
-	virtual MapChunkInfo& getChunkInfo(std::shared_ptr<ecs::Entity<Transform, Movement, Health, Damage, CubeShape, MapChunkInfo, ChunkData>>& c) override final;
+	virtual CubeShape& getCubeShape(std::shared_ptr<GameEntity>& c) override final;
+	virtual MapChunkInfo& getChunkInfo(std::shared_ptr<GameEntity>& c) override final;
 private:
 	static void addCubeShape(GameEntity& e, const CubeDesc& cd);
 	static void addMapChunkInfo(GameEntity& e);

@@ -14,6 +14,12 @@ public:
 	AssetChunk() = default;
 	virtual ~AssetChunk() override = default;
 	MOVE_ONLY(AssetChunk);
+	void setAnimation(AssetAnimation a)
+	{
+		m_animation = a;
+	}
+	ChunkData::GpuArray& getGpuArray();
+	ChunkData::GpuArray& getGpuTransArray();
 protected:
 	virtual std::shared_ptr<AssetCubeDesc> spawnCube(const CubeDesc& cd, const Point3S& pos) const override;
 	virtual void setGpuData(std::vector<glm::ivec3>& solid, std::vector<glm::ivec3>& trans) override;
@@ -22,4 +28,5 @@ protected:
 private:
 	ChunkData::GpuArray m_gpuArray;
 	ChunkData::GpuArray m_gpuTransArray;
+	AssetAnimation m_animation;
 };

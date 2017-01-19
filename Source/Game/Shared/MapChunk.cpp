@@ -16,7 +16,7 @@ void MapChunk::begin()
 	c.m_iTransArray = std::make_unique<InstancingArray<glm::ivec3, 3, GL_FLOAT>>();
 	auto& t = me.addComponent<Transform>();
 	t.pos = glm::vec3(0.0f);
-	t.scale = glm::vec3(0.0f);
+	t.scale = glm::vec3(1.0f);
 	t.rotation = glm::vec2(0.0f);
 	// update transform omponent
 	setChunkPosition(m_chunkPos);

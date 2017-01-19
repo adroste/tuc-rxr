@@ -4,6 +4,7 @@
 #include "Map.h"
 #include "../Client/LightManager.h"
 #include "../Client/RenderSystem.h"
+#include "AssetLoader.h"
 
 class GameEngine
 {
@@ -18,5 +19,6 @@ private:
 	Map m_map;
 	Camera m_cam;
 	LightManager m_light;
+	AssetLoader m_assets;
 	std::shared_ptr<RenderSystem> m_renderSystem;
 };

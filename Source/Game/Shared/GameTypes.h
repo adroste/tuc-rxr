@@ -17,7 +17,7 @@ struct Transform
 	// TODO scale add rotaion
 	glm::mat4 getMatrix() const
 	{
-		return glm::translate(glm::mat4(),pos);
+		return glm::translate(glm::mat4(),pos) * glm::scale(glm::mat4(),scale);
 	}
 };
 
@@ -64,6 +64,11 @@ struct MapChunkInfo
 	};
 };
 
+struct AssetChunkInfo
+{
+	size_t assetID;
+};
+
 struct ChunkData
 {
 	// pretend that this is a float because opengl would convert it otherwise...
@@ -73,7 +78,7 @@ struct ChunkData
 	std::unique_ptr<GpuArray> m_iTransArray;
 };
 
-using GameManager =	ecs::Manager<Transform, Movement, Health, Damage, CubeShape, MapChunkInfo, ChunkData>;
-using GameEntity =	ecs::Entity< Transform, Movement, Health, Damage, CubeShape, MapChunkInfo, ChunkData>;
-using GameSystem =	ecs::System< Transform, Movement, Health, Damage, CubeShape, MapChunkInfo, ChunkData>;
-using GameScript =	ecs::Script< Transform, Movement, Health, Damage, CubeShape, MapChunkInfo, ChunkData>;
+using GameManager =	ecs::Manager<Transform, Movement, Health, Damage, CubeShape, MapChunkInfo, ChunkData, AssetChunkInfo>;
+using GameEntity =	ecs::Entity< Transform, Movement, Health, Damage, CubeShape, MapChunkInfo, ChunkData, AssetChunkInfo>;
+using GameSystem =	ecs::System< Transform, Movement, Health, Damage, CubeShape, MapChunkInfo, ChunkData, AssetChunkInfo>;
+using GameScript =	ecs::Script< Transform, Movement, Health, Damage, CubeShape, MapChunkInfo, ChunkData, AssetChunkInfo>;

@@ -1,5 +1,15 @@
 #include "AssetChunk.h"
 
+ChunkData::GpuArray& AssetChunk::getGpuArray()
+{
+	return m_gpuArray;
+}
+
+ChunkData::GpuArray& AssetChunk::getGpuTransArray()
+{
+	return m_gpuTransArray;
+}
+
 std::shared_ptr<AssetCubeDesc> AssetChunk::spawnCube(const CubeDesc & cd, const Point3S & pos) const
 {
 	auto p = std::make_shared<AssetCubeDesc>();

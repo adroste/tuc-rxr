@@ -4,9 +4,10 @@
 GameEngine::GameEngine()
 	:
 m_map(m_manager),
-m_light(m_cam)
+m_light(m_cam),
+m_assets(m_manager)
 {
-	m_renderSystem = std::make_shared<RenderSystem>();
+	m_renderSystem = std::make_shared<RenderSystem>(m_assets);
 	m_manager.addSystem(m_renderSystem);
 
 	m_manager.start();
@@ -22,6 +23,7 @@ bool GameEngine::loadLevel(const std::string& filename)
 
 	m_map.setDim(Point3S(i.nChunks.x * MapChunk::SIZE,i.nChunks.y * MapChunk::SIZE, 16));
 	m_map.loadMapAndAssets(i);
+	m_assets.loadAssetsData(i.assets);
 
 	m_cam = Camera({ 24.5f, 15.0f }, 30.0f, 70.0f, 5.0f, false);
 	m_light.init(i.ambient, i.lights);
