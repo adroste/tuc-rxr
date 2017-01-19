@@ -37,6 +37,7 @@ public:
 	virtual ~Mesh();
 
 	void draw();
+	void drawLines();
 
 	template <class vecType, size_t count, size_t enumType>
 	void drawInstanced(size_t num, InstancingArray<vecType, count, enumType>& ia);

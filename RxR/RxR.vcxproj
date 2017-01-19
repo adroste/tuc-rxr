@@ -162,6 +162,7 @@
     <ClCompile Include="..\Source\Framework\OpenGL\Font.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Geometry\Mesh.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Geometry\MeshCube.cpp" />
+    <ClCompile Include="..\Source\Framework\OpenGL\Geometry\MeshLineBox.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\glFramebufferObject.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Graphics.cpp" />
     <ClCompile Include="..\Source\Framework\OpenGL\Shader\Shader.cpp" />
@@ -221,6 +222,7 @@
     <ClInclude Include="..\Source\Framework\OpenGL\Font.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Geometry\Mesh.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\Geometry\MeshCube.h" />
+    <ClInclude Include="..\Source\Framework\OpenGL\Geometry\MeshLineBox.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\glFramebufferObject.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\glhelper.h" />
     <ClInclude Include="..\Source\Framework\OpenGL\GLObject.h" />

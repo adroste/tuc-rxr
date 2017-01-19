@@ -3,13 +3,13 @@
 #include "../../Utility/Rect.h"
 #include "../Color.h"
 #include "Geometry/MeshCube.h"
+#include "Geometry/MeshLineBox.h"
 #include "Shader/ShaderCubeMap.h"
 #include "Shader/ShaderButton.h"
 #include "Font.h"
 #include "Shader/UniformBlockTransforms.h"
 #include "Shader/UniformBlockMaterial.h"
 #include "Shader/UniformBlockLight.h"
-#include "../../Game/Shared/CubeDesc.h"
 #include "Camera.h"
 #include "Shader/UniformBlockMapInfo.h"
 #include "../../Utility/Point3.h"
@@ -22,8 +22,6 @@
 #include "Shader/ShaderCube.h"
 #include "Shader/ShaderHSVPickerSquare.h"
 #include "Shader/ShaderDisk.h"
-#include "../../System/System.h"
-#include "../Framework.h"
 #include "glFramebufferObject.h"
 #include "Shader/UniformBlockFramebuffer.h"
 #include "Shader/ShaderFXAA.h"
@@ -101,6 +99,7 @@ private:
 	Camera m_uiCam;
 
 	MeshCube m_meshCube;
+	MeshLineBox m_lineBox;
 
 	ShaderCubeMap m_shCubeMap;
 	ShaderCube m_shCube;

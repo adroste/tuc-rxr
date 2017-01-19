@@ -244,6 +244,9 @@
     <ClCompile Include="..\Source\Game\Shared\MovementSystem.cpp">
       <Filter>Source\Game\Shared</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Framework\OpenGL\Geometry\MeshLineBox.cpp">
+      <Filter>Source\Framework\OpenGL\Geometry</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\Shader.h">
@@ -704,6 +707,9 @@
     </ClInclude>
     <ClInclude Include="..\Source\Game\Shared\UniformGrid.h">
       <Filter>Source\Game\Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Framework\OpenGL\Geometry\MeshLineBox.h">
+      <Filter>Source\Framework\OpenGL\Geometry</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

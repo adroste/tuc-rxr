@@ -153,9 +153,25 @@ void Drawing::lineBox(const Point3F& p1, const Point3F& p2, const Color& c)
 {
 	auto s = p1.toGlmVec3();//std::min(p1, p2).toGlmVec3();
 	auto e = p2.toGlmVec3();//std::max(p1, p2).toGlmVec3();
-	float t = 1.0f;
+	// mesh cube goes from 0.0f to 1.0f
+	glm::vec3 scale = e - s;
 
-	line(s, glm::vec3(s.x, s.y, e.z), t, c);
+	m_trans.pushModel(glm::translate(glm::mat4(), s) * glm::scale(glm::mat4(), scale));
+
+	glLineWidth(1.0f);
+	m_shColor.setColor(c);
+
+	prepareDraw();
+
+	m_shColor.bind();
+	
+	m_lineBox.drawLines();
+
+	m_shColor.unbind();
+
+	m_trans.popModel();
+
+	/*line(s, glm::vec3(s.x, s.y, e.z), t, c);
 	line(s, glm::vec3(s.x, e.y, s.z), t, c);
 	line(s, glm::vec3(e.x, s.y, s.z), t, c);
 	line(e, glm::vec3(e.x, e.y, s.z), t, c);
@@ -169,7 +185,8 @@ void Drawing::lineBox(const Point3F& p1, const Point3F& p2, const Color& c)
 	line(glm::vec3(s.x, e.y, s.z), glm::vec3(e.x, e.y, s.z), t, c);
 
 	line(glm::vec3(s.x, s.y, e.z), glm::vec3(s.x, e.y, e.z), t, c);
-	line(glm::vec3(e.x, s.y, s.z), glm::vec3(e.x, e.y, s.z), t, c);
+	line(glm::vec3(e.x, s.y, s.z), glm::vec3(e.x, e.y, s.z), t, c);*/
+
 }
 
 void Drawing::buttonRoyal(const RectF& r, bool down)
@@ -524,6 +541,7 @@ void Drawing::create()
 		s->create();
 
 	m_meshCube.create();
+	m_lineBox.create();
 
 	m_trans.create();
 	m_material.create();
@@ -560,6 +578,7 @@ void Drawing::dispose()
 		s->dispose();
 
 	m_meshCube.dispose();
+	m_lineBox.dispose();
 
 	m_trans.dispose();
 	m_material.dispose();
