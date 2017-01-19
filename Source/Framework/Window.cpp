@@ -81,6 +81,7 @@ void Window::run()
 	t.startWatch();
 
 	PointI oldStdDraw = Framework::getStdDraw();
+	bool stateChanged = true;
 
 	while (m_isRunning)
 	{
@@ -100,7 +101,8 @@ void Window::run()
 		}
 
 		float dt = t.lapSecond();
-		updateState(dt);
+		updateState(stateChanged ? 0.0f : dt);
+		stateChanged = false;
 
 		Sound::update(dt);
 
@@ -108,6 +110,7 @@ void Window::run()
 		if (m_states.front()->isFinished())
 		{
 			auto pNext = m_states.front()->popNextState();
+			stateChanged = true;
 			LockGuard g(m_muGfx);
 
 			auto tranState = m_states.front()->getTransitionState();
