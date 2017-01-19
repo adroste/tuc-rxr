@@ -238,6 +238,9 @@
     <ClCompile Include="..\Source\Game\Shared\AssetLoader.cpp">
       <Filter>Source\Game\Shared</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Game\Shared\AssetChunk.cpp">
+      <Filter>Source\Game\Shared</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Framework\OpenGL\Shader\Shader.h">
@@ -685,6 +688,9 @@
       <Filter>Source\Game\Client</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Game\Shared\AssetLoader.h">
+      <Filter>Source\Game\Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Game\Shared\AssetChunk.h">
       <Filter>Source\Game\Shared</Filter>
     </ClInclude>
   </ItemGroup>

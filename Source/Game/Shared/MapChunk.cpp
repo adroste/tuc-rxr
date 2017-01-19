@@ -43,14 +43,14 @@ void MapChunk::setCube(const Point3S& pos, const CubeDesc* cd)
 	if(c)
 	{
 		c->getComponent<MapChunkInfo>().neighbors = 0;
-		if(!isTransparent(*c))
+		if(!isTransparent(c))
 		{
 			// is solid
 			auto upd = [this, pos, &c](int dx, int dy, int dz, MapChunkInfo::Side side, MapChunkInfo::Side oside)
 			{
 				auto ch = getCube(Point3I(pos) + Point3I(dx, dy, dz));
 				if (ch)
-					if (!isTransparent(*ch))
+					if (!isTransparent(ch))
 					{
 						c->getComponent<MapChunkInfo>().neighbors |= side;
 						ch->getComponent<MapChunkInfo>().neighbors |= oside;
@@ -75,7 +75,7 @@ void MapChunk::setCube(const Point3S& pos, const CubeDesc* cd)
 				if(ch)
 				{
 					c->getComponent<MapChunkInfo>().neighbors |= side;
-					if (isTransparent(*ch))
+					if (isTransparent(ch))
 						ch->getComponent<MapChunkInfo>().neighbors |= oside;
 					else
 						ch->getComponent<MapChunkInfo>().neighbors &= ~oside;
@@ -226,4 +226,24 @@ void MapChunk::addTransform(GameEntity& e, const Point3S& pos) const
 						float(m_chunkPos.z * s_dim.z + pos.z));
 	t.rotation = glm::vec2(0.0f);
 	t.scale = glm::vec3(0.5f);
+}
+
+CubeShape& MapChunk::getCubeShape(std::shared_ptr<GameEntity>& c)
+{
+	return c->getComponent<CubeShape>();
+}
+
+MapChunkInfo& MapChunk::getChunkInfo(std::shared_ptr<GameEntity>& c)
+{
+	return c->getComponent<MapChunkInfo>();
+}
+
+void MapChunk::addCubeShape(GameEntity& e, const CubeDesc& cd)
+{
+	setCubeShape(e.addComponent<CubeShape>(), cd);
+}
+
+void MapChunk::addMapChunkInfo(GameEntity& e)
+{
+	setChunkInfo(e.addComponent<MapChunkInfo>());
 }

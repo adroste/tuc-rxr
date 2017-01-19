@@ -68,8 +68,9 @@ struct ChunkData
 {
 	// pretend that this is a float because opengl would convert it otherwise...
 	// draw access -> draw thread | setData access -> main thread
-	std::unique_ptr<InstancingArray<glm::ivec3, 3, GL_FLOAT>> m_iArray;
-	std::unique_ptr<InstancingArray<glm::ivec3, 3, GL_FLOAT>> m_iTransArray;
+	using GpuArray = InstancingArray<glm::ivec3, 3, GL_FLOAT>;
+	std::unique_ptr<GpuArray> m_iArray;
+	std::unique_ptr<GpuArray> m_iTransArray;
 };
 
 using GameManager =	ecs::Manager<Transform, Movement, Health, Damage, CubeShape, MapChunkInfo, ChunkData>;

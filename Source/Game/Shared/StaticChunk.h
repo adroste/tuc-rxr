@@ -26,17 +26,30 @@ public:
 protected:
 	virtual T spawnCube(const CubeDesc& cd, const Point3S& pos) const = 0;
 	virtual void setGpuData(std::vector<glm::ivec3>& solid, std::vector<glm::ivec3>& trans) = 0;
-	static void addCubeShape(GameEntity& e, const CubeDesc& cd);
-	static void addMapChunkInfo(GameEntity& e);
+	static void setCubeShape(CubeShape& s, const CubeDesc& cd)
+	{
+		s.diffuse = cd.diffuse;
+		s.gloss = cd.gloss;
+		s.specular = cd.spec;
+		s.shader = cd.shader;
+		s.flags = cd.blockFlags;
+		s.type = BlockType(cd.blockType);
+	}
+	static void setChunkInfo(MapChunkInfo& i)
+	{
+		i.neighbors = 0;
+	}
+	virtual CubeShape& getCubeShape(T& c) = 0;
+	virtual MapChunkInfo& getChunkInfo(T& c) = 0;
+
 	// may be overwritten to obtain cube infos from neighboring chunks
 	virtual T getCube(Point3I pos);
-	static bool isTransparent(const GameEntity& e);
-	static bool isHidden(const GameEntity& entity);
+	bool isHidden(T& c);
 	void refreshGpuArray();
+	bool isTransparent(T& c);
 protected:
 	// access only from main thread
 	std::array<T, SIZE * SIZE* SIZE> m_cubes;
-	bool m_isAlive = true;
 	/*
 	* x:	0-15 chunk position
 	*		16-31 diffuse r+g
@@ -74,13 +87,13 @@ void StaticChunk<T>::loadChunk(const std::vector<std::pair<Point3S, CubeDesc>>& 
 				if (cur)
 				{
 					// set neighboring flags for this cube
-					cur->getComponent<MapChunkInfo>().neighbors = 0;
-					if (isTransparent(*cur))
+					getChunkInfo(cur).neighbors = 0;
+					if (isTransparent(cur))
 					{
 						auto upd = [x, y, z, &cur, this](int dx, int dy, int dz, MapChunkInfo::Side side)
 						{
 							auto o = getCube({ x + dx, y + dy, z + dz });
-							if (o) cur->getComponent<MapChunkInfo>().neighbors |= side;
+							if (o) getChunkInfo(cur).neighbors |= side;
 						};
 
 						upd(-1, 0, 0, MapChunkInfo::Left);
@@ -95,8 +108,8 @@ void StaticChunk<T>::loadChunk(const std::vector<std::pair<Point3S, CubeDesc>>& 
 						auto upd = [x, y, z, &cur, this](int dx, int dy, int dz, MapChunkInfo::Side side)
 						{
 							auto o = getCube({ x + dx, y + dy, z + dz });
-							if (o && !isTransparent(*o))
-								cur->getComponent<MapChunkInfo>().neighbors = side;
+							if (o && !isTransparent(o))
+								getChunkInfo(cur).neighbors = side;
 						};
 						upd(-1, 0, 0, MapChunkInfo::Left);
 						upd(0, -1, 0, MapChunkInfo::Bottom);
@@ -115,24 +128,6 @@ void StaticChunk<T>::loadChunk(const std::vector<std::pair<Point3S, CubeDesc>>& 
 }
 
 template <class T>
-void StaticChunk<T>::addCubeShape(GameEntity& e, const CubeDesc& cd)
-{
-	auto& s = e.addComponent<CubeShape>();
-	s.diffuse = cd.diffuse;
-	s.gloss = cd.gloss;
-	s.specular = cd.spec;
-	s.shader = cd.shader;
-	s.flags = cd.blockFlags;
-	s.type = BlockType(cd.blockType);
-}
-
-template <class T>
-void StaticChunk<T>::addMapChunkInfo(GameEntity& e)
-{
-	e.addComponent<MapChunkInfo>().neighbors = 0;
-}
-
-template <class T>
 T StaticChunk<T>::getCube(Point3I p)
 {
 	if (p.x >= 0 && p.x < SIZE &&
@@ -146,15 +141,9 @@ T StaticChunk<T>::getCube(Point3I p)
 }
 
 template <class T>
-bool StaticChunk<T>::isTransparent(const GameEntity& e)
+bool StaticChunk<T>::isHidden(T& c)
 {
-	return e.getComponent<CubeShape>().shader != CubeShader::Default;
-}
-
-template <class T>
-bool StaticChunk<T>::isHidden(const GameEntity& entity)
-{
-	return entity.getComponent<MapChunkInfo>().neighbors == 63;
+	return getChunkInfo(c).neighbors == 63;
 }
 
 template <class T>
@@ -167,9 +156,9 @@ void StaticChunk<T>::refreshGpuArray()
 	gpuTrans.reserve(m_cubes.size());
 
 	size_t idx = 0;
-	for (const auto& pCube : m_cubes)
+	for (auto& pCube : m_cubes)
 	{
-		if (pCube && !isHidden(*pCube))
+		if (pCube && !isHidden(pCube))
 		{
 			glm::ivec3 v = { 0,0,0 };
 
@@ -188,7 +177,7 @@ void StaticChunk<T>::refreshGpuArray()
 			v.x = idx & 0xFFFF;
 			assert((idx & ~0xFFFF) == 0);
 
-			const auto& cd = pCube->getComponent<CubeShape>();
+			const auto& cd = getCubeShape(pCube);
 			// Color : argb 
 			v.x |= (cd.diffuse & 0xFFFF00) << 8; // 16 free bits from right
 			v.y = (cd.diffuse & 0xFF);
@@ -202,9 +191,9 @@ void StaticChunk<T>::refreshGpuArray()
 			if (cd.flags & CubeDesc::Glowing)
 				v.z |= size_t(1) << 19;
 
-			v.z |= (pCube->getComponent<MapChunkInfo>().neighbors & 0x3F) << 26;
+			v.z |= (getChunkInfo(pCube).neighbors & 0x3F) << 26;
 
-			if (isTransparent(*pCube))
+			if (isTransparent(pCube))
 				gpuTrans.push_back(v);
 			else
 				gpuArray.push_back(v);
@@ -214,4 +203,10 @@ void StaticChunk<T>::refreshGpuArray()
 	}
 
 	setGpuData(gpuArray, gpuTrans);
+}
+
+template <class T>
+bool StaticChunk<T>::isTransparent(T& c)
+{
+	return getCubeShape(c).shader != CubeShader::Default;
 }
