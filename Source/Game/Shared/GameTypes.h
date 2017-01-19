@@ -4,6 +4,7 @@
 #include "CubeDesc.h"
 #include "../../Framework/OpenGL/Shader/InstancingArray.h"
 #include "../../glm/gtc/matrix_transform.hpp"
+#include "../../Utility/AABox.h"
 
 using HealthT = int_fast32_t;
 using ColorT = uint32_t;
@@ -25,6 +26,12 @@ struct Movement
 {
 	glm::vec3 velocity;
 	glm::vec3 acceleration;
+};
+
+struct Collision
+{
+	// axis aligned box
+	AABox aabox;
 };
 
 struct Health
@@ -78,7 +85,7 @@ struct ChunkData
 	std::unique_ptr<GpuArray> m_iTransArray;
 };
 
-using GameManager =	ecs::Manager<Transform, Movement, Health, Damage, CubeShape, MapChunkInfo, ChunkData, AssetChunkInfo>;
-using GameEntity =	ecs::Entity< Transform, Movement, Health, Damage, CubeShape, MapChunkInfo, ChunkData, AssetChunkInfo>;
-using GameSystem =	ecs::System< Transform, Movement, Health, Damage, CubeShape, MapChunkInfo, ChunkData, AssetChunkInfo>;
-using GameScript =	ecs::Script< Transform, Movement, Health, Damage, CubeShape, MapChunkInfo, ChunkData, AssetChunkInfo>;
+using GameManager =	ecs::Manager<Transform, Movement, Health, Damage, CubeShape, MapChunkInfo, ChunkData, AssetChunkInfo, Collision>;
+using GameEntity =	ecs::Entity< Transform, Movement, Health, Damage, CubeShape, MapChunkInfo, ChunkData, AssetChunkInfo, Collision>;
+using GameSystem =	ecs::System< Transform, Movement, Health, Damage, CubeShape, MapChunkInfo, ChunkData, AssetChunkInfo, Collision>;
+using GameScript =	ecs::Script< Transform, Movement, Health, Damage, CubeShape, MapChunkInfo, ChunkData, AssetChunkInfo, Collision>;

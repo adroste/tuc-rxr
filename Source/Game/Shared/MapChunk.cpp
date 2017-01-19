@@ -207,7 +207,7 @@ std::shared_ptr<GameEntity> MapChunk::spawnCube(const CubeDesc& cd, const Point3
 	addCubeShape(*e, cd);
 	addMapChunkInfo(*e);
 	addTransform(*e, pos);
-	// TODO add collison component
+	addCollision(*e);
 	return e;
 }
 
@@ -246,4 +246,10 @@ void MapChunk::addCubeShape(GameEntity& e, const CubeDesc& cd)
 void MapChunk::addMapChunkInfo(GameEntity& e)
 {
 	setChunkInfo(e.addComponent<MapChunkInfo>());
+}
+
+void MapChunk::addCollision(GameEntity& e)
+{
+	auto& c = e.addComponent<Collision>();
+	c.aabox = AABox(glm::vec3(-0.5f), glm::vec3(0.5f));
 }

@@ -30,11 +30,15 @@ public:
 		draw.beginGameShader();
 		t2.startWatch();
 		m_engine.draw(draw);
+#ifdef _DEBUG
 		glFinish();
+#endif
 		t2.stopWatch();
 		draw.endGameShader();
 
-		glFinish(); // snyc
+#ifdef _DEBUG
+		glFinish();
+#endif // snyc
 		
 		t.stopWatch();
 	

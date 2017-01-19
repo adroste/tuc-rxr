@@ -32,6 +32,7 @@ protected:
 private:
 	static void addCubeShape(GameEntity& e, const CubeDesc& cd);
 	static void addMapChunkInfo(GameEntity& e);
+	static void addCollision(GameEntity& e);
 private:
 	Point3S m_chunkPos;
 	// neighboring chunks

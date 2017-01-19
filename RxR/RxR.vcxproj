@@ -342,6 +342,7 @@
     <ClInclude Include="..\Source\System\Log.h" />
     <ClInclude Include="..\Source\System\System.h" />
     <ClInclude Include="..\Source\System\TextFileAppender.h" />
+    <ClInclude Include="..\Source\Utility\AABox.h" />
     <ClInclude Include="..\Source\Utility\Date.h" />
     <ClInclude Include="..\Source\Utility\Directory.h" />
     <ClInclude Include="..\Source\Utility\EnumConverter.h" />
