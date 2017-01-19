@@ -23,6 +23,7 @@ void AssetLoader::loadAssetData(const MapLoader::AssetInfo & i)
 		setTransform(*e, inst.pos, glm::vec3(inst.scale), inst.phi, inst.theta);
 		setMovement(*e);
 		e->addComponent<AssetChunkInfo>().assetID = id;
+		setCollision(*e, *chunk);
 	}
 }
 
@@ -55,4 +56,9 @@ void AssetLoader::setMovement(GameEntity& e)
 	auto& m = e.addComponent<Movement>();
 	m.velocity = glm::vec3(0.0f);
 	m.acceleration = glm::vec3(0.0f, 6.5f, 0.0f);
+}
+
+void AssetLoader::setCollision(GameEntity& e, AssetChunk& c)
+{
+	e.addComponent<Collision>().aabox = c.calcAABox();
 }

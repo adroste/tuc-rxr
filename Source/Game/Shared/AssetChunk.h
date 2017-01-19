@@ -20,6 +20,7 @@ public:
 	}
 	ChunkData::GpuArray& getGpuArray();
 	ChunkData::GpuArray& getGpuTransArray();
+	AABox calcAABox() const;
 protected:
 	virtual std::shared_ptr<AssetCubeDesc> spawnCube(const CubeDesc& cd, const Point3S& pos) const override;
 	virtual void setGpuData(std::vector<glm::ivec3>& solid, std::vector<glm::ivec3>& trans) override;

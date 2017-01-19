@@ -5,6 +5,7 @@
 #include "../Client/LightManager.h"
 #include "../Client/RenderSystem.h"
 #include "AssetLoader.h"
+#include "UniformGrid.h"
 
 class GameEngine
 {
@@ -20,5 +21,6 @@ private:
 	Camera m_cam;
 	LightManager m_light;
 	AssetLoader m_assets;
+	UniformGrid m_grid;
 	std::shared_ptr<RenderSystem> m_renderSystem;
 };

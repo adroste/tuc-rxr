@@ -24,7 +24,9 @@ public:
 	{
 		Timer t;
 		Timer t2;
+#ifdef _DEBUG
 		glFinish();
+#endif
 		t.startWatch();
 
 		draw.beginGameShader();

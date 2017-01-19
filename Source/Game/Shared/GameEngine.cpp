@@ -11,7 +11,7 @@ m_assets(m_manager)
 	m_renderSystem = std::make_shared<RenderSystem>(m_assets);
 	m_manager.addSystem(m_renderSystem);
 
-	m_manager.addSystem(std::make_shared<MovementSystem>());
+	m_manager.addSystem(std::make_shared<MovementSystem>(m_grid));
 
 	m_manager.start();
 }
@@ -30,7 +30,8 @@ bool GameEngine::loadLevel(const std::string& filename)
 
 	m_cam = Camera({ 24.5f, 15.0f }, 30.0f, 70.0f, 5.0f, false);
 	m_light.init(i.ambient, i.lights);
-	
+	m_grid.init(m_map.getDim(), Point3S(10, 10, 10));
+
 	return true;
 }
 

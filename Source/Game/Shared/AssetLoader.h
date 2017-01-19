@@ -14,6 +14,7 @@ public:
 private:
 	static void setTransform(GameEntity& e, const glm::vec3& pos, const glm::vec3& scale, float phi, float theta);
 	static void setMovement(GameEntity& e);
+	static void setCollision(GameEntity& e, AssetChunk& c);
 private:
 	GameManager& m_manager;
 	std::vector<std::unique_ptr<AssetChunk>> m_assets;

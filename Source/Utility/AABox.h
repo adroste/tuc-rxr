@@ -34,4 +34,14 @@ struct AABox
 	{}
 	AABox()
 	{}
+	// TODO do proper rotation
+	AABox transform(const glm::mat4& m) const
+	{
+		AABox r;
+		auto n1 = m * glm::vec4(p1,1.0f);
+		auto n2 = m * glm::vec4(p2,1.0f);
+		r.p1 = { n1.x,n1.y,n1.z };
+		r.p2 = { n2.x,n2.y,n2.z };
+		return r;
+	}
 };

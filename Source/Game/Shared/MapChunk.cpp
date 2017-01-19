@@ -225,7 +225,7 @@ void MapChunk::addTransform(GameEntity& e, const Point3S& pos) const
 						float(m_chunkPos.y * s_dim.y + pos.y),
 						float(m_chunkPos.z * s_dim.z + pos.z));
 	t.rotation = glm::vec2(0.0f);
-	t.scale = glm::vec3(0.5f);
+	t.scale = glm::vec3(1.0f);
 }
 
 CubeShape& MapChunk::getCubeShape(std::shared_ptr<GameEntity>& c)
