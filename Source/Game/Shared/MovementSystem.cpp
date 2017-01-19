@@ -18,9 +18,11 @@ void MovementSystem::tick(float dt)
 		e.getComponent<Movement>().velocity += e.getComponent<Movement>().acceleration * dt;
 		if(e.hasComponent<Collision>())
 		{
-			if (!m_grid.hasCollision(e.getComponent<Collision>().aabox.transform(e.getComponent<Transform>().getMatrix())))
+			auto nextTrans = e.getComponent<Transform>();
+			nextTrans.pos += e.getComponent<Movement>().velocity * dt;
+			if (!m_grid.hasCollision(e.getComponent<Collision>().aabox.transform(nextTrans.getMatrix())))
 			{
-				e.getComponent<Transform>().pos += e.getComponent<Movement>().velocity * dt;
+				e.getComponent<Transform>().pos = nextTrans.pos;
 			}
 			else
 			{

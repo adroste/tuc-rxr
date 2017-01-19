@@ -95,13 +95,20 @@ private:
 	{
 		// go through all colliding boxes
 		bool m_out = false;
-		for(float x = aabox.xmin; x <= aabox.xmax; x += 1.0f)
+		int minx = int(aabox.xmin + 0.5f);
+		int miny = int(aabox.ymin + 0.5f);
+		int minz = int(aabox.zmin + 0.5f);
+		int maxx = int(aabox.xmax + 0.5f);
+		int maxy = int(aabox.ymax + 0.5f);
+		int maxz = int(aabox.zmax + 0.5f);
+
+		for(auto x = minx; x <= maxx; x++)
 		{
-			for (float y = aabox.ymin; y <= aabox.ymax; y += 1.0f)
+			for (auto y = miny; y <= maxy; y++)
 			{
-				for (float z = aabox.xmin; z <= aabox.xmax; z += 1.0f)
+				for (auto z = minz; z <= maxz; z++)
 				{
-					int res = toIndex({ x,y,z });
+					int res = toIndex(x,y,z);
 					if(res == -1)
 					{
 						if(!m_out)
@@ -115,13 +122,8 @@ private:
 			}
 		}
 	}
-	int toIndex(const glm::vec3& p) const
+	int toIndex(int x, int y, int z) const
 	{
-		// to integer coodinates
-		int x = int(p.x + 0.5f);
-		int y = int(p.y + 0.5f);
-		int z = int(p.z + 0.5f);
-
 		if(x < m_min.x || y < m_min.x || z < m_min.z
 			|| x >= m_max.x || y >= m_max.y || z >= m_max.z)
 		{
