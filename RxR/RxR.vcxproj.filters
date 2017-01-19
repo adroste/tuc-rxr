@@ -702,6 +702,9 @@
     <ClInclude Include="..\Source\Utility\AABox.h">
       <Filter>Source\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Game\Shared\UniformGrid.h">
+      <Filter>Source\Game\Shared</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glew32.dll">

@@ -250,6 +250,6 @@ void MapChunk::addMapChunkInfo(GameEntity& e)
 
 void MapChunk::addCollision(GameEntity& e)
 {
-	auto& c = e.addComponent<Collision>();
+	auto& c = e.addComponent<StaticCollision>();
 	c.aabox = AABox(glm::vec3(-0.5f), glm::vec3(0.5f));
 }

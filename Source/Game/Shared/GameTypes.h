@@ -34,6 +34,13 @@ struct Collision
 	AABox aabox;
 };
 
+// this objects cant move
+struct StaticCollision
+{
+	// axis aligned box
+	AABox aabox;
+};
+
 struct Health
 {
 	HealthT hp;
@@ -85,7 +92,7 @@ struct ChunkData
 	std::unique_ptr<GpuArray> m_iTransArray;
 };
 
-using GameManager =	ecs::Manager<Transform, Movement, Health, Damage, CubeShape, MapChunkInfo, ChunkData, AssetChunkInfo, Collision>;
-using GameEntity =	ecs::Entity< Transform, Movement, Health, Damage, CubeShape, MapChunkInfo, ChunkData, AssetChunkInfo, Collision>;
-using GameSystem =	ecs::System< Transform, Movement, Health, Damage, CubeShape, MapChunkInfo, ChunkData, AssetChunkInfo, Collision>;
-using GameScript =	ecs::Script< Transform, Movement, Health, Damage, CubeShape, MapChunkInfo, ChunkData, AssetChunkInfo, Collision>;
+using GameManager =	ecs::Manager<Transform, Movement, Health, Damage, CubeShape, MapChunkInfo, ChunkData, AssetChunkInfo, Collision, StaticCollision>;
+using GameEntity =	ecs::Entity< Transform, Movement, Health, Damage, CubeShape, MapChunkInfo, ChunkData, AssetChunkInfo, Collision, StaticCollision>;
+using GameSystem =	ecs::System< Transform, Movement, Health, Damage, CubeShape, MapChunkInfo, ChunkData, AssetChunkInfo, Collision, StaticCollision>;
+using GameScript =	ecs::Script< Transform, Movement, Health, Damage, CubeShape, MapChunkInfo, ChunkData, AssetChunkInfo, Collision, StaticCollision>;
