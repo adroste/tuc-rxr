@@ -1,6 +1,7 @@
 #include "Cube.h"
 #include "../../Framework/OpenGL/Shader/Shader.h"
 #include "../../Framework/OpenGL/Shader/ShaderCubeMap.h"
+#include <glm/gtc/matrix_transform.hpp>
 
 Cube::Cube(const CubeDesc& desc, const glm::vec3& pos, bool isMapCube, float scalar)
 	:
@@ -68,14 +69,14 @@ CubeDesc Cube::getDesc() const
 
 void Cube::recalcMatrix()
 {
-	m_matTrans = glm::translate(m_pos);
-	m_matTrans *= glm::scale(glm::vec3(m_scalar));
+	m_matTrans = glm::translate(glm::mat4(),m_pos);
+	m_matTrans *= glm::scale(glm::mat4(),glm::vec3(m_scalar));
 	if (m_rot.x != 0.0f)
-		m_matTrans *= glm::rotate(m_rot.x, glm::vec3(1.0f, 0.0f, 0.0f));
+		m_matTrans *= glm::rotate(glm::mat4(),m_rot.x, glm::vec3(1.0f, 0.0f, 0.0f));
 
 	if (m_rot.y != 0.0f)
-		m_matTrans *= glm::rotate(m_rot.y, glm::vec3(0.0f, 1.0f, 0.0f));
+		m_matTrans *= glm::rotate(glm::mat4(), m_rot.y, glm::vec3(0.0f, 1.0f, 0.0f));
 
 	if (m_rot.z != 0.0f)
-		m_matTrans *= glm::rotate(m_rot.z, glm::vec3(0.0f, 0.0f, 1.0f));
+		m_matTrans *= glm::rotate(glm::mat4(), m_rot.z, glm::vec3(0.0f, 0.0f, 1.0f));
 }

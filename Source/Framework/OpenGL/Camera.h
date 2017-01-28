@@ -1,5 +1,5 @@
 #pragma once
-#include "../../glm/gtx/transform.hpp"
+#include <glm/glm.hpp>
 #include "../../Utility/Point.h"
 
 class Camera

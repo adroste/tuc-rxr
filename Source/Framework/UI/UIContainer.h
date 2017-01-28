@@ -75,7 +75,7 @@ public:
 		// dont change order!
 		// setOrigin will force updateWindows(), which causes repositioning of all windows by calling this function
 		// if order would be changed m_matTransform would be set to wrong value if called manually, which would result in a input/draw-shift
-		m_matTransform = glm::translate(glm::vec3(p.x, p.y, 0.0f));
+		m_matTransform = glm::translate(glm::mat4(), glm::vec3(p.x, p.y, 0.0f));
 		UIObject::setOrigin(p);		
 	}
 

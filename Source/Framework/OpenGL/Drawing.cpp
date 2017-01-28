@@ -1,6 +1,6 @@
 #include "Drawing.h"
 #include "../../glew/glew.h"
-#include "../../glm/gtc/matrix_transform.inl"
+#include <glm/gtc/matrix_transform.hpp>
 #include "../Framework.h"
 #include "../../System/System.h"
 

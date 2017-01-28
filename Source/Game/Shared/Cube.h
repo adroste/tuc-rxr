@@ -1,8 +1,7 @@
 #pragma once
 #include "CubeDesc.h"
 #include "../../Framework/OpenGL/IDrawable.h"
-#include "../../glm/detail/type_vec3.hpp"
-#include "../../glm/gtx/transform.hpp"
+#include <glm/glm.hpp>
 
 
 class Cube : public IDrawable

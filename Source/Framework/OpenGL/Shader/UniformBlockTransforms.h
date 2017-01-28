@@ -1,6 +1,6 @@
 #pragma once
 #include "UniformBlock.h"
-#include "../../../glm/gtx/transform.hpp"
+#include <glm/glm.hpp>
 #include <stack>
 #include "../../../Utility/Point.h"
 

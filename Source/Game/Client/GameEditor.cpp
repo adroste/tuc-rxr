@@ -355,7 +355,7 @@ void GameEditor::update(float dt)
 
 void GameEditor::drawGrid(Drawing& draw) const
 {
-	draw.getTransform().pushModel(glm::translate(glm::vec3{ -0.5f, -0.5f, -0.5f }));
+	draw.getTransform().pushModel(glm::translate(glm::mat4(), glm::vec3{ -0.5f, -0.5f, -0.5f }));
 	// draw background
 	auto dim = m_pMap->getDim();
 	for (size_t z = 0; z <= dim.z; z++)

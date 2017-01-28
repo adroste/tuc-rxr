@@ -1,6 +1,5 @@
 #pragma once
-#include "../../glm/detail/type_vec3.hpp"
-#include "../../glm/gtx/transform.hpp"
+#include <glm/glm.hpp>
 #include <vector>
 #include <memory>
 #include "../../Framework/OpenGL/IDrawable.h"

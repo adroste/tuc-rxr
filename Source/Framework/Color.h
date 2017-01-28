@@ -1,6 +1,6 @@
 #pragma once
 #include "../Utility/Tools.h"
-#include "../glm/detail/type_vec3.hpp"
+#include <glm/glm.hpp>
 
 class Color
 {
