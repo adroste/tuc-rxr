@@ -1,12 +1,17 @@
 #include "GameEditor.h"
-#include "../Shared/Game.h"
 #include "../../System/System.h"
 #include <functional>
 
 GameEditor::GameEditor()
 	:
-	m_prevClientMouse(Input::getMouse())
+	m_prevClientMouse(Input::getMouse()),
+	m_assets(m_manager)
 {
+	m_renderSystem = std::make_shared<RenderSystem>(m_assets);
+	m_manager.addSystem(m_renderSystem);
+
+	m_manager.start();
+
 	reset();
 }
 
@@ -21,7 +26,8 @@ void GameEditor::draw(Drawing& draw, float dt)
 
 	m_pCam->apply(draw);
 	m_pLight->apply(draw);
-	m_pMap->draw(draw);
+	m_pMap->bind(draw);
+	m_renderSystem->draw(draw);
 
 	drawGrid(draw);
 	if(m_hasCapture)
@@ -273,8 +279,10 @@ void GameEditor::setMapdim(const Point3S& d)
 void GameEditor::reset()
 {
 	LockGuard g(m_muMap);
-	m_pMap = std::unique_ptr<Map>(new Map({ MapChunk::SIZE, MapChunk::SIZE, Map::DEPTH }));
-	m_pCam = Game::makeCamera();
+	if (m_pMap) m_pMap->dispose();
+	m_pMap = std::unique_ptr<Map>(new Map(m_manager));
+	setMapdim({ 32,32,16 });
+	m_pCam = std::make_unique<Camera>(Camera({ 24.5f, 15.0f }, 30.0f, 70.0f, 5.0f, false));
 
 	m_pLight = std::unique_ptr<LightManager>(new LightManager(*m_pCam));
 
@@ -338,6 +346,13 @@ void GameEditor::loadMap(const MapLoader::MapInfo& i)
 	m_pMap->loadMapAndAssets(i);
 }
 
+void GameEditor::update(float dt)
+{
+	MAIN_THREAD;
+	m_manager.tick(dt);
+	m_pMap->update();
+}
+
 void GameEditor::drawGrid(Drawing& draw) const
 {
 	draw.getTransform().pushModel(glm::translate(glm::vec3{ -0.5f, -0.5f, -0.5f }));
@@ -377,7 +392,7 @@ void GameEditor::drawGrid(Drawing& draw) const
 
 void GameEditor::drawLineBox(Drawing& draw, const Point3F& p1, const Point3F& p2, const Color& c) const
 {
-	auto s = p1.toGlmVec3();//std::min(p1, p2).toGlmVec3();
+	/*auto s = p1.toGlmVec3();//std::min(p1, p2).toGlmVec3();
 	auto e = p2.toGlmVec3();//std::max(p1, p2).toGlmVec3();
 	float t = 1.0f;
 
@@ -395,7 +410,8 @@ void GameEditor::drawLineBox(Drawing& draw, const Point3F& p1, const Point3F& p2
 	draw.line(glm::vec3(s.x, e.y, s.z), glm::vec3(e.x, e.y, s.z), t, c);
 
 	draw.line(glm::vec3(s.x, s.y, e.z), glm::vec3(s.x, e.y, e.z), t, c);
-	draw.line(glm::vec3(e.x, s.y, s.z), glm::vec3(e.x, e.y, s.z), t, c);
+	draw.line(glm::vec3(e.x, s.y, s.z), glm::vec3(e.x, e.y, s.z), t, c);*/
+	draw.lineBox(p1, p2, c);
 }
 
 void GameEditor::releaseCapture()

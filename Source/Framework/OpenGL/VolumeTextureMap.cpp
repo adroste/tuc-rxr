@@ -3,7 +3,6 @@
 #include "Drawing.h"
 #include "../../System/System.h"
 #include "../Framework.h"
-#include "../../Game/Client/MapAsset.h"
 
 VolumeTextureMap::VolumeTextureMap()
 {

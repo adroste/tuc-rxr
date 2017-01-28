@@ -30,7 +30,15 @@ void Mesh::draw()
 	glBindVertexArray(0);
 }
 
+void Mesh::drawLines()
+{
+	glBindVertexArray(m_vertexArrayObject);
 
+	glDrawElementsBaseVertex(GL_LINES, m_indices.size(), GL_UNSIGNED_INT, nullptr, 0);
+	glCheck("Mesh::drawLines");
+
+	glBindVertexArray(0);
+}
 
 
 void Mesh::create()

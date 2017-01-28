@@ -5,6 +5,7 @@
 #include "../../System/Input.h"
 #include "../../Framework/UI/Callback.h"
 #include "../Shared/MapLoader.h"
+#include "RenderSystem.h"
 
 class GameEditor : public Input::IReceiver
 {
@@ -35,6 +36,7 @@ public:
 	std::vector<std::vector<std::pair<Point3S, CubeDesc>>> getCubeDescs();
 	void loadCubes(const std::vector<std::pair<Point3S, CubeDesc>>& c, size_t xoff, size_t yoff);
 	void loadMap(const MapLoader::MapInfo& i);
+	void update(float dt);
 private:
 	void drawGrid(Drawing& draw) const;
 	void drawLineBox(Drawing& draw, const Point3F& p1, const Point3F& p2, const Color& c) const;
@@ -63,4 +65,7 @@ private:
 	Point3I m_downPos;
 
 	std::vector<CubeDesc> m_curCubeDescs;
+	GameManager m_manager;
+	std::shared_ptr<RenderSystem> m_renderSystem;
+	AssetLoader m_assets;
 };

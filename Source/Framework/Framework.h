@@ -21,5 +21,5 @@ public:
 	static size_t getDrawThreadID();
 };
 
-#define DRAW_THREAD assert(System::getThreadID() == Framework::getDrawThreadID());
-#define MAIN_THREAD assert(System::getThreadID() != Framework::getDrawThreadID());
+#define DRAW_THREAD assert(::System::getThreadID() == Framework::getDrawThreadID());
+#define MAIN_THREAD assert(::System::getThreadID() != Framework::getDrawThreadID());
