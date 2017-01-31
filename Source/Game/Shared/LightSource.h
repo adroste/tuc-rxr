@@ -1,5 +1,5 @@
 #pragma once
-#include "../../glm/detail/type_vec3.hpp"
+#include <glm/glm.hpp>
 #include "../../Utility/EnumConverter.h"
 
 enum class LightType

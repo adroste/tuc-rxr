@@ -1,9 +1,9 @@
 #pragma once
 #include "../../ecs/entitycs.h"
-#include "../../glm/glm.hpp"
+#include <glm/glm.hpp>
 #include "CubeDesc.h"
 #include "../../Framework/OpenGL/Shader/InstancingArray.h"
-#include "../../glm/gtc/matrix_transform.hpp"
+#include <glm/gtc/matrix_transform.hpp>
 #include "../../Utility/AABox.h"
 
 using HealthT = int_fast32_t;

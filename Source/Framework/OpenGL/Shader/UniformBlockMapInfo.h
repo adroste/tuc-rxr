@@ -1,6 +1,6 @@
 #pragma once
 #include "UniformBlock.h"
-#include "../../../glm/detail/type_vec3.hpp"
+#include <glm/glm.hpp>
 
 class UniformBlockMapInfo : public UniformBlock
 {

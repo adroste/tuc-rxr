@@ -3,7 +3,7 @@
 #include "../../../Utility/Point.h"
 #include "../../../Utility/Rect.h"
 #include <stack>
-#include "../../../glm/detail/type_vec4.hpp"
+#include <glm/glm.hpp>
 #include "../../../Utility/Timer.h"
 
 class UniformBlockFramework : public UniformBlock

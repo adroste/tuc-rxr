@@ -3,6 +3,7 @@
 #include <math.h>
 #include "../Framework.h"
 #include "Drawing.h"
+#include <glm/gtc/matrix_transform.hpp>
 
 Camera::Camera(const PointF& lookAt, float height, float dist, float heightOffset, bool overrideEverything)
 	:

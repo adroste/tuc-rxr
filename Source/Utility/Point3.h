@@ -2,7 +2,7 @@
 #include <cmath>
 #include <assert.h>
 #include <algorithm>
-#include "../glm/detail/type_vec3.hpp"
+#include <glm/glm.hpp>
 
 template <class T>
 class Point3

@@ -1,4 +1,5 @@
 #include "CharNode.h"
+#include <glm/gtc/matrix_transform.hpp>
 
 
 CharNode::CharNode(const glm::vec3& pos)
@@ -32,15 +33,15 @@ void CharNode::rotate(float phi, float theta)
 {
 	m_phi += phi;
 	m_theta += theta;
-	glm::mat4 m = glm::rotate(m_phi, glm::vec3(0.0f, 1.0f, 0.0f));
+	glm::mat4 m = glm::rotate(glm::mat4(), m_phi, glm::vec3(0.0f, 1.0f, 0.0f));
 	glm::vec4 z =  m * glm::vec4(0.0f, 0.0f, 1.0f,0.0f);
-	m = glm::rotate(m_theta, glm::vec3(z.x,z.y,z.z)) * m;
+	m = glm::rotate(glm::mat4(), m_theta, glm::vec3(z.x,z.y,z.z)) * m;
 	m_rot = m;
 }
 
 void CharNode::draw(Drawing& draw, glm::mat4 transform)
 {
-	transform *= glm::translate(m_pos);
+	transform *= glm::translate(glm::mat4(), m_pos);
 	transform *= m_rot;
 
 	// draw cubes

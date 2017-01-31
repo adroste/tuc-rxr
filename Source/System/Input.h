@@ -1,7 +1,7 @@
 #pragma once
 #include "../SDL/SDL.h"
 #include "../Utility/Point.h"
-#include "../glm/glm.hpp"
+#include <glm/glm.hpp>
 #include <list>
 #include "Exceptions/ExceptionInvalidOperation.h"
 #include "Exceptions/ExceptionArgument.h"

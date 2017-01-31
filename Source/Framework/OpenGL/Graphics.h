@@ -1,7 +1,7 @@
 #pragma once
 #include "../../SDL/SDL.h"
 #include "../../Utility/Point.h"
-#include "../../glm/gtx/transform.hpp"
+#include <glm/glm.hpp>
 #include "Drawing.h"
 
 class Graphics

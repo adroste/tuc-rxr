@@ -2,7 +2,7 @@
 
 #include "../System/Log.h"
 #include "../System/Exceptions/SDL_Exception.h"
-#include "../glm/gtx/transform.hpp"
+#include <glm/glm.hpp>
 #include "OpenGL/Shader/ShaderDisk.h"
 #include "../System/Input.h"
 #include "../Game/Client/States/StateMenu.h"

@@ -1,6 +1,6 @@
 #pragma once
 #include "../GLObject.h"
-#include "../../../glm/glm.hpp"
+#include <glm/glm.hpp>
 #include <vector>
 #include "../Shader/InstancingArray.h"
 #include "../../../System/Exceptions/GL_Exception.h"
